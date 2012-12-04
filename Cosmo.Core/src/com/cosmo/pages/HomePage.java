@@ -30,7 +30,7 @@ public class HomePage extends Page
       header.setTitle("PROVA DE PÁGINA");
       header.setDescription("Això és una prova de creació de págines amb Cosmo for Java!");
       
-      int a = 1 / 0;
+      // int a = 1 / 0;
       
       this.addContent(header, ContentColumns.MAIN);
    }

@@ -1,11 +1,15 @@
 package com.cosmo.security.providers;
 
 /**
- *
- * @author gllort
+ * Se produce cuando hay un error con el proveedor de perfiles de usuario.
+ * 
+ * @author Gerard Llort
  */
 public class UserProviderException extends Exception
 {
+   /** Serial Version UID */
+   private static final long serialVersionUID = 1837331881629720686L;
+
    private Exception inner = null;
    
    public UserProviderException()

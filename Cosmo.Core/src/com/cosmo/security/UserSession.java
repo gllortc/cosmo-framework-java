@@ -56,10 +56,18 @@ public class UserSession
       return created;
    }
 
+   /**
+    * Devuelve el workspace para el que es v·lida la sesiÛn de usuario.
+    */
+   public Workspace getWorkspace() 
+   {
+      return workspace;
+   }   
+   
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Obtiene el n√∫mero de minutos desde que se cre√≥ la sesi√≥n de usuario.
     * 

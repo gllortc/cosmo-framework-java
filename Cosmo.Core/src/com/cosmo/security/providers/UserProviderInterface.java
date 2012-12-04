@@ -1,7 +1,7 @@
 package com.cosmo.security.providers;
 
-import com.cosmo.security.DuplicatedUserException;
 import com.cosmo.security.User;
+import com.cosmo.security.UserAlreadyExistsException;
 import com.cosmo.security.UserNotFoundException;
 
 /**
@@ -35,5 +35,5 @@ public interface UserProviderInterface
     * @throws DuplicatedUserException
     * @throws UserProviderException
     */
-   public void add(User user) throws DuplicatedUserException, UserProviderException;
+   public void add(User user) throws UserAlreadyExistsException, UserProviderException;
 }

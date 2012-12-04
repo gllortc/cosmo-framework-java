@@ -26,6 +26,7 @@ public class User
       NotConfirmed(2), 
       Bloqued(3);
 
+      @SuppressWarnings("unused")
       private int value;
 
       private UserStates(int value) 

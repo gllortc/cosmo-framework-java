@@ -7,37 +7,21 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Implementa una classe de gesti√≥ de connexions a la base de dades.
+ * Implementa una clase para la gestiÛn de conexiones a BBDD.
  * 
- * @author gllort
+ * @author Gerard Llort
  */
 public class DataConnection
 {
    public static final String CONNECTION_SERVER = "cosmo.server";
    
    private static final String DRIVER_ORACLE = "oracle.jdbc.driver.OracleDriver";
-
-   private static final String XML_TAG_CONNECTION = "connection";
-   private static final String XML_ATT_ID = "id";
-   private static final String XML_ATT_DRIVER = "driver";
-   private static final String XML_ATT_SERVER = "server";
-   private static final String XML_ATT_PORT = "port";
-   private static final String XML_ATT_SCHEMA = "schema";
-   private static final String XML_ATT_USER = "user";
-   private static final String XML_ATT_PASSWORD = "pwd";
    
    private Boolean debug;
    private DataSource pds;
    private Connection conn = null;
-   private String filePath = "";
    private String lastSqlStatement = "";
    private Boolean autoCommit = true; 
-   
-   /**
-    * Defineix el nom que ha de tenir l'arxiu de configuraci√≥ de conexions.
-    * L'arxiu ha d'estar sempre a la mateixa carpeta que el JAR.
-    */
-   public static final String FILE_CONFIGURATION = "connections.xml";
    
    //==============================================
    // Constructors
@@ -87,7 +71,7 @@ public class DataConnection
    //==============================================
    
    /**
-    * Obre una connexi√≥ amb la base de dades seleccionada.
+    * Obre una connexiÛ amb la base de dades seleccionada.
     * 
     * @throws SQLException
     * @throws ClassNotFoundException
@@ -114,7 +98,7 @@ public class DataConnection
    }
 
    /**
-    * Tanca qualsevol connexi√≥ oberta amb la base de dades activa.
+    * Tanca qualsevol connexiÛ oberta amb la base de dades activa.
     */
    public void disconnect()
    {
@@ -135,9 +119,9 @@ public class DataConnection
    }
    
    /**
-    * Indica si la connexi√≥ est√† oberta i disponible.
+    * Indica si la connexiÛn est· abierta y disponible.
     * 
-    * @return Retorna {@code true} si la connexi√≥ est√† disponible o {@code false} en qualsevol altre cas.
+    * @return Retorna {@code true} si la connexiÛ est· disponible o {@code false} en qualsevol altre cas.
     */
    public boolean isOpened()
    {
@@ -168,10 +152,10 @@ public class DataConnection
    
    public ResultSet executeSql(String sql) throws SQLException, ClassNotFoundException, DataException
    {
-      // Memoritza la sent√®ncia SQL
+      // Memoritza la sentÈncia SQL
       this.lastSqlStatement = sql;
       
-      // Obliga a tener la conexi√≥n abierta
+      // Obliga a tener la conexiÛn abierta
       if (conn == null)
       {
          this.connect();
@@ -182,18 +166,18 @@ public class DataConnection
    }
    
    /**
-    * Executa una sent√®ncia SQL de la que no s'espera cap resultat (p. ex. INSERT, UPDATE, DELETE).
+    * Executa una sentÈncia SQL de la que no s'espera cap resultat (p. ex. INSERT, UPDATE, DELETE).
     * 
-    * @param sql Sent√®ncia SQL a executar (consulta).
+    * @param sql SentÈncia SQL a executar (consulta).
     * 
-    * @return {@code True} si l'execuci√≥ ha tingut √®xit o {@code False} en qualsevol altre cas.
+    * @return {@code True} si l'execuciÛ ha tingut Èxit o {@code False} en qualsevol altre cas.
     */
    public boolean execute(String sql) throws SQLException, ClassNotFoundException, DataException
    {
-      // Memoritza la sent√®ncia SQL
+      // Memoritza la sentÈncia SQL
       this.lastSqlStatement = sql;
       
-      // Obliga a tener la conexi√≥n abierta
+      // Obliga a tener la conexiÛn abierta
       if (conn == null)
       {
          this.connect();
@@ -206,16 +190,16 @@ public class DataConnection
    /**
     * Executa una consulta SQL i retorna el valor enter ({@link Integer} de la primera fila i primera columna.
     * 
-    * @param sql Sent√®ncia SQL a executar (consulta).
+    * @param sql SentÈncia SQL a executar (consulta).
     * 
     * @return Un valor enter corresp√≤n al valor de la cel¬∑la 0,0.
     */
    public Integer executeScalar(String sql) throws SQLException, ClassNotFoundException, DataException, Exception 
    {
-      // Memoritza la sent√®ncia SQL
+      // Memoritza la sentÈncia SQL
       this.lastSqlStatement = sql;
       
-      // Obliga a tener la conexi√≥n abierta
+      // Obliga a tener la conexiÛn abierta
       if (conn == null)
       {
          this.connect();
@@ -225,25 +209,25 @@ public class DataConnection
       ResultSet rs = st.executeQuery(sql);
       if (!rs.next())
       {
-         throw new Exception("ERROR: No es pot obtenir un ID v√†lid per la nova relaci√≥.");
+         throw new Exception("ERROR: No es pot obtenir un ID v‡lid per la nova relaciÛ.");
       }
       
       return rs.getInt(1);
    }
    
    /**
-    * Executa una consulta SQL i retorna la cadena de text (o el valor en format {@link String}) de la primera fila i primera columna.
+    * Ejecuta una consulta SQL y devuelve la cadena de texto (o el valor en formato {@link String}) de la primera fila y primera columna.
     * 
-    * @param sql Sent√®ncia SQL a executar (consulta).
+    * @param sql SentÈncia SQL a ejecutar (consulta).
     * 
-    * @return Una cadena de text que corresp√≤n al valor de la cel¬∑la 0,0.
+    * @return Una cadena de texto que corresponde al valor de la celda 0,0.
     */
    public String executeString(String sql) throws SQLException, ClassNotFoundException, DataException, Exception 
    {
-      // Memoritza la sent√®ncia SQL
+      // Memoritza la sentÈncia SQL
       this.lastSqlStatement = sql;
       
-      // Obliga a tener la conexi√≥n abierta
+      // Obliga a tener la conexiÛn abierta
       if (conn == null)
       {
          this.connect();
@@ -253,7 +237,7 @@ public class DataConnection
       ResultSet rs = st.executeQuery(sql);
       if (!rs.next())
       {
-         throw new Exception("ERROR: No es pot obtenir un ID v√†lid per la nova relaci√≥.");
+         throw new Exception("ERROR: No es pot obtenir un ID v‡lid per la nova relaciÛ.");
       }
       
       return rs.getString(1);
@@ -267,7 +251,7 @@ public class DataConnection
     * Permet recuperar una cadena d'una fila d'un {@link ResultSet} convertint a cadena buida els valors {@code NULL}.
     * 
     * @param rs Una instancia de {@link ResultSet} que la cadena a estreure d'un camp de la fila actual.
-    * @param column √çndex de la columna (1 per la primera).
+    * @param column Õndex de la columna (1 per la primera).
     * 
     * @return 
     */
@@ -278,10 +262,10 @@ public class DataConnection
    }
    
    /**
-    * Formata una cadena de text per a poder-la emprar en qualsev√≤l sent√®ncia SQL.
+    * Formatea una cadena de texto pera ser usada en una sentÈncia SQL.
     * 
-    * @param text Cadena de text a formatar.
-    * @return Una cadena de text que es pot emprar en qualsevol sent√®ncia SQL.
+    * @param text Cadena de texto a formatear.
+    * @return Una cadena de texto que se puede usar en cualquier sentÈncia SQL.
     */
    public static String sqlFormatTextValue(String text)
    {
@@ -292,54 +276,5 @@ public class DataConnection
    //==============================================
    // Private members
    //==============================================
-   
-   /**
-    * Carrega l'arxiu de definicions de connexions a dades.
-    * @throws Exception 
-    */
-   /*private void loadConnections() throws Exception
-   {
-      DataSource ds;
-
-      // Obt√© el nom + path de l'arxiu de configuraci√≥
-      
-      InputStream is = DataConnection.class.getResourceAsStream(DataConnection.FILE_CONFIGURATION);
-      if (is == null)
-      {
-         throw new Exception("No es troba l'arxiu de definici√≥ de connexions.");
-      }
-
-         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-         Document doc = dBuilder.parse(is);
-         doc.getDocumentElement().normalize();
-    
-         NodeList nList = doc.getElementsByTagName(DataConnection.XML_TAG_CONNECTION);
-         for (int temp = 0; temp < nList.getLength(); temp++) 
-         {
-            Node nNode = nList.item(temp);
-            if (nNode.getNodeType() == Node.ELEMENT_NODE)
-            {
-               Element eElement = (Element) nNode;
-    
-               ds = new DataSource();
-               ds.setId(eElement.getAttribute(DataConnection.XML_ATT_ID));
-               ds.setDriver(eElement.getAttribute(DataConnection.XML_ATT_DRIVER));
-               ds.setServer(eElement.getAttribute(DataConnection.XML_ATT_SERVER));
-               ds.setPort(eElement.getAttribute(DataConnection.XML_ATT_PORT));
-               ds.setSchema(eElement.getAttribute(DataConnection.XML_ATT_SCHEMA));
-               ds.setLogin(eElement.getAttribute(DataConnection.XML_ATT_USER));
-               ds.setPassword(eElement.getAttribute(DataConnection.XML_ATT_PASSWORD));
-
-               this.psources.put(ds.getId(), ds);
-            }
-         }
-         
-         // Controla el cas en que no s'hagi detectat cap 
-         if (this.psources.values().size() <= 0)
-         {
-            throw new Exception("No hi ha cap DataSource definit a l'arxiu de definici√≥ de connexions: "); // + fXmlFile.getAbsolutePath());
-         }
-   }*/
    
 }

@@ -3,7 +3,6 @@ package com.cosmo.structures;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 /**
  * Implementa una estructura de tabla.
@@ -16,7 +15,7 @@ public class Table
    private int rows;
    private int width;
    private int height;
-   private ArrayList<String> header;
+   // private ArrayList<String> header;
    private Object[][] map; // row, col
    
    //==============================================
@@ -32,7 +31,7 @@ public class Table
       this.cols = 0;
       this.height = 10;
       this.width = 10;
-      this.header = new ArrayList<String>();
+      // this.header = new ArrayList<String>();
       this.map = new Object[10][10];
    }
    
@@ -45,7 +44,7 @@ public class Table
       this.cols = 0;
       this.height = rows;
       this.width = cols;
-      this.header = new ArrayList<String>();
+      // this.header = new ArrayList<String>();
       this.map = new Object[rows][cols];
    }
    
@@ -54,7 +53,7 @@ public class Table
    //==============================================
 
    /**
-    * Devuelve el n√∫mero de columnas de la tabla.
+    * Devuelve el n˙mero de columnas de la tabla.
     */
    public int getColumnCount() 
    {
@@ -62,7 +61,7 @@ public class Table
    }
 
    /**
-    * Devuelve el n√∫mero de filas de la tabla.
+    * Devuelve el n˙mero de filas de la tabla.
     */
    public int getRowCount() 
    {
@@ -76,8 +75,8 @@ public class Table
    /**
     * Establece el valor de una celda de la tabla.
     * 
-    * @param row √çndice de la fila (base 0).
-    * @param col √çndice de la columna (base 0).
+    * @param row Õndice de la fila (base 0).
+    * @param col Õndice de la columna (base 0).
     * @param value Valor a establecer.
     */
    public void setCell(int row, int col, Object value) throws TableLimitsException
@@ -106,9 +105,9 @@ public class Table
    /**
     * Obtiene el contenido de una celda.
     * 
-    * @param row √çndice de la fila (base 0).
-    * @param col √çndice de la columna (base 0).
-    * @return Un objeto que corresponde al contenido de la celda. En caso de ser una celda vac√≠a, este m√©todo devolver√° {@code null}.
+    * @param row Õndice de la fila (base 0).
+    * @param col Õndice de la columna (base 0).
+    * @return Un objeto que corresponde al contenido de la celda. En caso de ser una celda vacÌa, este mÈtodo devolver· {@code null}.
     */
    public Object getCell(int row, int col)
    {
@@ -118,7 +117,7 @@ public class Table
    /**
     * Establece los valores de una tabla a partir de una consulta a base de datos.
     * 
-    * @param useColNameAsHeadTitle Indica si se deben usar los nombres de columna para la fila de t√≠tulos.
+    * @param useColNameAsHeadTitle Indica si se deben usar los nombres de columna para la fila de tÌtulos.
     * @param rs Una instancia de {@link ResultSet} que contiene los datos para la tabla.
     */
    public void setCells(ResultSet rs, boolean useColNameAsHeadTitle) throws SQLException
@@ -128,7 +127,7 @@ public class Table
       // Obtiene los metadatos de la estructura
       ResultSetMetaData md = rs.getMetaData();
       
-      // Agrega la fila de t√≠tulos
+      // Agrega la fila de tÌtulos
       if (useColNameAsHeadTitle)
       {
          for (int col = 0; col < md.getColumnCount(); col++)
@@ -164,7 +163,7 @@ public class Table
    }
    
    /**
-    * Vac√≠a la tabla de todos sus datos.
+    * VacÌa la tabla de todos sus datos.
     */
    public void clear()
    {
@@ -228,6 +227,7 @@ public class Table
    * @param newSize   the new array size.
    * @return          A new array with the same contents.
    */
+   @SuppressWarnings("rawtypes")
    private static Object resizeArray(Object oldArray, int newSize) 
    {
       int oldSize = java.lang.reflect.Array.getLength(oldArray);

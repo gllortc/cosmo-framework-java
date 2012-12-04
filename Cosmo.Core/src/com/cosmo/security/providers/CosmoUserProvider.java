@@ -1,5 +1,9 @@
 package com.cosmo.security.providers;
 
+import java.security.GeneralSecurityException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import com.cosmo.Workspace;
 import com.cosmo.data.DataConnection;
 import com.cosmo.data.DataSource;
@@ -7,13 +11,7 @@ import com.cosmo.security.User;
 import com.cosmo.security.User.UserStates;
 import com.cosmo.security.UserAlreadyExistsException;
 import com.cosmo.security.UserNotFoundException;
-import com.cosmo.security.UserSession;
 import com.cosmo.util.CryptoUtils;
-import java.security.GeneralSecurityException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
 
 /**
  * Proveedor de seguridad nativo de Cosmo.
@@ -58,7 +56,6 @@ public class CosmoUserProvider extends UserProvider
    {
       String sql;
       User user = null;
-      UserSession session = null;
       DataSource ds;
       DataConnection conn = null;
       
@@ -136,13 +133,10 @@ public class CosmoUserProvider extends UserProvider
    @Override
    public void add(User user) throws UserAlreadyExistsException, UserProviderException
    {
-      boolean result = false;
       String sSQL;
-      Statement statement;
       ResultSet rs;
       DataSource ds;
       DataConnection conn = null;
-      SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
       
       try 
       {

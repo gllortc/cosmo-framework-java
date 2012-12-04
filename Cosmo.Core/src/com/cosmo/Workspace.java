@@ -126,10 +126,18 @@ public class Workspace
       return mail;
    }
    
+   /**
+    * Devuelve la sesión de usuario.
+    */
+   public UserSession getSession() 
+   {
+      return session;
+   }   
+   
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Crea una sesión de usuario.
     * 
