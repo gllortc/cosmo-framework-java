@@ -25,12 +25,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Implementa una página de Cosmo.
+ * Implementa una p�gina de Cosmo.
  * 
  * @author Gerard Llort
  */
 public abstract class Page extends HttpServlet implements PageInterface 
 {
+   /** Serial Version UID */
+   private static final long serialVersionUID = -2313025410371254322L;
+
    private boolean init = false;
    private String charset;
    private String title;
@@ -43,7 +46,7 @@ public abstract class Page extends HttpServlet implements PageInterface
    private PageRenderProvider provider;
 
    /**
-    * Enumera las distintas regiones dónde se pueden agregar controles en la página.
+    * Enumera las distintas regiones d�nde se pueden agregar controles en la p�gina.
     */
    public enum ContentColumns
    {
@@ -53,7 +56,7 @@ public abstract class Page extends HttpServlet implements PageInterface
    }
    
    /**
-    * Enumera los distintos formatos de página.
+    * Enumera los distintos formatos de p�gina.
     */
    public enum PageLayout
    {
@@ -80,7 +83,7 @@ public abstract class Page extends HttpServlet implements PageInterface
    /**
     * Constructor de la clase.
     * 
-    * @param title Título de la página.
+    * @param title T�tulo de la p�gina.
     */
    public Page(String title)
    {
@@ -93,8 +96,8 @@ public abstract class Page extends HttpServlet implements PageInterface
    /**
     * Constructor de la clase.
     * 
-    * @param title Título de la página.
-    * @param layout Formato de la página.
+    * @param title T�tulo de la p�gina.
+    * @param layout Formato de la p�gina.
     */
    public Page(String title, PageLayout layout)
    {
@@ -162,25 +165,25 @@ public abstract class Page extends HttpServlet implements PageInterface
    //==============================================
    
    /**
-    * Método que es llamado al inicializar la página.
+    * M�todo que es llamado al inicializar la p�gina.
     */
    public abstract void initPageEvent(HttpServletRequest request, HttpServletResponse response);
    
    /**
-    * Método que es llamado cuando la página recibe los datos de un formulario.
+    * M�todo que es llamado cuando la p�gina recibe los datos de un formulario.
     */
    public abstract void formSendedEvent(HttpServletRequest request, HttpServletResponse response);
    
    /**
-    * Método que es llamado al cargar la página.
+    * M�todo que es llamado al cargar la p�gina.
     */
    public abstract void loadPageEvent(HttpServletRequest request, HttpServletResponse response);
    
    /**
-    * Agrega un control a la página.
+    * Agrega un control a la p�gina.
     * 
-    * @param control Una instancia de {@link Control} que representa el control a añadir.
-    * @param situation Posición en la que se debe agregar el control.
+    * @param control Una instancia de {@link Control} que representa el control a a�adir.
+    * @param situation Posici�n en la que se debe agregar el control.
     */
    public void addContent(Control control, ContentColumns situation)
    {
@@ -225,7 +228,7 @@ public abstract class Page extends HttpServlet implements PageInterface
    }
    
    /**
-    * Renderiza la página actual.
+    * Renderiza la p�gina actual.
     * 
     * @throws PageRenderException 
     */
@@ -240,22 +243,22 @@ public abstract class Page extends HttpServlet implements PageInterface
             this.provider = PageRenderProvider.getInstance(workspace);
          }
          
-         // Invoca la renderización al proveedor
+         // Invoca la renderizaci�n al proveedor
          xhtml = new StringBuilder(this.provider.render(this));
       }
       catch (PageRenderException ex)
       {
-         // Si se produce algún error durante el renderizado, se llama a toString() que deja xhtml con el código básico de la página
+         // Si se produce algún error durante el renderizado, se llama a toString() que deja xhtml con el c�digo b�sico de la p�gina
          toString();
       }
       catch (LoadPageRenderException ex)
       {
-         // Si se produce algún error durante el renderizado, se llama a toString() que deja xhtml con el código básico de la página
+         // Si se produce algún error durante el renderizado, se llama a toString() que deja xhtml con el c�digo b�sico de la p�gina
          toString();
       }
       catch (TemplateUnavailableException ex)
       {
-         // Si se produce algún error durante el renderizado, se llama a toString() que deja xhtml con el código básico de la página
+         // Si se produce algún error durante el renderizado, se llama a toString() que deja xhtml con el c�digo b�sico de la p�gina
          toString();
       }
    }
@@ -264,7 +267,7 @@ public abstract class Page extends HttpServlet implements PageInterface
     * Indica si la llamada es un envio de un formulario.
     * 
     * @param request Servlet request.
-    * @return {@code true} si el contexto actual corresponde a un envío de formulario o {@code false} en cualquier otro caso.
+    * @return {@code true} si el contexto actual corresponde a un env�o de formulario o {@code false} en cualquier otro caso.
     */
    public boolean isPostback(HttpServletRequest request)
    {
@@ -285,7 +288,7 @@ public abstract class Page extends HttpServlet implements PageInterface
    }
    
    /**
-    * Atiende la petición de la página por GET y POST.
+    * Atiende la petici�n de la p�gina por GET y POST.
     * 
     * @param request Servlet request.
     * @param response Servlet response.
@@ -301,13 +304,13 @@ public abstract class Page extends HttpServlet implements PageInterface
       } 
       catch (Exception ex) 
       {
-         // Mostrar error sin formato o con formato dependiendo de la excepción
+         // Mostrar error sin formato o con formato dependiendo de la excepci�n
          throw new ServletException(ex.getMessage(), ex);
       }
    }
    
    /**
-    * Atiende la petición de la página por GET.
+    * Atiende la petici�n de la p�gina por GET.
 	 */
    @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -316,7 +319,7 @@ public abstract class Page extends HttpServlet implements PageInterface
 	}
 
 	/**
-    * Atiende la petición de la página por POST.
+    * Atiende la petici�n de la p�gina por POST.
 	 */
    @Override
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
@@ -325,7 +328,7 @@ public abstract class Page extends HttpServlet implements PageInterface
    }
    
    /**
-    * Convierte la página en una cadena XHTML (sin aplicar la plantilla).
+    * Convierte la p�gina en una cadena XHTML (sin aplicar la plantilla).
     */
    @Override
    public String toString()
@@ -368,7 +371,7 @@ public abstract class Page extends HttpServlet implements PageInterface
    
    /**
     * Inicializa la instancia.
-    * TODO: Valores por defecto de la configuración.
+    * TODO: Valores por defecto de la configuraci�n.
     */
    private void initPage()
    {
@@ -386,7 +389,7 @@ public abstract class Page extends HttpServlet implements PageInterface
    }
    
    /**
-    * Método que se llama en la respuesta de un formulario enviado y que pone los datos dentro del formulario.
+    * M�todo que se llama en la respuesta de un formulario enviado y que pone los datos dentro del formulario.
     */
    private void formRefreshData(HttpServletRequest request)
    {
@@ -400,10 +403,10 @@ public abstract class Page extends HttpServlet implements PageInterface
    }
    
    /**
-    * Crea la página.
-    * El guión de llamadas a eventos es el siguiente:
-    * - initPageEvent()   -> Sólo si es la primera vez que se accede a la página
-    * - formSendedEvent() -> Sólo si se reciben datos de un formulario Cosmo
+    * Crea la p�gina.
+    * El gui�n de llamadas a eventos es el siguiente:
+    * - initPageEvent()   -> S�lo si es la primera vez que se accede a la p�gina
+    * - formSendedEvent() -> S�lo si se reciben datos de un formulario Cosmo
     * - loadPageEvent()
     */
    private void createPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, WorkspaceLoadException, RulesLoadException, TemplateUnavailableException, TemplateLoadException, MenuProviderException
@@ -414,7 +417,7 @@ public abstract class Page extends HttpServlet implements PageInterface
       ServletContext context = getServletContext(); 
       this.workspace = WorkspaceProvider.getWorkspace(context, request, request.getSession());
       
-      // Lanza el evento initPageEvent sólo si es la primera vez que se accede a la página
+      // Lanza el evento initPageEvent s�lo si es la primera vez que se accede a la p�gina
       if (!init)
       {
          initPageEvent(request, response);
@@ -431,10 +434,10 @@ public abstract class Page extends HttpServlet implements PageInterface
       // Lanza el evento loadPageEvent
       loadPageEvent(request, response);
       
-      // Renderiza la página
+      // Renderiza la p�gina
       render();
       
-      // Manda el resultado de la renderización al cliente
+      // Manda el resultado de la renderizaci�n al cliente
       response.setContentType("text/html");
       PrintWriter out = response.getWriter();
       out.println(xhtml.toString());

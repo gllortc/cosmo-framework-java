@@ -10,7 +10,7 @@ import com.cosmo.util.DataTypeException;
 import java.util.ArrayList;
 
 /**
- * Representa un menÃº de aplicaciÃ³n Cosmo.
+ * Representa un menú de aplicación Cosmo.
  * 
  * @author Gerard Llort
  */
@@ -19,10 +19,10 @@ public class MenuWidget extends Widget
    private static final String WIDGET_ID = "CosmoUiWdgtMenu";
    
    private static final String WPART_HEADER = "menu-header";
-   private static final String WPART_GROUP_HEADER = "menu-grp-header";
+   // private static final String WPART_GROUP_HEADER = "menu-grp-header";
    private static final String WPART_ITEM = "menu-item";
-   private static final String WPART_SUBITEM = "menu-subitem";
-   private static final String WPART_GROUP_FOOTER = "menu-grp-footer";
+   // private static final String WPART_SUBITEM = "menu-subitem";
+   // private static final String WPART_GROUP_FOOTER = "menu-grp-footer";
    private static final String WPART_FOOTER = "menu-footer";
    
    private static final String TAG_MENU_NAME = "MNAME";
@@ -33,7 +33,7 @@ public class MenuWidget extends Widget
    private MenuProvider provider;
    
    /**
-    * Enumera los distintos tipos de menÃº soportados por Cosmo
+    * Enumera los distintos tipos de menú soportados por Cosmo
     */
    public enum MenuTypes
    {
@@ -72,7 +72,7 @@ public class MenuWidget extends Widget
    //==============================================
    
    /**
-    * Renderiza el widget y genera el cÃ³digo XHTML de representaciÃ³n.
+    * Renderiza el widget y genera el código XHTML de representación.
     *
     * @return Devuelve una cadena en formato XHTML que representa el widget. 
     */
@@ -87,7 +87,7 @@ public class MenuWidget extends Widget
       
       try
       {
-         // Carga el menÃº a renderizar
+         // Carga el menú a renderizar
          menu = this.provider.loadMenu(this.getWorkspace(), type);
          
          // Obtiene la plantilla y la parte del widget
