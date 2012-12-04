@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<cosmo-settings ver="1.0">
+   
+   <!-- SETTINGS -->
+   <settings>
+
+      <value key="ws.url" value="http://localhost:8084/cosmo/" />
+      <value key="ws.title" value="Workspace de proves" />
+      <value key="ws.mail" value="gllort@dipta.cat" />
+      
+      <value key="ui.charset" value="ISO-8859-1" />
+      <value key="ui.lang" value="es" />
+
+      <value key="security.provider" value="com.cosmo.security.providers.CosmoUserProvider" />
+      <value key="ui.render.provider" value="com.cosmo.ui.render.CosmoPageRender" />
+      <value key="ui.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoStaticMenuProvider" />
+      <!-- value key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoDynamicMenuProvider" / -->
+
+   </settings>
+   
+   <!-- DATABASE CONNECTIONS -->
+   <connections>
+
+	    <connection id="cosmo.server" 
+	                driver="org.postgresql.Driver" 
+	                server="jdbc:postgresql:cosmo-test" 
+	                port="5432" 
+	                schema="public" 
+	                user="postgres" 
+	                pwd="esfacil" />
+	
+	   <connection id="fons-social-pre" 
+	                  driver="oracle.jdbc.driver.OracleDriver" 
+	                  server="bdo1vip.intranet.dtgna" 
+	                  port="1525" 
+	                  schema="pextra" 
+	                  user="fonssocial_usr" 
+	                  pwd="FonssoC1aL" />
+
+   </connections>
+   
+   <!-- STATIC MENUS -->
+   <menu type="lateral">
+      <menuitem id="mnuHome" name="Inicio" href="HomePage" parent="" />
+      <menuitem id="mnuContent" name="Contenido" href="ContentPage" parent="" />
+      <menuitem id="mnuListView" name="Listas" href="ListViewPage" parent="" />
+      <menuitem id="mnuForm" name="Formularios" href="FormPage" parent="" />
+      <menuitem id="mnuGrid" name="Grids" href="GridPage" parent="" />
+      <menuitem id="mnuSlider" name="Slider" href="SliderPage" parent="" />
+   </menu>
+   
+   <menu type="top">
+      <menuitem id="mnuHome" name="Home" href="/HomePage" parent="" />
+      <menuitem id="mnuForm" name="Form" href="" parent="" />
+      <menuitem id="mnuForm1" name="LoginPage" href="/LoginPage" parent="mnuForm" />
+   </menu>
+   
+</cosmo-settings>
