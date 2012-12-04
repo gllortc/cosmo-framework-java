@@ -3,6 +3,7 @@
 	<name>Cosmo.Web</name>
 	<comment></comment>
 	<projects>
+		<project>Cosmo.Core</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
