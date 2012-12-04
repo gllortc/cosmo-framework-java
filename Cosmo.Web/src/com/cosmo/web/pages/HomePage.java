@@ -1,10 +1,10 @@
 package com.cosmo.web.pages;
 
-import com.cosmo.ui.Page.PageLayout;
-import com.cosmo.ui.controls.HeaderControl;
-import com.cosmo.ui.Page;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.cosmo.ui.Page;
+import com.cosmo.ui.controls.HeaderControl;
 
 /**
  * Página de prova
@@ -19,12 +19,6 @@ public class HomePage extends Page
    @Override
    public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
    {
-      // Nothing to do
-   }
-   
-   @Override
-   public void loadPageEvent(HttpServletRequest request, HttpServletResponse response) 
-   {
       this.setLayout(PageLayout.TwoColumnsLeft);
       this.setTitle("Página de prova");
 
@@ -35,6 +29,12 @@ public class HomePage extends Page
       // int a = 1 / 0;
       
       this.addContent(header, ContentColumns.MAIN);
+   }
+   
+   @Override
+   public void loadPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   {
+      // Nothing to do
    }
    
    @Override
