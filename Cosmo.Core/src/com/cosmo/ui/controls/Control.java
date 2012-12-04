@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
 
 /**
  * Interface que debe implementar cualquier control de contenido.<br />
- * Los controles de contenido son componentes que combinados entre s√≠, rellenan la zona de contenidos.
+ * Los controles de contenido son componentes que combinados entre sÌ, rellenan la zona de contenidos.
  * 
  * @author Gerard Llort
  */
@@ -19,13 +19,13 @@ public abstract class Control
    //==============================================
    
    /**
-    * Devuelve un identificador √∫nico del tipo de control.
+    * Devuelve un identificador ˙nico del tipo de control.
     */
    public abstract String getControlTypeId();
    
    /**
-    * Devuelve un identificador √∫nico de control.
-    * Cada control de una p√°gina tendr√° un ID √∫nico.
+    * Devuelve un identificador ˙nico de control.
+    * Cada control de una p·gina tendr· un ID ˙nico.
     */
    public String getControlId() 
    {
@@ -33,7 +33,7 @@ public abstract class Control
    }
 
    /**
-    * Establece el identificador √∫nico del control.
+    * Establece el identificador ˙nico del control.
     */
    public void setControlId(int id) 
    {
@@ -46,7 +46,7 @@ public abstract class Control
    //==============================================
 
    /**
-    * Renderiza el control y genera el c√≥digo XHTML de representaci√≥n.
+    * Renderiza el control y genera el cÛdigo XHTML de representaciÛn.
     *
     * @return Devuelve una cadena en formato XHTML que representa el control. 
     */
@@ -61,7 +61,7 @@ public abstract class Control
     * Soporta TAGs condicionales.
     * 
     * @param sb Una instancia de {@link StringBuilder} que contiene el texto a evaluar.
-    * @param tag Una cadena que contiene el TAG a reemplazar. El TAG se especifica s√≥lo con car√°cteres alfanum√©ricos, sin formato final.
+    * @param tag Una cadena que contiene el TAG a reemplazar. El TAG se especifica sÛlo con car·cteres alfanumÈricos, sin formato final.
     * @param text Texto que debe reemplazar el TAG.
     */
    public static void replaceTag(StringBuilder sb, String tag, String text)
@@ -72,6 +72,12 @@ public abstract class Control
       String cTagEnd = getConditionalTagEnd(tag);
       
       idx = sb.indexOf(cTagBegin);
+      
+      // Evita contenido nulo
+      if (text == null)
+      {
+         text = "";
+      }
       
       // Existe condicional y hay contenido
       if (idx >= 0 && !StringUtils.isNullOrEmpty(text))
@@ -114,7 +120,7 @@ public abstract class Control
     * Soporta TAGs condicionales.
     * 
     * @param xhtml Una instancia de {@link StringBuilder} que contiene el texto a evaluar.
-    * @param tag Una cadena que contiene el TAG a reemplazar. El TAG se especifica s√≥lo con car√°cteres alfanum√©ricos, sin formato final.
+    * @param tag Una cadena que contiene el TAG a reemplazar. El TAG se especifica sÛlo con car·cteres alfanumÈricos, sin formato final.
     * @param text Texto que debe reemplazar el TAG.
     */
    public static String replaceTag(String xhtml, String tag, String text)
