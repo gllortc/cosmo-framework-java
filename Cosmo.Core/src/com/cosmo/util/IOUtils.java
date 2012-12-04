@@ -19,7 +19,10 @@ public class IOUtils
    {
       try
       {
-         is.close();
+         if (is != null)
+         {
+            is.close();
+         }
       }
       catch (IOException ex)
       {

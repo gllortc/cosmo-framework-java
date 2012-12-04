@@ -27,7 +27,7 @@ import org.xml.sax.SAXException;
  */
 public class Template 
 {
-   public static final String FILENAME_TEMPLATE = "template.xml";
+   public static final String FILENAME_TEMPLATE = "cosmo.template.xml";
    
    public static final String PATH_TEMPLATES = "templates";
    
