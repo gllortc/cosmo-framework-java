@@ -3,7 +3,7 @@ package com.cosmo.ui.controls;
 import com.cosmo.ui.templates.Template;
 
 /**
- * Implementa un control que permite incorporar cÃ³digo XHTML directament a una pÃ¡gina de Cosmo.
+ * Implementa un control que permite incorporar código XHTML directament a una página de Cosmo.
  * 
  * @author Gerard Llort
  */
@@ -28,7 +28,7 @@ public class XhtmlControl extends Control
    /**
     * Contructor de la clase.
     * 
-    * @param xhtml Una cadena que contiene el cÃ³digo XHTML con el que se rellenarÃ¡ el control.
+    * @param xhtml Una cadena que contiene el código XHTML con el que se rellenará el control.
     */
    public XhtmlControl(String xhtml)
    {
@@ -40,7 +40,7 @@ public class XhtmlControl extends Control
    //==============================================
    
    /**
-    * Devuelve un identificador Ãºnico del tipo de control.
+    * Devuelve un identificador único del tipo de control.
     */
    @Override
    public String getControlTypeId() 
@@ -63,7 +63,7 @@ public class XhtmlControl extends Control
    /**
     * Concatena una cadena de texto al contenido actual del control.
     * 
-    * @param xhtml CÃ³digo XHTML a concatenar.
+    * @param xhtml Código XHTML a concatenar.
     */
    public void append(String xhtml)
    {
@@ -73,7 +73,7 @@ public class XhtmlControl extends Control
    /**
     * Concatena una cadena de texto al contenido actual del control.
     * 
-    * @param obj CÃ³digo XHTML a concatenar.
+    * @param obj Código XHTML a concatenar.
     */
    public void append(Object obj)
    {
@@ -81,7 +81,7 @@ public class XhtmlControl extends Control
    }
    
    /**
-    * Renderiza el control y genera el cÃ³digo XHTML de representaciÃ³n.
+    * Renderiza el control y genera el código XHTML de representación.
     *
     * @return Devuelve una cadena en formato XHTML que representa el control. 
     */
