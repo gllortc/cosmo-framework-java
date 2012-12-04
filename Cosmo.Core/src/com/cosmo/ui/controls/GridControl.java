@@ -174,7 +174,7 @@ public class GridControl extends IdentificableControl
       xcell = ctrl.getElement(CPART_ROWTITLE_CELL);
       for (int col = 0; col < table.getColumnCount(); col++)
       {
-         xrowdata += Control.replaceTag(xcell, TAG_VALUE, table.getCell(0, col).toString());
+         xrowdata += Control.replaceTag(xcell, TAG_VALUE, table.getCell(0, col, "").toString());
       }
       xrowtitle = ctrl.getElement(CPART_ROWTITLE_BODY);
       xrowtitle = Control.replaceTag(xrowtitle, TAG_CELLS, xrowdata);
@@ -187,7 +187,7 @@ public class GridControl extends IdentificableControl
          xrowdata = "";
          for (int col = 0; col < table.getColumnCount(); col++)
          {
-            xrowdata += Control.replaceTag(xcell, TAG_VALUE, table.getCell(row, col).toString());
+            xrowdata += Control.replaceTag(xcell, TAG_VALUE, table.getCell(row, col, "").toString());
          }
          
          xhead = ctrl.getElement(CPART_ROW_BODY);

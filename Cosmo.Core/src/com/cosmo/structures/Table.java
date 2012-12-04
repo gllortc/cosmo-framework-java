@@ -115,6 +115,26 @@ public class Table
    }
    
    /**
+    * Obtiene el contenido de una celda.
+    * 
+    * @param row Índice de la fila (base 0).
+    * @param col Índice de la columna (base 0).
+    * @param defaultValue Valor por defecto que devolverá la llamada si el valor obtenido está vacío.
+    * @return Un objeto que corresponde al contenido de la celda. En caso de ser una celda vacía, este método devolverá {@code null}.
+    */
+   public Object getCell(int row, int col, Object defaultValue)
+   {
+      if (map[row][col] == null)
+      {
+         return defaultValue;
+      }
+      else
+      {
+         return map[row][col];
+      }
+   }
+   
+   /**
     * Establece los valores de una tabla a partir de una consulta a base de datos.
     * 
     * @param useColNameAsHeadTitle Indica si se deben usar los nombres de columna para la fila de títulos.
