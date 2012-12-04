@@ -2,7 +2,7 @@ package com.cosmo.ui.controls;
 
 /**
  * Implementa un cuadro de texto representable dentro de un formulario Cosmo.
- * Un grupo (y formulario) s√≥lo puede contener un control {@link FormFieldCaptcha}.
+ * Un grupo (y formulario) sÛlo puede contener un control {@link FormFieldCaptcha}.
  * 
  * @author Gerard Llort
  */
@@ -23,8 +23,8 @@ public class FormFieldCaptcha extends FormField
    /**
     * Contructor de la clase.
     * 
-    * @param name Nombre identificativo del elemento dentro de la p√°gina.
-    * @param label Etiqueta que se mostrar√° junto el control.
+    * @param name Nombre identificativo del elemento dentro de la p·gina.
+    * @param label Etiqueta que se mostrar· junto el control.
     */
    public FormFieldCaptcha(String name, String label) 
    {
@@ -38,9 +38,9 @@ public class FormFieldCaptcha extends FormField
    /**
     * Contructor de la clase.
     * 
-    * @param name Nombre identificativo del elemento dentro de la p√°gina.
-    * @param label Etiqueta que se mostrar√° junto el control.
-    * @param maxLength N√∫mero m√°ximo de car√°cteres que admite el control.
+    * @param name Nombre identificativo del elemento dentro de la p·gina.
+    * @param label Etiqueta que se mostrar· junto el control.
+    * @param maxLength N˙mero m·ximo de car·cteres que admite el control.
     */
    public FormFieldCaptcha(String name, String label, int maxLength) 
    {
