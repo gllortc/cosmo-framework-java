@@ -39,20 +39,20 @@ public interface Cosmo
    // Tokens
    //==============================================
    
-   /** Clave adjunta al valor de detecciÃ³n de envio de un formulario Cosmo */
+   /** Clave adjunta al valor de detección de envio de un formulario Cosmo */
    public static final String KEY_UI_FORM_ACTION = "cosmo.ui.form.action";
-   /** Clave adjunta al valor de detecciÃ³n de envio de un formulario Cosmo */
+   /** Clave adjunta al valor de detección de envio de un formulario Cosmo */
    public static final String KEY_UI_FORM_CAPTCHA = "cosmo.ui.form.captcha";
 
-   /** Token de detecciÃ³n de envio de un formulario Cosmo */
+   /** Token de detección de envio de un formulario Cosmo */
    public static final String TOKEN_UI_FORM_POSTBACK = "com.cosmo.tokens.form-postback";
    
    //==============================================
-   // Tokens de cachÃ©
+   // Tokens de caché
    //==============================================
    
-   /** Clave de CachÃ© para almacenar el workspace (en sesiÃ³n) */
+   /** Clave de Caché para almacenar el workspace (en sesión) */
    public static final String KEY_CACHE_SESSION_WORKSPACE = "cosmo.cache.session.workspace";
-   /** Clave de CachÃ© para almacenar la Ãºltima excepciÃ³n capturada (en sesiÃ³n) */
+   /** Clave de Caché para almacenar la última excepción capturada (en sesión) */
    public static final String KEY_CACHE_SESSION_LASTEXCEPTION = "cosmo.cache.session.lastException";
 }

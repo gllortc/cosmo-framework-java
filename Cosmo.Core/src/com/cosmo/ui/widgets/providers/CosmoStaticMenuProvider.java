@@ -44,6 +44,7 @@ public class CosmoStaticMenuProvider extends MenuProvider
     * Obtiene los elementos de menú del workspace.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace para el que se desea obtener el menú.
+    * @param type Un elemento de {@link MenuTypes} que indica qué tipo de menú se desea obtener.
     * @return Una lista de instancias de {@link MenuItem} que representan los elementos de menú.
     * 
     * @throws MenuProviderException 
@@ -82,18 +83,21 @@ public class CosmoStaticMenuProvider extends MenuProvider
                if (MenuWidget.convertToMenuType(menuElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_TYPE)) == type)
                {
                   mtype = MenuWidget.convertToMenuType(menuElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_TYPE));
-                  nList = menuElement.getElementsByTagName(CosmoStaticMenuProvider.XML_NODE_MENUITEM);
-                  for (int temp = 0; temp < nList.getLength(); temp++) 
+                  if (mtype == type)
                   {
-                     nNode = nList.item(temp);
-                     if (nNode.getNodeType() == Node.ELEMENT_NODE)
+                     nList = menuElement.getElementsByTagName(CosmoStaticMenuProvider.XML_NODE_MENUITEM);
+                     for (int temp = 0; temp < nList.getLength(); temp++) 
                      {
-                        eElement = (Element) nNode;
-                        menuitem = new MenuItem(eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_ID),
-                                                      eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_NAME), 
-                                                      eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_HREF),
-                                                      eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_PARENT));
-                        menuItems.add(menuitem);
+                        nNode = nList.item(temp);
+                        if (nNode.getNodeType() == Node.ELEMENT_NODE)
+                        {
+                           eElement = (Element) nNode;
+                           menuitem = new MenuItem(eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_ID),
+                                                   eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_NAME), 
+                                                   eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_HREF),
+                                                   eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_PARENT));
+                           menuItems.add(menuitem);
+                        }
                      }
                   }
                }

@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author gllort
+ * Implementa un proveedor para workspaces.
+ * @author Gerard Llort
  */
 public class WorkspaceProvider 
 {
@@ -18,7 +18,7 @@ public class WorkspaceProvider
     * Obtiene una instancia de {@link Workspace}.
     * 
     * @param context Una instancia de {@link ServletContext} que permite acceder al contexto.
-    * @param session Una instancia de {@link HttpSession} que permite acceder a la caché de sesión.
+    * @param session Una instancia de {@link HttpSession} que permite acceder a la caché de sesi�n.
     * @return Una instancia de {@link Workspace} para el usuario actual.
     * 
     * @throws WorkspaceLoadException 
@@ -34,7 +34,7 @@ public class WorkspaceProvider
          return (Workspace) ws;
       }
 
-      // Inicializa el workspace y lo guarda en la sesión
+      // Inicializa el workspace y lo guarda en la sesi�n
       Workspace nws = new Workspace(context, request);
       session.setAttribute(Cosmo.KEY_CACHE_SESSION_WORKSPACE, nws);
       

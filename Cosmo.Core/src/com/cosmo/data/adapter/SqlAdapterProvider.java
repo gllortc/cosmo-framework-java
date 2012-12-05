@@ -8,6 +8,7 @@ public class SqlAdapterProvider
 {
    private SqlAdapterProvider() 
    {
+      loadDefinition();
    }
    
    public static SqlAdapterProvider getInstance() 

@@ -67,7 +67,7 @@ public class WorkspaceProperties
    //==============================================
    
    /**
-    * Devuelve el nÃºmero de propiedades de configuración leÃ­das.
+    * Devuelve el nÃºmero de propiedades de configuración leídas.
     */
    public int getNumProperties()
    {
@@ -75,7 +75,7 @@ public class WorkspaceProperties
    }
    
    /**
-    * Devuelve el nÃºmero de DataSources leÃ­dos.
+    * Devuelve el nÃºmero de DataSources leídos.
     */
    public int getNumDatasources()
    {
@@ -100,7 +100,7 @@ public class WorkspaceProperties
    /**
     * Obtiene la consexión al servidor Cosmo.
     * 
-    * @return Una instancia de {@link DataSource} que contiene los parÃ¡metros de conexión a la base de datos.
+    * @return Una instancia de {@link DataSource} que contiene los parámetros de conexión a la base de datos.
     */
    public DataSource getDataSource()
    {
@@ -108,10 +108,10 @@ public class WorkspaceProperties
    }
    
    /**
-    * Obtiene una conxeión a un orÃ­gen de datos.
+    * Obtiene una conxeión a un orígen de datos.
     * 
     * @param key Clave identificativa de la conexión.
-    * @return Una instancia de {@link DataSource} que contiene los parÃ¡metros de conexión a la base de datos.
+    * @return Una instancia de {@link DataSource} que contiene los parámetros de conexión a la base de datos.
     */
    public DataSource getDataSource(String key)
    {
