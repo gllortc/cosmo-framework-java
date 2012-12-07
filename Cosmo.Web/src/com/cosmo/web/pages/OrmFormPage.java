@@ -6,16 +6,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.cosmo.data.DataConnection;
 import com.cosmo.data.adapter.CosmoOrmProvider;
+import com.cosmo.data.adapter.InvalidMappingException;
 import com.cosmo.net.HttpRequestUtils;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.controls.BreadcrumbsControl;
 import com.cosmo.ui.controls.BreadcrumbsItem;
 import com.cosmo.ui.controls.DynamicMessageControl;
-import com.cosmo.ui.controls.FormButton;
-import com.cosmo.ui.controls.FormButton.ButtonType;
 import com.cosmo.ui.controls.FormControl;
-import com.cosmo.ui.controls.FormFieldGroup;
-import com.cosmo.ui.controls.FormFieldText;
 import com.cosmo.ui.controls.HeaderControl;
 import com.cosmo.ui.controls.Icon;
 import com.cosmo.ui.controls.XhtmlControl;
@@ -56,19 +53,30 @@ public class OrmFormPage extends Page
       DynamicMessageControl message = new DynamicMessageControl(ID_MSG);
       this.addContent(message, ContentColumns.MAIN);
       
-      FormControl form = new FormControl();
-      FormFieldGroup group = new FormFieldGroup("Temps meteorològic", "Introdueixi les dades de registre meteorològic.", form);
+      try 
+      {
+         FormControl form = new FormControl();
+         form.addGroup(Weather.class);
+         this.addContent(form, ContentColumns.MAIN);
+      } 
+      catch (InvalidMappingException e) 
+      {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+      
+      /*FormFieldGroup group = new FormFieldGroup("Temps meteorològic", "Introdueixi les dades de registre meteorològic.", form);
       group.addField(new FormFieldText("txtName", "Ciutat"));
       group.addField(new FormFieldText("txtTMin", "Temperatura mínima"));
       group.addField(new FormFieldText("txtTMax", "Temperatura màxima"));
       group.addField(new FormFieldText("txtPre", "Precipitació mitja"));
       form.addGroup(group);
-      form.addButton(new FormButton("cmdAcceopt", "Enviar", ButtonType.Submit));
-      this.addContent(form, ContentColumns.MAIN);
+      form.addButton(new FormButton("cmdAcceopt", "Enviar", ButtonType.Submit));*/
+      
    }
 
    @Override
-   public void formSendedEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void formSendedEvent(HttpServletRequest request, HttpServletResponse response)
    {
       DataConnection conn;
       CosmoOrmProvider cop;

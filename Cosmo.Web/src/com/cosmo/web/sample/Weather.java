@@ -4,14 +4,20 @@ import com.cosmo.annotations.CosmoField;
 import com.cosmo.annotations.CosmoField.FieldType;
 import com.cosmo.annotations.CosmoTable;
 
-@CosmoTable(name="frmWeather", tableName="weather")
+@CosmoTable( name = "frmWeather", 
+             tableName = "weather", 
+             title = "Registre de temperatures",
+             description = "Introdueixi les dades per registrar les dades climatològiques d'una ciutat." )
 public class Weather 
 {
-   private String cityName;
-   private Integer tempMin;
-   private Integer tempMax;
-   private Integer precipitation;
    
+   //==============================================
+   // Constructors
+   //==============================================
+   
+   /**
+    * Constructor de la clase.
+    */
    public Weather()
    {
       this.cityName = "";
@@ -20,6 +26,9 @@ public class Weather
       this.precipitation = 0;
    }
    
+   /**
+    * Constructor de la clase.
+    */
    public Weather(String cityName, int tempMin, int tempMax, int precipitation)
    {
       this.cityName = cityName;
@@ -28,7 +37,13 @@ public class Weather
       this.precipitation = precipitation;
    }
 
-   @CosmoField( fieldType = FieldType.Text, tableColumnName = "city", name = "txtCity" )
+   //==============================================
+   // Propiedades
+   //==============================================
+   
+   @CosmoField( fieldType = FieldType.Text, tableColumnName = "city", name = "txtCity", label = "Ciutat" )
+   private String cityName;
+   
    public String getCityName() 
    {
       return cityName;
@@ -39,7 +54,9 @@ public class Weather
       this.cityName = cityName;
    }
 
-   @CosmoField( fieldType = FieldType.Integer, tableColumnName = "temp_lo", name = "txtTempLo" )
+   @CosmoField( fieldType = FieldType.Integer, tableColumnName = "temp_lo", name = "txtTempLo", label = "Temperatura mínima" )
+   private Integer tempMin;
+   
    public Integer getTempMin() 
    {
       return tempMin;
@@ -50,7 +67,9 @@ public class Weather
       this.tempMin = tempMin;
    }
 
-   @CosmoField( fieldType = FieldType.Integer, tableColumnName = "temp_hi", name = "txtTempHi" )
+   @CosmoField( fieldType = FieldType.Integer, tableColumnName = "temp_hi", name = "txtTempHi", label = "Temperatura màxima" )
+   private Integer tempMax;
+   
    public Integer getTempMax() 
    {
       return tempMax;
@@ -61,7 +80,9 @@ public class Weather
       this.tempMax = tempMax;
    }
 
-   @CosmoField( fieldType = FieldType.Integer, tableColumnName = "prcp", name = "txtPrcp" )
+   @CosmoField( fieldType = FieldType.Integer, tableColumnName = "prcp", name = "txtPrcp", label = "Precipitació mitjana" )
+   private Integer precipitation;
+   
    public Integer getPrecipitation()
    {
       return precipitation;
