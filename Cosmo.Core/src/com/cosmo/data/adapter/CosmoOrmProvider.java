@@ -1,5 +1,6 @@
 package com.cosmo.data.adapter;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.sql.SQLException;
 
@@ -64,6 +65,7 @@ public class CosmoOrmProvider extends CosmoOrm
       sql.append(" ");
       
       // Obtiene el nombre de la tabla
+      Annotation[] an = data.getClass().getAnnotations();
       ct = data.getClass().getAnnotation(CosmoTable.class);
       if (ct == null)
       {
