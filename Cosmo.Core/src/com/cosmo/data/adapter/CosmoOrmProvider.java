@@ -1,6 +1,6 @@
 package com.cosmo.data.adapter;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -77,9 +77,9 @@ public class CosmoOrmProvider extends CosmoOrm
 
       // Obtiene la lista de campos
       first = true;
-      for (Method method : data.getClass().getDeclaredMethods())
+      for (Field field : data.getClass().getFields())
       {
-         cf = method.getAnnotation(CosmoField.class);
+         cf = field.getAnnotation(CosmoField.class);
          
          if (cf != null)
          {
@@ -95,28 +95,28 @@ public class CosmoOrmProvider extends CosmoOrm
 
       // Inserta los valores en la senténcia
       first = true;
-      for (Method method : data.getClass().getDeclaredMethods())
+      for (Field field : data.getClass().getFields())
       {
-         cf = method.getAnnotation(CosmoField.class);
+         cf = field.getAnnotation(CosmoField.class);
          
          if (cf != null && !cf.readOnly())
          {
             sql.append((first ? "" : ", "));
 
-            if (method.getReturnType() == String.class)
+            if (field.getType() == String.class)
             {
                sql.append("'");
-               sql.append(convertToSql((String )method.invoke(data, new Object[] {})));
+               sql.append(convertToSql((String) field.get(data)));
                sql.append("'");
             }
-            else if (method.getReturnType() == Integer.class || method.getReturnType() == int.class)
+            else if (field.getType() == Integer.class || field.getType() == int.class)
             {
-               sql.append((Integer) method.invoke(data, new Object[] {}));
+               sql.append((Integer) field.get(data));
             }
-            else if (method.getReturnType() == Date.class)
+            else if (field.getType() == Date.class)
             {
                sql.append("'");
-               sql.append(sdf.format((Date) method.invoke(data, new Object[] {})));
+               sql.append(sdf.format((Date) field.get(data)));
                sql.append("'");
             }
 

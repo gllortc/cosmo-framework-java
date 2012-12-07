@@ -248,17 +248,17 @@ public abstract class Page extends HttpServlet implements PageInterface
       }
       catch (PageRenderException ex)
       {
-         // Si se produce algÃºn error durante el renderizado, se llama a toString() que deja xhtml con el código básico de la página
+         // Si se produce algún error durante el renderizado, se llama a toString() que deja xhtml con el código básico de la página
          toString();
       }
       catch (LoadPageRenderException ex)
       {
-         // Si se produce algÃºn error durante el renderizado, se llama a toString() que deja xhtml con el código básico de la página
+         // Si se produce algún error durante el renderizado, se llama a toString() que deja xhtml con el código básico de la página
          toString();
       }
       catch (TemplateUnavailableException ex)
       {
-         // Si se produce algÃºn error durante el renderizado, se llama a toString() que deja xhtml con el código básico de la página
+         // Si se produce algún error durante el renderizado, se llama a toString() que deja xhtml con el código básico de la página
          toString();
       }
    }

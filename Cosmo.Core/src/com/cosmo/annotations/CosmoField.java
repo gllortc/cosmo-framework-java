@@ -9,7 +9,7 @@ import java.lang.annotation.ElementType;
  * Anotación que sirve para indicar a las páginas que se precisa ser usuario autenticado.
  */
 @Retention( value = RetentionPolicy.RUNTIME )
-@Target( value = ElementType.METHOD )
+@Target( value = ElementType.FIELD )
 public @interface CosmoField 
 {
    public enum FieldType
@@ -33,6 +33,11 @@ public @interface CosmoField
     * Nombre del campo (se usará como nombre de campo en el formulario).
     */
    String name();
+   
+   /**
+    * Contiene la etiqueta que debe mostrarse junto al campo en un formulario.
+    */
+   String label() default "";
    
    /**
     * Indica si el campo es de sólo lectura.

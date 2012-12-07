@@ -1,11 +1,18 @@
 package com.cosmo.ui.controls;
 
-import com.cosmo.Cosmo;
-import com.cosmo.ui.templates.Template;
-import com.cosmo.ui.templates.TemplateControl;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import javax.servlet.http.HttpServletRequest;
+
+import com.cosmo.Cosmo;
+import com.cosmo.annotations.CosmoField;
+import com.cosmo.annotations.CosmoTable;
+import com.cosmo.data.adapter.InvalidMappingException;
+import com.cosmo.ui.controls.FormButton.ButtonType;
+import com.cosmo.ui.templates.Template;
+import com.cosmo.ui.templates.TemplateControl;
 
 /**
  * Implementa un formulario representable en una página de Cosmo.
@@ -15,6 +22,21 @@ import javax.servlet.http.HttpServletRequest;
 public class FormControl extends Control 
 {
    private static final String CONTROL_ID = "CosmoUiCtrlForm";
+
+   private static final String CPART_HEADER = "form-head";
+   private static final String CPART_GROUP_HEADER = "form-fieldset-head";
+   private static final String CPART_FIELD_CONTROL = "form-control";
+   private static final String CPART_GROUP_FOOTER = "form-fieldset-footer";
+   private static final String CPART_FOOTER = "form-footer";
+   private static final String CPART_BUTTONS = "form-buttons";
+         
+   private static final String TAG_TITLE = "FTITLE";
+   private static final String TAG_DESCRIPTION = "FDESC";
+   private static final String TAG_CONTROL = "FCONTROL";
+   private static final String TAG_LABEL = "FLABEL";
+   private static final String TAG_BUTTONS = "FBUTTONS";
+   private static final String TAG_FORM_OPEN = "FTAG";
+   private static final String TAG_FORM_CLOSE = "FENDTAG";
    
    private String title;
    private String description;
@@ -104,22 +126,55 @@ public class FormControl extends Control
    
    /**
     * Agrega un nuevo grupo de campos al formulario.
-    * TODO: Es necesario poner aquí esta EXCEPCIÓN o es mejor trasladarla al RENDER???
     * 
     * @param field Una instancia de {@link FormFieldGroup} que representa el grupo y que contiene los campos.
     */
    public void addGroup(FormFieldGroup group)
    {
-      /*
-      // Evita que haya más de un CAPTCHA en el formulario
-      if (group.haveCaptcha() && this.haveCaptcha())
-      {
-         throw new MalformedFormException("Only ONE captcha field is allowen in a form.");
-      }
-      */
-      
       // Agrega el grupo al formulario
       groups.add(group);
+   }
+   
+   /**
+    * Agrega un nuevo grupo de campos al formulario a partir de un clase Cosmo ORM.
+    * 
+    * @param ormClass Una instancia de un objeto Cosmo ORM (CORM).
+    * 
+    * @throws InvalidMappingException 
+    */
+   public void addGroup(Class<?> ormClass) throws InvalidMappingException
+   {
+      CosmoTable ct;
+      CosmoField cf;
+      FormFieldGroup group;
+      
+      // Comprueba que sea un objeto CORM
+      ct = ormClass.getAnnotation(CosmoTable.class);
+      if (ct == null)
+      {
+         throw new InvalidMappingException("No CosmoTable annotation detected on POJO class.");
+      }
+      
+      // Obtiene las propiedades de la clase y las mapea al formulario
+      this.name = ct.name();
+
+      // Obtiene la lista de campos y los mapea a un grupo
+      group = new FormFieldGroup("");
+      group.setTitle(ct.title());
+      group.setDescription(ct.description());
+      for (Field method : ormClass.getFields())
+      {
+         cf = method.getAnnotation(CosmoField.class);
+         
+         if (cf != null)
+         {
+            group.addField(new FormFieldText(cf.name(), cf.label()));
+         }
+      }
+      this.addGroup(group);
+      
+      // Agrega un botón de envio de datos
+      this.addButton(new FormButton("cmdAcceopt", "Enviar", ButtonType.Submit));
    }
    
    /**
@@ -187,21 +242,6 @@ public class FormControl extends Control
          }
       }   
    }
-   
-   private static final String CPART_HEADER = "form-head";
-   private static final String CPART_GROUP_HEADER = "form-fieldset-head";
-   private static final String CPART_FIELD_CONTROL = "form-control";
-   private static final String CPART_GROUP_FOOTER = "form-fieldset-footer";
-   private static final String CPART_FOOTER = "form-footer";
-   private static final String CPART_BUTTONS = "form-buttons";
-         
-   private static final String TAG_TITLE = "FTITLE";
-   private static final String TAG_DESCRIPTION = "FDESC";
-   private static final String TAG_CONTROL = "FCONTROL";
-   private static final String TAG_LABEL = "FLABEL";
-   private static final String TAG_BUTTONS = "FBUTTONS";
-   private static final String TAG_FORM_OPEN = "FTAG";
-   private static final String TAG_FORM_CLOSE = "FENDTAG";
    
    /**
     * Renderiza el control y genera el código XHTML de representación.

@@ -21,4 +21,14 @@ public @interface CosmoTable
     * Nombre de la tabla (se usará como nombre de formulario).
     */
    String name();
+   
+   /**
+    * Título del formulario.
+    */
+   String title() default "";
+   
+   /**
+    * Descripción del formulario.
+    */
+   String description() default "";
 }
