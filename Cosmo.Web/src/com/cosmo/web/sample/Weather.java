@@ -10,6 +10,10 @@ import com.cosmo.annotations.CosmoTable;
              description = "Introdueixi les dades per registrar les dades climatològiques d'una ciutat." )
 public class Weather 
 {
+   private String cityName;
+   private Integer tempMin;
+   private Integer tempMax;
+   private Integer precipitation;
    
    //==============================================
    // Constructors
@@ -42,8 +46,6 @@ public class Weather
    //==============================================
    
    @CosmoField( fieldType = FieldType.Text, tableColumnName = "city", name = "txtCity", label = "Ciutat" )
-   private String cityName;
-   
    public String getCityName() 
    {
       return cityName;
@@ -55,8 +57,6 @@ public class Weather
    }
 
    @CosmoField( fieldType = FieldType.Integer, tableColumnName = "temp_lo", name = "txtTempLo", label = "Temperatura mínima" )
-   private Integer tempMin;
-   
    public Integer getTempMin() 
    {
       return tempMin;
@@ -68,8 +68,6 @@ public class Weather
    }
 
    @CosmoField( fieldType = FieldType.Integer, tableColumnName = "temp_hi", name = "txtTempHi", label = "Temperatura màxima" )
-   private Integer tempMax;
-   
    public Integer getTempMax() 
    {
       return tempMax;
@@ -81,8 +79,6 @@ public class Weather
    }
 
    @CosmoField( fieldType = FieldType.Integer, tableColumnName = "prcp", name = "txtPrcp", label = "Precipitació mitjana" )
-   private Integer precipitation;
-   
    public Integer getPrecipitation()
    {
       return precipitation;

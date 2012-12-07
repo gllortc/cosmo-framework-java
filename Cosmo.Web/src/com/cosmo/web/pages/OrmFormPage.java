@@ -59,20 +59,13 @@ public class OrmFormPage extends Page
          form.addGroup(Weather.class);
          this.addContent(form, ContentColumns.MAIN);
       } 
-      catch (InvalidMappingException e) 
+      catch (InvalidMappingException ex) 
       {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
+         DynamicMessageControl msg = (DynamicMessageControl) this.getControl(ID_MSG);
+         msg.setVisible(true);
+         msg.setType(DynamicMessageControl.MessageTypes.Error);
+         msg.setMessage("ERROR: " + ex.getMessage());
       }
-      
-      /*FormFieldGroup group = new FormFieldGroup("Temps meteorològic", "Introdueixi les dades de registre meteorològic.", form);
-      group.addField(new FormFieldText("txtName", "Ciutat"));
-      group.addField(new FormFieldText("txtTMin", "Temperatura mínima"));
-      group.addField(new FormFieldText("txtTMax", "Temperatura màxima"));
-      group.addField(new FormFieldText("txtPre", "Precipitació mitja"));
-      form.addGroup(group);
-      form.addButton(new FormButton("cmdAcceopt", "Enviar", ButtonType.Submit));*/
-      
    }
 
    @Override
@@ -81,17 +74,17 @@ public class OrmFormPage extends Page
       DataConnection conn;
       CosmoOrmProvider cop;
       
-      Weather weather = new Weather();
+      /*Weather weather = new Weather();
       weather.setCityName(HttpRequestUtils.getValue(request, "txtName"));
       weather.setTempMin(HttpRequestUtils.getInt(request, "txtTMin"));
       weather.setTempMax(HttpRequestUtils.getInt(request, "txtTMax"));
-      weather.setPrecipitation(HttpRequestUtils.getInt(request, "txtPre"));
+      weather.setPrecipitation(HttpRequestUtils.getInt(request, "txtPre"));*/
       
       try 
       {
          conn = new DataConnection(getWorkspace().getProperties().getDataSource("cosmo.server"), false);
          cop = new CosmoOrmProvider(conn);
-         cop.add(weather);
+         cop.add(Weather.class, request);
 
          response.sendRedirect("GridPage");
       } 
