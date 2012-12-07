@@ -5,6 +5,11 @@ import java.sql.SQLException;
 import com.cosmo.data.DataConnection;
 import com.cosmo.data.DataException;
 
+/**
+ * Declara una clase abstracta que debe servir como base para la implementación de drivers ORM para Cosmo.
+ * 
+ * @author Gerard Llort
+ */
 public abstract class CosmoOrm 
 {
    private String lastSqlSentence;
@@ -74,5 +79,5 @@ public abstract class CosmoOrm
     * @throws SQLException 
     * @throws Exception 
     */
-   public abstract void insert(Object data) throws InvalidMappingException, SQLException, DataException, Exception;
+   public abstract void add(Object data) throws InvalidMappingException, SQLException, DataException, Exception;
 }

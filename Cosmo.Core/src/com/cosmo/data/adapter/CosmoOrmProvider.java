@@ -53,7 +53,7 @@ public class CosmoOrmProvider extends CosmoOrm
     * @throws SQLException 
     * @throws Exception 
     */
-   public void insert(Object data) throws InvalidMappingException, SQLException, DataException, Exception
+   public void add(Object data) throws InvalidMappingException, SQLException, DataException, Exception
    {
       boolean first = true;
       StringBuilder sql = new StringBuilder();
