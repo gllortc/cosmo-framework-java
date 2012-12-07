@@ -162,9 +162,6 @@ public class GridControl extends IdentificableControl
       String xitem;
       String xrowtitle, xrow, xrowdata, xcell, xhead;
       TemplateControl ctrl;
-      // FormField field;
-      // Iterator<FormField> it;
-      // StringBuilder str = new StringBuilder();
       
       // Obtiene la plantilla y la parte del control
       ctrl = template.getControl(CONTROL_ID);

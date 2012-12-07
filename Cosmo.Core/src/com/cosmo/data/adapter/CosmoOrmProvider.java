@@ -1,8 +1,9 @@
 package com.cosmo.data.adapter;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.cosmo.annotations.CosmoField;
 import com.cosmo.annotations.CosmoTable;
@@ -43,7 +44,7 @@ public class CosmoOrmProvider extends CosmoOrm
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Genera una senténcia INSERT INTO a partir de una instancia.
     * 
@@ -56,16 +57,16 @@ public class CosmoOrmProvider extends CosmoOrm
     */
    public void add(Object data) throws InvalidMappingException, SQLException, DataException, Exception
    {
-      boolean first = true;
+      boolean first;
       StringBuilder sql = new StringBuilder();
       CosmoTable ct;
       CosmoField cf;
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
       
       sql.append(SQL_INSERT);
       sql.append(" ");
       
       // Obtiene el nombre de la tabla
-      Annotation[] an = data.getClass().getAnnotations();
       ct = data.getClass().getAnnotation(CosmoTable.class);
       if (ct == null)
       {
@@ -75,9 +76,10 @@ public class CosmoOrmProvider extends CosmoOrm
       sql.append(" (");
 
       // Obtiene la lista de campos
-      for (Field field : data.getClass().getDeclaredFields()) 
+      first = true;
+      for (Method method : data.getClass().getDeclaredMethods())
       {
-         cf = field.getAnnotation(CosmoField.class);
+         cf = method.getAnnotation(CosmoField.class);
          
          if (cf != null)
          {
@@ -92,25 +94,32 @@ public class CosmoOrmProvider extends CosmoOrm
       sql.append("( ");
 
       // Inserta los valores en la senténcia
-      for (Field field : data.getClass().getDeclaredFields()) 
+      first = true;
+      for (Method method : data.getClass().getDeclaredMethods())
       {
-         cf = field.getAnnotation(CosmoField.class);
+         cf = method.getAnnotation(CosmoField.class);
          
-         if (cf != null)
+         if (cf != null && !cf.readOnly())
          {
             sql.append((first ? "" : ", "));
 
-            if (field.getType() == String.class)
+            if (method.getReturnType() == String.class)
             {
                sql.append("'");
-               sql.append(convertToSql(field.get("").toString()));
+               sql.append(convertToSql((String )method.invoke(data, new Object[] {})));
                sql.append("'");
             }
-            else if (field.getType() == Integer.class || field.getType() == int.class)
+            else if (method.getReturnType() == Integer.class || method.getReturnType() == int.class)
             {
-               sql.append("" + field.getInt(0));
+               sql.append((Integer) method.invoke(data, new Object[] {}));
             }
-            
+            else if (method.getReturnType() == Date.class)
+            {
+               sql.append("'");
+               sql.append(sdf.format((Date) method.invoke(data, new Object[] {})));
+               sql.append("'");
+            }
+
             first = false;
          }
       }
