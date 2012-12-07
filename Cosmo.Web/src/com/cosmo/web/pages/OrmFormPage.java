@@ -20,7 +20,6 @@ import com.cosmo.ui.controls.HeaderControl;
 import com.cosmo.ui.controls.Icon;
 import com.cosmo.ui.controls.XhtmlControl;
 import com.cosmo.web.sample.Weather;
-import com.cosmo.web.sample.WeatherManager;
 
 /**
  * Servlet implementation class FormPage
@@ -32,8 +31,6 @@ public class OrmFormPage extends Page
    private static final long serialVersionUID = 8878330001994265668L;
    
    private static final String ID_MSG = "msg";
-   
-   private Weather weather;
 
    @Override
    public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 

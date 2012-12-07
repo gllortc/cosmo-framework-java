@@ -28,7 +28,7 @@ public class Weather
       this.precipitation = precipitation;
    }
 
-   @CosmoField(fieldType=FieldType.Text, tableColumnName="city", name="txtCity")
+   @CosmoField( fieldType = FieldType.Text, tableColumnName = "city", name = "txtCity" )
    public String getCityName() 
    {
       return cityName;
@@ -39,7 +39,7 @@ public class Weather
       this.cityName = cityName;
    }
 
-   @CosmoField(fieldType=FieldType.Integer, tableColumnName="temp_lo", name="txtTempLo")
+   @CosmoField( fieldType = FieldType.Integer, tableColumnName = "temp_lo", name = "txtTempLo" )
    public Integer getTempMin() 
    {
       return tempMin;
@@ -50,7 +50,7 @@ public class Weather
       this.tempMin = tempMin;
    }
 
-   @CosmoField(fieldType=FieldType.Integer, tableColumnName="temp_hi", name="txtTempHi")
+   @CosmoField( fieldType = FieldType.Integer, tableColumnName = "temp_hi", name = "txtTempHi" )
    public Integer getTempMax() 
    {
       return tempMax;
@@ -61,7 +61,7 @@ public class Weather
       this.tempMax = tempMax;
    }
 
-   @CosmoField(fieldType=FieldType.Integer, tableColumnName="prcp", name="txtPrcp")
+   @CosmoField( fieldType = FieldType.Integer, tableColumnName = "prcp", name = "txtPrcp" )
    public Integer getPrecipitation()
    {
       return precipitation;
