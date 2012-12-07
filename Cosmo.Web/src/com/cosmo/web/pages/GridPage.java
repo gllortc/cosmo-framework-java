@@ -1,5 +1,8 @@
 package com.cosmo.web.pages;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.cosmo.data.DataConnection;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.controls.BreadcrumbsControl;
@@ -8,9 +11,7 @@ import com.cosmo.ui.controls.DynamicMessageControl;
 import com.cosmo.ui.controls.GridControl;
 import com.cosmo.ui.controls.HeaderControl;
 import com.cosmo.ui.controls.Icon;
-import java.sql.ResultSet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.cosmo.web.sample.WeatherManager;
 
 /**
  * Página de prova.
@@ -53,13 +54,16 @@ public class GridPage extends Page
    @Override
    public void loadPageEvent(HttpServletRequest request, HttpServletResponse response) 
    {
+      DataConnection conn;
+      WeatherManager wm;
+      
       try 
       {
-         DataConnection conn = new DataConnection(getWorkspace().getProperties().getDataSource("cosmo.server"), false);
-         ResultSet rs = conn.executeSql("SELECT usrid, usrlogin, usrmail, usrname, usrlogoncount FROM sys_users ORDER BY usrlogin");
+         conn = new DataConnection(getWorkspace().getProperties().getDataSource("cosmo.server"), false);
+         wm = new WeatherManager(conn);
       
          GridControl grid = (GridControl) this.getControl(ID_GRID);
-         grid.setCells(rs);
+         grid.setCells(wm.getAll());
       } 
       catch (Exception ex) 
       {
