@@ -1,14 +1,19 @@
 package com.cosmo.data.adapter;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
 
 import com.cosmo.annotations.CosmoField;
 import com.cosmo.annotations.CosmoTable;
 import com.cosmo.data.DataConnection;
 import com.cosmo.data.DataException;
+import com.cosmo.net.HttpRequestUtils;
 
 /**
  * Implementa el proveedor de Cosmo ORM (CORM) para PostgreSQL.
@@ -45,6 +50,54 @@ public class CosmoOrmProvider extends CosmoOrm
    // Methods
    //==============================================
 
+   /**
+    * Recupera los valores, los coloca en una instancia de la clase y agrega los datos en la base de datos.
+    * 
+    * @param ormClass
+    * @param request
+    * @throws Exception 
+    * @throws DataException 
+    * @throws SQLException 
+    * @throws InvalidMappingException 
+    */
+   public Object add(Class<?> ormClass, HttpServletRequest request) throws InvalidMappingException, SQLException, DataException, Exception
+   {
+      Object instance = null;
+      CosmoField cf;
+      
+      // Obtiene el constructor vacio (siempre usará el constructor vacío)  
+      // TODO
+      Constructor<?>[] ctors = ormClass.getDeclaredConstructors();
+      for (Constructor<?> ctor : ctors)
+      {
+         if (ctor.getGenericParameterTypes().length == 0)
+         {
+            ctor.setAccessible(true);
+            instance = ctor.newInstance();
+            
+            for (Method method : ormClass.getMethods())
+            {
+               method.setAccessible(true);
+               cf = method.getAnnotation(CosmoField.class);
+               
+               if (method.getReturnType() == String.class)
+               {
+                  method.invoke(instance, HttpRequestUtils.getValue(request, cf.name(), ""));
+               }
+               else if (method.getReturnType() == Integer.class)
+               {
+                  method.invoke(instance, HttpRequestUtils.getInt(request, cf.name()));
+               }
+            }
+         }
+      }
+
+      // Agrega el registro a la BBDD
+      this.add(instance);
+      
+      return instance;
+   }
+   
    /**
     * Genera una senténcia INSERT INTO a partir de una instancia.
     * 
