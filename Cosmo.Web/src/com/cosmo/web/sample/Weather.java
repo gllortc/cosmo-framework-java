@@ -4,6 +4,7 @@ import com.cosmo.annotations.CosmoField;
 import com.cosmo.annotations.CosmoField.FieldType;
 import com.cosmo.annotations.CosmoTable;
 
+@CosmoTable(name="frmWeather", tableName="weather")
 public class Weather 
 {
    private String cityName;
@@ -11,7 +12,6 @@ public class Weather
    private Integer tempMax;
    private Integer precipitation;
    
-   @CosmoTable(name="frmWeather", tableName="weather")
    public Weather()
    {
       this.cityName = "";
