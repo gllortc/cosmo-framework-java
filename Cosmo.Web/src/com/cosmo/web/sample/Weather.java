@@ -1,5 +1,9 @@
 package com.cosmo.web.sample;
 
+import com.cosmo.annotations.CosmoField;
+import com.cosmo.annotations.CosmoField.FieldType;
+import com.cosmo.annotations.CosmoTable;
+
 public class Weather 
 {
    private String cityName;
@@ -7,6 +11,7 @@ public class Weather
    private Integer tempMax;
    private Integer precipitation;
    
+   @CosmoTable(name="frmWeather", tableName="weather")
    public Weather()
    {
       this.cityName = "";
@@ -23,6 +28,7 @@ public class Weather
       this.precipitation = precipitation;
    }
 
+   @CosmoField(fieldType=FieldType.Text, tableColumnName="city", name="txtCity")
    public String getCityName() 
    {
       return cityName;
@@ -33,6 +39,7 @@ public class Weather
       this.cityName = cityName;
    }
 
+   @CosmoField(fieldType=FieldType.Integer, tableColumnName="temp_lo", name="txtTempLo")
    public Integer getTempMin() 
    {
       return tempMin;
@@ -43,6 +50,7 @@ public class Weather
       this.tempMin = tempMin;
    }
 
+   @CosmoField(fieldType=FieldType.Integer, tableColumnName="temp_hi", name="txtTempHi")
    public Integer getTempMax() 
    {
       return tempMax;
@@ -53,6 +61,7 @@ public class Weather
       this.tempMax = tempMax;
    }
 
+   @CosmoField(fieldType=FieldType.Integer, tableColumnName="prcp", name="txtPrcp")
    public Integer getPrecipitation()
    {
       return precipitation;
