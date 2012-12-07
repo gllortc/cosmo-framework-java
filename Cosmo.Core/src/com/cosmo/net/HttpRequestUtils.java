@@ -51,6 +51,18 @@ public class HttpRequestUtils
    }
    
    /**
+    * Obtiene un valor pasado por GET o POST.
+    * 
+    * @param request Una instancia de {@link HttpServletRequest} que representa la llamada.
+    * @param fieldName Nombre del campo cuyo valor se desea recuperar.
+    * @return Una cadena de texto con el valor recuperado o {@code null} si el nombre no corresponde a ningún valor.
+    */
+   public static Integer getInt(HttpServletRequest request, String fieldName)
+   {
+      return Integer.valueOf(getValue(request, fieldName, "0"));
+   }
+   
+   /**
     * Indica si un parámetro ha sido proporcionado por el servidor.
     *  
     * @param request Una instancia de {@link HttpServletRequest} que representa la llamada.
