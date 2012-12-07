@@ -46,6 +46,7 @@
       <menuitem id="mnuContent" name="Contenido" href="ContentPage" parent="" />
       <menuitem id="mnuListView" name="Listas" href="ListViewPage" parent="" />
       <menuitem id="mnuForm" name="Formularios" href="FormPage" parent="" />
+      <menuitem id="mnuFormOrm" name="Formularios ORM" href="OrmFormPage" parent="" />
       <menuitem id="mnuGrid" name="Grids" href="GridPage" parent="" />
       <menuitem id="mnuSlider" name="Slider" href="SliderPage" parent="" />
    </menu>
