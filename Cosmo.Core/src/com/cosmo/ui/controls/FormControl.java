@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.text.html.FormView;
 
 import com.cosmo.Cosmo;
 import com.cosmo.annotations.CosmoField;
 import com.cosmo.annotations.CosmoTable;
 import com.cosmo.data.adapter.InvalidMappingException;
+import com.cosmo.structures.FormData;
 import com.cosmo.ui.controls.FormButton.ButtonType;
 import com.cosmo.ui.templates.Template;
 import com.cosmo.ui.templates.TemplateControl;
@@ -19,7 +21,7 @@ import com.cosmo.ui.templates.TemplateControl;
  * 
  * @author Gerard Llort
  */
-public class FormControl extends Control 
+public class FormControl extends IdentificableControl 
 {
    private static final String CONTROL_ID = "CosmoUiCtrlForm";
 
@@ -53,9 +55,12 @@ public class FormControl extends Control
    
    /**
     * Contructor de la clase.
+    * 
+    * @param id Identificador único del formulario en toda la aplicación.
     */
-   public FormControl()
+   public FormControl(String id)
    {
+      super(id);
       initialize();
    }
 
@@ -223,24 +228,31 @@ public class FormControl extends Control
    }
    
    /**
-    * Actualiza el valor de un campo del formulario.
+    * Almacena los valores del formulario en la sesión del usuario.
     * 
     * @param name Nombre (único) del campo.
     * @param value Valor a establecer.
+    * @return Una instancia de {@link FormData} que contiene los datos del formulario.
     */
-   public void setFormValues(HttpServletRequest request)
+   public FormData setFormValues(HttpServletRequest request)
    {
       FormField field;
-      
+      FormData data = new FormData(this.getId());
+
       for (FormFieldGroup group : this.groups)
       {
          Iterator<FormField> it = group.getFields();
          while (it.hasNext())
          {
             field = it.next();
-            field.setValue(request.getParameter(field.getName()));
+            data.addParameterValue(field.getName(), request.getParameter(field.getName()));
          }
-      }   
+      }
+
+      // Almacena los valores en la sessión
+      request.getSession().setAttribute(this.getId(), data);
+      
+      return data;
    }
    
    /**

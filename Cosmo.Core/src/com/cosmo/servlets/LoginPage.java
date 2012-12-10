@@ -54,7 +54,7 @@ public class LoginPage extends Page
       DynamicMessageControl message = new DynamicMessageControl(ID_MSG);
       this.addContent(message, ContentColumns.MAIN);
       
-      FormControl form = new FormControl();
+      FormControl form = new FormControl("LoginForm");
       form.addHiddenValue(new FormFieldHidden(LoginPage.FIELD_TOURL, HttpRequestUtils.getValue(request, LoginPage.FIELD_TOURL)));
       FormFieldGroup group = new FormFieldGroup("Datos de identificación");
       group.addField(new FormFieldText(LoginPage.FIELD_LOGIN, "Login"));

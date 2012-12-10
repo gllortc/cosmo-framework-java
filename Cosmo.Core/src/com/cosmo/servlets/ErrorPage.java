@@ -1,4 +1,4 @@
-package com.cosmo.pages;
+package com.cosmo.servlets;
 
 import com.cosmo.Cosmo;
 import com.cosmo.ui.controls.HeaderControl;

@@ -11,6 +11,8 @@ import com.cosmo.ui.controls.FormControl;
 import com.cosmo.ui.controls.FormFieldGroup;
 import com.cosmo.ui.controls.FormFieldText;
 import com.cosmo.ui.controls.HeaderControl;
+
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  * 
  * @author Gerard Llort
  */
+@WebServlet( description = "User register page", urlPatterns = { "/UserRegisterPage" } )
 public class UserRegisterPage extends Page 
 {
    /** Serial version UID */
@@ -47,7 +50,7 @@ public class UserRegisterPage extends Page
       msg.setVisible(false);
       this.addContent(msg, Page.ContentColumns.MAIN);
 
-      FormControl form = new FormControl();
+      FormControl form = new FormControl("UserRegisterForm");
       form.setName("frmUserAdd");
       form.setTitle("Nou compte d'usuari");
 

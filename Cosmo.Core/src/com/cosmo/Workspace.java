@@ -1,5 +1,9 @@
 package com.cosmo;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import com.cosmo.security.User;
 import com.cosmo.security.UserNotFoundException;
 import com.cosmo.security.UserSession;
@@ -10,11 +14,6 @@ import com.cosmo.ui.templates.Template;
 import com.cosmo.ui.templates.TemplateLoadException;
 import com.cosmo.ui.templates.TemplateUnavailableException;
 import com.cosmo.ui.widgets.providers.MenuProviderException;
-import java.io.IOException;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.parsers.ParserConfigurationException;
-import org.xml.sax.SAXException;
 
 /**
  * Representa un espacio de trabajo de Cosmo.
@@ -25,7 +24,8 @@ public class Workspace
    private Template template;
    private WorkspaceProperties properties;
    private Rules rules;
-   private UserSession session;
+   private HttpSession srvSession;
+   private UserSession usrSession;
    private String url;
    private String name;
    private String mail;
@@ -47,13 +47,16 @@ public class Workspace
     * 
     * @param context Contexto de la llamada al workspace.
     * 
-    * @throws IOException 
-    * @throws SAXException 
-    * @throws ParserConfigurationException 
+    * @throws WorkspaceLoadException 
+    * @throws RulesLoadException
+    * @throws TemplateUnavailableException
+    * @throws TemplateLoadException
+    * @throws MenuProviderException
     */
    public Workspace(ServletContext context, HttpServletRequest request) throws WorkspaceLoadException, RulesLoadException, TemplateUnavailableException, TemplateLoadException, MenuProviderException
    {
       initialize();
+
       reloadContext(context, request);
    }
    
@@ -131,7 +134,7 @@ public class Workspace
     */
    public UserSession getSession() 
    {
-      return session;
+      return usrSession;
    }   
    
    //==============================================
@@ -162,7 +165,7 @@ public class Workspace
     */
    public void createSession(String login, String password) throws UserNotFoundException, UserProviderException
    {
-      this.session = new UserSession(this, login, password);
+      this.usrSession = new UserSession(this, login, password);
    }
    
    //==============================================
@@ -172,14 +175,19 @@ public class Workspace
    /**
     * Recarga el contexto.
     * 
-    * @param context Contexto de la llamada al workspace.
+    * @param context Contexto del servidor.
+    * @param request Contexto de la llamada.
     * 
     * @throws WorkspaceLoadException
-    * @throws RulesLoadException 
+    * @throws RulesLoadException
+    * @throws TemplateUnavailableException
+    * @throws TemplateLoadException
+    * @throws MenuProviderException
     */
    private void reloadContext(ServletContext context, HttpServletRequest request) throws WorkspaceLoadException, RulesLoadException, TemplateUnavailableException, TemplateLoadException, MenuProviderException
    {
       this.context = context;
+      this.srvSession = request.getSession();
       this.properties = new WorkspaceProperties(context);
       this.rules = new Rules(context);
       this.template = this.rules.checkRules(request.getHeader("User-Agent"));
@@ -188,7 +196,7 @@ public class Workspace
       this.name = this.properties.getWorkspaceProperty(Cosmo.PROPERTY_WORKSPACE_TITLE);
       this.mail = this.properties.getWorkspaceProperty(Cosmo.PROPERTY_WORKSPACE_MAIL);
    }
-   
+
    /**
     * Inicializa la instancia de la clase.
     */
@@ -197,6 +205,8 @@ public class Workspace
       this.template = null;
       this.context = null;
       this.properties = null;
+      this.usrSession = null;
+      this.srvSession = null;
       
       this.url = "";
       this.name = "";
