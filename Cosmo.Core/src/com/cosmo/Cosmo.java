@@ -32,6 +32,7 @@ public interface Cosmo
    public static final String PROPERTY_WORKSPACE_TITLE = "ws.title";
    public static final String PROPERTY_WORKSPACE_MAIL = "ws.mail";
    public static final String PROPERTY_SECURITY_PROVIDER = "security.provider";
+   public static final String PROPERTY_SECURITY_LOGINPAGE = "security.loginPage";
    public static final String PROPERTY_MENU_PROVIDER = "ui.menu.provider";
    public static final String PROPERTY_UIRENDER_PROVIDER = "ui.render.provider";
    
