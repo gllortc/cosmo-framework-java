@@ -25,8 +25,9 @@ public class HeaderControl extends Control
    /**
     * Contructor de la clase.
     */
-   public HeaderControl()
+   public HeaderControl(String id)
    {
+      super(id);
       initialize();
    }
    
@@ -135,7 +136,7 @@ public class HeaderControl extends Control
    {
       StringBuilder str = new StringBuilder();
 
-      str.append("<div id=\"").append(this.getControlId()).append("\">").append("\n");
+      str.append("<div id=\"").append(this.getId()).append("\">").append("\n");
       str.append("  <h1>").append(this.title).append("</h1>").append("\n");
       if (!this.title.equals(""))
       {

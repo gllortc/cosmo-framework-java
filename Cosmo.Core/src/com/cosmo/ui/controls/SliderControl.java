@@ -35,8 +35,9 @@ public class SliderControl extends Control
    /**
     * Contructor de la clase.
     */
-   public SliderControl()
+   public SliderControl(String id)
    {
+      super(id);
       initialize();
    }
 

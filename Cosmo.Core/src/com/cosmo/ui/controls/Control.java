@@ -1,10 +1,9 @@
 package com.cosmo.ui.controls;
 
+import javax.servlet.http.HttpSession;
+
 import com.cosmo.ui.templates.Template;
 import com.cosmo.util.StringUtils;
-import java.text.DecimalFormat;
-
-import javax.servlet.http.HttpSession;
 
 /**
  * Interface que debe implementar cualquier control de contenido.<br />
@@ -16,6 +15,18 @@ public abstract class Control
 {
    private String id;
 
+   //==============================================
+   // Constructors
+   //==============================================
+   
+   /**
+    * Constructor de la clase.
+    */
+   public Control(String id)
+   {
+      this.id = id;
+   }
+   
    //==============================================
    // Properties
    //==============================================
@@ -29,18 +40,17 @@ public abstract class Control
     * Devuelve un identificador único de control.
     * Cada control de una página tendrá un ID único.
     */
-   public String getControlId() 
+   public String getId() 
    {
-      return this.id;
+      return id;
    }
 
    /**
     * Establece el identificador único del control.
     */
-   public void setControlId(int id) 
+   public void setId(String id) 
    {
-      DecimalFormat df = new DecimalFormat("0000000");
-      this.id = "CtrlId" + df.format(id);
+      this.id = id;
    }
    
    //==============================================

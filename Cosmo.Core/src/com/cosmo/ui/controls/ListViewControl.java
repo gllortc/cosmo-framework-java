@@ -35,8 +35,9 @@ public class ListViewControl extends Control
    /**
     * Contructor de la clase.
     */
-   public ListViewControl()
+   public ListViewControl(String id)
    {
+      super(id);
       initialize();
    }
    

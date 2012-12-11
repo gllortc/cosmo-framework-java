@@ -22,8 +22,9 @@ public class XhtmlControl extends Control
    /**
     * Contructor de la clase.
     */
-   public XhtmlControl()
+   public XhtmlControl(String id)
    {
+      super(id);
       initialize("");
    }
    
@@ -32,8 +33,9 @@ public class XhtmlControl extends Control
     * 
     * @param xhtml Una cadena que contiene el código XHTML con el que se rellenará el control.
     */
-   public XhtmlControl(String xhtml)
+   public XhtmlControl(String id, String xhtml)
    {
+      super(id);
       initialize(xhtml);
    }
    

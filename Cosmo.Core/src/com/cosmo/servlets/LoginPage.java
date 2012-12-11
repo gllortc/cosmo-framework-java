@@ -41,12 +41,12 @@ public class LoginPage extends Page
       this.setLayout(PageLayout.TwoColumnsLeft);
       this.setTitle(this.getWorkspace().getProperties().getWorkspaceProperty(Cosmo.PROPERTY_SECURITY_LOGINPAGE) + " - Login");
       
-      BreadcrumbsControl navbar = new BreadcrumbsControl();
+      BreadcrumbsControl navbar = new BreadcrumbsControl("bc");
       navbar.addItem(new BreadcrumbsItem("Home", "HomePage", Icon.ICON_IMAGE_HOME));
       navbar.addItem(new BreadcrumbsItem("Login", ""));
       this.addContent(navbar, ContentColumns.MAIN);
 
-      HeaderControl header = new HeaderControl();
+      HeaderControl header = new HeaderControl("hc");
       header.setTitle("Login");
       header.setDescription("Para acceder a este contenido debe proporcionar sus credenciales de usuario.");
       this.addContent(header, ContentColumns.MAIN);

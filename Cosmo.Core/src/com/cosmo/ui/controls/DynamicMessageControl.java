@@ -9,7 +9,7 @@ import com.cosmo.ui.templates.TemplateControl;
  * Implementa un mensaje que se puede hacer aparecer de forma dinámica (JavaScript, etc).
  * @author gllort
  */
-public class DynamicMessageControl extends IdentificableControl 
+public class DynamicMessageControl extends Control 
 {
    private static final String CONTROL_ID = "CosmoUiCtrlDynamicMsg";
    
@@ -109,7 +109,7 @@ public class DynamicMessageControl extends IdentificableControl
       // Si no es visible, no se renderiza
       if (!this.visible)
       {
-         return "<!-- Dynamic label placeholder [" + this.getControlId() + "] -->";
+         return "<!-- Dynamic label placeholder [" + this.getId() + "] -->";
       }
       
       switch (this.type)

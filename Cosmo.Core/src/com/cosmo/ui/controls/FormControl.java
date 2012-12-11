@@ -21,7 +21,7 @@ import com.cosmo.ui.templates.TemplateControl;
  * 
  * @author Gerard Llort
  */
-public class FormControl extends IdentificableControl 
+public class FormControl extends Control 
 {
    private static final String CONTROL_ID = "CosmoUiCtrlForm";
 
@@ -354,7 +354,7 @@ public class FormControl extends IdentificableControl
    {
       StringBuilder str = new StringBuilder();
 
-      str.append("<div id=\"").append(this.getControlId()).append("\">").append("\n");
+      str.append("<div id=\"").append(this.getId()).append("\">").append("\n");
       str.append("  <h2>").append(this.title).append("</h2>").append("\n");
       if (!this.title.equals(""))
       {
@@ -372,7 +372,7 @@ public class FormControl extends IdentificableControl
       }
       if (!this.buttons.isEmpty()) 
       {
-         str.append("    <div id=\"").append(this.getControlId()).append("btn\">").append("\n");
+         str.append("    <div id=\"").append(this.getId()).append("btn\">").append("\n");
          for (FormButton button : this.buttons)
          {
             str.append(button.render(null)).append("\n");

@@ -32,8 +32,9 @@ public class BreadcrumbsControl extends Control
    /**
     * Contructor de la clase.
     */
-   public BreadcrumbsControl()
+   public BreadcrumbsControl(String id)
    {
+      super(id);
       initialize();
    }
 

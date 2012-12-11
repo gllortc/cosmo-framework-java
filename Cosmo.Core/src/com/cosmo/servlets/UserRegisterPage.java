@@ -41,7 +41,7 @@ public class UserRegisterPage extends Page
    {
       this.setTitle("Crear compte d'usuari - " + this.getWorkspace().getName());
       
-      HeaderControl header = new HeaderControl();
+      HeaderControl header = new HeaderControl("hc");
       header.setTitle("Crear compte d'usuari");
       header.setDescription("Ompleni el formulari per crear un nou compte d'usuari.");
       this.addContent(header, Page.ContentColumns.MAIN);

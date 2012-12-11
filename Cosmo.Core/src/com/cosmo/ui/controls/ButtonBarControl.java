@@ -21,8 +21,9 @@ public class ButtonBarControl extends Control
    /**
     * Contructor de la clase.
     */
-   public ButtonBarControl()
+   public ButtonBarControl(String id)
    {
+      super(id);
       initialize();
    }
    

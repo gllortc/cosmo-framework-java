@@ -1,5 +1,17 @@
 package com.cosmo.ui;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
 import com.cosmo.WorkspaceLoadException;
@@ -14,16 +26,6 @@ import com.cosmo.ui.templates.RulesLoadException;
 import com.cosmo.ui.templates.TemplateLoadException;
 import com.cosmo.ui.templates.TemplateUnavailableException;
 import com.cosmo.ui.widgets.providers.MenuProviderException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * Implementa una página de Cosmo.
@@ -194,10 +196,6 @@ public abstract class Page extends HttpServlet implements PageInterface
     */
    public void addContent(Control control, ContentColumns situation)
    {
-      // Obtiene el ID del control
-      int id = leftContents.size() + centerContents.size() + rightContents.size() + 1;
-      control.setControlId(id);
-      
       switch (situation)
       {
          case LEFT:  
