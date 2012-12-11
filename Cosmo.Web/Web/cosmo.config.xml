@@ -5,14 +5,15 @@
    <!-- SETTINGS -->
    <settings>
 
-      <value key="ws.url" value="http://localhost:8084/cosmo/" />
       <value key="ws.title" value="Workspace de proves" />
+      <value key="ws.url" value="http://localhost:8084/cosmo/" />
       <value key="ws.mail" value="gllort@dipta.cat" />
       
       <value key="ui.charset" value="ISO-8859-1" />
       <value key="ui.lang" value="es" />
 
       <value key="security.provider" value="com.cosmo.security.providers.CosmoUserProvider" />
+      <value key="security.loginPage" value="com.cosmo.servlets.LoginPage" />
       <value key="ui.render.provider" value="com.cosmo.ui.render.CosmoPageRender" />
       <value key="ui.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoStaticMenuProvider" />
       <!-- value key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoDynamicMenuProvider" / -->
@@ -22,21 +23,21 @@
    <!-- DATABASE CONNECTIONS -->
    <connections>
 
-	    <connection id="cosmo.server" 
-	                driver="org.postgresql.Driver" 
-	                server="jdbc:postgresql:cosmo-test" 
-	                port="5432" 
-	                schema="public" 
-	                user="postgres" 
-	                pwd="esfacil" />
+	   <connection id="cosmo.server" 
+	               driver="org.postgresql.Driver" 
+	               server="jdbc:postgresql:cosmo-test" 
+	               port="5432" 
+	               schema="public" 
+	               user="postgres" 
+	               pwd="esfacil" />
 	
 	   <connection id="fons-social-pre" 
-	                  driver="oracle.jdbc.driver.OracleDriver" 
-	                  server="bdo1vip.intranet.dtgna" 
-	                  port="1525" 
-	                  schema="pextra" 
-	                  user="fonssocial_usr" 
-	                  pwd="FonssoC1aL" />
+	               driver="oracle.jdbc.driver.OracleDriver" 
+	               server="bdo1vip.intranet.dtgna" 
+	               port="1525" 
+	               schema="pextra" 
+	               user="fonssocial_usr" 
+	               pwd="FonssoC1aL" />
 
    </connections>
    
