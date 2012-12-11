@@ -4,8 +4,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
-import com.cosmo.Cosmo;
-
 /**
  * Implementa una estructura de tabla.
  * 
@@ -17,7 +15,6 @@ public class GridData
    private int rows;
    private int width;
    private int height;
-   // private ArrayList<String> header;
    private Object[][] map; // row, col
    
    //==============================================
@@ -33,7 +30,6 @@ public class GridData
       this.cols = 0;
       this.height = 10;
       this.width = 10;
-      // this.header = new ArrayList<String>();
       this.map = new Object[10][10];
    }
    
@@ -46,7 +42,6 @@ public class GridData
       this.cols = 0;
       this.height = rows;
       this.width = cols;
-      // this.header = new ArrayList<String>();
       this.map = new Object[rows][cols];
    }
    
@@ -81,7 +76,7 @@ public class GridData
     * @param col Índice de la columna (base 0).
     * @param value Valor a establecer.
     */
-   public void setCell(int row, int col, Object value) throws TableLimitsException
+   public void setCell(int row, int col, Object value) throws GridDataLimitsException
    {
       // Actualiza fila/columna de datos
       if (this.rows < row)
@@ -158,7 +153,7 @@ public class GridData
             {
                setCell(0, col, md.getColumnName(col + 1));
             }
-            catch (TableLimitsException ex)
+            catch (GridDataLimitsException ex)
             {
                // Nothing to do
             }
@@ -175,7 +170,7 @@ public class GridData
             {
                setCell(row, col, rs.getObject(col + 1));
             }
-            catch (TableLimitsException ex)
+            catch (GridDataLimitsException ex)
             {
                // Nothing to do
             }

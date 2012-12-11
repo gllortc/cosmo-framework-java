@@ -216,7 +216,7 @@ public class FormControl extends Control
       FormData data = null;
       
       // Obtiene el contenedor de valores
-      data = (FormData) request.getSession().getAttribute(FormData.getFormDataCacheToken(this.getId()));
+      data = (FormData) request.getSession().getAttribute(Control.getSessionControlData(this.getId()));
       
       // Si no estaba definido, lo crea
       if (data == null)
@@ -266,7 +266,7 @@ public class FormControl extends Control
       }
 
       // Almacena los valores en la sessión
-      request.getSession().setAttribute(data.getFormDataCacheToken(), data);
+      request.getSession().setAttribute(Control.getSessionControlData(this.getId()), data);
 
       return data;
    }

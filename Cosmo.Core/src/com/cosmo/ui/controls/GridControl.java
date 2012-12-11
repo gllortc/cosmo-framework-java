@@ -5,8 +5,8 @@ import java.sql.SQLException;
 
 import javax.servlet.http.HttpSession;
 
-import com.cosmo.structures.Table;
-import com.cosmo.structures.TableLimitsException;
+import com.cosmo.structures.GridData;
+import com.cosmo.structures.GridDataLimitsException;
 import com.cosmo.ui.templates.Template;
 import com.cosmo.ui.templates.TemplateControl;
 
@@ -36,7 +36,7 @@ public class GridControl extends IdentificableControl
    private String title;
    private String description;
    private boolean firstRowTitles;
-   private Table table;
+   private GridData table;
    
    //==============================================
    // Contructors
@@ -52,7 +52,7 @@ public class GridControl extends IdentificableControl
       this.firstRowTitles = false;
       this.title = "";
       this.description = "";
-      this.table = new Table();
+      this.table = new GridData();
    }
    
    //==============================================
@@ -122,7 +122,7 @@ public class GridControl extends IdentificableControl
     * @param col Índice de la columna (base 0).
     * @param value Valor a establecer.
     */
-   public void setCell(int row, int col, Object value) throws TableLimitsException
+   public void setCell(int row, int col, Object value) throws GridDataLimitsException
    {
       table.setCell(row, col, value);
    }
@@ -210,11 +210,23 @@ public class GridControl extends IdentificableControl
       return xhtml;
    }
    
-   private Table getTable(HttpSession session)
+   /**
+    * Obtiene los datos de la tabla en función del usuario/caché.
+    * 
+    * @param session Una instancia de {@link HttpSession}.
+    * @return Una instancia de {@link GridData}.
+    */
+   private GridData getTable(HttpSession session)
    {
-      if (session.getAttribute(Control.getSessionControlData(this.getId())) != null)
+      GridData gd = (GridData) session.getAttribute(Control.getSessionControlData(this.getId()));
+      
+      if (gd != null)
       {
-         
+         return gd;
+      }
+      else
+      {
+         return new GridData();
       }
    }
 }

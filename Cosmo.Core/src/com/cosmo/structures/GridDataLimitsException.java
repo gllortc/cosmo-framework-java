@@ -5,12 +5,12 @@ package com.cosmo.structures;
  * 
  * @author Gerard Llort
  */
-public class TableLimitsException extends Exception
+public class GridDataLimitsException extends Exception
 {
    /** Serial Version UID */
    private static final long serialVersionUID = -7170715618135972794L;
 
-   public TableLimitsException()
+   public GridDataLimitsException()
    {
       super();
    }
