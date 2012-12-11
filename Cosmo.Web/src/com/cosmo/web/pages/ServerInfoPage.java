@@ -52,7 +52,7 @@ public class ServerInfoPage extends Page
       
       GridControl grid = new GridControl(ID_GRID);
       grid.setTitle("User control data (Session Cache)");
-      grid.setFirstRowTitles(false);
+      grid.setFirstRowTitles(true);
       this.addContent(grid, ContentColumns.MAIN);
    }
    
@@ -66,6 +66,8 @@ public class ServerInfoPage extends Page
       try 
       {
          GridData gd = new GridData();
+         gd.setCell(row, 0, "Variable");
+         gd.setCell(row++, 1, "Value");
 
          attrs = request.getSession().getAttributeNames();
          while (attrs.hasMoreElements())
