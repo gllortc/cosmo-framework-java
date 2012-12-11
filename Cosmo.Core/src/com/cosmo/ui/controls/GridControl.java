@@ -3,6 +3,8 @@ package com.cosmo.ui.controls;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpSession;
+
 import com.cosmo.structures.Table;
 import com.cosmo.structures.TableLimitsException;
 import com.cosmo.ui.templates.Template;
@@ -156,7 +158,7 @@ public class GridControl extends IdentificableControl
    }
    
    @Override
-   public String render(Template template) 
+   public String render(HttpSession session, Template template) 
    {
       String xhtml = "";
       String xitem;

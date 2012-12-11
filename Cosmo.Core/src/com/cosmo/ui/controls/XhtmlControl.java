@@ -1,5 +1,7 @@
 package com.cosmo.ui.controls;
 
+import javax.servlet.http.HttpSession;
+
 import com.cosmo.ui.templates.Template;
 
 /**
@@ -86,7 +88,7 @@ public class XhtmlControl extends Control
     * @return Devuelve una cadena en formato XHTML que representa el control. 
     */
    @Override
-   public String render(Template template) 
+   public String render(HttpSession session, Template template) 
    {
       return xhtml.toString();
    }

@@ -4,6 +4,8 @@ import com.cosmo.ui.templates.Template;
 import com.cosmo.util.StringUtils;
 import java.text.DecimalFormat;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Interface que debe implementar cualquier control de contenido.<br />
  * Los controles de contenido son componentes que combinados entre sí, rellenan la zona de contenidos.
@@ -50,7 +52,7 @@ public abstract class Control
     *
     * @return Devuelve una cadena en formato XHTML que representa el control. 
     */
-   public abstract String render(Template template);
+   public abstract String render(HttpSession session, Template template);
    
    //==============================================
    // Static members

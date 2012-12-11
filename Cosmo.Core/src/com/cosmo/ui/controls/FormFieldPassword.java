@@ -1,5 +1,7 @@
 package com.cosmo.ui.controls;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Implementa un cuadro de texto oculto (p. ej. contraseñas) representable dentro de un formulario Cosmo.
  * 
@@ -95,7 +97,7 @@ public class FormFieldPassword extends FormField
    //==============================================
    
    @Override
-   public String render()
+   public String render(HttpSession session)
    {
       return toString();
    }

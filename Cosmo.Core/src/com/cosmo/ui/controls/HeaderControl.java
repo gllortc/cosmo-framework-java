@@ -1,10 +1,12 @@
 package com.cosmo.ui.controls;
 
+import javax.servlet.http.HttpSession;
+
 import com.cosmo.ui.templates.Template;
 import com.cosmo.ui.templates.TemplateControl;
 
 /**
- * Implementa un control de contenido que representa la cabecera (tÃ­tulo) de una pÃ¡gina.
+ * Implementa un control de contenido que representa la cabecera (título) de una página.
  * 
  * @author Gerard Llort
  */
@@ -33,7 +35,7 @@ public class HeaderControl extends Control
    //==============================================
    
    /**
-    * Devuelve un identificador Ãºnico del tipo de control.
+    * Devuelve un identificador único del tipo de control.
     */
    @Override
    public String getControlTypeId() 
@@ -42,7 +44,7 @@ public class HeaderControl extends Control
    }
 
    /**
-    * Devuelve el tÃ­tulo de la cabecera.
+    * Devuelve el título de la cabecera.
     */
    public String getTitle() 
    {
@@ -50,7 +52,7 @@ public class HeaderControl extends Control
    }
 
    /**
-    * Establece el tÃ­tulo de la cabecera.
+    * Establece el título de la cabecera.
     */
    public void setTitle(String title) 
    {
@@ -102,12 +104,12 @@ public class HeaderControl extends Control
    private static final String TAG_AUTHOR = "AUTHOR";
    
    /**
-    * Renderiza el control y genera el cÃ³digo XHTML de representaciÃ³n.
+    * Renderiza el control y genera el código XHTML de representación.
     *
     * @return Devuelve una cadena en formato XHTML que representa el control.
     */
    @Override
-   public String render(Template template)
+   public String render(HttpSession session, Template template)
    {
       String xhtml;
       String xitem;

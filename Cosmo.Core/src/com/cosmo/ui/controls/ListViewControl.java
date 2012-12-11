@@ -2,6 +2,8 @@ package com.cosmo.ui.controls;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import com.cosmo.ui.templates.Template;
 import com.cosmo.ui.templates.TemplateControl;
 
@@ -43,7 +45,7 @@ public class ListViewControl extends Control
    //==============================================
    
    /**
-    * Devuelve un identificador Ãºnico del tipo de control.
+    * Devuelve un identificador único del tipo de control.
     */
    @Override
    public String getControlTypeId() 
@@ -66,12 +68,12 @@ public class ListViewControl extends Control
    }
    
    /**
-    * Renderiza el control y genera el cÃ³digo XHTML de representaciÃ³n.
+    * Renderiza el control y genera el código XHTML de representación.
     *
     * @return Devuelve una cadena en formato XHTML que representa el control. 
     */
    @Override
-   public String render(Template template) 
+   public String render(HttpSession session, Template template) 
    {
       int nitems = 0;
       String xitem;

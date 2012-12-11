@@ -1,7 +1,9 @@
 package com.cosmo.ui.controls;
 
+import javax.servlet.http.HttpSession;
+
 /**
- * Implementa un bot√≥n de formulario.
+ * Implementa un botÛn de formulario.
  * 
  * @author Gerard Llort
  */
@@ -12,15 +14,15 @@ public class FormButton  extends FormField
    private ButtonType type;
    
    /**
-    * Enumera los distintos tipos de bot√≥n de formulario soportados.
+    * Enumera los distintos tipos de botÛn de formulario soportados.
     */
    public enum ButtonType
    {
-      /** Envia la informaci√≥n */ 
+      /** Envia la informaciÛn */ 
       Submit,
       /** Borra todos los datos del formulario en el cliente */ 
       Reset,
-      /** NO SOPORTADO: Ejecuta una acci√≥n JavaScript */ 
+      /** NO SOPORTADO: Ejecuta una acciÛn JavaScript */ 
       JsAction
    }
    
@@ -31,8 +33,8 @@ public class FormButton  extends FormField
    /**
     * Constructor de la clase.
     * 
-    * @param label Cadena de texto que ser√° visible en el bot√≥n.
-    * @param type Tipo de bot√≥n.
+    * @param label Cadena de texto que ser· visible en el botÛn.
+    * @param type Tipo de botÛn.
     */
    public FormButton(String name, String label, ButtonType type)
    {
@@ -87,14 +89,14 @@ public class FormButton  extends FormField
    public void setValue(String value)
    {
       // No aplica en este tipo de control
-      // Se omite la llamada a este m√©todo
+      // Se omite la llamada a este mÈtodo
    }
    
    /**
-    * Convierte la instancia en una cadena XHTML que representa el elemento en una p√°gina web.
+    * Convierte la instancia en una cadena XHTML que representa el elemento en una p·gina web.
     */
    @Override
-   public String render() 
+   public String render(HttpSession session) 
    {
       return toString();
    }

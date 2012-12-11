@@ -1,5 +1,7 @@
 package com.cosmo.ui.render;
 
+import java.util.Iterator;
+
 import com.cosmo.Cosmo;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.controls.Control;
@@ -11,7 +13,6 @@ import com.cosmo.ui.templates.TemplateUnavailableException;
 import com.cosmo.ui.widgets.BannerAreaWidget;
 import com.cosmo.ui.widgets.MenuWidget;
 import com.cosmo.ui.widgets.providers.MenuProviderException;
-import java.util.Iterator;
 
 /**
  * Convierte una página en código XHTML para enviar al cliente.<br />
@@ -115,7 +116,7 @@ public class CosmoPageRender extends PageRenderProvider
       while (it.hasNext())
       {
          control = it.next();
-         ctrl.append(control.render(page.getWorkspace().getTemplate())).append("\n");
+         ctrl.append(control.render(page.getSession(), page.getWorkspace().getTemplate())).append("\n");
       }
 
       int index = xhtml.indexOf(PageRenderProvider.TAG_CONTENT);

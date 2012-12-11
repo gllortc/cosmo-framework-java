@@ -2,6 +2,7 @@ package com.cosmo.ui.render;
 
 import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
+import com.cosmo.security.providers.UserProviderException;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.templates.TemplateUnavailableException;
 

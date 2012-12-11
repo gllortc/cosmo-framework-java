@@ -56,4 +56,6 @@ public interface Cosmo
    public static final String KEY_CACHE_SESSION_WORKSPACE = "cosmo.cache.session.workspace";
    /** Clave de Caché para almacenar la última excepción capturada (en sesión) */
    public static final String KEY_CACHE_SESSION_LASTEXCEPTION = "cosmo.cache.session.lastException";
+   /** Clave de Caché para almacenar datos de formularios (se almacenan en sesión) */
+   public static final String KEY_CACHE_SESSION_FORMDATA = "cosmo.usrform.";
 }

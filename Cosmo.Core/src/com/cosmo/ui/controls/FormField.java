@@ -1,5 +1,7 @@
 package com.cosmo.ui.controls;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Clase abstracta que sirve de base para todos los elementos que pueden ser 
  * representados en un formulario mediante XHTML.
@@ -20,5 +22,5 @@ public abstract class FormField
    /**
     * Convierte la instancia en una cadena XHTML que representa el elemento en una página web.
     */
-   public abstract String render();
+   public abstract String render(HttpSession session);
 }

@@ -1,10 +1,9 @@
 package com.cosmo.ui.controls;
 
-import com.cosmo.ui.templates.Template;
 
 /**
- * Clase para la construcci贸n de controles identificables.<br />
- * Los controles identificables permiten ser accedidos desde la p谩gina en tiempo de ejecuci贸n.
+ * Clase para la construcci髇 de controles identificables.<br />
+ * Los controles identificables permiten ser accedidos desde la p谩gina en tiempo de ejecuci髇.
  * 
  * @author Gerard Llort
  */
@@ -41,16 +40,4 @@ public abstract class IdentificableControl extends Control
    {
       this.id = id;
    }
-
-   //==============================================
-   // Methods
-   //==============================================
-
-   /**
-    * Renderiza el control y genera el c贸digo XHTML de representaci贸n.
-    *
-    * @return Devuelve una cadena en formato XHTML que representa el control. 
-    */
-   @Override
-   public abstract String render(Template template);
 }

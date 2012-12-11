@@ -23,6 +23,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Implementa una página de Cosmo.
@@ -44,6 +45,7 @@ public abstract class Page extends HttpServlet implements PageInterface
    private ArrayList<Control> rightContents;
    private StringBuilder xhtml;
    private PageRenderProvider provider;
+   private HttpSession session;
 
    /**
     * Enumera las distintas regiones dónde se pueden agregar controles en la página.
@@ -145,6 +147,11 @@ public abstract class Page extends HttpServlet implements PageInterface
    public Workspace getWorkspace() 
    {
       return workspace;
+   }
+   
+   public HttpSession getSession()
+   {
+      return this.session;
    }
    
    public Iterator<Control> getPageContent(ContentColumns column)
@@ -350,7 +357,7 @@ public abstract class Page extends HttpServlet implements PageInterface
          // Contenido (controles)
          for (Control control : this.centerContents)
          {
-            xhtml.append(control.render(workspace.getTemplate())).append("\n");
+            xhtml.append(control.render(this.session, workspace.getTemplate())).append("\n");
          }
       }
       catch (Exception ex)
@@ -376,6 +383,7 @@ public abstract class Page extends HttpServlet implements PageInterface
    private void initPage()
    {
       provider = null;
+      session = null;
       
       leftContents = new ArrayList<Control>();
       centerContents = new ArrayList<Control>();
@@ -416,6 +424,7 @@ public abstract class Page extends HttpServlet implements PageInterface
       // Obtiene el workspace
       ServletContext context = getServletContext(); 
       this.workspace = WorkspaceProvider.getWorkspace(context, request, request.getSession());
+      this.session = request.getSession();
       
       // Lanza el evento initPageEvent sólo si es la primera vez que se accede a la página
       if (!init)

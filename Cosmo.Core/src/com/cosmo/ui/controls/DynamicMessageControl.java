@@ -1,5 +1,7 @@
 package com.cosmo.ui.controls;
 
+import javax.servlet.http.HttpSession;
+
 import com.cosmo.ui.templates.Template;
 import com.cosmo.ui.templates.TemplateControl;
 
@@ -99,7 +101,7 @@ public class DynamicMessageControl extends IdentificableControl
    }
    
    @Override
-   public String render(Template template) 
+   public String render(HttpSession session, Template template) 
    {
       String xhtml = "";
       TemplateControl ctrl = template.getControl(DynamicMessageControl.CONTROL_ID);

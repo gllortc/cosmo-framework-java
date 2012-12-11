@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.text.html.FormView;
+import javax.servlet.http.HttpSession;
 
 import com.cosmo.Cosmo;
 import com.cosmo.annotations.CosmoField;
@@ -207,11 +207,24 @@ public class FormControl extends IdentificableControl
     * 
     * @param name Nombre (único) del campo.
     * @param value Valor a establecer.
+    * 
+    * @throws FieldNotFoundException 
     */
-   public void setFieldValue(String name, String value)
+   public void setFieldValue(HttpServletRequest request, String name, String value) throws FieldNotFoundException
    {
       FormField field;
+      FormData data = null;
       
+      // Obtiene el contenedor de valores
+      data = (FormData) request.getSession().getAttribute(FormData.getFormDataCacheToken(this.getId()));
+      
+      // Si no estaba definido, lo crea
+      if (data == null)
+      {
+         data = new FormData(this.getId());
+      }
+      
+      // Almacena el valor y se asegura que el campo exista
       for (FormFieldGroup group : this.groups)
       {
          Iterator<FormField> it = group.getFields();
@@ -220,11 +233,14 @@ public class FormControl extends IdentificableControl
             field = it.next();
             if (field.getName().equals(name))
             {
-               field.setValue(value);
+               data.addParameterValue(name, value);
                return;
             }
          }
-      }   
+      }
+      
+      // Si no ha encontrado el campo, lanza excepción
+      throw new FieldNotFoundException();
    }
    
    /**
@@ -250,8 +266,8 @@ public class FormControl extends IdentificableControl
       }
 
       // Almacena los valores en la sessión
-      request.getSession().setAttribute(this.getId(), data);
-      
+      request.getSession().setAttribute(data.getFormDataCacheToken(), data);
+
       return data;
    }
    
@@ -262,7 +278,7 @@ public class FormControl extends IdentificableControl
     * @return Devuelve una cadena en formato XHTML que representa el control.
     */
    @Override
-   public String render(Template template)
+   public String render(HttpSession session, Template template)
    {
       String xhtml;
       String xitem;
@@ -270,7 +286,7 @@ public class FormControl extends IdentificableControl
       TemplateControl ctrl;
       Iterator<FormField> it;
       
-      // Si no tiene elementos, no representa el control
+      // Si no tiene grupos, no representa el control
       if (groups.isEmpty())
       {
          return "<-- FormControl placeholder (void) -->\n";
@@ -290,7 +306,7 @@ public class FormControl extends IdentificableControl
 
       for (FormFieldHidden hfield : this.hidden)
       {
-         xhtml += hfield.render() + "\n";
+         xhtml += hfield.render(session) + "\n";
       }
       
       for (FormFieldGroup group : this.groups)
@@ -308,7 +324,7 @@ public class FormControl extends IdentificableControl
             if (field instanceof FormFieldText)
             {
                xitem = ctrl.getElement(CPART_FIELD_CONTROL);
-               xitem = Control.replaceTag(xitem, TAG_CONTROL, field.render());
+               xitem = Control.replaceTag(xitem, TAG_CONTROL, field.render(session));
                xitem = Control.replaceTag(xitem, TAG_LABEL, ((FormFieldText) field).getLabel());
                xitem = Control.replaceTag(xitem, TAG_DESCRIPTION, ((FormFieldText) field).getDescription());
                xhtml += xitem;
@@ -320,7 +336,7 @@ public class FormControl extends IdentificableControl
       }
       
       xitem = ctrl.getElement(CPART_BUTTONS);
-      xitem = Control.replaceTag(xitem, TAG_BUTTONS, getButtonsXhtml());
+      xitem = Control.replaceTag(xitem, TAG_BUTTONS, getButtonsXhtml(session));
       xhtml += xitem;
       
       xitem = ctrl.getElement(CPART_FOOTER);
@@ -348,18 +364,18 @@ public class FormControl extends IdentificableControl
       
       for (FormFieldHidden field : this.hidden)
       {
-         str.append(field.render()).append("\n");
+         str.append(field.render(null)).append("\n");
       }
       for (FormFieldGroup group : this.groups)
       {
-         str.append(group.render()).append("\n");
+         str.append(group.render(null)).append("\n");
       }
       if (!this.buttons.isEmpty()) 
       {
          str.append("    <div id=\"").append(this.getControlId()).append("btn\">").append("\n");
          for (FormButton button : this.buttons)
          {
-            str.append(button.render()).append("\n");
+            str.append(button.render(null)).append("\n");
          }
          str.append("    </div>").append("\n");
       }
@@ -395,12 +411,12 @@ public class FormControl extends IdentificableControl
    /**
     * Obtiene el código XHTML correspondiente a los botones del formulario.
     */
-   private String getButtonsXhtml()
+   private String getButtonsXhtml(HttpSession session)
    {
       String btns = "";
       for (FormButton button : this.buttons)
       {
-         btns += button.render() + "&nbsp;&nbsp;"; 
+         btns += button.render(session) + "&nbsp;&nbsp;"; 
       }
       return btns;
    }

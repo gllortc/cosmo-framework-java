@@ -3,6 +3,8 @@ package com.cosmo.ui.controls;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Implementa un grupo de controles de un formulario web.
  */
@@ -141,7 +143,7 @@ public class FormFieldGroup extends FormField
     * Convierte la instancia en una cadena XHTML que representa el elemento en una página web.
     */
    @Override
-   public String render() 
+   public String render(HttpSession session) 
    {
       return toString();
    }
@@ -157,14 +159,14 @@ public class FormFieldGroup extends FormField
       {
          if (field instanceof FormFieldHidden)
          {
-            str.append(field.render()).append("\n");
+            str.append(field.render(null)).append("\n");
          }
       }
       for (FormField field : this.fields)
       {
          if (!(field instanceof FormFieldHidden))
          {
-            str.append(field.render()).append("\n");
+            str.append(field.render(null)).append("\n");
          }
       }
       str.append("    </fieldset>");

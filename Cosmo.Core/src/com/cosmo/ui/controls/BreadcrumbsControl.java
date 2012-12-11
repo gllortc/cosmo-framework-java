@@ -4,6 +4,8 @@ import com.cosmo.ui.templates.Template;
 import com.cosmo.ui.templates.TemplateControl;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Implementa una barra de navegación.
  * 
@@ -76,7 +78,7 @@ public class BreadcrumbsControl extends Control
     * @return Devuelve una cadena en formato XHTML que representa el control. 
     */
    @Override
-   public String render(Template template) 
+   public String render(HttpSession session, Template template) 
    {
       TemplateControl ctrl;
       StringBuilder str = new StringBuilder();

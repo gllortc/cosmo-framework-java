@@ -4,6 +4,8 @@ import com.cosmo.ui.templates.Template;
 import com.cosmo.ui.templates.TemplateControl;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Implementa un slider (pase de diapositivas) para cualquier contenido XHTML.
  * 
@@ -63,7 +65,7 @@ public class SliderControl extends Control
    }
    
    /**
-    * Devuelve un identificador 煤nico del tipo de control.
+    * Devuelve un identificador 鷑ico del tipo de control.
     */
    @Override
    public String getControlTypeId() 
@@ -76,7 +78,7 @@ public class SliderControl extends Control
    //==============================================
    
    /**
-    * Elimina todos los elementos de la barra de bavegaci贸n.
+    * Elimina todos los elementos de la barra de navegaci髇.
     */
    public void clear()
    {
@@ -84,7 +86,7 @@ public class SliderControl extends Control
    }
    
    /**
-    * Agrega un nuevo elemento en la barra de navegaci贸n.
+    * Agrega un nuevo elemento en la barra de navegaci髇.
     * 
     * @param item Una instancia de {@link SliderItem} que representa el elemento a agregar.
     */
@@ -94,12 +96,12 @@ public class SliderControl extends Control
    }
    
    /**
-    * Renderiza el control y genera el c贸digo XHTML de representaci贸n.
+    * Renderiza el control y genera el c骴igo XHTML de representaci髇.
     *
     * @return Devuelve una cadena en formato XHTML que representa el control. 
     */
    @Override
-   public String render(Template template)
+   public String render(HttpSession session, Template template)
    {
       String xitem;
       TemplateControl ctrl;
@@ -114,7 +116,7 @@ public class SliderControl extends Control
       // Obtiene la plantilla y la parte del control
       ctrl = template.getControl(SliderControl.CONTROL_ID);
       
-      // Genera la cabecera de la barra de navegaci贸n
+      // Genera la cabecera de la barra de navegaci髇
       xitem = ctrl.getElement(CPART_HEADER);
       xitem = Control.replaceTag(xitem, TAG_SLIDER_WIDTH, "" + this.width);
       xitem = Control.replaceTag(xitem, TAG_SLIDER_HEIGHT, "" + this.height);
@@ -127,7 +129,7 @@ public class SliderControl extends Control
          str.append(xitem);
       }
       
-      // Genera el pi茅 de la barra de navegaci贸n
+      // Genera el pi茅 de la barra de navegaci髇
       str.append(ctrl.getElement(CPART_FOOTER));
       
       return str.toString();
