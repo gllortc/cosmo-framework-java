@@ -108,40 +108,6 @@ public class GridControl extends Control
    //==============================================
    // Methods
    //==============================================
-
-   /**
-    * Establece el valor de una celda de la tabla.
-    * 
-    * @param row Índice de la fila (base 0).
-    * @param col Índice de la columna (base 0).
-    * @param value Valor a establecer.
-    */
-   /*public void setCell(int row, int col, Object value) throws GridDataLimitsException
-   {
-      table.setCell(row, col, value);
-   }*/
-   
-   /**
-    * Obtiene el contenido de una celda.
-    * 
-    * @param row Índice de la fila (base 0).
-    * @param col Índice de la columna (base 0).
-    * @return Un objeto que corresponde al contenido de la celda. En caso de ser una celda vacía, este método devolverá {@code null}.
-    */
-   /*public Object getCell(int row, int col)
-   {
-      return table.getCell(row, col);
-   }*/
-   
-   /**
-    * Establece los valores de una tabla a partir de una consulta a base de datos.
-    * 
-    * @param rs Una instancia de {@link ResultSet} que contiene los datos para la tabla.
-    */
-   /*public void setCells(ResultSet rs) throws SQLException
-   {
-      table.setCells(rs, true);
-   }*/
    
    /**
     * Establece los datos del grid.
@@ -175,13 +141,12 @@ public class GridControl extends Control
    }
    
    /**
-    * Vacía la tabla de todos sus datos.
+    * Renderiza el control y genera el código XHTML de representación.
+    *
+    * @param session Una instancia de {@link HttpSession}.
+    * @param template Una instancia de {@link Template} que representa la plantilla actual.
+    * @return Devuelve una cadena en formato XHTML que representa el control. 
     */
-   /*public void clear()
-   {
-      table.clear();
-   }*/
-   
    @Override
    public String render(HttpSession session, Template template)
    {

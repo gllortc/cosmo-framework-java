@@ -100,6 +100,13 @@ public class DynamicMessageControl extends Control
       this.visible = visible;
    }
    
+   /**
+    * Renderiza el control y genera el código XHTML de representación.
+    *
+    * @param session Una instancia de {@link HttpSession}.
+    * @param template Una instancia de {@link Template} que representa la plantilla actual.
+    * @return Devuelve una cadena en formato XHTML que representa el control. 
+    */
    @Override
    public String render(HttpSession session, Template template) 
    {

@@ -54,8 +54,10 @@ public class ButtonBarControl extends Control
    //==============================================
 
    /**
-    * Renderiza el control y genera el cÃ³digo XHTML de representaciÃ³n.
+    * Renderiza el control y genera el código XHTML de representación.
     *
+    * @param session Una instancia de {@link HttpSession}.
+    * @param template Una instancia de {@link Template} que representa la plantilla actual.
     * @return Devuelve una cadena en formato XHTML que representa el control. 
     */
    @Override
