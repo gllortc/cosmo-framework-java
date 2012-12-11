@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.cosmo.data.DataConnection;
 import com.cosmo.data.adapter.CosmoOrmProvider;
 import com.cosmo.data.adapter.InvalidMappingException;
-import com.cosmo.net.HttpRequestUtils;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.controls.BreadcrumbsControl;
 import com.cosmo.ui.controls.BreadcrumbsItem;
@@ -55,7 +54,7 @@ public class OrmFormPage extends Page
       
       try 
       {
-         FormControl form = new FormControl();
+         FormControl form = new FormControl("OrmWeatherForm");
          form.addGroup(Weather.class);
          this.addContent(form, ContentColumns.MAIN);
       } 

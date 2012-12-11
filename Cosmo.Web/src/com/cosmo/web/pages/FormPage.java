@@ -51,7 +51,7 @@ public class FormPage extends Page
       DynamicMessageControl message = new DynamicMessageControl(ID_MSG);
       this.addContent(message, ContentColumns.MAIN);
       
-      FormControl form = new FormControl();
+      FormControl form = new FormControl("WeatherForm");
       FormFieldGroup group = new FormFieldGroup("Temps meteorològic", "Introdueixi les dades de registre meteorològic.", form);
       group.addField(new FormFieldText("txtName", "Ciutat"));
       group.addField(new FormFieldText("txtTMin", "Temperatura mínima"));
