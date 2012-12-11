@@ -389,7 +389,7 @@
          <!-- TABLA/LISTADO DE DATOS -->
          <pcontrol id="CosmoUiCtrlGrid">
             <celement id="grid-title">
-[#IF FTITLE]&lt;h2&gt;[@TITLE]&lt;/h2&gt;[#ENDIF FTITLE]
+[#IF FTITLE]&lt;h2&gt;[@FTITLE]&lt;/h2&gt;[#ENDIF FTITLE]
 [#IF FDESC]&lt;p&gt;[@FDESC]&lt;/p&gt;[#ENDIF FDESC]
             </celement>
             <celement id="grid-body">
