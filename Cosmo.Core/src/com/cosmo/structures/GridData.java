@@ -9,7 +9,7 @@ import java.sql.SQLException;
  * 
  * @author Gerard llort
  */
-public class Table 
+public class GridData 
 {
    private int cols;
    private int rows;
@@ -25,7 +25,7 @@ public class Table
    /**
     * Contructor de la clase.
     */
-   public Table()
+   public GridData()
    {
       this.rows = 0;
       this.cols = 0;
@@ -38,7 +38,7 @@ public class Table
    /**
     * Contructor de la clase.
     */
-   public Table(int rows, int cols)
+   public GridData(int rows, int cols)
    {
       this.rows = 0;
       this.cols = 0;
