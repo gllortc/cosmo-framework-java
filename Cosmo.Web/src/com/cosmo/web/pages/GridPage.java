@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cosmo.data.DataConnection;
+import com.cosmo.structures.GridData;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.controls.BreadcrumbsControl;
 import com.cosmo.ui.controls.BreadcrumbsItem;
@@ -62,8 +63,11 @@ public class GridPage extends Page
          conn = new DataConnection(getWorkspace().getProperties().getDataSource("cosmo.server"), false);
          wm = new WeatherManager(conn);
       
+         GridData gd = new GridData();
+         gd.setCells(wm.getAll(), true);
+         
          GridControl grid = (GridControl) this.getControl(ID_GRID);
-         grid.setCells(wm.getAll());
+         grid.setData(request.getSession(), gd);
       } 
       catch (Exception ex) 
       {
