@@ -35,6 +35,15 @@ public class ListViewControl extends Control
    /**
     * Contructor de la clase.
     */
+   public ListViewControl()
+   {
+      super();
+      initialize();
+   }
+   
+   /**
+    * Contructor de la clase.
+    */
    public ListViewControl(String id)
    {
       super(id);

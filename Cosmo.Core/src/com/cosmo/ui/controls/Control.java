@@ -1,5 +1,7 @@
 package com.cosmo.ui.controls;
 
+import java.util.UUID;
+
 import javax.servlet.http.HttpSession;
 
 import com.cosmo.ui.templates.Template;
@@ -20,7 +22,19 @@ public abstract class Control
    //==============================================
    
    /**
-    * Constructor de la clase.
+    * Constructor de la clase.<br />
+    * Usar este constructor si el control es estático y no modifica sus valores nunca.
+    */
+   public Control()
+   {
+      this.id = UUID.randomUUID().toString();
+   }
+   
+   /**
+    * Constructor de la clase.<br />
+    * Usar este constructor si el control es dinámico y puede alterar sus valores (por ejemplo, los valores de un GRID).
+    * 
+    * @param id Identificador único del control.
     */
    public Control(String id)
    {

@@ -22,6 +22,15 @@ public class XhtmlControl extends Control
    /**
     * Contructor de la clase.
     */
+   public XhtmlControl()
+   {
+      super();
+      initialize("");
+   }
+   
+   /**
+    * Contructor de la clase.
+    */
    public XhtmlControl(String id)
    {
       super(id);

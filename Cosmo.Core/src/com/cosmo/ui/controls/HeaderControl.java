@@ -25,6 +25,15 @@ public class HeaderControl extends Control
    /**
     * Contructor de la clase.
     */
+   public HeaderControl()
+   {
+      super();
+      initialize();
+   }
+   
+   /**
+    * Contructor de la clase.
+    */
    public HeaderControl(String id)
    {
       super(id);
