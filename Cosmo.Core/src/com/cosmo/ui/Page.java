@@ -18,7 +18,6 @@ import com.cosmo.WorkspaceLoadException;
 import com.cosmo.WorkspaceProvider;
 import com.cosmo.ui.controls.Control;
 import com.cosmo.ui.controls.FormControl;
-import com.cosmo.ui.controls.IdentificableControl;
 import com.cosmo.ui.render.LoadPageRenderException;
 import com.cosmo.ui.render.PageRenderException;
 import com.cosmo.ui.render.PageRenderProvider;
@@ -220,9 +219,9 @@ public abstract class Page extends HttpServlet implements PageInterface
    {
       for (Control control : this.centerContents)
       {
-         if (control instanceof IdentificableControl)
+         if (control instanceof Control)
          {
-            if (id.equals(((IdentificableControl) control).getId()))
+            if (id.equals(((Control) control).getId()))
             {
                return control;
             }
