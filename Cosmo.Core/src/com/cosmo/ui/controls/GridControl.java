@@ -151,7 +151,7 @@ public class GridControl extends Control
     */
    public void setData(HttpSession session, GridData data)
    {
-      session.setAttribute(Control.getSessionControlData(this.getId()), data);
+      session.setAttribute(this.getSessionControlData(), data);
    }
    
    /**
@@ -162,7 +162,7 @@ public class GridControl extends Control
     */
    public GridData getData(HttpSession session)
    {
-      GridData gd = (GridData) session.getAttribute(Control.getSessionControlData(this.getId()));
+      GridData gd = (GridData) session.getAttribute(this.getSessionControlData());
       
       if (gd != null)
       {

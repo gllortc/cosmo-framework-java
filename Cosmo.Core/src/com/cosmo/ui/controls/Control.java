@@ -17,6 +17,7 @@ import com.cosmo.util.StringUtils;
 public abstract class Control
 {
    private String id;
+   private String uuid;
 
    //==============================================
    // Constructors
@@ -28,7 +29,7 @@ public abstract class Control
     */
    public Control()
    {
-      this.id = UUID.randomUUID().toString();
+      this.id = this.uuid = UUID.randomUUID().toString();
    }
    
    /**
@@ -40,6 +41,7 @@ public abstract class Control
    public Control(String id)
    {
       this.id = id;
+      this.uuid = UUID.randomUUID().toString();
    }
    
    //==============================================
@@ -68,6 +70,14 @@ public abstract class Control
       this.id = id;
    }
    
+   /**
+    * Devuelve un UUID único para el control.
+    */
+   public String getUuid()
+   {
+      return this.uuid;
+   }
+   
    //==============================================
    // Methods
    //==============================================
@@ -78,6 +88,17 @@ public abstract class Control
     * @return Devuelve una cadena en formato XHTML que representa el control. 
     */
    public abstract String render(HttpSession session, Template template);
+   
+   /**
+    * Genera una clave para almacenar/recuperar los datos de un control en caché de sessión de usuario.
+    * 
+    * @param controlId Identificador único del control.
+    * @return Una cadena de texto que corresponde a la clave de acceso a los datos del control en caché.
+    */
+   public String getSessionControlData()
+   {
+      return Cosmo.KEY_CACHE_SESSION_CTRLDATA + this.uuid;
+   }
    
    //==============================================
    // Static members
@@ -112,10 +133,15 @@ public abstract class Control
          sb.delete(idx, idx + cTagBegin.length());
          
          idx = sb.indexOf(cTagEnd);
-         sb.delete(idx, idx + cTagEnd.length());
+         if (idx >= 0)
+         {
+            sb.delete(idx, idx + cTagEnd.length());
+         }
          
          idx = sb.indexOf(cTag);
-         sb.replace(idx, idx + cTag.length(), text);
+         {
+            sb.replace(idx, idx + cTag.length(), text);
+         }
          
          return;
       }
@@ -126,10 +152,16 @@ public abstract class Control
          sb.delete(idx, idx + cTagBegin.length());
          
          idx = sb.indexOf(cTagEnd);
-         sb.delete(idx, idx + cTagEnd.length());
+         if (idx >= 0)
+         {
+            sb.delete(idx, idx + cTagEnd.length());
+         }
          
          idx = sb.indexOf(cTagEnd);
-         sb.delete(idx, idx + cTag.length());
+         if (idx >= 0)
+         {
+            sb.delete(idx, idx + cTag.length());
+         }
          
          return;
       }
@@ -163,13 +195,22 @@ public abstract class Control
       if (xhtml.contains(cTagBegin) && !StringUtils.isNullOrEmpty(text))
       {
          idx = sb.indexOf(cTagBegin);
-         sb.delete(idx, idx + cTagBegin.length());
+         if (idx >= 0)
+         {
+            sb.delete(idx, idx + cTagBegin.length());
+         }
          
          idx = sb.indexOf(cTagEnd);
-         sb.delete(idx, idx + cTagEnd.length());
+         if (idx >= 0)
+         {
+            sb.delete(idx, idx + cTagEnd.length());
+         }
          
          idx = sb.indexOf(cTag);
-         sb.replace(idx, idx + cTag.length(), text);
+         if (idx >= 0)
+         {
+            sb.replace(idx, idx + cTag.length(), text);
+         }
 
          return sb.toString();
       }
@@ -190,17 +231,6 @@ public abstract class Control
       }
       
       return xhtml;
-   }
-   
-   /**
-    * Genera una clave para almacenar/recuperar los datos de un control en caché de sessión de usuario.
-    * 
-    * @param controlId Identificador único del control.
-    * @return Una cadena de texto que corresponde a la clave de acceso a los datos del control en caché.
-    */
-   public static String getSessionControlData(String controlId)
-   {
-      return Cosmo.KEY_CACHE_SESSION_CTRLDATA + controlId;
    }
    
    //==============================================
