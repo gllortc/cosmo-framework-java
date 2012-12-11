@@ -210,7 +210,7 @@ public abstract class Page extends HttpServlet implements PageInterface
    }
    
    /**
-    * Permite obtener un determinado control identificable para poder modificar alguna de sus propiedades.
+    * Permite obtener un determinado control para poder modificar alguna de sus propiedades.
     * 
     * @param id Identificador del control.
     * @return Una instancia de {@link Control} que representa el control solicitado.
