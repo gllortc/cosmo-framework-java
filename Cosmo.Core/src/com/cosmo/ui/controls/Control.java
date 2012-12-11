@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
+import com.cosmo.Cosmo;
 import com.cosmo.ui.templates.Template;
 import com.cosmo.util.StringUtils;
 
@@ -189,6 +190,17 @@ public abstract class Control
       }
       
       return xhtml;
+   }
+   
+   /**
+    * Genera una clave para almacenar/recuperar los datos de un control en caché de sessión de usuario.
+    * 
+    * @param controlId Identificador único del control.
+    * @return Una cadena de texto que corresponde a la clave de acceso a los datos del control en caché.
+    */
+   public static String getSessionControlData(String controlId)
+   {
+      return Cosmo.KEY_CACHE_SESSION_CTRLDATA + controlId;
    }
    
    //==============================================

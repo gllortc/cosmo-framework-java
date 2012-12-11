@@ -2,8 +2,6 @@ package com.cosmo.structures;
 
 import java.util.HashMap;
 
-import com.cosmo.Cosmo;
-
 /**
  * Implementa un contenedor para almacenar los datos de un formulario para una determinada sesión.
  * 
@@ -79,30 +77,5 @@ public class FormData
       
       // Devuelve el valor
       return this.map.get(name);
-   }
-   
-   /**
-    * Genera una clave para almacenar/recuperar los datos de un formulario en caché.
-    * 
-    * @return Una cadena de texto que corresponde a la clave de acceso a los datos del formulario en caché.
-    */
-   public String getFormDataCacheToken()
-   {
-      return FormData.getFormDataCacheToken(this.formId);
-   }
-
-   //==============================================
-   // Static members
-   //==============================================
-   
-   /**
-    * Genera una clave para almacenar/recuperar los datos de un formulario en caché.
-    * 
-    * @param formId Identificador único del formulario.
-    * @return Una cadena de texto que corresponde a la clave de acceso a los datos del formulario en caché.
-    */
-   public static String getFormDataCacheToken(String formId)
-   {
-      return Cosmo.KEY_CACHE_SESSION_FORMDATA + formId;
    }
 }

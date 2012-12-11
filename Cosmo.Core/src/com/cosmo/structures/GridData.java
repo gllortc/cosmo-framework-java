@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
+import com.cosmo.Cosmo;
+
 /**
  * Implementa una estructura de tabla.
  * 

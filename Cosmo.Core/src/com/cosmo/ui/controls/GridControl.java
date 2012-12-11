@@ -210,8 +210,11 @@ public class GridControl extends IdentificableControl
       return xhtml;
    }
    
-   /*private Table getTable(HttpSession session)
+   private Table getTable(HttpSession session)
    {
-      if (session.getAttribute(arg0))
-   }*/
+      if (session.getAttribute(Control.getSessionControlData(this.getId())) != null)
+      {
+         
+      }
+   }
 }
