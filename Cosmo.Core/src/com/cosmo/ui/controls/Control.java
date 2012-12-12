@@ -2,11 +2,8 @@ package com.cosmo.ui.controls;
 
 import java.util.UUID;
 
-import javax.servlet.http.HttpSession;
-
 import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
-import com.cosmo.ui.templates.Template;
 import com.cosmo.util.StringUtils;
 
 /**
