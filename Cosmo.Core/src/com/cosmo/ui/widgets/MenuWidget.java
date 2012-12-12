@@ -19,10 +19,7 @@ public class MenuWidget extends Widget
    private static final String WIDGET_ID = "CosmoUiWdgtMenu";
    
    private static final String WPART_HEADER = "menu-header";
-   // private static final String WPART_GROUP_HEADER = "menu-grp-header";
    private static final String WPART_ITEM = "menu-item";
-   // private static final String WPART_SUBITEM = "menu-subitem";
-   // private static final String WPART_GROUP_FOOTER = "menu-grp-footer";
    private static final String WPART_FOOTER = "menu-footer";
    
    private static final String TAG_MENU_NAME = "MNAME";
@@ -70,6 +67,14 @@ public class MenuWidget extends Widget
    //==============================================
    // Methods
    //==============================================
+   
+   /**
+    * TODO: Limpia la marca de elemento activo en todos los elementos del menú.
+    */
+   public void clearCurrentItem()
+   {
+      
+   }
    
    /**
     * Renderiza el widget y genera el código XHTML de representación.

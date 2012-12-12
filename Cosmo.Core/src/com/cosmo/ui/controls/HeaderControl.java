@@ -2,6 +2,7 @@ package com.cosmo.ui.controls;
 
 import javax.servlet.http.HttpSession;
 
+import com.cosmo.Workspace;
 import com.cosmo.ui.templates.Template;
 import com.cosmo.ui.templates.TemplateControl;
 
@@ -25,18 +26,18 @@ public class HeaderControl extends Control
    /**
     * Contructor de la clase.
     */
-   public HeaderControl()
+   public HeaderControl(Workspace workspace)
    {
-      super();
+      super(workspace);
       initialize();
    }
    
    /**
     * Contructor de la clase.
     */
-   public HeaderControl(String id)
+   public HeaderControl(Workspace workspace, String id)
    {
-      super(id);
+      super(workspace, id);
       initialize();
    }
    
@@ -121,14 +122,14 @@ public class HeaderControl extends Control
     * @return Devuelve una cadena en formato XHTML que representa el control. 
     */
    @Override
-   public String render(HttpSession session, Template template)
+   public String render()
    {
       String xhtml;
       String xitem;
       TemplateControl ctrl;
       
       // Obtiene la plantilla y la parte del control
-      ctrl = template.getControl(HeaderControl.CONTROL_ID);
+      ctrl = getWorkspace().getTemplate().getControl(HeaderControl.CONTROL_ID);
       
       // Genera la cabecera del formulario
       xhtml = "";

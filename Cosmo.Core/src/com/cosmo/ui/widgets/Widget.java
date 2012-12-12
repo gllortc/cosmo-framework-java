@@ -30,13 +30,13 @@ public abstract class Widget
    //==============================================
    
    /**
-    * Devuelve un identificador Ãºnico del tipo de widget.
+    * Devuelve un identificador único del tipo de widget.
     */
    public abstract String getWidgetTypeId();
    
    /**
-    * Devuelve un identificador Ãºnico de widget.
-    * Cada widget de una pÃ¡gina tendrÃ¡ un ID Ãºnico.
+    * Devuelve un identificador único de widget.
+    * Cada widget de una página tendrá un ID único.
     */
    public String getWidgetId() 
    {
@@ -49,7 +49,7 @@ public abstract class Widget
    }
    
    /**
-    * Establece el identificador Ãºnico del widget.
+    * Establece el identificador único del widget.
     */
    public void setWidgetId(int id) 
    {
@@ -62,7 +62,7 @@ public abstract class Widget
    //==============================================
 
    /**
-    * Renderiza el widget y genera el cÃ³digo XHTML de representaciÃ³n.
+    * Renderiza el widget y genera el código XHTML de representación.
     *
     * @return Devuelve una cadena en formato XHTML que representa el widget. 
     */

@@ -1,5 +1,6 @@
 package com.cosmo.ui.controls;
 
+import com.cosmo.Workspace;
 import com.cosmo.ui.templates.Template;
 import com.cosmo.ui.templates.TemplateControl;
 import java.util.ArrayList;
@@ -17,10 +18,6 @@ public class BreadcrumbsControl extends Control
 
    private static final String CPART_HEADER = "navbar-top-header";
    private static final String CPART_FOOTER = "navbar-top-footer";
-   // private static final String CPART_ITEM = "navbar-top-item";
-         
-   // private static final String TAG_TITLE = "FTITLE";
-   // private static final String TAG_HREF = "HREF";
    
    // Variables privadas
    private ArrayList<BreadcrumbsItem> items;
@@ -32,18 +29,18 @@ public class BreadcrumbsControl extends Control
    /**
     * Contructor de la clase.
     */
-   public BreadcrumbsControl()
+   public BreadcrumbsControl(Workspace workspace)
    {
-      super();
+      super(workspace);
       initialize();
    }
    
    /**
     * Contructor de la clase.
     */
-   public BreadcrumbsControl(String id)
+   public BreadcrumbsControl(Workspace workspace, String id)
    {
-      super(id);
+      super(workspace, id);
       initialize();
    }
 
@@ -90,7 +87,7 @@ public class BreadcrumbsControl extends Control
     * @return Devuelve una cadena en formato XHTML que representa el control. 
     */
    @Override
-   public String render(HttpSession session, Template template) 
+   public String render() 
    {
       TemplateControl ctrl;
       StringBuilder str = new StringBuilder();
@@ -102,8 +99,8 @@ public class BreadcrumbsControl extends Control
       }
       
       // Obtiene la plantilla y la parte del control
-      ctrl = template.getControl(BreadcrumbsControl.CONTROL_ID);
-      
+      ctrl = getWorkspace().getTemplate().getControl(BreadcrumbsControl.CONTROL_ID);
+
       // Genera la cabecera de la barra de navegación
       str.append(ctrl.getElement(CPART_HEADER));
       
@@ -112,7 +109,7 @@ public class BreadcrumbsControl extends Control
          str.append(item.render(ctrl));
       }
       
-      // Genera el piÃ© de la barra de navegación
+      // Genera el pie de la barra de navegación
       str.append(ctrl.getElement(CPART_FOOTER));
       
       return str.toString();

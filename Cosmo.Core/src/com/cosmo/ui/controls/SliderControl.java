@@ -1,10 +1,9 @@
 package com.cosmo.ui.controls;
 
-import com.cosmo.ui.templates.Template;
-import com.cosmo.ui.templates.TemplateControl;
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpSession;
+import com.cosmo.Workspace;
+import com.cosmo.ui.templates.TemplateControl;
 
 /**
  * Implementa un slider (pase de diapositivas) para cualquier contenido XHTML.
@@ -35,18 +34,18 @@ public class SliderControl extends Control
    /**
     * Contructor de la clase.
     */
-   public SliderControl()
+   public SliderControl(Workspace workspace)
    {
-      super();
+      super(workspace);
       initialize();
    }
    
    /**
     * Contructor de la clase.
     */
-   public SliderControl(String id)
+   public SliderControl(Workspace workspace, String id)
    {
-      super(id);
+      super(workspace, id);
       initialize();
    }
 
@@ -108,12 +107,10 @@ public class SliderControl extends Control
    /**
     * Renderiza el control y genera el código XHTML de representación.
     *
-    * @param session Una instancia de {@link HttpSession}.
-    * @param template Una instancia de {@link Template} que representa la plantilla actual.
     * @return Devuelve una cadena en formato XHTML que representa el control. 
     */
    @Override
-   public String render(HttpSession session, Template template)
+   public String render()
    {
       String xitem;
       TemplateControl ctrl;
@@ -126,7 +123,7 @@ public class SliderControl extends Control
       }
       
       // Obtiene la plantilla y la parte del control
-      ctrl = template.getControl(SliderControl.CONTROL_ID);
+      ctrl = getWorkspace().getTemplate().getControl(SliderControl.CONTROL_ID);
       
       // Genera la cabecera de la barra de navegación
       xitem = ctrl.getElement(CPART_HEADER);

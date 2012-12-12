@@ -30,7 +30,7 @@ public class ErrorPage extends Page
 
       this.setTitle(this.getWorkspace().getName() + " - SERVER ERROR");
 
-      HeaderControl header = new HeaderControl("head");
+      HeaderControl header = new HeaderControl(getWorkspace(), "head");
       header.setTitle("SERVER ERROR");
       header.setDescription(sb.toString());
 

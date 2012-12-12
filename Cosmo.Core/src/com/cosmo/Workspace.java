@@ -24,7 +24,7 @@ public class Workspace
    private Template template;
    private WorkspaceProperties properties;
    private Rules rules;
-   private HttpSession srvSession;
+   private HttpServletRequest srvRequest;
    private UserSession usrSession;
    private String url;
    private String name;
@@ -66,19 +66,10 @@ public class Workspace
    
    /**
     * Devuelve la plantilla de presentación aplicada.
-    * 
-    * @throws TemplateUnavailableException 
     */
-   public Template getTemplate() throws TemplateUnavailableException 
+   public Template getTemplate() 
    {
-      if (this.template == null)
-      {
-         throw new TemplateUnavailableException();
-      }
-      else
-      {
-         return template;
-      }
+      return template;
    }
 
    /**
@@ -92,9 +83,25 @@ public class Workspace
    /**
     * Devuelve la instancia de {@link ServletContext} usada para generar la instancia de Workspace actual.
     */
-   public ServletContext getContext() 
+   public ServletContext getServerContext() 
    {
-      return context;
+      return this.context;
+   }
+   
+   /**
+    * Devuelve la instancia de {@link HttpServletRequest} que corresponde a la llamada.
+    */
+   public HttpServletRequest getServerRequest()
+   {
+      return this.srvRequest;
+   }
+   
+   /**
+    * Devuelve la instancia de {@link HttpServletRequest} que corresponde a la llamada.
+    */
+   public HttpSession getServerSession()
+   {
+      return this.srvRequest.getSession();
    }
    
    /**
@@ -102,7 +109,7 @@ public class Workspace
     */
    public WorkspaceProperties getProperties()
    {
-      return properties;
+      return this.properties;
    }
 
    /**
@@ -110,7 +117,7 @@ public class Workspace
     */
    public String getUrl() 
    {
-      return url;
+      return this.url;
    }
 
    /**
@@ -118,7 +125,7 @@ public class Workspace
     */
    public String getName() 
    {
-      return name;
+      return this.name;
    }
 
    /**
@@ -126,15 +133,16 @@ public class Workspace
     */
    public String getMail() 
    {
-      return mail;
+      return this.mail;
    }
    
    /**
-    * Devuelve la sesión de usuario.
+    * Devuelve una instancia de {@link UserSession} que corresponde a la sesión de usuario iniciada o
+    * {@code null} si no hay ninguna sesión de usuario iniciada.
     */
-   public UserSession getSession() 
+   public UserSession getUserSession() 
    {
-      return usrSession;
+      return this.usrSession;
    }   
    
    //==============================================
@@ -187,7 +195,7 @@ public class Workspace
    private void reloadContext(ServletContext context, HttpServletRequest request) throws WorkspaceLoadException, RulesLoadException, TemplateUnavailableException, TemplateLoadException, MenuProviderException
    {
       this.context = context;
-      this.srvSession = request.getSession();
+      this.srvRequest = request;
       this.properties = new WorkspaceProperties(context);
       this.rules = new Rules(context);
       this.template = this.rules.checkRules(request.getHeader("User-Agent"));
@@ -206,7 +214,7 @@ public class Workspace
       this.context = null;
       this.properties = null;
       this.usrSession = null;
-      this.srvSession = null;
+      this.srvRequest = null;
       
       this.url = "";
       this.name = "";

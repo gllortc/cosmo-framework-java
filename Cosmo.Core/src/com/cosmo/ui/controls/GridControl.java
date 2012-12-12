@@ -2,8 +2,8 @@ package com.cosmo.ui.controls;
 
 import javax.servlet.http.HttpSession;
 
+import com.cosmo.Workspace;
 import com.cosmo.structures.GridData;
-import com.cosmo.ui.templates.Template;
 import com.cosmo.ui.templates.TemplateControl;
 
 /**
@@ -40,9 +40,9 @@ public class GridControl extends Control
    /**
     * Contructor de la clase.
     */
-   public GridControl(String id)
+   public GridControl(Workspace workspace, String id)
    {
-      super(id);
+      super(workspace, id);
       
       this.firstRowTitles = false;
       this.title = "";
@@ -89,22 +89,6 @@ public class GridControl extends Control
       this.firstRowTitles = firstRowTitles;
    }
    
-   /**
-    * Devuelve el número de columnas de la tabla.
-    */
-   /*public int getColumnCount() 
-   {
-      return table.getColumnCount();
-   }*/
-
-   /**
-    * Devuelve el número de filas de la tabla.
-    */
-   /*public int getRowCount() 
-   {
-      return table.getRowCount();
-   }*/
-   
    //==============================================
    // Methods
    //==============================================
@@ -143,12 +127,10 @@ public class GridControl extends Control
    /**
     * Renderiza el control y genera el código XHTML de representación.
     *
-    * @param session Una instancia de {@link HttpSession}.
-    * @param template Una instancia de {@link Template} que representa la plantilla actual.
     * @return Devuelve una cadena en formato XHTML que representa el control. 
     */
    @Override
-   public String render(HttpSession session, Template template)
+   public String render()
    {
       String xhtml = "";
       String xitem;
@@ -156,10 +138,10 @@ public class GridControl extends Control
       TemplateControl ctrl;
       
       // Obtiene los datos de la tabla
-      GridData data = this.getData(session);
+      GridData data = this.getData(getWorkspace().getServerSession());
       
       // Obtiene la plantilla y la parte del control
-      ctrl = template.getControl(CONTROL_ID);
+      ctrl = getWorkspace().getTemplate().getControl(CONTROL_ID);
 
       // Genera la fila de títulos
       xrowdata = "";

@@ -65,7 +65,7 @@ public class CosmoStaticMenuProvider extends MenuProvider
       
       try
       {
-         is = new FileInputStream(workspace.getContext().getRealPath("/" + WorkspaceProperties.PROPERTIES_FILENAME));
+         is = new FileInputStream(workspace.getServerContext().getRealPath("/" + WorkspaceProperties.PROPERTIES_FILENAME));
 
          DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
          DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();

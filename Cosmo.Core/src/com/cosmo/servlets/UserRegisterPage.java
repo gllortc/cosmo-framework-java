@@ -41,16 +41,16 @@ public class UserRegisterPage extends Page
    {
       this.setTitle("Crear compte d'usuari - " + this.getWorkspace().getName());
       
-      HeaderControl header = new HeaderControl("hc");
+      HeaderControl header = new HeaderControl(getWorkspace(), "hc");
       header.setTitle("Crear compte d'usuari");
       header.setDescription("Ompleni el formulari per crear un nou compte d'usuari.");
       this.addContent(header, Page.ContentColumns.MAIN);
       
-      DynamicMessageControl msg = new DynamicMessageControl("msg");
+      DynamicMessageControl msg = new DynamicMessageControl(getWorkspace(), "msg");
       msg.setVisible(false);
       this.addContent(msg, Page.ContentColumns.MAIN);
 
-      FormControl form = new FormControl("UserRegisterForm");
+      FormControl form = new FormControl(getWorkspace(), "UserRegisterForm");
       form.setName("frmUserAdd");
       form.setTitle("Nou compte d'usuari");
 

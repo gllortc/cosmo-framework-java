@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpSession;
 
 import com.cosmo.Cosmo;
+import com.cosmo.Workspace;
 import com.cosmo.ui.templates.Template;
 import com.cosmo.util.StringUtils;
 
@@ -18,6 +19,7 @@ public abstract class Control
 {
    private String id;
    private String uuid;
+   private Workspace workspace;
 
    //==============================================
    // Constructors
@@ -27,21 +29,24 @@ public abstract class Control
     * Constructor de la clase.<br />
     * Usar este constructor si el control es estático y no modifica sus valores nunca.
     */
-   public Control()
+   public Control(Workspace workspace)
    {
       this.id = this.uuid = UUID.randomUUID().toString();
+      this.workspace = workspace;
    }
    
    /**
     * Constructor de la clase.<br />
     * Usar este constructor si el control es dinámico y puede alterar sus valores (por ejemplo, los valores de un GRID).
     * 
+    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     * @param id Identificador único del control.
     */
-   public Control(String id)
+   public Control(Workspace workspace, String id)
    {
       this.id = id;
       this.uuid = UUID.randomUUID().toString();
+      this.workspace = workspace;
    }
    
    //==============================================
@@ -78,6 +83,14 @@ public abstract class Control
       return this.uuid;
    }
    
+   /**
+    * Devuelve la instancia de {@link Workspace} usada para generar el control.
+    */
+   public Workspace getWorkspace()
+   {
+      return this.workspace;
+   }
+   
    //==============================================
    // Methods
    //==============================================
@@ -85,11 +98,9 @@ public abstract class Control
    /**
     * Renderiza el control y genera el código XHTML de representación.
     *
-    * @param session Una instancia de {@link HttpSession}.
-    * @param template Una instancia de {@link Template} que representa la plantilla actual.
     * @return Devuelve una cadena en formato XHTML que representa el control. 
     */
-   public abstract String render(HttpSession session, Template template);
+   public abstract String render();
    
    /**
     * Genera una clave para almacenar/recuperar los datos de un control en caché de sessión de usuario.

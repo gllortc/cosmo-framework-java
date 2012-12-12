@@ -2,11 +2,13 @@ package com.cosmo.ui.controls;
 
 import javax.servlet.http.HttpSession;
 
+import com.cosmo.Workspace;
 import com.cosmo.ui.templates.Template;
 import com.cosmo.ui.templates.TemplateControl;
 
 /** 
- * Implementa un mensaje que se puede hacer aparecer de forma dinÃ¡mica (JavaScript, etc).
+ * Implementa un mensaje que se puede hacer aparecer de forma dinámica (JavaScript, etc).
+ * 
  * @author gllort
  */
 public class DynamicMessageControl extends Control 
@@ -40,23 +42,23 @@ public class DynamicMessageControl extends Control
    /**
     * Contructor de la clase.
     */
-   public DynamicMessageControl(String id)
+   public DynamicMessageControl(Workspace workspace, String id)
    {
-      super(id);
+      super(workspace, id);
       initialize();
    }
    
    /**
     * Contructor de la clase.
     * 
-    * @param id El identificador Ãºnico de este elemento.
+    * @param id El identificador único de este elemento.
     * @param message Cadena que contiene el mensaje visible por el usuario.
-    * @param type Una opciÃ³n de {@link MessageTypes} que indica que tipo de mensaje representar.
+    * @param type Una opción de {@link MessageTypes} que indica que tipo de mensaje representar.
     * @param visible {@code true} si se debe renderizar la etiqueta o {@code false} si se desea no renderizar el elemento.
     */
-   public DynamicMessageControl(String id, String message, MessageTypes type, boolean visible)
+   public DynamicMessageControl(Workspace workspace, String id, String message, MessageTypes type, boolean visible)
    {
-      super(id);
+      super(workspace, id);
       initialize();
       
       this.message = message;
@@ -108,10 +110,10 @@ public class DynamicMessageControl extends Control
     * @return Devuelve una cadena en formato XHTML que representa el control. 
     */
    @Override
-   public String render(HttpSession session, Template template) 
+   public String render() 
    {
       String xhtml = "";
-      TemplateControl ctrl = template.getControl(DynamicMessageControl.CONTROL_ID);
+      TemplateControl ctrl = getWorkspace().getTemplate().getControl(DynamicMessageControl.CONTROL_ID);
       
       // Si no es visible, no se renderiza
       if (!this.visible)

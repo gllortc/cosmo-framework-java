@@ -1,8 +1,6 @@
 package com.cosmo.ui.controls;
 
-import javax.servlet.http.HttpSession;
-
-import com.cosmo.ui.templates.Template;
+import com.cosmo.Workspace;
 
 /**
  * Implementa una barra de botones.
@@ -21,18 +19,18 @@ public class ButtonBarControl extends Control
    /**
     * Contructor de la clase.
     */
-   public ButtonBarControl()
+   public ButtonBarControl(Workspace workspace)
    {
-      super();
+      super(workspace);
       initialize();
    }
    
    /**
     * Contructor de la clase.
     */
-   public ButtonBarControl(String id)
+   public ButtonBarControl(Workspace workspace, String id)
    {
-      super(id);
+      super(workspace, id);
       initialize();
    }
    
@@ -41,7 +39,7 @@ public class ButtonBarControl extends Control
    //==============================================
    
    /**
-    * Devuelve un identificador Ãºnico del tipo de control.
+    * Devuelve un identificador único del tipo de control.
     */
    @Override
    public String getControlTypeId() 
@@ -56,12 +54,10 @@ public class ButtonBarControl extends Control
    /**
     * Renderiza el control y genera el código XHTML de representación.
     *
-    * @param session Una instancia de {@link HttpSession}.
-    * @param template Una instancia de {@link Template} que representa la plantilla actual.
     * @return Devuelve una cadena en formato XHTML que representa el control. 
     */
    @Override
-   public String render(HttpSession session, Template template) 
+   public String render() 
    {
       throw new UnsupportedOperationException("Not supported yet.");
    }

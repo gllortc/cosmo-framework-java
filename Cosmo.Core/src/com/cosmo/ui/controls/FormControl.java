@@ -8,12 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.cosmo.Cosmo;
+import com.cosmo.Workspace;
 import com.cosmo.annotations.CosmoField;
 import com.cosmo.annotations.CosmoTable;
 import com.cosmo.data.adapter.InvalidMappingException;
 import com.cosmo.structures.FormData;
 import com.cosmo.ui.controls.FormButton.ButtonType;
-import com.cosmo.ui.templates.Template;
 import com.cosmo.ui.templates.TemplateControl;
 
 /**
@@ -58,9 +58,9 @@ public class FormControl extends Control
     * 
     * @param id Identificador único del formulario en toda la aplicación.
     */
-   public FormControl(String id)
+   public FormControl(Workspace workspace, String id)
    {
-      super(id);
+      super(workspace, id);
       initialize();
    }
 
@@ -274,12 +274,10 @@ public class FormControl extends Control
    /**
     * Renderiza el control y genera el código XHTML de representación.
     *
-    * @param session Una instancia de {@link HttpSession}.
-    * @param template Una instancia de {@link Template} que representa la plantilla actual.
     * @return Devuelve una cadena en formato XHTML que representa el control. 
     */
    @Override
-   public String render(HttpSession session, Template template)
+   public String render()
    {
       String xhtml;
       String xitem;
@@ -294,7 +292,7 @@ public class FormControl extends Control
       }
       
       // Obtiene la plantilla y la parte del control
-      ctrl = template.getControl(FormControl.CONTROL_ID);
+      ctrl = getWorkspace().getTemplate().getControl(FormControl.CONTROL_ID);
 
       // Genera la cabecera del formulario
       xhtml = "";
@@ -307,7 +305,7 @@ public class FormControl extends Control
 
       for (FormFieldHidden hfield : this.hidden)
       {
-         xhtml += hfield.render(session) + "\n";
+         xhtml += hfield.render(getWorkspace().getServerSession()) + "\n";
       }
       
       for (FormFieldGroup group : this.groups)
@@ -325,7 +323,7 @@ public class FormControl extends Control
             if (field instanceof FormFieldText)
             {
                xitem = ctrl.getElement(CPART_FIELD_CONTROL);
-               xitem = Control.replaceTag(xitem, TAG_CONTROL, field.render(session));
+               xitem = Control.replaceTag(xitem, TAG_CONTROL, field.render(getWorkspace().getServerSession()));
                xitem = Control.replaceTag(xitem, TAG_LABEL, ((FormFieldText) field).getLabel());
                xitem = Control.replaceTag(xitem, TAG_DESCRIPTION, ((FormFieldText) field).getDescription());
                xhtml += xitem;
@@ -337,7 +335,7 @@ public class FormControl extends Control
       }
       
       xitem = ctrl.getElement(CPART_BUTTONS);
-      xitem = Control.replaceTag(xitem, TAG_BUTTONS, getButtonsXhtml(session));
+      xitem = Control.replaceTag(xitem, TAG_BUTTONS, getButtonsXhtml(getWorkspace().getServerSession()));
       xhtml += xitem;
       
       xitem = ctrl.getElement(CPART_FOOTER);

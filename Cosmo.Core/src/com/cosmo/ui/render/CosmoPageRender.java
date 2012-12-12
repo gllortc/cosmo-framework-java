@@ -116,7 +116,7 @@ public class CosmoPageRender extends PageRenderProvider
       while (it.hasNext())
       {
          control = it.next();
-         ctrl.append(control.render(page.getSession(), page.getWorkspace().getTemplate())).append("\n");
+         ctrl.append(control.render()).append("\n");
       }
 
       int index = xhtml.indexOf(PageRenderProvider.TAG_CONTENT);

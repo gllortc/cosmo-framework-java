@@ -41,20 +41,20 @@ public class LoginPage extends Page
       this.setLayout(PageLayout.TwoColumnsLeft);
       this.setTitle(this.getWorkspace().getProperties().getWorkspaceProperty(Cosmo.PROPERTY_SECURITY_LOGINPAGE) + " - Login");
       
-      BreadcrumbsControl navbar = new BreadcrumbsControl("bc");
+      BreadcrumbsControl navbar = new BreadcrumbsControl(getWorkspace(), "bc");
       navbar.addItem(new BreadcrumbsItem("Home", "HomePage", Icon.ICON_IMAGE_HOME));
       navbar.addItem(new BreadcrumbsItem("Login", ""));
       this.addContent(navbar, ContentColumns.MAIN);
 
-      HeaderControl header = new HeaderControl("hc");
+      HeaderControl header = new HeaderControl(getWorkspace(), "hc");
       header.setTitle("Login");
       header.setDescription("Para acceder a este contenido debe proporcionar sus credenciales de usuario.");
       this.addContent(header, ContentColumns.MAIN);
       
-      DynamicMessageControl message = new DynamicMessageControl(ID_MSG);
+      DynamicMessageControl message = new DynamicMessageControl(getWorkspace(), ID_MSG);
       this.addContent(message, ContentColumns.MAIN);
       
-      FormControl form = new FormControl("LoginForm");
+      FormControl form = new FormControl(getWorkspace(), "LoginForm");
       form.addHiddenValue(new FormFieldHidden(LoginPage.FIELD_TOURL, HttpRequestUtils.getValue(request, LoginPage.FIELD_TOURL)));
       FormFieldGroup group = new FormFieldGroup("Datos de identificación");
       group.addField(new FormFieldText(LoginPage.FIELD_LOGIN, "Login"));

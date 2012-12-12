@@ -1,8 +1,6 @@
 package com.cosmo.ui.controls;
 
-import javax.servlet.http.HttpSession;
-
-import com.cosmo.ui.templates.Template;
+import com.cosmo.Workspace;
 
 /**
  * Implementa un control que permite incorporar código XHTML directament a una página de Cosmo.
@@ -22,18 +20,18 @@ public class XhtmlControl extends Control
    /**
     * Contructor de la clase.
     */
-   public XhtmlControl()
+   public XhtmlControl(Workspace workspace)
    {
-      super();
+      super(workspace);
       initialize("");
    }
    
    /**
     * Contructor de la clase.
     */
-   public XhtmlControl(String id)
+   public XhtmlControl(Workspace workspace, String id)
    {
-      super(id);
+      super(workspace, id);
       initialize("");
    }
    
@@ -42,9 +40,9 @@ public class XhtmlControl extends Control
     * 
     * @param xhtml Una cadena que contiene el código XHTML con el que se rellenará el control.
     */
-   public XhtmlControl(String id, String xhtml)
+   public XhtmlControl(Workspace workspace, String id, String xhtml)
    {
-      super(id);
+      super(workspace, id);
       initialize(xhtml);
    }
    
@@ -96,12 +94,10 @@ public class XhtmlControl extends Control
    /**
     * Renderiza el control y genera el código XHTML de representación.
     *
-    * @param session Una instancia de {@link HttpSession}.
-    * @param template Una instancia de {@link Template} que representa la plantilla actual.
     * @return Devuelve una cadena en formato XHTML que representa el control. 
     */
    @Override
-   public String render(HttpSession session, Template template) 
+   public String render() 
    {
       return xhtml.toString();
    }

@@ -10,7 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
@@ -46,7 +45,6 @@ public abstract class Page extends HttpServlet implements PageInterface
    private ArrayList<Control> rightContents;
    private StringBuilder xhtml;
    private PageRenderProvider provider;
-   private HttpSession session;
 
    /**
     * Enumera las distintas regiones dónde se pueden agregar controles en la página.
@@ -115,44 +113,60 @@ public abstract class Page extends HttpServlet implements PageInterface
    // Properties
    //==============================================
 
+   /**
+    * Devuelve el título de la página.
+    */
    public String getTitle() 
    {
       return title;
    }
 
+   /**
+    * Establece el título de la página.
+    */
    public void setTitle(String title) 
    {
       this.title = title;
    }
 
+   /**
+    * Devuelve el <em>layout</em> de la página.
+    */
    public PageLayout getLayout() 
    {
       return layout;
    }
 
+   /**
+    * Establece el <em>layout</em> de la página.
+    */
    public void setLayout(PageLayout layout) 
    {
       this.layout = layout;
    }
 
+   /**
+    * Devuelve el juego de carácteres de la página.
+    */
    public String getCharset() 
    {
       return charset;
    }
 
+   /**
+    * establece el juego de carácteres de la página.
+    */
    public void setCharset(String charset) 
    {
       this.charset = charset;
    }
 
+   /**
+    * Devuelve la instancia de {@link Workspace} que representa el workspace actual.
+    */
    public Workspace getWorkspace() 
    {
       return workspace;
-   }
-   
-   public HttpSession getSession()
-   {
-      return this.session;
    }
    
    public Iterator<Control> getPageContent(ContentColumns column)
@@ -354,7 +368,7 @@ public abstract class Page extends HttpServlet implements PageInterface
          // Contenido (controles)
          for (Control control : this.centerContents)
          {
-            xhtml.append(control.render(this.session, workspace.getTemplate())).append("\n");
+            xhtml.append(control.render()).append("\n");
          }
       }
       catch (Exception ex)
@@ -380,7 +394,6 @@ public abstract class Page extends HttpServlet implements PageInterface
    private void initPage()
    {
       provider = null;
-      session = null;
       
       leftContents = new ArrayList<Control>();
       centerContents = new ArrayList<Control>();
@@ -421,7 +434,6 @@ public abstract class Page extends HttpServlet implements PageInterface
       // Obtiene el workspace
       ServletContext context = getServletContext(); 
       this.workspace = WorkspaceProvider.getWorkspace(context, request, request.getSession());
-      this.session = request.getSession();
       
       // Lanza el evento initPageEvent sólo si es la primera vez que se accede a la página
       if (!init)

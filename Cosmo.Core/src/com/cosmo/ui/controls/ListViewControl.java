@@ -2,9 +2,7 @@ package com.cosmo.ui.controls;
 
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpSession;
-
-import com.cosmo.ui.templates.Template;
+import com.cosmo.Workspace;
 import com.cosmo.ui.templates.TemplateControl;
 
 /**
@@ -35,18 +33,18 @@ public class ListViewControl extends Control
    /**
     * Contructor de la clase.
     */
-   public ListViewControl()
+   public ListViewControl(Workspace workspace)
    {
-      super();
+      super(workspace);
       initialize();
    }
    
    /**
     * Contructor de la clase.
     */
-   public ListViewControl(String id)
+   public ListViewControl(Workspace workspace, String id)
    {
-      super(id);
+      super(workspace, id);
       initialize();
    }
    
@@ -80,16 +78,14 @@ public class ListViewControl extends Control
    /**
     * Renderiza el control y genera el código XHTML de representación.
     *
-    * @param session Una instancia de {@link HttpSession}.
-    * @param template Una instancia de {@link Template} que representa la plantilla actual.
     * @return Devuelve una cadena en formato XHTML que representa el control. 
     */
    @Override
-   public String render(HttpSession session, Template template) 
+   public String render() 
    {
       int nitems = 0;
       String xitem;
-      TemplateControl ctrl = template.getControl(ListViewControl.CONTROL_ID);
+      TemplateControl ctrl = getWorkspace().getTemplate().getControl(ListViewControl.CONTROL_ID);
       StringBuilder sb = new StringBuilder();
       
       xitem = ctrl.getElement(CPART_TITLE);
