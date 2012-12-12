@@ -22,7 +22,7 @@ public class HomePage extends Page
       this.setLayout(PageLayout.TwoColumnsLeft);
       this.setTitle("Página de prova");
 
-      HeaderControl header = new HeaderControl();
+      HeaderControl header = new HeaderControl(getWorkspace());
       header.setTitle("PROVA DE PÁGINA");
       header.setDescription("Això és una prova de creació de págines amb Cosmo for Java!");
       

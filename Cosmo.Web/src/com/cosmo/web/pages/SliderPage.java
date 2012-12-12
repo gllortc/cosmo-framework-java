@@ -27,18 +27,18 @@ public class SliderPage extends Page
       this.setLayout(PageLayout.TwoColumnsLeft);
       this.setTitle("Cosmo - Samples - Slider Control");
       
-      BreadcrumbsControl navbar = new BreadcrumbsControl();
+      BreadcrumbsControl navbar = new BreadcrumbsControl(getWorkspace());
       navbar.addItem(new BreadcrumbsItem("Home", "HomePage", Icon.ICON_IMAGE_HOME));
       navbar.addItem(new BreadcrumbsItem("Samples", "SamplesPage"));
       navbar.addItem(new BreadcrumbsItem("Slider sample", ""));
       this.addContent(navbar, ContentColumns.MAIN);
       
-      HeaderControl header = new HeaderControl();
+      HeaderControl header = new HeaderControl(getWorkspace());
       header.setTitle("Slider Control");
       header.setDescription("Exemple de control slider.");
       this.addContent(header, ContentColumns.MAIN);
       
-      SliderControl slider = new SliderControl();
+      SliderControl slider = new SliderControl(getWorkspace());
       slider.setWidth(550);
       slider.setHeight(413);
       slider.addItem(new SliderItem("img/Cosmos_01.jpg", 550, 413, SliderItem.SlideType.Image));

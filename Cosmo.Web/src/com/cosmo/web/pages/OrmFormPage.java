@@ -34,27 +34,27 @@ public class OrmFormPage extends Page
       this.setLayout(PageLayout.TwoColumnsLeft);
       this.setTitle("Cosmo - Samples - Form Control");
       
-      BreadcrumbsControl navbar = new BreadcrumbsControl();
+      BreadcrumbsControl navbar = new BreadcrumbsControl(getWorkspace());
       navbar.addItem(new BreadcrumbsItem("Home", "HomePage", Icon.ICON_IMAGE_HOME));
       navbar.addItem(new BreadcrumbsItem("Samples", "SamplesPage"));
       navbar.addItem(new BreadcrumbsItem("ORM Form sample", ""));
       this.addContent(navbar, ContentColumns.MAIN);
 
-      HeaderControl header = new HeaderControl();
+      HeaderControl header = new HeaderControl(getWorkspace());
       header.setTitle("ORM Form Control");
       header.setDescription("Exemple de formulari que fa us de CORM (Cormo ORM).");
       this.addContent(header, ContentColumns.MAIN);
 
-      XhtmlControl xhtml = new XhtmlControl();
+      XhtmlControl xhtml = new XhtmlControl(getWorkspace());
       xhtml.append("Per consultar el contingut de les dades que s'introdueixen en aquest formulari, consultar l'exemple de Grid Control.");
       this.addContent(xhtml, ContentColumns.MAIN);
 
-      DynamicMessageControl message = new DynamicMessageControl(ID_MSG);
+      DynamicMessageControl message = new DynamicMessageControl(getWorkspace(), ID_MSG);
       this.addContent(message, ContentColumns.MAIN);
       
       try 
       {
-         FormControl form = new FormControl("OrmWeatherForm");
+         FormControl form = new FormControl(getWorkspace(), "OrmWeatherForm");
          form.addGroup(Weather.class);
          this.addContent(form, ContentColumns.MAIN);
       } 

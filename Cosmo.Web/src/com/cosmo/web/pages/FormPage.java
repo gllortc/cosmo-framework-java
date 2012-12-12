@@ -37,21 +37,21 @@ public class FormPage extends Page
       this.setLayout(PageLayout.TwoColumnsLeft);
       this.setTitle("Cosmo - Samples - Form Control");
       
-      BreadcrumbsControl navbar = new BreadcrumbsControl();
+      BreadcrumbsControl navbar = new BreadcrumbsControl(getWorkspace());
       navbar.addItem(new BreadcrumbsItem("Home", "HomePage", Icon.ICON_IMAGE_HOME));
       navbar.addItem(new BreadcrumbsItem("Samples", "SamplesPage"));
       navbar.addItem(new BreadcrumbsItem("Form sample", ""));
       this.addContent(navbar, ContentColumns.MAIN);
 
-      HeaderControl header = new HeaderControl();
+      HeaderControl header = new HeaderControl(getWorkspace());
       header.setTitle("Form Control");
       header.setDescription("Exemple de formulari. Per consultar el contingut de les dades que s'introdueixen en aquest formulari, consultar l'exemple de Grid Control.");
       this.addContent(header, ContentColumns.MAIN);
       
-      DynamicMessageControl message = new DynamicMessageControl(ID_MSG);
+      DynamicMessageControl message = new DynamicMessageControl(getWorkspace(), ID_MSG);
       this.addContent(message, ContentColumns.MAIN);
       
-      FormControl form = new FormControl("WeatherForm");
+      FormControl form = new FormControl(getWorkspace(), "WeatherForm");
       FormFieldGroup group = new FormFieldGroup("Temps meteorològic", "Introdueixi les dades de registre meteorològic.", form);
       group.addField(new FormFieldText("txtName", "Ciutat"));
       group.addField(new FormFieldText("txtTMin", "Temperatura mínima"));

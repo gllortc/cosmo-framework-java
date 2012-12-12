@@ -33,22 +33,22 @@ public class GridPage extends Page
       this.setLayout(PageLayout.TwoColumnsLeft);
       this.setTitle("Cosmo - Samples - Grid Control");
       
-      BreadcrumbsControl navbar = new BreadcrumbsControl();
+      BreadcrumbsControl navbar = new BreadcrumbsControl(getWorkspace());
       navbar.addItem(new BreadcrumbsItem("Home", "HomePage", Icon.ICON_IMAGE_HOME));
       navbar.addItem(new BreadcrumbsItem("Samples", "SamplesPage"));
       navbar.addItem(new BreadcrumbsItem("Grid sample", ""));
       this.addContent(navbar, ContentColumns.MAIN);
       
-      HeaderControl header = new HeaderControl();
+      HeaderControl header = new HeaderControl(getWorkspace());
       header.setTitle("Grid Control");
       header.setDescription("Exemple de llistat.");
       this.addContent(header, ContentColumns.MAIN);
       
-      DynamicMessageControl msg = new DynamicMessageControl(ID_MSG);
+      DynamicMessageControl msg = new DynamicMessageControl(getWorkspace(), ID_MSG);
       msg.setVisible(false);
       this.addContent(msg, ContentColumns.MAIN);
       
-      GridControl grid = new GridControl(ID_GRID);
+      GridControl grid = new GridControl(getWorkspace(), ID_GRID);
       this.addContent(grid, ContentColumns.MAIN);
    }
    

@@ -25,18 +25,18 @@ public class ContentPage extends Page
       this.setLayout(PageLayout.TwoColumnsLeft);
       this.setTitle("Cosmo - Samples - XHTML Control");
       
-      BreadcrumbsControl navbar = new BreadcrumbsControl();
+      BreadcrumbsControl navbar = new BreadcrumbsControl(getWorkspace());
       navbar.addItem(new BreadcrumbsItem("Home", "HomePage", Icon.ICON_IMAGE_HOME));
       navbar.addItem(new BreadcrumbsItem("Samples", "SamplesPage"));
       navbar.addItem(new BreadcrumbsItem("XHTML sample", ""));
       this.addContent(navbar, ContentColumns.MAIN);
       
-      HeaderControl header = new HeaderControl();
+      HeaderControl header = new HeaderControl(getWorkspace());
       header.setTitle("XHTML Control");
       header.setDescription("Exemple de control per injectar contingut de forma directe. Tipografies suportades.");
       this.addContent(header, ContentColumns.MAIN);
       
-      XhtmlControl xhtml = new XhtmlControl();
+      XhtmlControl xhtml = new XhtmlControl(getWorkspace());
       xhtml.append("<h3>Headings</h3>");
       xhtml.append("<h1>Heading 1</h1>");
       xhtml.append("<h2>Heading 2</h2>");
