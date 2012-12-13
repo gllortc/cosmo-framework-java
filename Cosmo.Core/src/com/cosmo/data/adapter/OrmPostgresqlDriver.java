@@ -20,11 +20,13 @@ import com.cosmo.net.HttpRequestUtils;
  * 
  * @author Gerard Llort
  */
-public class CosmoOrmProvider extends CosmoOrm
+public class OrmPostgresqlDriver extends CosmoOrm
 {
    // Tabla de palabras reservadas por PostgreSQL
    private final static String SQL_INSERT = "INSERT INTO";
    private final static String SQL_INSERT_VALUES = "VALUES";
+   
+   private final static String POSTGRESQL_DATE_FORMAT = "yyyy/MM/dd";
    
    private final static String PROVIDER_NAME = "PostgreSQL CORM Driver";
    
@@ -32,7 +34,7 @@ public class CosmoOrmProvider extends CosmoOrm
    // Constructors
    //==============================================
    
-   public CosmoOrmProvider(DataConnection connection)
+   public OrmPostgresqlDriver(DataConnection connection)
    {
       super(connection);
    }
@@ -43,7 +45,7 @@ public class CosmoOrmProvider extends CosmoOrm
    
    public String getProviderName() 
    {
-      return CosmoOrmProvider.PROVIDER_NAME;
+      return OrmPostgresqlDriver.PROVIDER_NAME;
    }
    
    //==============================================
@@ -55,6 +57,7 @@ public class CosmoOrmProvider extends CosmoOrm
     * 
     * @param ormClass
     * @param request
+    * 
     * @throws Exception 
     * @throws DataException 
     * @throws SQLException 
@@ -113,7 +116,7 @@ public class CosmoOrmProvider extends CosmoOrm
       StringBuilder sql = new StringBuilder();
       CosmoTable ct;
       CosmoField cf;
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+      SimpleDateFormat sdf = new SimpleDateFormat(OrmPostgresqlDriver.POSTGRESQL_DATE_FORMAT);
       
       sql.append(SQL_INSERT);
       sql.append(" ");
