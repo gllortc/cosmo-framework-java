@@ -79,19 +79,19 @@ public class GridData
    public void setCell(int row, int col, Object value) throws GridDataLimitsException
    {
       // Actualiza fila/columna de datos
-      if (this.rows < row)
+      if (this.rows <= row)
       {
          this.rows = row;
       }
-      if (this.cols < col)
+      if (this.cols <= col)
       {
          this.cols = col;
       }
       
-      if (this.width < col || this.height < row)
+      if (this.width <= col || this.height <= row)
       {
-         this.width = (this.width < col ? col + 10 : this.width);
-         this.height = (this.height < row ? row + 10 : this.height);
+         this.width = (this.width <= col ? col + 10 : this.width);
+         this.height = (this.height <= row ? row + 10 : this.height);
 
          resize(this.height, this.width);
       }
