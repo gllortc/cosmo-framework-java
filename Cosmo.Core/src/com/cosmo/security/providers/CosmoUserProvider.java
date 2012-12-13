@@ -14,7 +14,7 @@ import com.cosmo.security.UserNotFoundException;
 import com.cosmo.util.CryptoUtils;
 
 /**
- * Proveedor de seguridad nativo de Cosmo.
+ * Proveedor de seguridad nativo de Cosmo.<br />
  * Este proveedor requiere conexión a BBDD y tener las tablas de usuarios de Cosmo.
  * 
  * @author Gerard Llort
@@ -30,7 +30,7 @@ public class CosmoUserProvider extends UserProvider
    /**
     * Constructor de la clase. 
     * 
-    * @param workspace Una instancia de {@link Workspace} que representa el workspace al que estÃ¡ conectado actualmente.
+    * @param workspace Una instancia de {@link Workspace} que representa el workspace al que está conectado actualmente.
     */
    public CosmoUserProvider(Workspace workspace)
    {
@@ -45,7 +45,7 @@ public class CosmoUserProvider extends UserProvider
     * Verifica las credenciales de un usuario.
     * 
     * @param login Login del usuario.
-    * @param password ContraseÃ±a (sin encriptar) del usuario.
+    * @param password Contraseña (sin encriptar) del usuario.
     * @return Una instancia de {@link User} que representa el usuario al que corresponden las credenciales proporcionadas.
     * 
     * @throws UserNotFoundException
