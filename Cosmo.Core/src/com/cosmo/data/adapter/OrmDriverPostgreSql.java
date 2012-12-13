@@ -20,7 +20,7 @@ import com.cosmo.net.HttpRequestUtils;
  * 
  * @author Gerard Llort
  */
-public class OrmDriverPostgreSql extends CosmoOrm
+public class OrmDriverPostgreSql extends OrmDriver
 {
    // Tabla de palabras reservadas por PostgreSQL
    private final static String SQL_INSERT = "INSERT INTO";

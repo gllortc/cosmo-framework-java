@@ -10,7 +10,7 @@ import com.cosmo.data.DataException;
  * 
  * @author Gerard Llort
  */
-public abstract class CosmoOrm 
+public abstract class OrmDriver 
 {
    private String lastSqlSentence;
    private DataConnection connection;
@@ -24,7 +24,7 @@ public abstract class CosmoOrm
     * 
     * @param connection Un objeto de conexión a datos.
     */
-   public CosmoOrm(DataConnection connection)
+   public OrmDriver(DataConnection connection)
    {
       this.lastSqlSentence = "";
       this.connection = connection;
