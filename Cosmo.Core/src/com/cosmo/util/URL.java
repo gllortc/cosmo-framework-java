@@ -1,6 +1,5 @@
 package com.cosmo.util;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
@@ -151,6 +150,12 @@ public class URL
       return defaultValue;
    }
    
+   /**
+    * Convierte la URL en una cadena de texto para usar.
+    * 
+    * @param enc Tipo de codificación a usar para la codificación. Puede usar una de las constantes declaradas en {@link Cosmo} {@code CHARSET_XXXX}.
+    * @return Devuelve la URL válida y lista para usar en WWW.
+    */
    public String toString(String enc) 
    {
       boolean first = true;

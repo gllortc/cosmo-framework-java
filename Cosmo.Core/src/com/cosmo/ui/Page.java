@@ -207,8 +207,7 @@ public abstract class Page extends HttpServlet implements PageInterface
     */
    public boolean isSessionRequired()
    {
-      SessionRequired sr = this.getClass().getAnnotation(SessionRequired.class);
-      return (sr != null);
+      return this.getClass().isAnnotationPresent(SessionRequired.class);
    }
    
    /**
