@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cosmo.data.DataConnection;
-import com.cosmo.data.adapter.CosmoOrmProvider;
+import com.cosmo.data.adapter.OrmDriverPostgreSql;
 import com.cosmo.data.adapter.InvalidMappingException;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.controls.BreadcrumbsControl;
@@ -71,7 +71,7 @@ public class OrmFormPage extends Page
    public void formSendedEvent(HttpServletRequest request, HttpServletResponse response)
    {
       DataConnection conn;
-      CosmoOrmProvider cop;
+      OrmDriverPostgreSql pgd;
       
       /*Weather weather = new Weather();
       weather.setCityName(HttpRequestUtils.getValue(request, "txtName"));
@@ -82,8 +82,8 @@ public class OrmFormPage extends Page
       try 
       {
          conn = new DataConnection(getWorkspace().getProperties().getDataSource("cosmo.server"), false);
-         cop = new CosmoOrmProvider(conn);
-         cop.add(Weather.class, request);
+         pgd = new OrmDriverPostgreSql(conn);
+         pgd.add(Weather.class, request);
 
          response.sendRedirect("GridPage");
       } 
