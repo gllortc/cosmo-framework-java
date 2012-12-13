@@ -9,13 +9,14 @@
       <value key="ws.url" value="http://localhost:8084/cosmo/" />
       <value key="ws.mail" value="gllort@dipta.cat" />
       
-      <value key="ui.charset" value="ISO-8859-1" />
-      <value key="ui.lang" value="es" />
+      <value key="ws.ui.charset" value="ISO-8859-1" />
+      <value key="ws.ui.lang" value="es" />
+      <value key="ws.ui.render.provider" value="com.cosmo.ui.render.CosmoPageRender" />
 
-      <value key="security.provider" value="com.cosmo.security.providers.CosmoUserProvider" />
-      <value key="security.loginPage" value="com.cosmo.servlets.LoginPage" />
-      <value key="ui.render.provider" value="com.cosmo.ui.render.CosmoPageRender" />
-      <value key="ui.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoStaticMenuProvider" />
+      <value key="ws.security.provider" value="com.cosmo.security.providers.CosmoUserProvider" />
+      <value key="ws.security.loginPage" value="LoginPage" />
+      
+      <value key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoStaticMenuProvider" />
       <!-- value key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoDynamicMenuProvider" / -->
 
    </settings>
@@ -50,6 +51,7 @@
       <menuitem id="mnuFormOrm" name="Formularios ORM" href="OrmFormPage" parent="" />
       <menuitem id="mnuGrid" name="Grids" href="GridPage" parent="" />
       <menuitem id="mnuSlider" name="Slider" href="SliderPage" parent="" />
+      <menuitem id="mnuSecret" name="Secret Page" href="SecretPage" parent="" />
    </menu>
    
    <menu type="top">
