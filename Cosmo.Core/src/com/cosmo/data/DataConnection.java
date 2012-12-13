@@ -51,7 +51,7 @@ public class DataConnection
       this.debug = debug;
    }
 
-   public Boolean getAutoCommit() 
+   public Boolean isAutoCommit() 
    {
       return autoCommit;
    }

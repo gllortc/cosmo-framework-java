@@ -338,6 +338,9 @@ public abstract class Page extends HttpServlet implements PageInterface
    
    /**
     * Atiende la petición de la página por GET.
+    * 
+    * @throws ServletException
+    * @throws IOException
 	 */
    @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -347,6 +350,9 @@ public abstract class Page extends HttpServlet implements PageInterface
 
 	/**
     * Atiende la petición de la página por POST.
+    * 
+    * @throws ServletException
+    * @throws IOException
 	 */
    @Override
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
@@ -442,10 +448,10 @@ public abstract class Page extends HttpServlet implements PageInterface
       
       if (!getWorkspace().isValidUserSession())
       {
-         URL url = new URL(getWorkspace().getProperties().getWorkspaceProperty(Cosmo.PROPERTY_SECURITY_LOGINPAGE));
+         URL url = new URL(getWorkspace().getProperties().getWorkspaceProperty(Cosmo.PROPERTY_WORKSPACE_SECURITY_LOGINPAGE));
          url.addParameter(Cosmo.URL_PARAM_TOURL, getWorkspace().getServerRequest().getRequestURL().toString());
          
-         getWorkspace().getServerResponse().sendRedirect(url.toString(getWorkspace().getProperties().getWorkspaceProperty(Cosmo.CHARSET_UTF_8)));
+         getWorkspace().getServerResponse().sendRedirect(url.toString(getWorkspace().getProperties().getWorkspaceProperty(Cosmo.PROPERTY_WORKSPACE_UI_CHARSET)));
       }
    }
    

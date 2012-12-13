@@ -69,7 +69,7 @@ public abstract class MenuProvider
       try 
 		{
          // Recupera el nombre de la clase
-         className = workspace.getProperties().getWorkspaceProperty(Cosmo.PROPERTY_MENU_PROVIDER);
+         className = workspace.getProperties().getWorkspaceProperty(Cosmo.PROPERTY_WORKSPACE_MENU_PROVIDER);
          
          // Genera una instancia de la clase
          Class<?> cls = Class.forName(className);

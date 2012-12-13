@@ -15,7 +15,7 @@ import com.cosmo.util.CryptoUtils;
 
 /**
  * Proveedor de seguridad nativo de Cosmo.
- * Este proveedor requiere conexiÃ³n a BBDD y tener las tablas de usuarios de Cosmo.
+ * Este proveedor requiere conexión a BBDD y tener las tablas de usuarios de Cosmo.
  * 
  * @author Gerard Llort
  */
@@ -96,7 +96,7 @@ public class CosmoUserProvider extends UserProvider
          conn.execute(sql);
          
          // Confirma los cambios en la bbdd
-         conn.commit();
+         if (!conn.isAutoCommit()) conn.commit();
       } 
       catch (SQLException ex) 
       {
@@ -140,7 +140,7 @@ public class CosmoUserProvider extends UserProvider
       
       try 
       {
-         // Comprueba si existe algÃºn usuario con mismo LOGIN o CORREO
+         // Comprueba si existe algún usuario con mismo LOGIN o CORREO
          sSQL = "SELECT Count(*) " +
                 "FROM sys_users " +
                 "WHERE Lower(usrlogin) = '" + user.getLogin().trim().toLowerCase() + "' Or " +
@@ -155,7 +155,7 @@ public class CosmoUserProvider extends UserProvider
             throw new UserAlreadyExistsException();
          }
          
-         // Agrega la peticiÃ³n
+         // Agrega la petición
          sSQL = "INSERT INTO sys_users (usrlogin, usrmail, usrpwd, usrname, usrcity, usroptions, usrstatus, usrcreated, usrlastlogin, usrlogoncount) " +
                 "VALUES " +
                 "('" + user.getLogin() + "', " +
@@ -171,7 +171,7 @@ public class CosmoUserProvider extends UserProvider
          conn.execute(sSQL);
          
          // Confirma los cambios en la bbdd
-         conn.commit();
+         if (!conn.isAutoCommit()) conn.commit();
       } 
       catch (SQLException ex) 
       {

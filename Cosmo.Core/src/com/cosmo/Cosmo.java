@@ -28,13 +28,15 @@ public interface Cosmo
    // Standard workspace properties
    //==============================================
    
-   public static final String PROPERTY_WORKSPACE_URL = "ws.url";
    public static final String PROPERTY_WORKSPACE_TITLE = "ws.title";
+   public static final String PROPERTY_WORKSPACE_URL = "ws.url";
    public static final String PROPERTY_WORKSPACE_MAIL = "ws.mail";
-   public static final String PROPERTY_SECURITY_PROVIDER = "security.provider";
-   public static final String PROPERTY_SECURITY_LOGINPAGE = "security.loginPage";
-   public static final String PROPERTY_MENU_PROVIDER = "ui.menu.provider";
-   public static final String PROPERTY_UIRENDER_PROVIDER = "ui.render.provider";
+   public static final String PROPERTY_WORKSPACE_UI_CHARSET = "ws.ui.charset";
+   public static final String PROPERTY_WORKSPACE_UI_LANGUAGE = "ws.ui.lang";
+   public static final String PROPERTY_WORKSPACE_UI_RENDER_PROVIDER = "ws.ui.render.provider";
+   public static final String PROPERTY_WORKSPACE_SECURITY_PROVIDER = "ws.security.provider";
+   public static final String PROPERTY_WORKSPACE_SECURITY_LOGINPAGE = "ws.security.loginPage";
+   public static final String PROPERTY_WORKSPACE_MENU_PROVIDER = "ws.menu.provider";
    
    //==============================================
    // Standard URL parameters

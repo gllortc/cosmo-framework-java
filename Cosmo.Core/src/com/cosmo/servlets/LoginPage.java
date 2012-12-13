@@ -39,8 +39,8 @@ public class LoginPage extends Page
    public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
    {
       this.setLayout(PageLayout.TwoColumnsLeft);
-      this.setTitle(this.getWorkspace().getProperties().getWorkspaceProperty(Cosmo.PROPERTY_SECURITY_LOGINPAGE) + " - Login");
-      
+      this.setTitle(this.getWorkspace().getProperties().getWorkspaceProperty(Cosmo.PROPERTY_WORKSPACE_TITLE) + " - Login");
+
       BreadcrumbsControl navbar = new BreadcrumbsControl(getWorkspace(), "bc");
       navbar.addItem(new BreadcrumbsItem("Home", "HomePage", Icon.ICON_IMAGE_HOME));
       navbar.addItem(new BreadcrumbsItem("Login", ""));

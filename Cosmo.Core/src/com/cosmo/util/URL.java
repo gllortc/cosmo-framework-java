@@ -3,6 +3,8 @@ package com.cosmo.util;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import com.cosmo.Cosmo;
+
 /**
  * Representa una URL con parámetros.
  * 
@@ -167,11 +169,11 @@ public class URL
       {
          try 
          {
-            encodedValue =  URLEncoder.encode(param.value, enc);
+            encodedValue =  (param.value == null ? "" : URLEncoder.encode(param.value, enc));
          } 
          catch (Exception e) 
          {
-            encodedValue =  enc;
+            encodedValue =  param.value;
          }
          
          url += (first ? "" : URL.TOKEN_PARAM_SEPARATOR) + param.name + "=" + encodedValue;
@@ -179,6 +181,17 @@ public class URL
       }
       
       return url;
+   }
+   
+   /**
+    * Convierte la URL en una cadena de texto para usar.
+    * 
+    * @return Devuelve la URL válida y lista para usar en WWW.
+    */
+   @Override
+   public String toString()
+   {
+      return toString(Cosmo.CHARSET_UTF_8);
    }
    
    //==============================================

@@ -80,7 +80,7 @@ public abstract class PageRenderProvider
       try 
 		{
          // Recupera el nombre de la clase
-         className = workspace.getProperties().getWorkspaceProperty(Cosmo.PROPERTY_UIRENDER_PROVIDER);
+         className = workspace.getProperties().getWorkspaceProperty(Cosmo.PROPERTY_WORKSPACE_UI_RENDER_PROVIDER);
          
          // Genera una instancia de la clase
          Class<?> cls = Class.forName(className);
