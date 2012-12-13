@@ -230,7 +230,6 @@
 &lt;ul&gt;
             </celement>
             <celement id="menu-item">
-<!-- &lt;li[#IF CURRENT_ITEM_CLASS] class="[@CURRENT_ITEM_CLASS]"[#ENDIF CURRENT_ITEM_CLASS]&gt;&lt;a href="[@IHREF]"&gt;[@ICAPTION]&lt;/a&gt;&lt;/li&gt; -->
 &lt;li&gt;&lt;a href="[@IHREF]"&gt;[@ICAPTION]&lt;/a&gt;&lt;/li&gt;
             </celement>
             <celement id="menu-subitem">
