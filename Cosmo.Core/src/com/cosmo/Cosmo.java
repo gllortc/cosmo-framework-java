@@ -37,6 +37,8 @@ public interface Cosmo
    public static final String PROPERTY_WORKSPACE_SECURITY_PROVIDER = "ws.security.provider";
    public static final String PROPERTY_WORKSPACE_SECURITY_LOGINPAGE = "ws.security.loginPage";
    public static final String PROPERTY_WORKSPACE_MENU_PROVIDER = "ws.menu.provider";
+   public static final String PROPERTY_WORKSPACE_DATA_SERVERID = "ws.data.serverId";
+   public static final String PROPERTY_WORKSPACE_DATA_ORM_DRIVER = "ws.data.orm.driver";
    
    //==============================================
    // Standard URL parameters
