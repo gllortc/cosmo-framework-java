@@ -19,6 +19,12 @@
       <value key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoStaticMenuProvider" />
       <!-- value key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoDynamicMenuProvider" / -->
 
+      <value key="ws.data.serverId" value="cosmo.server" />
+      <value key="ws.data.orm.driver" value="com.cosmo.data.adapter.OrmDriverPostgreSql" />
+      <!-- <value key="ws.data.orm.driver" value="com.cosmo.data.adapter.OrmDriverSqlServer" /> -->
+      <!-- <value key="ws.data.orm.driver" value="com.cosmo.data.adapter.OrmDriverMySql" /> -->
+      <!-- <value key="ws.data.orm.driver" value="com.cosmo.data.adapter.OrmDriverOracle" /> -->
+
    </settings>
    
    <!-- DATABASE CONNECTIONS -->
