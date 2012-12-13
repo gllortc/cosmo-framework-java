@@ -2,6 +2,7 @@ package com.cosmo;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.cosmo.security.User;
@@ -25,6 +26,7 @@ public class Workspace
    private WorkspaceProperties properties;
    private Rules rules;
    private HttpServletRequest srvRequest;
+   private HttpServletResponse srvResponse;
    private UserSession usrSession;
    private String url;
    private String name;
@@ -46,6 +48,8 @@ public class Workspace
     * Constructor de la clase.
     * 
     * @param context Contexto de la llamada al workspace.
+    * @param request
+    * @param response
     * 
     * @throws WorkspaceLoadException 
     * @throws RulesLoadException
@@ -53,11 +57,11 @@ public class Workspace
     * @throws TemplateLoadException
     * @throws MenuProviderException
     */
-   public Workspace(ServletContext context, HttpServletRequest request) throws WorkspaceLoadException, RulesLoadException, TemplateUnavailableException, TemplateLoadException, MenuProviderException
+   public Workspace(ServletContext context, HttpServletRequest request, HttpServletResponse response) throws WorkspaceLoadException, RulesLoadException, TemplateUnavailableException, TemplateLoadException, MenuProviderException
    {
       initialize();
 
-      reloadContext(context, request);
+      reloadContext(context, request, response);
    }
    
    //==============================================
@@ -94,6 +98,14 @@ public class Workspace
    public HttpServletRequest getServerRequest()
    {
       return this.srvRequest;
+   }
+   
+   /**
+    * Devuelve la instancia de {@link HttpServletResponse} que corresponde a la respuesta.
+    */
+   public HttpServletResponse getServerResponse()
+   {
+      return this.srvResponse;
    }
    
    /**
@@ -134,6 +146,20 @@ public class Workspace
    public String getMail() 
    {
       return this.mail;
+   }
+   
+   /**
+    * Indica si existe una sesión de usuario Cosmo válida iniciada.
+    * @return {@code true} si existe una sesión de usuario válida o {@code false} en cualquier otro caso.
+    */
+   public boolean isValidUserSession()
+   {
+      if (this.usrSession == null)
+      {
+         return false;
+      }
+      
+      return true;
    }
    
    /**
@@ -185,6 +211,7 @@ public class Workspace
     * 
     * @param context Contexto del servidor.
     * @param request Contexto de la llamada.
+    * @param response Contexto de la respuesta.
     * 
     * @throws WorkspaceLoadException
     * @throws RulesLoadException
@@ -192,10 +219,11 @@ public class Workspace
     * @throws TemplateLoadException
     * @throws MenuProviderException
     */
-   private void reloadContext(ServletContext context, HttpServletRequest request) throws WorkspaceLoadException, RulesLoadException, TemplateUnavailableException, TemplateLoadException, MenuProviderException
+   private void reloadContext(ServletContext context, HttpServletRequest request, HttpServletResponse response) throws WorkspaceLoadException, RulesLoadException, TemplateUnavailableException, TemplateLoadException, MenuProviderException
    {
       this.context = context;
       this.srvRequest = request;
+      this.srvResponse = response;
       this.properties = new WorkspaceProperties(context);
       this.rules = new Rules(context);
       this.template = this.rules.checkRules(request.getHeader("User-Agent"));
@@ -211,10 +239,12 @@ public class Workspace
    private void initialize()
    {
       this.template = null;
-      this.context = null;
       this.properties = null;
       this.usrSession = null;
+
+      this.context = null;
       this.srvRequest = null;
+      this.srvResponse = null;
       
       this.url = "";
       this.name = "";

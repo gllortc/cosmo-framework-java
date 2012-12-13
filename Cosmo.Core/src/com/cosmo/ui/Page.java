@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +14,7 @@ import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
 import com.cosmo.WorkspaceLoadException;
 import com.cosmo.WorkspaceProvider;
+import com.cosmo.annotations.SessionRequired;
 import com.cosmo.ui.controls.Control;
 import com.cosmo.ui.controls.FormControl;
 import com.cosmo.ui.render.LoadPageRenderException;
@@ -24,6 +24,7 @@ import com.cosmo.ui.templates.RulesLoadException;
 import com.cosmo.ui.templates.TemplateLoadException;
 import com.cosmo.ui.templates.TemplateUnavailableException;
 import com.cosmo.ui.widgets.providers.MenuProviderException;
+import com.cosmo.util.URL;
 
 /**
  * Implementa una página de Cosmo.
@@ -200,6 +201,15 @@ public abstract class Page extends HttpServlet implements PageInterface
     * Método que es llamado al cargar la página.
     */
    public abstract void loadPageEvent(HttpServletRequest request, HttpServletResponse response);
+   
+   /**
+    * Indica si la página requiere sesión de usuario para ser accedida. 
+    */
+   public boolean isSessionRequired()
+   {
+      SessionRequired sr = this.getClass().getAnnotation(SessionRequired.class);
+      return (sr != null);
+   }
    
    /**
     * Agrega un control a la página.
@@ -393,14 +403,13 @@ public abstract class Page extends HttpServlet implements PageInterface
     */
    private void initPage()
    {
-      provider = null;
-      
       leftContents = new ArrayList<Control>();
       centerContents = new ArrayList<Control>();
       rightContents = new ArrayList<Control>();
 
       xhtml = new StringBuilder();
       workspace = null;
+      provider = null;
       title = "";
       charset = Cosmo.CHARSET_ISO_8859_1;
       layout = PageLayout.OneColumn;
@@ -421,19 +430,54 @@ public abstract class Page extends HttpServlet implements PageInterface
    }
    
    /**
-    * Crea la página.
-    * El guión de llamadas a eventos es el siguiente:
-    * - initPageEvent()   -> Sólo si es la primera vez que se accede a la página
-    * - formSendedEvent() -> Sólo si se reciben datos de un formulario Cosmo
-    * - loadPageEvent()
+    * Comprueba si el usuario puede ver la página.
+    * 
+    * @throws IOException 
+    */
+   private void checkSecurity() throws IOException
+   {
+      if (!this.isSessionRequired())
+      {
+         return;
+      }
+      
+      if (!getWorkspace().isValidUserSession())
+      {
+         URL url = new URL(getWorkspace().getProperties().getWorkspaceProperty(Cosmo.PROPERTY_SECURITY_LOGINPAGE));
+         url.addParameter(Cosmo.URL_PARAM_TOURL, getWorkspace().getServerRequest().getRequestURL().toString());
+         
+         getWorkspace().getServerResponse().sendRedirect(url.toString(getWorkspace().getProperties().getWorkspaceProperty(Cosmo.CHARSET_UTF_8)));
+      }
+   }
+   
+   /**
+    * Crea la página.<br />
+    * El guión de llamadas a eventos es el siguiente:<br /><ul>
+    * <li>- {@code initPageEvent()}: Sólo si es la primera vez que se accede a la página.</li>
+    * <li>- {@code formSendedEvent()}: Sólo si se reciben datos de un formulario Cosmo.</li>
+    * <li>- {@code loadPageEvent()}</li>
+    * </ul>
+    * 
+    * @param request
+    * @param response
+    * 
+    * @throws ServletException
+    * @throws IOException
+    * @throws WorkspaceLoadException
+    * @throws RulesLoadException
+    * @throws TemplateUnavailableException
+    * @throws TemplateLoadException
+    * @throws MenuProviderException
     */
    private void createPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, WorkspaceLoadException, RulesLoadException, TemplateUnavailableException, TemplateLoadException, MenuProviderException
    {
       long startTime = System.currentTimeMillis();
       
       // Obtiene el workspace
-      ServletContext context = getServletContext(); 
-      this.workspace = WorkspaceProvider.getWorkspace(context, request, request.getSession());
+      this.workspace = WorkspaceProvider.getWorkspace(getServletContext(), request, response);
+
+      // Comprueba si el usuario puede ver la página
+      checkSecurity();
       
       // Lanza el evento initPageEvent sólo si es la primera vez que se accede a la página
       if (!init)

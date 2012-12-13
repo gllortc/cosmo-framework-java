@@ -25,7 +25,7 @@ public interface Cosmo
    public static final String CHARSET_UTF_16 = "UTF-16";
    
    //==============================================
-   // Standard properties
+   // Standard workspace properties
    //==============================================
    
    public static final String PROPERTY_WORKSPACE_URL = "ws.url";
@@ -35,6 +35,13 @@ public interface Cosmo
    public static final String PROPERTY_SECURITY_LOGINPAGE = "security.loginPage";
    public static final String PROPERTY_MENU_PROVIDER = "ui.menu.provider";
    public static final String PROPERTY_UIRENDER_PROVIDER = "ui.render.provider";
+   
+   //==============================================
+   // Standard URL parameters
+   //==============================================
+   
+   public static final String URL_PARAM_OBJECTID = "oid";
+   public static final String URL_PARAM_TOURL = "tourl";
    
    //==============================================
    // Tokens

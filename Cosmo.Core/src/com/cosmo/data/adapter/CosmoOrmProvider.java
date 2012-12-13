@@ -66,7 +66,6 @@ public class CosmoOrmProvider extends CosmoOrm
       CosmoField cf;
       
       // Obtiene el constructor vacio (siempre usará el constructor vacío)  
-      // TODO
       Constructor<?>[] ctors = ormClass.getDeclaredConstructors();
       for (Constructor<?> ctor : ctors)
       {
