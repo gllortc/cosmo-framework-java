@@ -20,7 +20,7 @@ import com.cosmo.net.HttpRequestUtils;
  * 
  * @author Gerard Llort
  */
-public class OrmPostgresqlDriver extends CosmoOrm
+public class OrmDriverPostgreSql extends CosmoOrm
 {
    // Tabla de palabras reservadas por PostgreSQL
    private final static String SQL_INSERT = "INSERT INTO";
@@ -34,7 +34,7 @@ public class OrmPostgresqlDriver extends CosmoOrm
    // Constructors
    //==============================================
    
-   public OrmPostgresqlDriver(DataConnection connection)
+   public OrmDriverPostgreSql(DataConnection connection)
    {
       super(connection);
    }
@@ -45,7 +45,7 @@ public class OrmPostgresqlDriver extends CosmoOrm
    
    public String getProviderName() 
    {
-      return OrmPostgresqlDriver.PROVIDER_NAME;
+      return OrmDriverPostgreSql.PROVIDER_NAME;
    }
    
    //==============================================
@@ -116,7 +116,7 @@ public class OrmPostgresqlDriver extends CosmoOrm
       StringBuilder sql = new StringBuilder();
       CosmoTable ct;
       CosmoField cf;
-      SimpleDateFormat sdf = new SimpleDateFormat(OrmPostgresqlDriver.POSTGRESQL_DATE_FORMAT);
+      SimpleDateFormat sdf = new SimpleDateFormat(OrmDriverPostgreSql.POSTGRESQL_DATE_FORMAT);
       
       sql.append(SQL_INSERT);
       sql.append(" ");
