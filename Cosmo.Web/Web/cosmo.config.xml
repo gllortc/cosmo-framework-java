@@ -20,10 +20,6 @@
       <!-- value key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoDynamicMenuProvider" / -->
 
       <value key="ws.data.serverId" value="cosmo.server" />
-      <value key="ws.data.orm.driver" value="com.cosmo.data.adapter.OrmDriverPostgreSql" />
-      <!-- <value key="ws.data.orm.driver" value="com.cosmo.data.adapter.OrmDriverSqlServer" /> -->
-      <!-- <value key="ws.data.orm.driver" value="com.cosmo.data.adapter.OrmDriverMySql" /> -->
-      <!-- <value key="ws.data.orm.driver" value="com.cosmo.data.adapter.OrmDriverOracle" /> -->
 
    </settings>
    
@@ -31,7 +27,7 @@
    <connections>
 
 	   <connection id="cosmo.server" 
-	               corm.driver="com.cosmo.data.adapter.OrmDriverPostgreSql"
+	               corm.driver="com.cosmo.data.orm.OrmDriverPostgreSql"
 	               jdbc.driver="org.postgresql.Driver" 
 	               server="jdbc:postgresql:cosmo-test" 
 	               port="5432" 
@@ -40,7 +36,7 @@
 	               pwd="esfacil" />
 	
 	   <connection id="fons-social-pre" 
-	               corm.driver="com.cosmo.data.adapter.OrmDriverOracle"
+	               corm.driver="com.cosmo.data.orm.OrmDriverOracle"
 	               jdbc.driver="oracle.jdbc.driver.OracleDriver" 
 	               server="bdo1vip.intranet.dtgna" 
 	               port="1525" 
