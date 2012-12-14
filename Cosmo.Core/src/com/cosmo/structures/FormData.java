@@ -78,4 +78,22 @@ public class FormData
       // Devuelve el valor
       return this.map.get(name);
    }
+   
+   /**
+    * Devuelve una cadena de texto que representa los valores contenidos en la instancia.
+    */
+   @Override
+   public String toString()
+   {
+      String val = "";
+      
+      val += "[";
+      for (String str : this.map.values())
+      {
+         val += "[" + str + ": " + this.map.get(str) + "]";
+      }
+      val += "]";
+      
+      return val;
+   }
 }
