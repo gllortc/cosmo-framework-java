@@ -28,7 +28,8 @@ public class WorkspaceProperties
    // private static final String XML_NODE_ROOT = "cosmo-settings";
    private static final String XML_TAG_CONNECTION = "connection";
    private static final String XML_ATT_ID = "id";
-   private static final String XML_ATT_DRIVER = "driver";
+   private static final String XML_ATT_JDBC_DRIVER = "jdbc.driver";
+   private static final String XML_ATT_CORM_DRIVER = "corm.driver";
    private static final String XML_ATT_SERVER = "server";
    private static final String XML_ATT_PORT = "port";
    private static final String XML_ATT_SCHEMA = "schema";
@@ -67,7 +68,7 @@ public class WorkspaceProperties
    //==============================================
    
    /**
-    * Devuelve el nÃºmero de propiedades de configuración leídas.
+    * Devuelve el número de propiedades de configuración leídas.
     */
    public int getNumProperties()
    {
@@ -75,7 +76,7 @@ public class WorkspaceProperties
    }
    
    /**
-    * Devuelve el nÃºmero de DataSources leídos.
+    * Devuelve el número de DataSources leídos.
     */
    public int getNumDatasources()
    {
@@ -174,8 +175,9 @@ public class WorkspaceProperties
 
                ds = new DataSource();
                ds.setId(eElement.getAttribute(WorkspaceProperties.XML_ATT_ID));
-               ds.setDriver(eElement.getAttribute(WorkspaceProperties.XML_ATT_DRIVER));
-               ds.setServer(eElement.getAttribute(WorkspaceProperties.XML_ATT_SERVER));
+               ds.setJdbcDriver(eElement.getAttribute(WorkspaceProperties.XML_ATT_JDBC_DRIVER));
+               ds.setCormDriver(eElement.getAttribute(WorkspaceProperties.XML_ATT_CORM_DRIVER));
+               ds.setHost(eElement.getAttribute(WorkspaceProperties.XML_ATT_SERVER));
                ds.setPort(eElement.getAttribute(WorkspaceProperties.XML_ATT_PORT));
                ds.setSchema(eElement.getAttribute(WorkspaceProperties.XML_ATT_SCHEMA));
                ds.setLogin(eElement.getAttribute(WorkspaceProperties.XML_ATT_USER));
