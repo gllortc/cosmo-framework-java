@@ -3,6 +3,7 @@ package com.cosmo.data.orm;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -131,6 +132,7 @@ public class OrmDriverPostgreSql extends OrmDriver
       CosmoTable ct;
       CosmoFieldGetter cf;
       SimpleDateFormat sdf = new SimpleDateFormat(OrmDriverPostgreSql.POSTGRESQL_DATE_FORMAT);
+      DecimalFormat df = new DecimalFormat("#.#############################################");
       
       sql.append(SQL_INSERT);
       sql.append(" ");
@@ -183,9 +185,16 @@ public class OrmDriverPostgreSql extends OrmDriver
             // Enteros
             else if (method.getReturnType() == Integer.class || method.getReturnType() == int.class ||
                      method.getReturnType() == Long.class || method.getReturnType() == long.class ||
-                     method.getReturnType() == Short.class || method.getReturnType() == short.class)
+                     method.getReturnType() == Short.class || method.getReturnType() == short.class ||
+                     method.getReturnType() == Byte.class || method.getReturnType() == byte.class)
             {
-               sql.append((Integer) method.invoke(data));
+               sql.append(method.invoke(data));
+            }
+            // Decimales
+            else if (method.getReturnType() == Double.class || method.getReturnType() == double.class ||
+                     method.getReturnType() == Float.class || method.getReturnType() == float.class)
+            {
+               sql.append(df.format(method.invoke(data)));
             }
             // Fechas y horas
             else if (method.getReturnType() == Date.class)
