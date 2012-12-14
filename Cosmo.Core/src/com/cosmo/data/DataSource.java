@@ -1,17 +1,20 @@
 package com.cosmo.data;
 
+import java.util.UUID;
+
 /**
  * Representa un origen de datos (base de datos).
  */
 public class DataSource 
 {
-   private String pid;
-   private String pdriver;
-   private String pserver;
-   private String pport;
-   private String pschema;
-   private String plogin;
-   private String ppwd;
+   private String id;
+   private String jdbcDriver;
+   private String cormDriver;
+   private String host;
+   private String port;
+   private String schema;
+   private String login;
+   private String pwd;
    
    //==============================================
    // Constructors
@@ -22,35 +25,61 @@ public class DataSource
     */
    public DataSource()
    {
-      this.pid = "";
-      this.pdriver = "";
-      this.pserver = "";
-      this.pport = "";
-      this.pschema = "";
-      this.plogin = "";
-      this.ppwd = "";
+      this.id = UUID.randomUUID().toString();
+      this.jdbcDriver = "";
+      this.cormDriver = "";
+      this.host = "";
+      this.port = "";
+      this.schema = "";
+      this.login = "";
+      this.pwd = "";
    }
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase.<br />
+    * Este constructar se usa para crear una conexión JDBC puntual que no se deba almacenar y que no use CORM.
     * 
-    * @param id Identioficador Ãºnico del origen de datos.
-    * @param driver Clase (driver) que se usarÃ¡ para la conexiÃ³n a la base de datos.
-    * @param server Host (URL).
-    * @param port Puesrto de conexiÃ³n al servidor.
+    * @param host Host (URL).
+    * @param port Puesrto de conexión al servidor.
     * @param schema Esquema.
     * @param user usuario.
-    * @param pwd ContraseÃ±a.
+    * @param pwd Contraseña.
+    * @param jdbcDriver Clase (driver) que se usará para la conexión a la base de datos.
     */
-   public DataSource(String id, String driver, String server, String port, String schema, String user, String pwd)
+   public DataSource(String host, String port, String schema, String user, String pwd, String jdbcDriver)
    {
-      this.pid = id;
-      this.pdriver = driver;
-      this.pserver = server;
-      this.pport = port;
-      this.pschema = schema;
-      this.plogin = user;
-      this.ppwd = pwd;
+      this.id = UUID.randomUUID().toString();
+      this.host = host;
+      this.port = port;
+      this.schema = schema;
+      this.login = user;
+      this.pwd = pwd;
+      this.jdbcDriver = jdbcDriver;
+      this.cormDriver = "";
+   }
+   
+   /**
+    * Constructor de la clase.
+    * 
+    * @param id Identioficador único del origen de datos.
+    * @param host Host (URL).
+    * @param port Puesrto de conexión al servidor.
+    * @param schema Esquema.
+    * @param user usuario.
+    * @param pwd Contraseña.
+    * @param jdbcDriver Clase (driver) que se usará para la conexión a la base de datos.
+    * @param cormDriver Clase (driver) que se usará para la gestión de ORM.
+    */
+   public DataSource(String id, String host, String port, String schema, String user, String pwd, String jdbcDriver, String cormDriver)
+   {
+      this.id = id;
+      this.host = host;
+      this.port = port;
+      this.schema = schema;
+      this.login = user;
+      this.pwd = pwd;
+      this.jdbcDriver = jdbcDriver;
+      this.cormDriver = cormDriver;
    }
 
    //==============================================
@@ -59,85 +88,95 @@ public class DataSource
    
    public String getId() 
    {
-      return pid;
+      return id;
    }
 
-   public void setId(String pid) 
+   public void setId(String id) 
    {
-      this.pid = pid;
+      this.id = id;
    }
 
-   public String getDriver() 
+   public String getHost() 
    {
-      return pdriver;
+      return host;
    }
 
-   public void setDriver(String pdriver) 
+   public void setHost(String host) 
    {
-      this.pdriver = pdriver;
-   }
-
-   public String getServer() 
-   {
-      return pserver;
-   }
-
-   public void setServer(String pserver) 
-   {
-      this.pserver = pserver;
+      this.host = host;
    }
 
    public String getPort()
    {
-      return pport;
+      return port;
    }
 
-   public void setPort(String pport) 
+   public void setPort(String port) 
    {
-      this.pport = pport;
+      this.port = port;
    }
 
    public String getSchema() 
    {
-      return pschema;
+      return schema;
    }
 
-   public void setSchema(String pschema) 
+   public void setSchema(String schema) 
    {
-      this.pschema = pschema;
+      this.schema = schema;
    }
 
    public String getLogin() 
    {
-      return plogin;
+      return login;
    }
 
-   public void setLogin(String plogin)
+   public void setLogin(String login)
    {
-      this.plogin = plogin;
+      this.login = login;
    }
 
    public String getPassword() 
    {
-      return ppwd;
+      return pwd;
    }
 
-   public void setPassword(String ppwd) 
+   public void setPassword(String password) 
    {
-      this.ppwd = ppwd;
+      this.pwd = password;
    }
+   
+   public String getJdbcDriver() 
+   {
+      return jdbcDriver;
+   }
+
+   public void setJdbcDriver(String jdbcDriver) 
+   {
+      this.jdbcDriver = jdbcDriver;
+   }
+   
+   public String getCormDriver() 
+   {
+      return cormDriver;
+   }
+
+   public void setCormDriver(String cormDriver) 
+   {
+      this.cormDriver = cormDriver;
+   }   
 
    //==============================================
    // Methods
    //==============================================   
-   
+
    /**
-    * Obtiene la URL de conexiÃ³n a la base de datos.
+    * Obtiene la URL de conexión a la base de datos.
     * 
-    * @return Una cadena que representa la URL de conexiÃ³n a la base de datos.
+    * @return Una cadena que representa la URL de conexión a la base de datos.
     */
    public String getConnectionUrl()
    {
-      return this.getServer() + ":" + this.getPort() + "/" + this.getSchema();
+      return this.getHost() + ":" + this.getPort() + "/" + this.getSchema();
    }
 }
