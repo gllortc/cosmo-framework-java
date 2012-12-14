@@ -9,7 +9,8 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.cosmo.annotations.CosmoField;
+import com.cosmo.annotations.CosmoFieldGetter;
+import com.cosmo.annotations.CosmoFieldSetter;
 import com.cosmo.annotations.CosmoTable;
 import com.cosmo.data.DataConnection;
 import com.cosmo.data.DataException;
@@ -74,7 +75,7 @@ public class OrmDriverPostgreSql extends OrmDriver
    public Object add(Class<?> ormClass, HttpServletRequest request) throws InvalidMappingException, SQLException, DataException, Exception
    {
       Object instance = null;
-      CosmoField cf;
+      CosmoFieldSetter cfs;
       
       // Obtiene el constructor vacio (siempre usará el constructor vacío)  
       Constructor<?>[] ctors = ormClass.getDeclaredConstructors();
@@ -87,16 +88,19 @@ public class OrmDriverPostgreSql extends OrmDriver
             
             for (Method method : ormClass.getMethods())
             {
-               method.setAccessible(true);
-               cf = method.getAnnotation(CosmoField.class);
-               
-               if (method.getReturnType() == String.class)
-               {
-                  method.invoke(instance, HttpRequestUtils.getValue(request, cf.name(), ""));
-               }
-               else if (method.getReturnType() == Integer.class)
-               {
-                  method.invoke(instance, HttpRequestUtils.getInt(request, cf.name()));
+               if (method.isAnnotationPresent(CosmoFieldSetter.class))
+               {               
+                  method.setAccessible(true);
+                  cfs = method.getAnnotation(CosmoFieldSetter.class);
+                  
+                  if (method.getReturnType() == String.class)
+                  {
+                     method.invoke(instance, HttpRequestUtils.getValue(request, cfs.name(), ""));
+                  }
+                  else if (method.getReturnType() == Integer.class)
+                  {
+                     method.invoke(instance, HttpRequestUtils.getInt(request, cfs.name()));
+                  }
                }
             }
          }
@@ -123,7 +127,7 @@ public class OrmDriverPostgreSql extends OrmDriver
       boolean first;
       StringBuilder sql = new StringBuilder();
       CosmoTable ct;
-      CosmoField cf;
+      CosmoFieldGetter cf;
       SimpleDateFormat sdf = new SimpleDateFormat(OrmDriverPostgreSql.POSTGRESQL_DATE_FORMAT);
       
       sql.append(SQL_INSERT);
@@ -142,7 +146,7 @@ public class OrmDriverPostgreSql extends OrmDriver
       first = true;
       for (Field field : data.getClass().getFields())
       {
-         cf = field.getAnnotation(CosmoField.class);
+         cf = field.getAnnotation(CosmoFieldGetter.class);
          
          if (cf != null)
          {
@@ -160,7 +164,7 @@ public class OrmDriverPostgreSql extends OrmDriver
       first = true;
       for (Field field : data.getClass().getFields())
       {
-         cf = field.getAnnotation(CosmoField.class);
+         cf = field.getAnnotation(CosmoFieldGetter.class);
          
          if (cf != null && !cf.readOnly())
          {

@@ -10,7 +10,7 @@ import java.lang.annotation.ElementType;
  */
 @Retention( value = RetentionPolicy.RUNTIME )
 @Target( value = ElementType.METHOD )
-public @interface CosmoField 
+public @interface CosmoFieldGetter 
 {
    public enum FieldType
    {

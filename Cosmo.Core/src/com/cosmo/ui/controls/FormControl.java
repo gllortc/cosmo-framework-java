@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
-import com.cosmo.annotations.CosmoField;
+import com.cosmo.annotations.CosmoFieldGetter;
 import com.cosmo.annotations.CosmoTable;
 import com.cosmo.data.orm.InvalidMappingException;
 import com.cosmo.structures.FormData;
@@ -150,7 +150,7 @@ public class FormControl extends Control
    public void addGroup(Class<?> ormClass) throws InvalidMappingException
    {
       CosmoTable ct;
-      CosmoField cf;
+      CosmoFieldGetter cf;
       FormFieldGroup group;
       
       // Comprueba que sea un objeto CORM
@@ -169,7 +169,7 @@ public class FormControl extends Control
       group.setDescription(ct.description());
       for (Method method : ormClass.getMethods())
       {
-         cf = method.getAnnotation(CosmoField.class);
+         cf = method.getAnnotation(CosmoFieldGetter.class);
          
          if (cf != null)
          {
