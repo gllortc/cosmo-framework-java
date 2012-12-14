@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.cosmo.data.DataConnection;
 import com.cosmo.data.DataException;
-import com.cosmo.data.adapter.InvalidMappingException;
+import com.cosmo.data.orm.InvalidMappingException;
 
 /**
  * Declara una clase abstracta que debe servir como base para la implementación de drivers ORM para Cosmo.

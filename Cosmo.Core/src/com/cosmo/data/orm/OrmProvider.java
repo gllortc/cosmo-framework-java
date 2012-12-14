@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import com.cosmo.Workspace;
 import com.cosmo.data.DataException;
 import com.cosmo.data.DataSource;
-import com.cosmo.data.adapter.InvalidMappingException;
 
 /**
  * Implementa un acceso uniforme a los drivers CORM.<br />

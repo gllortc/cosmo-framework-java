@@ -13,7 +13,6 @@ import com.cosmo.annotations.CosmoField;
 import com.cosmo.annotations.CosmoTable;
 import com.cosmo.data.DataConnection;
 import com.cosmo.data.DataException;
-import com.cosmo.data.adapter.InvalidMappingException;
 import com.cosmo.net.HttpRequestUtils;
 
 /**
