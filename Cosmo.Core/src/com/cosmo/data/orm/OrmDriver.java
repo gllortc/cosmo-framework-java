@@ -89,7 +89,7 @@ public abstract class OrmDriver
     * @throws SQLException 
     * @throws InvalidMappingException 
     */
-   public abstract Object add(Class<?> ormObject, HttpServletRequest request) throws InvalidMappingException, SQLException, DataException, Exception;
+   public abstract Object insert(Class<?> ormObject, HttpServletRequest request) throws InvalidMappingException, SQLException, DataException, Exception;
    
    /**
     * Genera una senténcia INSERT INTO a partir de una instancian de clase.
@@ -101,5 +101,5 @@ public abstract class OrmDriver
     * @throws SQLException 
     * @throws Exception 
     */
-   public abstract void add(Object data) throws InvalidMappingException, SQLException, DataException, Exception;
+   public abstract void insert(Object data) throws InvalidMappingException, SQLException, DataException, Exception;
 }

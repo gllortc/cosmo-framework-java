@@ -72,7 +72,7 @@ public class OrmDriverPostgreSql extends OrmDriver
     * @throws SQLException 
     * @throws InvalidMappingException 
     */
-   public Object add(Class<?> ormClass, HttpServletRequest request) throws InvalidMappingException, SQLException, DataException, Exception
+   public Object insert(Class<?> ormClass, HttpServletRequest request) throws InvalidMappingException, SQLException, DataException, Exception
    {
       CosmoFieldSetter cfs;
       Object instance = null;
@@ -110,7 +110,7 @@ public class OrmDriverPostgreSql extends OrmDriver
       }
 
       // Agrega el registro a la BBDD
-      this.add(instance);
+      this.insert(instance);
       
       return instance;
    }
@@ -125,7 +125,7 @@ public class OrmDriverPostgreSql extends OrmDriver
     * @throws SQLException 
     * @throws Exception 
     */
-   public void add(Object data) throws InvalidMappingException, SQLException, DataException, Exception
+   public void insert(Object data) throws InvalidMappingException, SQLException, DataException, Exception
    {
       boolean first;
       StringBuilder sql = new StringBuilder();
@@ -223,6 +223,7 @@ public class OrmDriverPostgreSql extends OrmDriver
       // Ejecuta la senténcia SQL
       this.getConnection().connect();
       this.getConnection().execute(sql.toString());
+      this.getConnection().disconnect();
    }
    
    //==============================================

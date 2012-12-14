@@ -69,7 +69,7 @@ public class OrmProvider
     */
    public Object add(Class<?> ormObject, HttpServletRequest request) throws InvalidMappingException, SQLException, DataException, Exception
    {
-      return driver.add(ormObject, request);
+      return driver.insert(ormObject, request);
    }
    
    /**
@@ -84,7 +84,7 @@ public class OrmProvider
     */
    public void add(Object data) throws InvalidMappingException, SQLException, DataException, Exception 
    {
-      driver.add(data);
+      driver.insert(data);
    }
    
    //==============================================
