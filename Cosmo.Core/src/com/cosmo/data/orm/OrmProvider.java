@@ -4,6 +4,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.cosmo.Workspace;
 import com.cosmo.data.DataException;
 import com.cosmo.data.DataSource;
@@ -54,7 +56,30 @@ public class OrmProvider
    }
    
    /**
-    * Devuelve la última senténcia SQL generada y ejecutada.
+    * Recupera los valores, los coloca en una instancia de la clase y agrega los datos en la base de datos.
+    * 
+    * @param ormObject
+    * @param request
+    * 
+    * @throws Exception 
+    * @throws DataException 
+    * @throws SQLException 
+    * @throws InvalidMappingException 
+    */
+   public Object add(Class<?> ormObject, HttpServletRequest request) throws InvalidMappingException, SQLException, DataException, Exception
+   {
+      return driver.add(ormObject, request);
+   }
+   
+   /**
+    * Genera una senténcia INSERT INTO a partir de una instancian de clase.
+    * 
+    * @param data Clase que contiene los datos a insertar.
+    * 
+    * @throws InvalidMappingException
+    * @throws DataException 
+    * @throws SQLException 
+    * @throws Exception 
     */
    public void add(Object data) throws InvalidMappingException, SQLException, DataException, Exception 
    {
