@@ -67,7 +67,7 @@ public class CosmoUserProvider extends UserProvider
                "      usrpwd = '" + CryptoUtils.encrypt(password) + "'";
 
          ds = this.workspace.getProperties().getDataSource(DataConnection.CONNECTION_SERVER);
-         conn = new DataConnection(ds, false);
+         conn = new DataConnection(ds);
          conn.connect();
          ResultSet rs = conn.executeSql(sql);
          if (rs.next())
@@ -147,7 +147,7 @@ public class CosmoUserProvider extends UserProvider
                 "      Lower(usrmail)  = '" + user.getMail().trim().toLowerCase()  + "'";
          
          ds = this.workspace.getProperties().getDataSource(DataConnection.CONNECTION_SERVER);
-         conn = new DataConnection(ds, false);
+         conn = new DataConnection(ds);
          conn.connect();
          rs = conn.executeSql(sSQL);
          if (rs.next() && rs.getInt(1) > 0)
