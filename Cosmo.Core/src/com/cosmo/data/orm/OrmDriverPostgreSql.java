@@ -74,8 +74,9 @@ public class OrmDriverPostgreSql extends OrmDriver
     */
    public Object add(Class<?> ormClass, HttpServletRequest request) throws InvalidMappingException, SQLException, DataException, Exception
    {
-      Object instance = null;
       CosmoFieldSetter cfs;
+      Object instance = null;
+      Class<?> paramType;
       
       // Obtiene el constructor vacio (siempre usará el constructor vacío)  
       Constructor<?>[] ctors = ormClass.getDeclaredConstructors();
@@ -92,12 +93,14 @@ public class OrmDriverPostgreSql extends OrmDriver
                {               
                   method.setAccessible(true);
                   cfs = method.getAnnotation(CosmoFieldSetter.class);
-                  
-                  if (method.getReturnType() == String.class)
+                  paramType = method.getParameterTypes()[0];
+
+                  // Establece el valor según el tipo de datos
+                  if (paramType == String.class)
                   {
                      method.invoke(instance, HttpRequestUtils.getValue(request, cfs.name(), ""));
                   }
-                  else if (method.getReturnType() == Integer.class)
+                  else if (paramType == Integer.class)
                   {
                      method.invoke(instance, HttpRequestUtils.getInt(request, cfs.name()));
                   }
