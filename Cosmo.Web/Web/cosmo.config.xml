@@ -31,7 +31,8 @@
    <connections>
 
 	   <connection id="cosmo.server" 
-	               driver="org.postgresql.Driver" 
+	               corm.driver="com.cosmo.data.adapter.OrmDriverPostgreSql"
+	               jdbc.driver="org.postgresql.Driver" 
 	               server="jdbc:postgresql:cosmo-test" 
 	               port="5432" 
 	               schema="public" 
@@ -39,7 +40,8 @@
 	               pwd="esfacil" />
 	
 	   <connection id="fons-social-pre" 
-	               driver="oracle.jdbc.driver.OracleDriver" 
+	               corm.driver="com.cosmo.data.adapter.OrmDriverOracle"
+	               jdbc.driver="oracle.jdbc.driver.OracleDriver" 
 	               server="bdo1vip.intranet.dtgna" 
 	               port="1525" 
 	               schema="pextra" 
