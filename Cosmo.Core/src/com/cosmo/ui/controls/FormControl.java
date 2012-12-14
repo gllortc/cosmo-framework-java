@@ -11,7 +11,7 @@ import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
 import com.cosmo.annotations.CosmoField;
 import com.cosmo.annotations.CosmoTable;
-import com.cosmo.data.adapter.InvalidMappingException;
+import com.cosmo.data.orm.InvalidMappingException;
 import com.cosmo.structures.FormData;
 import com.cosmo.ui.controls.FormButton.ButtonType;
 import com.cosmo.ui.templates.TemplateControl;
