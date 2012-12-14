@@ -1,6 +1,6 @@
 package com.cosmo.ui.controls;
 
-import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -167,13 +167,26 @@ public class FormControl extends Control
       group = new FormFieldGroup("");
       group.setTitle(ct.title());
       group.setDescription(ct.description());
-      for (Field method : ormClass.getFields())
+      for (Method method : ormClass.getMethods())
       {
          cf = method.getAnnotation(CosmoField.class);
          
          if (cf != null)
          {
-            group.addField(new FormFieldText(cf.name(), cf.label()));
+            switch (cf.fieldType())
+            {
+               case Text:
+                  group.addField(new FormFieldText(cf.name(), cf.label()));
+                  break;
+               case Integer:
+                  group.addField(new FormFieldText(cf.name(), cf.label()));
+                  break;
+               case Decimal:
+                  group.addField(new FormFieldText(cf.name(), cf.label()));
+                  break;
+               default:
+                  // Nothing to do
+            }
          }
       }
       this.addGroup(group);
