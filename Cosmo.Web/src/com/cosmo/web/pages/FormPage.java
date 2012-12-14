@@ -76,7 +76,7 @@ public class FormPage extends Page
       
       try 
       {
-         conn = new DataConnection(getWorkspace().getProperties().getDataSource("cosmo.server"), false);
+         conn = new DataConnection(getWorkspace().getProperties().getDataSource("cosmo.server"));
          wm = new WeatherManager(conn);
          wm.add(weather);
 
