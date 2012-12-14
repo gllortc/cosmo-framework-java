@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
 
 import com.cosmo.Workspace;
+import com.cosmo.data.DataConnection;
 import com.cosmo.data.DataException;
 import com.cosmo.data.DataSource;
 
@@ -99,18 +100,24 @@ public class OrmProvider
    {
       OrmDriver provider;
       DataSource ds = null;
+      DataConnection conn;
       
       try 
       {
+         // Genera la instancia
          ds = workspace.getProperties().getDataSource(dataSourceId);
          if (ds == null)
          {
             throw new OrmDriverException("Datasource " + dataSourceId + " not found");
          }
          
+         // Genera la conexión
+         conn = new DataConnection(ds);
+         
+         // Invoca el constructor del driver
          Class<?> cls = Class.forName(ds.getCormDriver());
-         Constructor<?> cons = cls.getConstructor(Workspace.class);
-         provider = (OrmDriver) cons.newInstance(workspace);
+         Constructor<?> cons = cls.getConstructor(DataConnection.class);
+         provider = (OrmDriver) cons.newInstance(conn);
          
          return provider;
       }
