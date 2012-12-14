@@ -1,7 +1,6 @@
 package com.cosmo.data.orm;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -147,9 +146,9 @@ public class OrmDriverPostgreSql extends OrmDriver
 
       // Obtiene la lista de campos
       first = true;
-      for (Field field : data.getClass().getFields())
+      for (Method method : data.getClass().getMethods())
       {
-         cf = field.getAnnotation(CosmoFieldGetter.class);
+         cf = method.getAnnotation(CosmoFieldGetter.class);
          
          if (cf != null)
          {
@@ -165,28 +164,41 @@ public class OrmDriverPostgreSql extends OrmDriver
 
       // Inserta los valores en la senténcia
       first = true;
-      for (Field field : data.getClass().getFields())
+      for (Method method : data.getClass().getMethods())
       {
-         cf = field.getAnnotation(CosmoFieldGetter.class);
+         cf = method.getAnnotation(CosmoFieldGetter.class);
          
          if (cf != null && !cf.readOnly())
          {
             sql.append((first ? "" : ", "));
 
-            if (field.getType() == String.class)
+            // Texto
+            if (method.getReturnType() == String.class || 
+                method.getReturnType() == char.class)
             {
                sql.append("'");
-               sql.append(convertToSql((String) field.get(data)));
+               sql.append(convertToSql((String) method.invoke(data)));
                sql.append("'");
             }
-            else if (field.getType() == Integer.class || field.getType() == int.class)
+            // Enteros
+            else if (method.getReturnType() == Integer.class || method.getReturnType() == int.class ||
+                     method.getReturnType() == Long.class || method.getReturnType() == long.class ||
+                     method.getReturnType() == Short.class || method.getReturnType() == short.class)
             {
-               sql.append((Integer) field.get(data));
+               sql.append((Integer) method.invoke(data));
             }
-            else if (field.getType() == Date.class)
+            // Fechas y horas
+            else if (method.getReturnType() == Date.class)
             {
                sql.append("'");
-               sql.append(sdf.format((Date) field.get(data)));
+               sql.append(sdf.format((Date) method.invoke(data)));
+               sql.append("'");
+            }
+            // Booleanos
+            else if (method.getReturnType() == boolean.class || method.getReturnType() == Boolean.class)
+            {
+               sql.append("'");
+               sql.append(((Boolean) method.invoke(data) ? "1" : "0"));
                sql.append("'");
             }
 
