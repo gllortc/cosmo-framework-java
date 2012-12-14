@@ -15,9 +15,6 @@ public class DataConnection
 {
    public static final String CONNECTION_SERVER = "cosmo.server";
    
-   private static final String DRIVER_ORACLE = "oracle.jdbc.driver.OracleDriver";
-   
-   private Boolean debug;
    private DataSource pds;
    private Connection conn = null;
    private String lastSqlStatement = "";
@@ -27,29 +24,35 @@ public class DataConnection
    // Constructors
    //==============================================
    
-   public DataConnection(DataSource datasource, Boolean logDebug) throws Exception
+   /**
+    * Constructor de la clase.
+    * 
+    * @param datasource Una instancia de {@link DataSource} que describe la conexión con la base de datos.
+    * 
+    * @throws Exception
+    */
+   public DataConnection(DataSource datasource) 
    {
       this.pds = datasource;
    }
-   
-   public DataConnection(String dbServer, String dbPort, String dbName, String dbUser, String dbPassword, Boolean logDebug)
+
+   /**
+    * Constructor de la clase.
+    * 
+    * @param host Host del servidor de bases de datos.
+    * @param port Puerto de conexión.
+    * @param schema Nombre de la base de datos (y/o esquema).
+    * @param userLogin Login del usuario.
+    * @param userPassword Contraseña del usuario.
+    */
+   public DataConnection(String host, String port, String schema, String userLogin, String userPassword, String jdbcDriver, String cormDriver)
    {
-      this.pds = new DataSource("custom", DataConnection.DRIVER_ORACLE, dbServer, dbPort, dbName, dbUser, dbPassword);
+      this.pds = new DataSource("custom", host, port, schema, userLogin, userPassword, jdbcDriver, cormDriver);
    }
 
    //==============================================
    // Properties
    //==============================================
-   
-   public Boolean getDebug() 
-   {
-      return debug;
-   }
-
-   public void setDebug(Boolean debug) 
-   {
-      this.debug = debug;
-   }
 
    public Boolean isAutoCommit() 
    {
@@ -86,7 +89,7 @@ public class DataConnection
       
       try 
       {
-         Class.forName(pds.getDriver());
+         Class.forName(pds.getJdbcDriver());
          
          conn = DriverManager.getConnection(pds.getConnectionUrl() + ":" + pds.getPort(), pds.getLogin(), pds.getPassword());
          conn.setAutoCommit(this.autoCommit);
