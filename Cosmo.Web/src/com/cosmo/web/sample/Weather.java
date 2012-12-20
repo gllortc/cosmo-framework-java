@@ -1,9 +1,10 @@
 package com.cosmo.web.sample;
 
 import com.cosmo.annotations.CosmoFieldGetter;
-import com.cosmo.annotations.CosmoFieldGetter.FieldType;
 import com.cosmo.annotations.CosmoFieldSetter;
 import com.cosmo.annotations.CosmoTable;
+import com.cosmo.ui.controls.FormFieldInteger;
+import com.cosmo.ui.controls.FormFieldText;
 
 @CosmoTable( name = "frmWeather", 
              tableName = "weather", 
@@ -46,7 +47,7 @@ public class Weather
    // Propiedades
    //==============================================
    
-   @CosmoFieldGetter( fieldType = FieldType.Text, tableColumnName = "city", name = "txtCity", label = "Ciutat" )
+   @CosmoFieldGetter( fieldClass = FormFieldText.class, tableColumnName = "city", name = "txtCity", label = "Ciutat" )
    public String getCityName() 
    {
       return cityName;
@@ -58,7 +59,7 @@ public class Weather
       this.cityName = cityName;
    }
 
-   @CosmoFieldGetter( fieldType = FieldType.Integer, tableColumnName = "temp_lo", name = "txtTempLo", label = "Temperatura mínima" )
+   @CosmoFieldGetter( fieldClass = FormFieldInteger.class, tableColumnName = "temp_lo", name = "txtTempLo", label = "Temperatura mínima" )
    public Integer getTempMin() 
    {
       return tempMin;
@@ -70,7 +71,7 @@ public class Weather
       this.tempMin = tempMin;
    }
 
-   @CosmoFieldGetter( fieldType = FieldType.Integer, tableColumnName = "temp_hi", name = "txtTempHi", label = "Temperatura màxima" )
+   @CosmoFieldGetter( fieldClass = FormFieldInteger.class, tableColumnName = "temp_hi", name = "txtTempHi", label = "Temperatura màxima" )
    public Integer getTempMax() 
    {
       return tempMax;
@@ -82,7 +83,7 @@ public class Weather
       this.tempMax = tempMax;
    }
 
-   @CosmoFieldGetter( fieldType = FieldType.Integer, tableColumnName = "prcp", name = "txtPrcp", label = "Precipitació mitjana" )
+   @CosmoFieldGetter( fieldClass = FormFieldInteger.class, tableColumnName = "prcp", name = "txtPrcp", label = "Precipitació mitjana" )
    public Integer getPrecipitation()
    {
       return precipitation;
