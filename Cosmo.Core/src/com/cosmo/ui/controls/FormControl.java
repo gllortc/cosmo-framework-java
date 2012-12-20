@@ -178,6 +178,21 @@ public class FormControl extends Control
                group.addField(new FormFieldText(cf.name(), cf.label()));
                break;
             }
+            else if (cf.fieldClass() == FormFieldInteger.class)
+            {
+               group.addField(new FormFieldInteger(cf.name(), cf.label()));
+               break;
+            }
+            else if (cf.fieldClass() == FormFieldNumber.class)
+            {
+               group.addField(new FormFieldNumber(cf.name(), cf.label()));
+               break;
+            }
+            else if (cf.fieldClass() == FormFieldDate.class)
+            {
+               group.addField(new FormFieldDate(cf.name(), cf.label()));
+               break;
+            }
             else if (cf.fieldClass() == FormFieldCaptcha.class)
             {
                group.addField(new FormFieldCaptcha(cf.name(), cf.label()));

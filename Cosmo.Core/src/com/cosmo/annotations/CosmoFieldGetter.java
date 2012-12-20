@@ -5,6 +5,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.annotation.ElementType;
 
+import com.cosmo.ui.controls.FormFieldText;
+
 /**
  * Anotación que sirve para indicar a las páginas que se precisa ser usuario autenticado.
  */
@@ -22,8 +24,9 @@ public @interface CosmoFieldGetter
    /**
     * Define el tipo de datos del campo.
     */
-   FieldType fieldType() default FieldType.Text;
-
+   // FieldType fieldType() default FieldType.Text;
+   Class<?> fieldClass() default FormFieldText.class;
+   
    /**
     * Nombre del campo en la BBDD.
     */
