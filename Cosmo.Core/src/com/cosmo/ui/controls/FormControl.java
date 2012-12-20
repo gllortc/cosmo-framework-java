@@ -173,19 +173,15 @@ public class FormControl extends Control
          
          if (cf != null)
          {
-            switch (cf.fieldType())
+            if (cf.fieldClass() == FormFieldText.class)
             {
-               case Text:
-                  group.addField(new FormFieldText(cf.name(), cf.label()));
-                  break;
-               case Integer:
-                  group.addField(new FormFieldText(cf.name(), cf.label()));
-                  break;
-               case Decimal:
-                  group.addField(new FormFieldText(cf.name(), cf.label()));
-                  break;
-               default:
-                  // Nothing to do
+               group.addField(new FormFieldText(cf.name(), cf.label()));
+               break;
+            }
+            else if (cf.fieldClass() == FormFieldCaptcha.class)
+            {
+               group.addField(new FormFieldCaptcha(cf.name(), cf.label()));
+               break;
             }
          }
       }
