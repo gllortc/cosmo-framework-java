@@ -108,7 +108,7 @@ public class FormFieldGroup extends FormField
     * Establece el valor del campo.
     */
    @Override
-   public void setValue(String value)
+   public void setValue(Object value)
    {
       // No aplica en este tipo de control
       // Se omite la llamada a este método

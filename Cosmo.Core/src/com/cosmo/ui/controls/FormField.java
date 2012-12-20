@@ -17,7 +17,7 @@ public abstract class FormField
    /**
     * Establece el valor del campo.
     */
-   public abstract void setValue(String value);
+   public abstract void setValue(Object value);
    
    /**
     * Convierte la instancia en una cadena XHTML que representa el elemento en una página web.

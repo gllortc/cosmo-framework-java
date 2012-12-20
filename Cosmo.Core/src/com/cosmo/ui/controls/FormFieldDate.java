@@ -1,5 +1,6 @@
 package com.cosmo.ui.controls;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.http.HttpSession;
@@ -12,9 +13,9 @@ import javax.servlet.http.HttpSession;
 public class FormFieldDate extends FormField
 {
    private String name;
-   private String value;
    private String label;
    private String description;
+   private Date value;
    private Date max;
    private Date min;
    private boolean required;
@@ -34,7 +35,7 @@ public class FormFieldDate extends FormField
       this.name = name;
       this.label = label;
       this.description = "";
-      this.value = "0";
+      this.value = null;
       this.min = null;
       this.max = null;
       this.required = false;
@@ -52,7 +53,7 @@ public class FormFieldDate extends FormField
       this.name = name;
       this.label = label;
       this.description = "";
-      this.value = "0";
+      this.value = null;
       this.min = null;
       this.max = null;
       this.required = required;
@@ -73,15 +74,15 @@ public class FormFieldDate extends FormField
       this.name = name;
    }
 
-   public String getValue() 
+   public Date getValue() 
    {
       return value;
    }
 
    @Override
-   public void setValue(String value) 
+   public void setValue(Object value) 
    {
-      this.value = value;
+      this.value = (Date) value;
    }
 
    public String getLabel() 
@@ -144,14 +145,15 @@ public class FormFieldDate extends FormField
    @Override
    public String render(HttpSession session)
    {
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
       StringBuilder sb = new StringBuilder();
 
       sb.append("<input type=\"date\" ").
          append("id=\"").append(this.name).append("\" ").
          append("name=\"").append(this.name).append("\" ").
-         append("value=\"").append(this.value).append("\" ").
-         append(min != null ? "min=\"" + this.min + "\" " : "").
-         append(max != null ? "max=\"" + this.max + "\" " : "").
+         append("value=\"").append(sdf.format(this.value)).append("\" ").
+         append(min != null ? "min=\"" + sdf.format(this.min) + "\" " : "").
+         append(max != null ? "max=\"" + sdf.format(this.max) + "\" " : "").
          append("value=\"").append(this.value).append("\" ").
          append(required ? "required" : "").
          append("/>");

@@ -74,9 +74,9 @@ public class FormFieldCaptcha extends FormField
    }
 
    @Override
-   public void setValue(String value) 
+   public void setValue(Object value) 
    {
-      this.value = value;
+      this.value = (String) value;
    }
 
    public String getLabel() 

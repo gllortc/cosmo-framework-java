@@ -57,9 +57,9 @@ public class FormFieldHidden extends FormField
       return value;
    }
 
-   public void setValue(String value) 
+   public void setValue(Object value) 
    {
-      this.value = value;
+      this.value = (String) value;
    }
    
    //==============================================

@@ -10,9 +10,9 @@ import javax.servlet.http.HttpSession;
 public class FormFieldNumber extends FormField
 {
    private String name;
-   private String value;
    private String label;
    private String description;
+   private Float value;
    private Float max;
    private Float min;
    private boolean required;
@@ -32,7 +32,7 @@ public class FormFieldNumber extends FormField
       this.name = name;
       this.label = label;
       this.description = "";
-      this.value = "0";
+      this.value = 0.0f;
       this.min = null;
       this.max = null;
       this.required = false;
@@ -50,7 +50,7 @@ public class FormFieldNumber extends FormField
       this.name = name;
       this.label = label;
       this.description = "";
-      this.value = "0";
+      this.value = 0.0f;
       this.min = null;
       this.max = null;
       this.required = required;
@@ -71,15 +71,15 @@ public class FormFieldNumber extends FormField
       this.name = name;
    }
 
-   public String getValue() 
+   public Float getValue() 
    {
       return value;
    }
 
    @Override
-   public void setValue(String value) 
+   public void setValue(Object value) 
    {
-      this.value = value;
+      this.value = (Float) value;
    }
 
    public String getLabel() 
