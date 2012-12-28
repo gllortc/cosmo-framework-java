@@ -93,6 +93,50 @@ public class WorkspaceProperties
     * @param key Clave asociada al valor deseado.
     * @return Devuelve una cadena de texto que corresponde al valor asociado a la clave especificada.
     */
+   public String getString(String key) 
+   {
+      return properties.get(key);
+   }
+   
+   /**
+    * Obtiene el valor de configuración asociado a una clave.
+    * 
+    * @param key Clave asociada al valor deseado.
+    * @return Devuelve una cadena de texto que corresponde al valor asociado a la clave especificada.
+    */
+   public Integer getInteger(String key, Integer defaultNum) 
+   {
+      String snum = properties.get(key);
+      
+      try
+      {
+         return Integer.valueOf(snum);
+      }
+      catch (NumberFormatException ex)
+      {      
+         return defaultNum;
+      }
+   }
+   
+   /**
+    * Obtiene el valor de configuración asociado a una clave.
+    * 
+    * @param key Clave asociada al valor deseado.
+    * @return Devuelve una cadena de texto que corresponde al valor asociado a la clave especificada.
+    */
+   public Boolean getBoolean(String key) 
+   {
+      String snum = properties.get(key);
+      return Boolean.valueOf(snum);
+   }
+   
+   /**
+    * Obtiene el valor de configuración asociado a una clave.
+    * 
+    * @param key Clave asociada al valor deseado.
+    * @return Devuelve una cadena de texto que corresponde al valor asociado a la clave especificada.
+    */
+   @Deprecated
    public String getWorkspaceProperty(String key) 
    {
       return properties.get(key);

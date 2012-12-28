@@ -40,6 +40,15 @@ public interface Cosmo
    public static final String PROPERTY_WORKSPACE_DATA_SERVERID = "ws.data.serverId";
    public static final String PROPERTY_WORKSPACE_DATA_ORM_DRIVER = "ws.data.orm.driver";
    
+   public static final String PROPERTY_WORKSPACE_COMM_MAIL_TRANSPORT = "ws.comm.mail.transport.protocol";
+   public static final String PROPERTY_WORKSPACE_COMM_SMTP_HOST = "ws.comm.mail.smtp.host";
+   public static final String PROPERTY_WORKSPACE_COMM_SMTP_AUTH = "ws.comm.mail.smtp.auth";
+   public static final String PROPERTY_WORKSPACE_COMM_SMTP_STARTTLS = "ws.comm.mail.smtp.starttls.enable";
+   public static final String PROPERTY_WORKSPACE_COMM_SMTP_LOGIN = "ws.comm.mail.smtp.login";
+   public static final String PROPERTY_WORKSPACE_COMM_SMTP_PASSWORD = "ws.comm.mail.smtp.password";
+   public static final String PROPERTY_WORKSPACE_COMM_SMTP_FROMNAME = "ws.comm.mail.smtp.from.name";
+   public static final String PROPERTY_WORKSPACE_COMM_SMTP_FROMADD = "ws.comm.mail.smtp.from.address"; 
+   
    //==============================================
    // Standard URL parameters
    //==============================================
