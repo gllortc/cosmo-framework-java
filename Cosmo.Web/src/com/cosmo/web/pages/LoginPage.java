@@ -33,12 +33,13 @@ public class LoginPage extends Page
    
    private static final String FIELD_LOGIN = "txtLogin";
    private static final String FIELD_PASSWORD = "txtPwd";
+   private static final String FIELD_TOURL = "toUrl";
 
    @Override
    public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
    {
       this.setLayout(PageLayout.TwoColumnsLeft);
-      this.setTitle(this.getWorkspace().getProperties().getWorkspaceProperty(Cosmo.PROPERTY_WORKSPACE_SECURITY_LOGINPAGE) + " - Login");
+      this.setTitle(this.getWorkspace().getProperties().getWorkspaceProperty(Cosmo.PROPERTY_WORKSPACE_TITLE) + " - Login");
       
       BreadcrumbsControl navbar = new BreadcrumbsControl(getWorkspace(), "bc");
       navbar.addItem(new BreadcrumbsItem("Home", "HomePage", Icon.ICON_IMAGE_HOME));
