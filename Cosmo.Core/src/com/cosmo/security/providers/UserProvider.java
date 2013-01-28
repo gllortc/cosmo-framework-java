@@ -106,7 +106,7 @@ public abstract class UserProvider
       
       try 
 		{
-         className = workspace.getProperties().getWorkspaceProperty(Cosmo.PROPERTY_WORKSPACE_SECURITY_PROVIDER);
+         className = workspace.getProperties().getString(Cosmo.PROPERTY_WORKSPACE_SECURITY_PROVIDER);
          
          Class<?> cls = Class.forName(className);
          Constructor<?> cons = cls.getConstructor(Workspace.class);

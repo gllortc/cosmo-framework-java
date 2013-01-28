@@ -448,10 +448,10 @@ public abstract class Page extends HttpServlet implements PageInterface
       
       if (!getWorkspace().isValidUserSession())
       {
-         URL url = new URL(getWorkspace().getProperties().getWorkspaceProperty(Cosmo.PROPERTY_WORKSPACE_SECURITY_LOGINPAGE));
+         URL url = new URL(getWorkspace().getProperties().getString(Cosmo.PROPERTY_WORKSPACE_SECURITY_LOGINPAGE));
          url.addParameter(Cosmo.URL_PARAM_TOURL, getWorkspace().getServerRequest().getRequestURL().toString());
          
-         getWorkspace().getServerResponse().sendRedirect(url.toString(getWorkspace().getProperties().getWorkspaceProperty(Cosmo.PROPERTY_WORKSPACE_UI_CHARSET)));
+         getWorkspace().getServerResponse().sendRedirect(url.toString(getWorkspace().getProperties().getString(Cosmo.PROPERTY_WORKSPACE_UI_CHARSET)));
       }
    }
    

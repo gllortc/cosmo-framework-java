@@ -228,9 +228,9 @@ public class Workspace
       this.rules = new Rules(context);
       this.template = this.rules.checkRules(request.getHeader("User-Agent"));
 
-      this.url = this.properties.getWorkspaceProperty(Cosmo.PROPERTY_WORKSPACE_URL);
-      this.name = this.properties.getWorkspaceProperty(Cosmo.PROPERTY_WORKSPACE_TITLE);
-      this.mail = this.properties.getWorkspaceProperty(Cosmo.PROPERTY_WORKSPACE_MAIL);
+      this.url = this.properties.getString(Cosmo.PROPERTY_WORKSPACE_URL);
+      this.name = this.properties.getString(Cosmo.PROPERTY_WORKSPACE_TITLE);
+      this.mail = this.properties.getString(Cosmo.PROPERTY_WORKSPACE_MAIL);
    }
 
    /**
