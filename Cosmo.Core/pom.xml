@@ -35,4 +35,7 @@
   		<version>2.5</version>
   	</dependency>
   </dependencies>
+  <organization>
+  	<name>G2 Software</name>
+  </organization>
 </project>
