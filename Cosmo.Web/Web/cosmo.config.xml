@@ -20,6 +20,15 @@
       <!-- value key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoDynamicMenuProvider" / -->
 
       <value key="ws.data.serverId" value="cosmo.server" />
+      
+      <value key="ws.comm.mail.transport.protocol" value="smtp" />
+      <value key="ws.comm.mail.smtp.host" value="smtp.gmail.com" />
+      <value key="ws.comm.mail.smtp.auth" value="true" />
+      <value key="ws.comm.mail.smtp.starttls.enable" value="true" />
+      <value key="ws.comm.mail.smtp.login" value="XXXXXX@gmail.com" />
+      <value key="ws.comm.mail.smtp.password" value="XXXXXXX" />
+      <value key="ws.comm.mail.smtp.from.name" value="Cosmo Communications Server" />
+      <value key="ws.comm.mail.smtp.from.address" value="XXXXXXX" />
 
    </settings>
    
