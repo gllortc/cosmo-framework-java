@@ -1,5 +1,6 @@
 package com.cosmo.ui.controls;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.cosmo.Workspace;
@@ -99,9 +100,9 @@ public class GridControl extends Control
     * @param session
     * @param data
     */
-   public void setData(HttpSession session, GridData data)
+   public void setData(HttpServletRequest request, GridData data)
    {
-      session.setAttribute(this.getSessionControlData(), data);
+      request.getSession().setAttribute(this.getSessionControlData(), data);
    }
    
    /**
@@ -110,9 +111,9 @@ public class GridControl extends Control
     * @param session Una instancia de {@link HttpSession}.
     * @return Una instancia de {@link GridData}.
     */
-   public GridData getData(HttpSession session)
+   public GridData getData(HttpServletRequest request)
    {
-      GridData gd = (GridData) session.getAttribute(this.getSessionControlData());
+      GridData gd = (GridData) request.getSession().getAttribute(this.getSessionControlData());
       
       if (gd != null)
       {
@@ -127,7 +128,7 @@ public class GridControl extends Control
    /**
     * Renderiza el control y genera el código XHTML de representación.
     *
-    * @return Devuelve una cadena en formato XHTML que representa el control. 
+    * @return Devuelve una cadena en formato XHTML que representa el control.
     */
    @Override
    public String render()
@@ -138,7 +139,7 @@ public class GridControl extends Control
       TemplateControl ctrl;
       
       // Obtiene los datos de la tabla
-      GridData data = this.getData(getWorkspace().getServerSession());
+      GridData data = this.getData(getWorkspace().getServerRequest());
       
       // Obtiene la plantilla y la parte del control
       ctrl = getWorkspace().getTemplate().getControl(CONTROL_ID);
