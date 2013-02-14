@@ -67,7 +67,7 @@ public class GridPage extends Page
          gd.setCells(wm.getAll(), true);
          
          GridControl grid = (GridControl) this.getControl(ID_GRID);
-         grid.setData(request.getSession(), gd);
+         grid.setData(request, gd);
       } 
       catch (Exception ex) 
       {

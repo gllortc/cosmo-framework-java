@@ -7,7 +7,7 @@ import com.cosmo.ui.Page;
 import com.cosmo.ui.controls.HeaderControl;
 
 /**
- * Página de prova
+ * Home page.
  * 
  * @author Gerard Llort
  */
