@@ -88,7 +88,7 @@ public class FormData
       String val = "";
       
       val += "[";
-      for (String str : this.map.values())
+      for (String str : this.map.keySet())
       {
          val += "[" + str + ": " + this.map.get(str) + "]";
       }
