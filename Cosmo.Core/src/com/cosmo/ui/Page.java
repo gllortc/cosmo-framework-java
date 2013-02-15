@@ -45,7 +45,7 @@ public abstract class Page extends HttpServlet implements PageInterface
    private ArrayList<Control> centerContents;
    private ArrayList<Control> rightContents;
    private StringBuilder xhtml;
-   private PageRenderProvider provider;
+   private PageRenderProvider renderProvider;
 
    /**
     * Enumera las distintas regiones dónde se pueden agregar controles en la página.
@@ -265,13 +265,13 @@ public abstract class Page extends HttpServlet implements PageInterface
       try
       {
          // Si no hay renderizador asignado, lo carga
-         if (this.provider == null)
+         if (this.renderProvider == null)
          {
-            this.provider = PageRenderProvider.getInstance(workspace);
+            this.renderProvider = PageRenderProvider.getInstance(workspace);
          }
          
          // Invoca la renderización al proveedor
-         xhtml = new StringBuilder(this.provider.render(this));
+         xhtml = new StringBuilder(this.renderProvider.render(this));
       }
       catch (PageRenderException ex)
       {
@@ -414,7 +414,7 @@ public abstract class Page extends HttpServlet implements PageInterface
 
       xhtml = new StringBuilder();
       workspace = null;
-      provider = null;
+      renderProvider = null;
       title = "";
       charset = Cosmo.CHARSET_ISO_8859_1;
       layout = PageLayout.OneColumn;
@@ -449,8 +449,20 @@ public abstract class Page extends HttpServlet implements PageInterface
       if (!getWorkspace().isValidUserSession())
       {
          URL url = new URL(getWorkspace().getProperties().getString(Cosmo.PROPERTY_WORKSPACE_SECURITY_LOGINPAGE));
-         url.addParameter(Cosmo.URL_PARAM_TOURL, getWorkspace().getServerRequest().getRequestURL().toString());
          
+         // Determina si existe una dirección de origen
+         try
+         {
+            HttpServletRequest request = getWorkspace().getServerRequest();
+            String urlSource = request.getRequestURL().toString();
+            url.addParameter(Cosmo.URL_PARAM_TOURL, urlSource);
+         }
+         catch (Exception ex)
+         {
+            // No lo tiene en cuenta
+         }
+
+         // Redirecciona la página al servlet de LOGIN.
          getWorkspace().getServerResponse().sendRedirect(url.toString(getWorkspace().getProperties().getString(Cosmo.PROPERTY_WORKSPACE_UI_CHARSET)));
       }
    }

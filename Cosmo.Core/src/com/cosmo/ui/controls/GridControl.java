@@ -113,7 +113,19 @@ public class GridControl extends Control
     */
    public GridData getData(HttpServletRequest request)
    {
-      GridData gd = (GridData) request.getSession().getAttribute(this.getSessionControlData());
+      if (request == null)
+      {
+         return new GridData();
+      }
+      
+      HttpSession session = request.getSession();
+      
+      if (session == null)
+      {
+         return new GridData();
+      }
+      
+      GridData gd = (GridData) session.getAttribute(this.getSessionControlData());
       
       if (gd != null)
       {

@@ -3,6 +3,7 @@ package com.cosmo;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.cosmo.ui.templates.RulesLoadException;
 import com.cosmo.ui.templates.TemplateLoadException;
@@ -29,19 +30,30 @@ public class WorkspaceProvider
    public static Workspace getWorkspace(ServletContext context, HttpServletRequest request, HttpServletResponse response) throws WorkspaceLoadException, RulesLoadException, TemplateUnavailableException, TemplateLoadException, MenuProviderException
    {
       Workspace ws;
+      HttpSession session;
+      
+      // Obtiene la sessión de usuario
+      session = request.getSession();
+      
+      if (session == null)
+      {
+         throw new WorkspaceLoadException("No session detected");
+      }
       
       // Obtiene el workspace de la cache
-      ws = (Workspace) request.getSession().getAttribute(Cosmo.KEY_CACHE_SESSION_WORKSPACE);
+      ws = (Workspace) session.getAttribute(Cosmo.KEY_CACHE_SESSION_WORKSPACE);
 
       // Si existe en la cache, devuelve el workspace
       if (ws != null)
       {
+         ws.setServerRequest(request);
+
          return ws;
       }
 
       // Inicializa el workspace y lo guarda en la sesión
       ws = new Workspace(context, request, response);
-      request.getSession().setAttribute(Cosmo.KEY_CACHE_SESSION_WORKSPACE, ws);
+      session.setAttribute(Cosmo.KEY_CACHE_SESSION_WORKSPACE, ws);
       
       return ws;
    }

@@ -101,6 +101,14 @@ public class Workspace
    }
    
    /**
+    * Establece la instancia de {@link HttpServletRequest} que corresponde a la llamada.
+    */
+   public void setServerRequest(HttpServletRequest request)
+   {
+      this.srvRequest = request;
+   }
+   
+   /**
     * Devuelve la instancia de {@link HttpServletResponse} que corresponde a la respuesta.
     */
    public HttpServletResponse getServerResponse()

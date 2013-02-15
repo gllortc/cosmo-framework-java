@@ -18,6 +18,12 @@ public class WorkspaceLoadException extends Exception
       this.innerException = null;
    }
    
+   public WorkspaceLoadException(String message)
+   {
+      super(message);
+      this.innerException = null;
+   }
+   
    public WorkspaceLoadException(String message, Exception innerException)
    {
       super(message);
