@@ -24,6 +24,7 @@ import com.cosmo.ui.templates.RulesLoadException;
 import com.cosmo.ui.templates.TemplateLoadException;
 import com.cosmo.ui.templates.TemplateUnavailableException;
 import com.cosmo.ui.widgets.providers.MenuProviderException;
+import com.cosmo.util.StringUtils;
 import com.cosmo.util.URL;
 
 /**
@@ -463,7 +464,10 @@ public abstract class Page extends HttpServlet implements PageInterface
          }
 
          // Redirecciona la página al servlet de LOGIN.
-         getWorkspace().getServerResponse().sendRedirect(url.toString(getWorkspace().getProperties().getString(Cosmo.PROPERTY_WORKSPACE_UI_CHARSET)));
+         String charSet = getWorkspace().getProperties().getString(Cosmo.PROPERTY_WORKSPACE_UI_CHARSET);
+         charSet = (StringUtils.isNullOrEmptyTrim(charSet) ? Cosmo.CHARSET_UTF_8 : charSet);
+         String toUrl = url.toString(charSet);
+         getWorkspace().getServerResponse().sendRedirect(toUrl);
       }
    }
    
