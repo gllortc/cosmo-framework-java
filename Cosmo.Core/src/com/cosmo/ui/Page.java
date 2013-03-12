@@ -451,7 +451,7 @@ public abstract class Page extends HttpServlet implements PageInterface
       {
          URL url = new URL(getWorkspace().getProperties().getString(Cosmo.PROPERTY_WORKSPACE_SECURITY_LOGINPAGE));
          
-         // Determina si existe una dirección de origen
+         // Determina si existe una dirección de origender
          try
          {
             HttpServletRequest request = getWorkspace().getServerRequest();

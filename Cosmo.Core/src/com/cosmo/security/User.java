@@ -6,7 +6,7 @@ import java.util.Date;
  * Representa un usuario de Cosmo.
  * @author gllort
  */
-public class User 
+public class User implements java.security.Principal
 {
    private int id;
    private String login;

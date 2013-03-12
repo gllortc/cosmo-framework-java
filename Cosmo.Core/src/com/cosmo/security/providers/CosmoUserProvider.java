@@ -118,7 +118,7 @@ public class CosmoUserProvider extends UserProvider
       {
          conn.disconnect();
       }              
-
+      
       return user;
    }
    
