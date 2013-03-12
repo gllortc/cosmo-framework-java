@@ -4,7 +4,8 @@ import java.util.Date;
 
 /**
  * Representa un usuario de Cosmo.
- * @author gllort
+ * 
+ * @author gerard llort
  */
 public class User implements java.security.Principal
 {
