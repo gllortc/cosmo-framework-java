@@ -6,6 +6,8 @@ import com.cosmo.ui.controls.BreadcrumbsItem;
 import com.cosmo.ui.controls.HeaderControl;
 import com.cosmo.ui.controls.Icon;
 import com.cosmo.ui.controls.XhtmlControl;
+
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  * 
  * @author Gerard Llort
  */
+@WebServlet( description = "ContentPage", urlPatterns = { "/ContentPage" } )
 public class ContentPage extends Page 
 {
    /** Serial Version UID */

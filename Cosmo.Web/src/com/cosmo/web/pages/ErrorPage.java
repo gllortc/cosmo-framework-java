@@ -3,6 +3,8 @@ package com.cosmo.web.pages;
 import com.cosmo.Cosmo;
 import com.cosmo.ui.controls.HeaderControl;
 import com.cosmo.ui.Page;
+
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  * 
  * @author Gerard Llort
  */
+@WebServlet( description = "ErrorPage", urlPatterns = { "/ErrorPage" } )
 public class ErrorPage extends Page
 {
 

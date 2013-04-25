@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<cosmo-settings ver="1.0">
+<cosmo-settings ver="1.0" app-id="Cosmo.Web">
    
    <!-- SETTINGS -->
    <settings>
 
       <value key="ws.title" value="Workspace de proves" />
-      <value key="ws.url" value="http://localhost:8084/cosmo/" />
+      <value key="ws.url" value="http://localhost:8080/cosmo/" />
       <value key="ws.mail" value="gllort@dipta.cat" />
       
       <value key="ws.ui.charset" value="ISO-8859-1" />
       <value key="ws.ui.lang" value="es" />
       <value key="ws.ui.render.provider" value="com.cosmo.ui.render.CosmoPageRender" />
 
-      <value key="ws.security.provider" value="com.cosmo.security.providers.CosmoUserProvider" />
+      <value key="ws.security.provider" value="com.cosmo.security.providers.PostgreSqlUserProvider" />
       <value key="ws.security.loginPage" value="LoginPage" />
       
       <value key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoStaticMenuProvider" />
@@ -50,10 +50,22 @@
 	               server="bdo1vip.intranet.dtgna" 
 	               port="1525" 
 	               schema="pextra" 
-	               user="fonssocial_usr" 
-	               pwd="FonssoC1aL" />
+	               user="guest" 
+	               pwd="xxxxx" />
 
    </connections>
+   
+   <security authentication-agent="CosmoPostgreSql" authorization-agent="CosmoPostgreSql" login-page="LoginPage">
+      
+      <authentication-agent id="CosmoPostgreSql" class="com.cosmo.security.providers.PostgreSqlUserProviderr">
+         <param name="connection">cosmo.server</param>
+      </authentication-agent>
+      
+      <authorization-agent id="CosmoPostgreSql" class="com.cosmo.security.providers.PostgreSqlUserProviderr">
+         <param name="connection">cosmo.server</param>
+      </authorization-agent>
+      
+   </security>
    
    <!-- STATIC MENUS -->
    <menu type="lateral">

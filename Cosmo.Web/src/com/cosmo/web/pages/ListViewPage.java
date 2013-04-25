@@ -8,6 +8,8 @@ import com.cosmo.ui.controls.Icon;
 import com.cosmo.ui.controls.ListViewControl;
 import com.cosmo.ui.controls.ListViewItem;
 import java.util.Date;
+
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  * 
  * @author Gerard Llort
  */
+@WebServlet( description = "ListViewPage", urlPatterns = { "/ListViewPage" } )
 public class ListViewPage extends Page 
 {
    /** Serial Version UID */

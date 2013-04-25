@@ -1,5 +1,6 @@
 package com.cosmo.web.pages;
 
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,6 +17,7 @@ import com.cosmo.ui.controls.SliderItem;
  * 
  * @author Gerard Llort
  */
+@WebServlet( description = "SliderPage", urlPatterns = { "/SliderPage" } )
 public class SliderPage extends Page 
 {
    /** Serial Version UID */

@@ -1,6 +1,6 @@
 package com.cosmo.web.pages;
 
-import com.cosmo.annotations.SessionRequired;
+import com.cosmo.security.annotations.SessionRequired;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.controls.BreadcrumbsControl;
 import com.cosmo.ui.controls.BreadcrumbsItem;

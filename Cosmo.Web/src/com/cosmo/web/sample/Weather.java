@@ -1,8 +1,8 @@
 package com.cosmo.web.sample;
 
-import com.cosmo.annotations.CosmoFieldGetter;
-import com.cosmo.annotations.CosmoFieldSetter;
-import com.cosmo.annotations.CosmoTable;
+import com.cosmo.data.orm.annotations.CosmoFieldGetter;
+import com.cosmo.data.orm.annotations.CosmoFieldSetter;
+import com.cosmo.data.orm.annotations.CosmoTable;
 import com.cosmo.ui.controls.FormFieldInteger;
 import com.cosmo.ui.controls.FormFieldText;
 

@@ -1,66 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
-  <servlet>
-    <servlet-name>HomePage</servlet-name>
-    <servlet-class>com.cosmo.web.pages.HomePage</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>ContentPage</servlet-name>
-    <servlet-class>com.cosmo.web.pages.ContentPage</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>ListViewPage</servlet-name>
-    <servlet-class>com.cosmo.web.pages.ListViewPage</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>GridPage</servlet-name>
-    <servlet-class>com.cosmo.web.pages.GridPage</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>SliderPage</servlet-name>
-    <servlet-class>com.cosmo.web.pages.SliderPage</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>LoginPage</servlet-name>
-    <servlet-class>com.cosmo.web.pages.LoginPage</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>ErrorPage</servlet-name>
-    <servlet-class>com.cosmo.servlets.ErrorPage</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>UserRegisterPage</servlet-name>
-    <servlet-class>com.cosmo.servlets.UserRegisterPage</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>HomePage</servlet-name>
-    <url-pattern>/HomePage</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>ContentPage</servlet-name>
-    <url-pattern>/ContentPage</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>LoginPage</servlet-name>
-    <url-pattern>/LoginPage</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>ListViewPage</servlet-name>
-    <url-pattern>/ListViewPage</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>GridPage</servlet-name>
-    <url-pattern>/GridPage</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>SliderPage</servlet-name>
-    <url-pattern>/SliderPage</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>UserRegisterPage</servlet-name>
-    <url-pattern>/UserRegisterPage</url-pattern>
-  </servlet-mapping>
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xmlns="http://java.sun.com/xml/ns/javaee" 
+         xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" 
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
+         version="3.0">
+  
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>
+  
 </web-app>

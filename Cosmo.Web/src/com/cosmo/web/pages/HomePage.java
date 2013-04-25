@@ -1,5 +1,6 @@
 package com.cosmo.web.pages;
 
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,6 +12,7 @@ import com.cosmo.ui.controls.HeaderControl;
  * 
  * @author Gerard Llort
  */
+@WebServlet( description = "HomePage", urlPatterns = { "/HomePage" } )
 public class HomePage extends Page 
 {
    /** Serial Version UID */

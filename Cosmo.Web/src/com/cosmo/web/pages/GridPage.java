@@ -1,5 +1,6 @@
 package com.cosmo.web.pages;
 
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,6 +20,7 @@ import com.cosmo.web.sample.WeatherManager;
  * 
  * @author Gerard Llort
  */
+@WebServlet( description = "GridPage", urlPatterns = { "/GridPage" } )
 public class GridPage extends Page 
 {
    /** Serial Version UID */

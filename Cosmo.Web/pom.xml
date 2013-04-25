@@ -20,15 +20,15 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>Cosmo.Core</groupId>
-			<artifactId>Cosmo.Core</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-web-api</artifactId>
 			<version>6.0</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>Cosmo.Core</groupId>
+			<artifactId>Cosmo.Core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>
