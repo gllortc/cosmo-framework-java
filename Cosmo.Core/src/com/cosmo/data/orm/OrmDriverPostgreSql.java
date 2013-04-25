@@ -9,11 +9,11 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.cosmo.annotations.CosmoFieldGetter;
-import com.cosmo.annotations.CosmoFieldSetter;
-import com.cosmo.annotations.CosmoTable;
 import com.cosmo.data.DataConnection;
 import com.cosmo.data.DataException;
+import com.cosmo.data.orm.annotations.CosmoFieldGetter;
+import com.cosmo.data.orm.annotations.CosmoFieldSetter;
+import com.cosmo.data.orm.annotations.CosmoTable;
 import com.cosmo.net.HttpRequestUtils;
 
 /**
