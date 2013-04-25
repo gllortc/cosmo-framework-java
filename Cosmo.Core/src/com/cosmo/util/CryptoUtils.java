@@ -10,7 +10,7 @@ import javax.crypto.spec.PBEParameterSpec;
 import javax.xml.bind.DatatypeConverter;
 
 /**
- * Clase helper que prove√© utilidades de criptografia.
+ * Clase helper que implementa utilidades de criptografia.
  */
 public class CryptoUtils 
 {
@@ -26,7 +26,7 @@ public class CryptoUtils
    
    /**
     * Encripta una cadena de texto.
-    * Como clave secreta se usar√° una clave interna.
+    * Como clave secreta se usar· una clave interna.
     * 
     * @param text Cadena de texto a encriptar.
     * @return Cadena de texto encriptada.
@@ -42,7 +42,7 @@ public class CryptoUtils
     * Encripta una cadena de texto.
     * 
     * @param text Cadena de texto a encriptar.
-    * @param secretKey Clave secreta que se usar√° para encriptar.
+    * @param secretKey Clave secreta que se usar· para encriptar.
     * @return Cadena de texto encriptada.
     * 
     * @throws GeneralSecurityException
@@ -60,7 +60,7 @@ public class CryptoUtils
 
    /**
     * Desencripta una cadena de texto.
-    * Como clave secreta se usar√° una clave interna.
+    * Como clave secreta se usar· una clave interna.
     * 
     * @param text Cadena de texto encriptada.
     * @return Cadena de texto desencriptada.
@@ -77,7 +77,7 @@ public class CryptoUtils
     * Desencripta una cadena de texto.
     * 
     * @param text Cadena de texto encriptada.
-    * @param secretKey Clave secreta usada para la encriptaci√≥n.
+    * @param secretKey Clave secreta usada para la encriptaciÛn.
     * @return Cadena de texto desencriptada.
     * 
     * @throws GeneralSecurityException
