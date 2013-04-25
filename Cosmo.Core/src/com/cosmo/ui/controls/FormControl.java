@@ -9,9 +9,9 @@ import javax.servlet.http.HttpSession;
 
 import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
-import com.cosmo.annotations.CosmoFieldGetter;
-import com.cosmo.annotations.CosmoTable;
 import com.cosmo.data.orm.InvalidMappingException;
+import com.cosmo.data.orm.annotations.CosmoFieldGetter;
+import com.cosmo.data.orm.annotations.CosmoTable;
 import com.cosmo.structures.FormData;
 import com.cosmo.ui.controls.FormButton.ButtonType;
 import com.cosmo.ui.templates.TemplateControl;
