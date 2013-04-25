@@ -14,7 +14,7 @@ import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
 import com.cosmo.WorkspaceLoadException;
 import com.cosmo.WorkspaceProvider;
-import com.cosmo.annotations.SessionRequired;
+import com.cosmo.security.annotations.SessionRequired;
 import com.cosmo.ui.controls.Control;
 import com.cosmo.ui.controls.FormControl;
 import com.cosmo.ui.render.LoadPageRenderException;
@@ -467,7 +467,9 @@ public abstract class Page extends HttpServlet implements PageInterface
          String charSet = getWorkspace().getProperties().getString(Cosmo.PROPERTY_WORKSPACE_UI_CHARSET);
          charSet = (StringUtils.isNullOrEmptyTrim(charSet) ? Cosmo.CHARSET_UTF_8 : charSet);
          String toUrl = url.toString(charSet);
-         getWorkspace().getServerResponse().sendRedirect(toUrl);
+         
+         HttpServletResponse response = getWorkspace().getServerResponse();
+         response.sendRedirect(toUrl);
       }
    }
    
