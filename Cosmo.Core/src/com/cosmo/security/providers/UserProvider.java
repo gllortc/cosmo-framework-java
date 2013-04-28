@@ -26,7 +26,7 @@ public abstract class UserProvider
     * Verifica las credenciales de un usuario.
     * 
     * @param login Login del usuario.
-    * @param password ContraseÃ±a (sin encriptar) del usuario.
+    * @param password Contraseña (sin encriptar) del usuario.
     * @return Una instancia de {@link User} que representa el usuario al que corresponden las credenciales proporcionadas.
     * 
     * @throws UserNotFoundException
@@ -50,7 +50,7 @@ public abstract class UserProvider
    
    /**
     * Devuelve una instancia de {@link UserProvider} convenientemente instanciada y con
-    * el proveedor de autenticaciÃ³n de usuarios cargado.
+    * el proveedor de autenticación de usuarios cargado.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     * @return Una instancia Ãºnica de {@link UserProvider} (sigleton).
@@ -72,10 +72,10 @@ public abstract class UserProvider
    //==============================================
    
    /**
-    * Convierte el estado de un usuario a un valor numÃ©rico usable en soportes como BBDD, archivos, etc.
+    * Convierte el estado de un usuario a un valor numérico usable en soportes como BBDD, archivos, etc.
     * 
-    * @param state Un elemento de la enumeraciÃ³n {@link UserStates}.
-    * @return El valor numÃ©rico equivalente al estado proporcionado.
+    * @param state Un elemento de la enumeración {@link UserStates}.
+    * @return El valor numérico equivalente al estado proporcionado.
     */
    public static int statusToNumber(UserStates state)
    {
