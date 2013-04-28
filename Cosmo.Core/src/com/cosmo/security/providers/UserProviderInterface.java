@@ -5,7 +5,7 @@ import com.cosmo.security.UserAlreadyExistsException;
 import com.cosmo.security.UserNotFoundException;
 
 /**
- * Interface que deben implementar los proveedores de autenticaciÃ³n de usuario.
+ * Interface que deben implementar los proveedores de autenticación de usuario.
  * 
  * @author Gerard Llort
  */
@@ -19,7 +19,7 @@ public interface UserProviderInterface
     * Verifica las credenciales de un usuario.
     * 
     * @param login Login del usuario.
-    * @param password ContraseÃ±a (sin encriptar) del usuario.
+    * @param password Contraseña (sin encriptar) del usuario.
     * @return Una instancia de {@link User} que representa el usuario al que corresponden las credenciales proporcionadas.
     * 
     * @throws UserNotFoundException
