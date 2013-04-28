@@ -6,7 +6,7 @@ import com.cosmo.security.providers.UserProviderException;
 import java.util.Date;
 
 /**
- * Representa una sessiÃ³n de usuario en el workspace.
+ * Representa una sesión de usuario en el workspace.
  * 
  * @author Gerard Llort
  */
@@ -41,7 +41,7 @@ public class UserSession
    //==============================================
 
    /**
-    * Devuelve una instancia de {@link User} que representa el usuario propietario de la sessiÃ³n.
+    * Devuelve una instancia de {@link User} que representa el usuario propietario de la sesión.
     */
    public User getCurrentUser() 
    {
@@ -49,7 +49,7 @@ public class UserSession
    }
 
    /**
-    * Devuelve la fecha/hora de creaciÃ³n de la sesiÃ³n de usuario.
+    * Devuelve la fecha/hora de creación de la sesión de usuario.
     */
    public Date getCreated() 
    {
@@ -69,9 +69,9 @@ public class UserSession
    //==============================================
 
    /**
-    * Obtiene el nÃºmero de minutos desde que se creÃ³ la sesiÃ³n de usuario.
+    * Obtiene el número de minutos desde que se creó la sesión de usuario.
     * 
-    * @return Devuelve un entero que representa el nÃºmero de minutos desde que se creÃ³ la sesiÃ³n de usuario.
+    * @return Devuelve un entero que representa el número de minutos desde que se creó la sesión de usuario.
     */
    public long getSessionMinutes()
    {
