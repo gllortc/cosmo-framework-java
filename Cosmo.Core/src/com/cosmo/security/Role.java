@@ -2,12 +2,12 @@ package com.cosmo.security;
 
 /**
  * Implementa un rol de usuario (o grupo).
+ * 
  * @author Gerard Llort
  */
 public class Role 
 {
-   private int id;
-   private String name;
+   private String id;
    private String description;
    private String applicationId;
    
@@ -16,8 +16,7 @@ public class Role
     */
    public Role() 
    {
-      id = 0;
-      name = "";
+      id = "";
       description = "";
       applicationId = "";
    }
@@ -25,33 +24,17 @@ public class Role
    /**
     * Devuelve el identificador del rol.
     */
-   public int getId() 
+   public String getId() 
    {
       return id;
    }
-
+   
    /**
     * Establece el identificador del rol.
     */
-   public void setId(int id) 
+   public void setId(String id) 
    {
       this.id = id;
-   }
-   
-   /**
-    * Devuelve el nombre del rol.
-    */
-   public String getName() 
-   {
-      return name;
-   }
-   
-   /**
-    * Establece el nombre del rol.
-    */
-   public void setName(String name) 
-   {
-      this.name = name;
    }
    
    /**
