@@ -5,30 +5,30 @@
    <!-- SETTINGS -->
    <settings>
 
-      <value key="ws.title" value="Workspace de proves" />
-      <value key="ws.url" value="http://localhost:8080/cosmo/" />
-      <value key="ws.mail" value="gllort@dipta.cat" />
+      <param key="ws.title" value="Workspace de proves" />
+      <param key="ws.url" value="http://localhost:8080/cosmo/" />
+      <param key="ws.mail" value="gllort@dipta.cat" />
       
-      <value key="ws.ui.charset" value="ISO-8859-1" />
-      <value key="ws.ui.lang" value="es" />
-      <value key="ws.ui.render.provider" value="com.cosmo.ui.render.CosmoPageRender" />
+      <param key="ws.ui.charset" value="ISO-8859-1" />
+      <param key="ws.ui.lang" value="es" />
+      <param key="ws.ui.render.provider" value="com.cosmo.ui.render.CosmoPageRender" />
 
-      <value key="ws.security.provider" value="com.cosmo.security.providers.PostgreSqlUserProvider" />
-      <value key="ws.security.loginPage" value="LoginPage" />
+      <param key="ws.security.provider" value="com.cosmo.security.providers.PostgreSqlUserProvider" />
+      <param key="ws.security.loginPage" value="LoginPage" />
       
-      <value key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoStaticMenuProvider" />
+      <param key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoStaticMenuProvider" />
       <!-- value key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoDynamicMenuProvider" / -->
 
-      <value key="ws.data.serverId" value="cosmo.server" />
+      <param key="ws.data.serverId" value="cosmo.server" />
       
-      <value key="ws.comm.mail.transport.protocol" value="smtp" />
-      <value key="ws.comm.mail.smtp.host" value="smtp.gmail.com" />
-      <value key="ws.comm.mail.smtp.auth" value="true" />
-      <value key="ws.comm.mail.smtp.starttls.enable" value="true" />
-      <value key="ws.comm.mail.smtp.login" value="XXXXXX@gmail.com" />
-      <value key="ws.comm.mail.smtp.password" value="XXXXXXX" />
-      <value key="ws.comm.mail.smtp.from.name" value="Cosmo Communications Server" />
-      <value key="ws.comm.mail.smtp.from.address" value="XXXXXXX" />
+      <param key="ws.comm.mail.transport.protocol" value="smtp" />
+      <param key="ws.comm.mail.smtp.host" value="smtp.gmail.com" />
+      <param key="ws.comm.mail.smtp.auth" value="true" />
+      <param key="ws.comm.mail.smtp.starttls.enable" value="true" />
+      <param key="ws.comm.mail.smtp.login" value="XXXXXX@gmail.com" />
+      <param key="ws.comm.mail.smtp.password" value="XXXXXXX" />
+      <param key="ws.comm.mail.smtp.from.name" value="Cosmo Communications Server" />
+      <param key="ws.comm.mail.smtp.from.address" value="XXXXXXX" />
 
    </settings>
    
@@ -57,12 +57,13 @@
    
    <security authentication-agent="CosmoPostgreSql" authorization-agent="CosmoPostgreSql" login-page="LoginPage">
       
-      <authentication-agent id="CosmoPostgreSql" class="com.cosmo.security.providers.PostgreSqlUserProviderr">
-         <param name="connection">cosmo.server</param>
+      <authentication-agent id="CosmoPostgreSql" driver="com.cosmo.security.providers.PostgreSqlAuthenticationProvider">
+         <param key="connection" value="cosmo.server" />
+         <param key="rootEntry" value="dc=yourcompany,dc=com" /> 
       </authentication-agent>
       
-      <authorization-agent id="CosmoPostgreSql" class="com.cosmo.security.providers.PostgreSqlUserProviderr">
-         <param name="connection">cosmo.server</param>
+      <authorization-agent id="CosmoPostgreSql" driver="com.cosmo.security.providers.PostgreSqlAuthorizationProvider">
+         <param key="connection" value="cosmo.server" />
       </authorization-agent>
       
    </security>
