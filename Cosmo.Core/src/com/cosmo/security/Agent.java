@@ -97,4 +97,16 @@ public class Agent
    {
       return params.get(key);
    }
+   
+   /**
+    * Transforma la información de la instancia en una cadena con información comprensible. 
+    */
+   @Override
+   public String toString()
+   {
+      return "[Cosmo Security Agent Info]\n" +
+             " ID     = " + this.getId() + "\n" +
+             " DRIVER = " + this.getModuleClass() + "\n" +
+             " PARAMS = " + this.params.toString() + "\n";
+   }
 }
