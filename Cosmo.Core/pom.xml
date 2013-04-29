@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>Cosmo.Core</groupId>
   <artifactId>Cosmo.Core</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0</version>
   <name>Cosmo Framework Core</name>
   <description>Cosmo Framework Core</description>
   <build>
