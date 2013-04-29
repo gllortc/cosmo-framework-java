@@ -2,6 +2,7 @@ package com.cosmo;
 
 import com.cosmo.data.DataConnection;
 import com.cosmo.data.DataSource;
+import com.cosmo.security.Agent;
 import com.cosmo.util.IOUtils;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -35,12 +36,17 @@ public class WorkspaceProperties
    private static final String XML_ATT_SCHEMA = "schema";
    private static final String XML_ATT_USER = "user";
    private static final String XML_ATT_PASSWORD = "pwd";
-   private static final String XML_TAG_VALUE = "value";
    private static final String XML_ATT_KEY = "key";
    private static final String XML_ATT_VALUE = "value";
+   private static final String XML_TAG_AUTHENTICATION = "authentication-agent";
+   private static final String XML_TAG_AUTHORIZATION = "authorization-agent";
+   private static final String XML_ATT_DRIVER = "driver";
+   private static final String XML_TAG_PARAMETER = "param";
    
    private HashMap<String, String> properties;
    private HashMap<String, DataSource> dataSources;
+   private HashMap<String, Agent> authenticationAgents;
+   private HashMap<String, Agent> authorizationAgents;
 
    //==============================================
    // Constructors
@@ -59,6 +65,8 @@ public class WorkspaceProperties
    {
       properties = new HashMap<String, String>();
       dataSources = new HashMap<String, DataSource>();
+      authenticationAgents = new HashMap<String, Agent>();
+      authorizationAgents = new HashMap<String, Agent>();
       
       loadConfig(context);
    }
@@ -179,9 +187,13 @@ public class WorkspaceProperties
    private void loadConfig(ServletContext context) throws WorkspaceLoadException
    {
       Node nNode;
+      Node pNode;
       Element eElement;
+      Element pElement;
       NodeList nList;
+      NodeList pList;
       DataSource ds;
+      Agent agent;
       InputStream is = null;
       
       try
@@ -194,7 +206,7 @@ public class WorkspaceProperties
          doc.getDocumentElement().normalize();
 
          // Obtiene los valores de configuración clave/valor
-         nList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_VALUE);
+         nList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_PARAMETER);
          for (int temp = 0; temp < nList.getLength(); temp++) 
          {
             nNode = nList.item(temp);
@@ -228,6 +240,64 @@ public class WorkspaceProperties
                ds.setPassword(eElement.getAttribute(WorkspaceProperties.XML_ATT_PASSWORD));
 
                this.dataSources.put(ds.getId(), ds);
+            }
+         }
+         
+         // Obtiene todos los agentes de autenticación
+         nList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_AUTHENTICATION);
+         for (int temp = 0; temp < nList.getLength(); temp++) 
+         {
+            nNode = nList.item(temp);
+            if (nNode.getNodeType() == Node.ELEMENT_NODE)
+            {
+               eElement = (Element) nNode;
+
+               agent = new Agent();
+               agent.setId(eElement.getAttribute(WorkspaceProperties.XML_ATT_ID));
+               agent.setModuleClass(eElement.getAttribute(WorkspaceProperties.XML_ATT_DRIVER));
+               
+               pList = eElement.getElementsByTagName(WorkspaceProperties.XML_TAG_PARAMETER);
+               for (int pNum = 0; pNum < pList.getLength(); pNum++) 
+               {
+                  pNode = pList.item(pNum);
+                  if (pNode.getNodeType() == Node.ELEMENT_NODE)
+                  {
+                     pElement = (Element) pNode;
+                     agent.setParam(pElement.getAttribute(WorkspaceProperties.XML_ATT_KEY), 
+                                    pElement.getAttribute(WorkspaceProperties.XML_ATT_VALUE));
+                  }
+               }
+               
+               this.authenticationAgents.put(agent.getId(), agent);
+            }
+         }
+         
+         // Obtiene todos los agentes de autorización
+         nList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_AUTHORIZATION);
+         for (int temp = 0; temp < nList.getLength(); temp++) 
+         {
+            nNode = nList.item(temp);
+            if (nNode.getNodeType() == Node.ELEMENT_NODE)
+            {
+               eElement = (Element) nNode;
+
+               agent = new Agent();
+               agent.setId(eElement.getAttribute(WorkspaceProperties.XML_ATT_ID));
+               agent.setModuleClass(eElement.getAttribute(WorkspaceProperties.XML_ATT_DRIVER));
+               
+               pList = eElement.getElementsByTagName(WorkspaceProperties.XML_TAG_PARAMETER);
+               for (int pNum = 0; pNum < pList.getLength(); pNum++) 
+               {
+                  pNode = pList.item(pNum);
+                  if (pNode.getNodeType() == Node.ELEMENT_NODE)
+                  {
+                     pElement = (Element) pNode;
+                     agent.setParam(pElement.getAttribute(WorkspaceProperties.XML_ATT_KEY), 
+                                    pElement.getAttribute(WorkspaceProperties.XML_ATT_VALUE));
+                  }
+               }
+               
+               this.authorizationAgents.put(agent.getId(), agent);
             }
          }
          
