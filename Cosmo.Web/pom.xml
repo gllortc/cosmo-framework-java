@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>Cosmo.Web</groupId>
 	<artifactId>Cosmo.Web</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>Cosmo Web Sample</name>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
@@ -28,7 +28,8 @@
 		<dependency>
 			<groupId>Cosmo.Core</groupId>
 			<artifactId>Cosmo.Core</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
+	<packaging>war</packaging>
 </project>
