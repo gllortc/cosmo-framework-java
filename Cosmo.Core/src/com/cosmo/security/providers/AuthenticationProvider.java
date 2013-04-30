@@ -37,6 +37,11 @@ public abstract class AuthenticationProvider
    public abstract User login(String login, String password) throws UserNotFoundException, AuthenticationProviderException;
 
    /**
+    * Elimina la información de autenticación actual.
+    */
+   public abstract void logout();
+   
+   /**
     * Crea una nueva cuenta de usuario.
     * 
     * @param user Una instancia de {@link User} que representa el nuevo usuario.
@@ -44,7 +49,7 @@ public abstract class AuthenticationProvider
     * @throws UserAlreadyExistsException
     * @throws AuthenticationProviderException
     */
-   public abstract void add(User user) throws UserAlreadyExistsException, AuthenticationProviderException;
+   // public abstract void add(User user) throws UserAlreadyExistsException, AuthenticationProviderException;
    
    //==============================================
    // Static members

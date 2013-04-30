@@ -28,6 +28,11 @@ public interface AuthenticationProviderInterface
    public User login(String login, String password) throws UserNotFoundException, AuthenticationProviderException;
 
    /**
+    * Elimina la información de autenticación actual.
+    */
+   public void logout();
+   
+   /**
     * Crea una nueva cuenta de usuario.
     * 
     * @param user Una instancia de {@link User} que representa el nuevo usuario.
@@ -35,5 +40,5 @@ public interface AuthenticationProviderInterface
     * @throws DuplicatedUserException
     * @throws AuthenticationProviderException
     */
-   public void add(User user) throws UserAlreadyExistsException, AuthenticationProviderException;
+   // public void add(User user) throws UserAlreadyExistsException, AuthenticationProviderException;
 }

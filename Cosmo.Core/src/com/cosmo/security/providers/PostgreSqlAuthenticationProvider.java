@@ -125,6 +125,14 @@ public class PostgreSqlAuthenticationProvider extends AuthenticationProvider
    }
    
    /**
+    * Elimina la información de autenticación actual.
+    */
+   public void logout()
+   {
+      
+   }
+   
+   /**
     * Crea una nueva cuenta de usuario.
     * 
     * @param user Una instancia de {@link User} que representa el nuevo usuario.
@@ -132,7 +140,6 @@ public class PostgreSqlAuthenticationProvider extends AuthenticationProvider
     * @throws UserAlreadyExistsException
     * @throws AuthenticationProviderException
     */
-   @Override
    public void add(User user) throws UserAlreadyExistsException, AuthenticationProviderException
    {
       String sSQL;
