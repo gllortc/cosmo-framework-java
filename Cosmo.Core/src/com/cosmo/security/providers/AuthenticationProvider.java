@@ -1,6 +1,8 @@
 package com.cosmo.security.providers;
 
-import com.cosmo.Cosmo;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import com.cosmo.Workspace;
 import com.cosmo.security.Agent;
 import com.cosmo.security.User;
@@ -8,9 +10,6 @@ import com.cosmo.security.User.UserStates;
 import com.cosmo.security.UserAlreadyExistsException;
 import com.cosmo.security.UserNotFoundException;
 import com.cosmo.util.StringUtils;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Interface para los proveedores de autenticación de Cosmo.
