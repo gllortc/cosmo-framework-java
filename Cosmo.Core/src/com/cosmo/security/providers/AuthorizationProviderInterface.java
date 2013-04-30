@@ -17,15 +17,8 @@ public interface AuthorizationProviderInterface
     * 
     * @param login Una cadena que contiene el login del usuario.
     */
-   public void loadAuthenticationData(String login);
-   
-   /**
-    * Indica si existe una sesión de usuario autenticado iniciada.
-    * 
-    * @return {@code true} si exuste sesión de usuario autenticado iniciada o {@code false} en cualquier otro caso.
-    */
-   public boolean isAutheticated();
-   
+   public void loadAuthorizationData(String login);
+
    /**
     * Verifica si un determinado usuario pertenece a un determinado rol.
     * 

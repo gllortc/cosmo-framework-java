@@ -9,6 +9,15 @@ import com.cosmo.data.DataSource;
 import com.cosmo.security.Activity;
 import com.cosmo.security.Role;
 
+/**
+ * Implementa el proveedor de autorización nativo de Cosmo.<br />
+ * Implementa la API de administración de autorización.
+ * 
+ * Base de datos: JDBC / PostgreSQL
+ * 
+ * @author Gerard Llort
+ *
+ */
 public class PostgreSqlAuthorizationProvider implements AuthorizationProviderInterface
 {
    private Workspace workspace;
@@ -32,18 +41,13 @@ public class PostgreSqlAuthorizationProvider implements AuthorizationProviderInt
       this.workspace = workspace;
    }
    
+   
    //================================================================
    // Interface implementation: AuthProviderInterface
    //================================================================
 
    @Override
-   public boolean isAutheticated() 
-   {
-      return false;
-   }
-   
-   @Override
-   public void loadAuthenticationData(String login)
+   public void loadAuthorizationData(String login)
    {
       return;
    }
@@ -65,6 +69,7 @@ public class PostgreSqlAuthorizationProvider implements AuthorizationProviderInt
    {
       return null;
    }
+   
    
    //==============================================
    // Methods
