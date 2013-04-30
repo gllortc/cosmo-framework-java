@@ -103,7 +103,7 @@ public abstract class AuthenticationProvider
     */
    private static AuthenticationProvider loadProvider(Workspace workspace) throws AuthenticationProviderException
    {
-      String className = "-- no user provider defined in proprties --";
+      String className = "-- no authentication provider defined in proprties --";
       Agent agent;
       AuthenticationProvider provider;
       

@@ -108,7 +108,7 @@ public abstract class AuthorizationProvider
    private static AuthorizationProvider loadProvider(Workspace workspace) throws AuthorizationProviderException
    {
       Agent agent;
-      String className = "-- no user provider defined in proprties --";
+      String className = "-- no authorization provider defined in proprties --";
       AuthorizationProvider provider;
       
       // Obtiene el agente de autorización
