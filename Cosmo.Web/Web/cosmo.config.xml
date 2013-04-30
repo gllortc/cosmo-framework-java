@@ -59,7 +59,13 @@
       
       <authentication-agent id="CosmoPostgreSql" driver="com.cosmo.security.providers.PostgreSqlAuthenticationProvider">
          <param key="connection" value="cosmo.server" />
-         <param key="rootEntry" value="dc=yourcompany,dc=com" /> 
+      </authentication-agent>
+      
+      <authentication-agent id="CosmoLdap" driver="com.cosmo.security.providers.LdapAuthenticationProvider">
+         <param key="context-factory" value="com.sun.jndi.ldap.LdapCtxFactory" />
+         <param key="host-url" value="ldap://localhost:389/o=JNDITutorial" />
+         <param key="host-port" value="389" />
+         <param key="search-base" value="dc=yourcompany,dc=com" /> 
       </authentication-agent>
       
       <authorization-agent id="CosmoPostgreSql" driver="com.cosmo.security.providers.PostgreSqlAuthorizationProvider">
