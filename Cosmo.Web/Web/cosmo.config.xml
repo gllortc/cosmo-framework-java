@@ -13,8 +13,8 @@
       <param key="ws.ui.lang" value="es" />
       <param key="ws.ui.render.provider" value="com.cosmo.ui.render.CosmoPageRender" />
 
-      <param key="ws.security.provider" value="com.cosmo.security.providers.PostgreSqlUserProvider" />
-      <param key="ws.security.loginPage" value="LoginPage" />
+      <!-- <param key="ws.security.provider" value="com.cosmo.security.providers.PostgreSqlUserProvider" />
+      <param key="ws.security.loginPage" value="LoginPage" /> -->
       
       <param key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoStaticMenuProvider" />
       <!-- value key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoDynamicMenuProvider" / -->
@@ -33,7 +33,7 @@
    </settings>
    
    <!-- DATABASE CONNECTIONS -->
-   <connections>
+   <connections cosmo-server="cosmo.server">
 
 	   <connection id="cosmo.server" 
 	               corm.driver="com.cosmo.data.orm.OrmDriverPostgreSql"
