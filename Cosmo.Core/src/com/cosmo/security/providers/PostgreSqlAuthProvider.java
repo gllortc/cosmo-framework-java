@@ -91,7 +91,7 @@ public class PostgreSqlAuthProvider implements AuthProviderInterface
                "FROM " + TABLE_ROLES + " " +
                "ORDER BY roleid";
          
-         ds = this.workspace.getProperties().getDataSource(DataConnection.CONNECTION_SERVER);
+         ds = this.workspace.getProperties().getServerDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          ResultSet rs = conn.executeSql(sql);
@@ -132,7 +132,7 @@ public class PostgreSqlAuthProvider implements AuthProviderInterface
                "WHERE " + TABLE_USER_ROLES + ".usrlogin='" + DataConnection.sqlFormatTextValue(login) + "' " + 
                "ORDER BY roleid";
 
-         ds = this.workspace.getProperties().getDataSource(DataConnection.CONNECTION_SERVER);
+         ds = this.workspace.getProperties().getServerDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          ResultSet rs = conn.executeSql(sql);
@@ -170,7 +170,7 @@ public class PostgreSqlAuthProvider implements AuthProviderInterface
                "FROM " + TABLE_ACTIVITIES + " " +
                "ORDER BY actid";
          
-         ds = this.workspace.getProperties().getDataSource(DataConnection.CONNECTION_SERVER);
+         ds = this.workspace.getProperties().getServerDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          ResultSet rs = conn.executeSql(sql);
@@ -210,7 +210,7 @@ public class PostgreSqlAuthProvider implements AuthProviderInterface
                "WHERE " + TABLE_ROLES + ".roleid = '" + DataConnection.sqlFormatTextValue(roleId) + "' " +
                "ORDER BY actid";
          
-         ds = this.workspace.getProperties().getDataSource(DataConnection.CONNECTION_SERVER);
+         ds = this.workspace.getProperties().getServerDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          ResultSet rs = conn.executeSql(sql);

@@ -13,7 +13,7 @@ import java.sql.Statement;
  */
 public class DataConnection
 {
-   public static final String CONNECTION_SERVER = "cosmo.server";
+   // public static final String CONNECTION_SERVER = "cosmo.server";
    
    private DataSource pds;
    private Connection conn = null;

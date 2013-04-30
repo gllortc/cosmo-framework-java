@@ -68,7 +68,7 @@ public class PostgreSqlUserProvider extends UserProvider
                "WHERE Lower(usrlogin) = '" + login.trim().toLowerCase() + "' And " +
                "      usrpwd = '" + CryptoUtils.encrypt(password) + "'";
 
-         ds = this.workspace.getProperties().getDataSource(DataConnection.CONNECTION_SERVER);
+         ds = this.workspace.getProperties().getServerDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          ResultSet rs = conn.executeSql(sql);
@@ -148,7 +148,7 @@ public class PostgreSqlUserProvider extends UserProvider
                 "WHERE Lower(usrlogin) = '" + user.getLogin().trim().toLowerCase() + "' Or " +
                 "      Lower(usrmail)  = '" + user.getMail().trim().toLowerCase()  + "'";
          
-         ds = this.workspace.getProperties().getDataSource(DataConnection.CONNECTION_SERVER);
+         ds = this.workspace.getProperties().getServerDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          rs = conn.executeSql(sSQL);
