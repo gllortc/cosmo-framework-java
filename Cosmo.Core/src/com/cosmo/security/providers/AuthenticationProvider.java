@@ -120,8 +120,8 @@ public abstract class AuthenticationProvider
       }
       
       // Obtiene el driver de autenticación
-      className = workspace.getProperties().getString(agent.getModuleClass());
-      if (StringUtils.isNullOrEmptyTrim(agent.getModuleClass()))
+      className = agent.getModuleClass();
+      if (StringUtils.isNullOrEmptyTrim(className))
       {
          throw new AuthenticationProviderException("Security Configuration Exception: No authentication driver found");
       }
