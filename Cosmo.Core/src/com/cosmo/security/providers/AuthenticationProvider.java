@@ -10,7 +10,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * Interface para los proveedores de seguridad de Cosmo.
+ * Interface para los proveedores de autenticación de Cosmo.
  * 
  * @author Gerard Llort
  */

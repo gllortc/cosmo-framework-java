@@ -8,10 +8,10 @@ package com.cosmo.util;
 public class StringUtils 
 {
    /**
-	 * Permet esbrinar si una cadena Ã©s buida o nulÂ·la. 
+	 * Permet esbrinar si una cadena está vacía o nula. 
 	 * 
-	 * @param text Cadena de carÃ cters a evaluar.
-	 * @return {@code true} si la cadena Ã©s buida o nulÂ·la o {@code false} en qualsevol altre cas.
+	 * @param text Cadena de carácteres a evaluar.
+	 * @return {@code true} si la cadena está vacía o nula o {@code false} en qualsevol otro caso.
 	 */
 	public static boolean isNullOrEmpty(String text)
 	{
@@ -24,10 +24,10 @@ public class StringUtils
 	}
 	
 	/**
-	 * Permet esbrinar si una cadena Ã©s buida o nulÂ·la. 
+	 * Indica si una cadena está vacía o es nula. 
 	 * 
-	 * @param text Cadena de carÃ cters a evaluar.
-	 * @return {@code true} si la cadena Ã©s buida o nulÂ·la o {@code false} en qualsevol altre cas.
+	 * @param text Cadena de carácteres a evaluar.
+	 * @return {@code true} si la cadena está vacía o es nula o {@code false} en cualquier otro caso.
 	 */
 	public static boolean isNullOrEmptyTrim(String text)
 	{

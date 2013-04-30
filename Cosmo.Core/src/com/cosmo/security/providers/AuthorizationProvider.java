@@ -1,16 +1,18 @@
 package com.cosmo.security.providers;
 
-import com.cosmo.Cosmo;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import com.cosmo.Workspace;
+import com.cosmo.security.Agent;
 import com.cosmo.security.User;
 import com.cosmo.security.User.UserStates;
 import com.cosmo.security.UserAlreadyExistsException;
 import com.cosmo.security.UserNotFoundException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
+import com.cosmo.util.StringUtils;
 
 /**
- * Interface para los proveedores de seguridad de Cosmo.
+ * Interface para los proveedores de autorización de Cosmo.
  * 
  * @author Gerard Llort
  */
@@ -30,9 +32,9 @@ public abstract class AuthorizationProvider
     * @return Una instancia de {@link User} que representa el usuario al que corresponden las credenciales proporcionadas.
     * 
     * @throws UserNotFoundException
-    * @throws AuthenticationProviderException 
+    * @throws AuthorizationProviderException 
     */
-   public abstract User login(String login, String password) throws UserNotFoundException, AuthenticationProviderException;
+   public abstract User login(String login, String password) throws UserNotFoundException, AuthorizationProviderException;
 
    /**
     * Crea una nueva cuenta de usuario.
@@ -40,9 +42,9 @@ public abstract class AuthorizationProvider
     * @param user Una instancia de {@link User} que representa el nuevo usuario.
     *     
     * @throws UserAlreadyExistsException
-    * @throws AuthenticationProviderException
+    * @throws AuthorizationProviderException
     */
-   public abstract void add(User user) throws UserAlreadyExistsException, AuthenticationProviderException;
+   public abstract void add(User user) throws UserAlreadyExistsException, AuthorizationProviderException;
    
    //==============================================
    // Static members
@@ -55,9 +57,9 @@ public abstract class AuthorizationProvider
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     * @return Una instancia Ãºnica de {@link AuthorizationProvider} (sigleton).
     * 
-    * @throws AuthenticationProviderException 
+    * @throws AuthorizationProviderException 
     */
-   public static AuthorizationProvider getInstance(Workspace workspace) throws AuthenticationProviderException 
+   public static AuthorizationProvider getInstance(Workspace workspace) throws AuthorizationProviderException 
    {
       if (instance == null) 
       {
@@ -97,17 +99,30 @@ public abstract class AuthorizationProvider
    /**
     * Carga el controlador de usuarios.
     * 
-    * @throws AuthenticationProviderException 
+    * @throws AuthorizationProviderException 
     */
-   private static AuthorizationProvider loadProvider(Workspace workspace) throws AuthenticationProviderException
+   private static AuthorizationProvider loadProvider(Workspace workspace) throws AuthorizationProviderException
    {
+      Agent agent;
       String className = "-- no user provider defined in proprties --";
       AuthorizationProvider provider;
       
+      // Obtiene el agente de autorización
+      agent = workspace.getProperties().getAuthorizationAgent();
+      if (agent == null)
+      {
+         throw new AuthorizationProviderException("Security Configuration Exception: No authorization agent found");
+      }
+      
+      // Obtiene el driver de autorización
+      className = workspace.getProperties().getString(agent.getModuleClass());
+      if (StringUtils.isNullOrEmptyTrim(agent.getModuleClass()))
+      {
+         throw new AuthorizationProviderException("Security Configuration Exception: No authorization driver found");
+      }
+      
       try 
 		{
-         className = workspace.getProperties().getString(Cosmo.PROPERTY_WORKSPACE_SECURITY_PROVIDER);
-         
          Class<?> cls = Class.forName(className);
          Constructor<?> cons = cls.getConstructor(Workspace.class);
          provider = (AuthorizationProvider) cons.newInstance(workspace);
@@ -116,23 +131,23 @@ public abstract class AuthorizationProvider
 		}
       catch (NoSuchMethodException ex) 
 		{
-         throw new AuthenticationProviderException("NoSuchMethodException: " + className, ex);
+         throw new AuthorizationProviderException("NoSuchMethodException: " + className, ex);
       }
       catch (InvocationTargetException ex) 
 		{
-         throw new AuthenticationProviderException("InvocationTargetException: " + className, ex);
+         throw new AuthorizationProviderException("InvocationTargetException: " + className, ex);
       }
 		catch (ClassNotFoundException ex) 
 		{
-         throw new AuthenticationProviderException("ClassNotFoundException: " + className, ex);
+         throw new AuthorizationProviderException("ClassNotFoundException: " + className, ex);
 		}
       catch (InstantiationException ex)
       {
-         throw new AuthenticationProviderException("InstantiationException: " + className, ex);
+         throw new AuthorizationProviderException("InstantiationException: " + className, ex);
       }
       catch (IllegalAccessException ex)
       {
-         throw new AuthenticationProviderException("IllegalAccessException: " + className, ex);
+         throw new AuthorizationProviderException("IllegalAccessException: " + className, ex);
       }
    }
 }
