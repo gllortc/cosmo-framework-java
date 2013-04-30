@@ -2,10 +2,13 @@ package com.cosmo.security.providers;
 
 import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
+import com.cosmo.security.Agent;
 import com.cosmo.security.User;
 import com.cosmo.security.User.UserStates;
 import com.cosmo.security.UserAlreadyExistsException;
 import com.cosmo.security.UserNotFoundException;
+import com.cosmo.util.StringUtils;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -102,12 +105,25 @@ public abstract class AuthenticationProvider
    private static AuthenticationProvider loadProvider(Workspace workspace) throws AuthenticationProviderException
    {
       String className = "-- no user provider defined in proprties --";
+      Agent agent;
       AuthenticationProvider provider;
+      
+      // Obtiene el agente de autenticación
+      agent = workspace.getProperties().getAuthenticationAgent();
+      if (agent == null)
+      {
+         throw new AuthenticationProviderException("Security Configuration Exception: No authentication agent found");
+      }
+      
+      // Obtiene el driver de autenticación
+      className = workspace.getProperties().getString(agent.getModuleClass());
+      if (StringUtils.isNullOrEmptyTrim(agent.getModuleClass()))
+      {
+         throw new AuthenticationProviderException("Security Configuration Exception: No authentication driver found");
+      }
       
       try 
 		{
-         className = workspace.getProperties().getString(Cosmo.PROPERTY_WORKSPACE_SECURITY_PROVIDER);
-         
          Class<?> cls = Class.forName(className);
          Constructor<?> cons = cls.getConstructor(Workspace.class);
          provider = (AuthenticationProvider) cons.newInstance(workspace);

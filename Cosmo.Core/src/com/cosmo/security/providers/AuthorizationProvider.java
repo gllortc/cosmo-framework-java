@@ -20,6 +20,7 @@ public abstract class AuthorizationProvider
 {
    private static AuthorizationProvider instance = null;
    
+   
    //==============================================
    // Methods
    //==============================================
@@ -46,6 +47,7 @@ public abstract class AuthorizationProvider
     */
    public abstract void add(User user) throws UserAlreadyExistsException, AuthorizationProviderException;
    
+   
    //==============================================
    // Static members
    //==============================================
@@ -69,6 +71,7 @@ public abstract class AuthorizationProvider
       return instance;
    }
 
+   
    //==============================================
    // Static members
    //==============================================
@@ -91,6 +94,7 @@ public abstract class AuthorizationProvider
             return 0;
       }
    }
+   
    
    //==============================================
    // Private members
