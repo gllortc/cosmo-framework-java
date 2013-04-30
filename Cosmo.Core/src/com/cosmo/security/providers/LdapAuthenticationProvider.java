@@ -118,24 +118,26 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
       int hostPort;
       String hostUrl;
       
-      if (!connected)
+      if (connected)
       {
-         // Obtiene la configuración de conexión
-         hostUrl = workspace.getProperties().getAuthenticationAgent().getParam(PARAM_HOSTURL);
-         hostPort = Integer.parseInt(workspace.getProperties().getAuthenticationAgent().getParam(PARAM_HOSTPORT));
-
-         connection = new LDAPConnection();
-         connection.connect(hostUrl, hostPort);
-         searchCons = connection.getSearchConstraints();
-         if (optionValue != null)
-         {
-            connection.setOption(option, optionValue);
-         }
-
-         searchCons.setMaxResults(MAX_QUERY_RESULTS);
-         // this.mSearchCons.setServerTimeLimit(this.mTimeLimit); ?? no va pq??
-         // searchCons.setBatchSize(1); // hauria de ser 0 o 1? o no posar res??
+         return;
       }
+      
+      // Obtiene la configuración de conexión
+      hostUrl = workspace.getProperties().getAuthenticationAgent().getParam(PARAM_HOSTURL);
+      hostPort = Integer.parseInt(workspace.getProperties().getAuthenticationAgent().getParam(PARAM_HOSTPORT));
+
+      connection = new LDAPConnection();
+      connection.connect(hostUrl, hostPort);
+      searchCons = connection.getSearchConstraints();
+      if (optionValue != null)
+      {
+         connection.setOption(option, optionValue);
+      }
+
+      searchCons.setMaxResults(MAX_QUERY_RESULTS);
+      // this.mSearchCons.setServerTimeLimit(this.mTimeLimit); ?? no va pq??
+      // searchCons.setBatchSize(1); // hauria de ser 0 o 1? o no posar res??
    }
    
    /**
