@@ -2,7 +2,7 @@ package com.cosmo.security;
 
 import com.cosmo.Workspace;
 import com.cosmo.security.providers.AuthenticationProvider;
-import com.cosmo.security.providers.UserProviderException;
+import com.cosmo.security.providers.AuthenticationProviderException;
 import java.util.Date;
 
 /**
@@ -23,7 +23,7 @@ public class UserSession
    /**
     * Constructor de la clase.
     */
-   public UserSession(Workspace workspace, String login, String pwd) throws UserNotFoundException, UserProviderException
+   public UserSession(Workspace workspace, String login, String pwd) throws UserNotFoundException, AuthenticationProviderException
    {
       initialize();
       

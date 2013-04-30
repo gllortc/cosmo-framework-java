@@ -9,7 +9,7 @@ import com.cosmo.data.DataSource;
 import com.cosmo.security.Activity;
 import com.cosmo.security.Role;
 
-public class PostgreSqlAuthProvider implements AuthProviderInterface
+public class PostgreSqlAuthorizationProvider implements AuthProviderInterface
 {
    private Workspace workspace;
    
@@ -27,7 +27,7 @@ public class PostgreSqlAuthProvider implements AuthProviderInterface
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace al que está conectado actualmente.
     */
-   public PostgreSqlAuthProvider(Workspace workspace)
+   public PostgreSqlAuthorizationProvider(Workspace workspace)
    {
       this.workspace = workspace;
    }

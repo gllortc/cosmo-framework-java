@@ -59,7 +59,7 @@ public abstract class MenuProvider
    /**
     * Carga el controlador de usuarios.
     * 
-    * @throws UserProviderException 
+    * @throws AuthenticationProviderException 
     */
    private static MenuProvider loadProvider(Workspace workspace) throws MenuProviderException 
    {

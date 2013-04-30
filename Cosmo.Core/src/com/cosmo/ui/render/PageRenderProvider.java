@@ -2,7 +2,7 @@ package com.cosmo.ui.render;
 
 import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
-import com.cosmo.security.providers.UserProviderException;
+import com.cosmo.security.providers.AuthenticationProviderException;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.templates.TemplateUnavailableException;
 
@@ -70,7 +70,7 @@ public abstract class PageRenderProvider
    /**
     * Carga el controlador de usuarios.
     * 
-    * @throws UserProviderException 
+    * @throws AuthenticationProviderException 
     */
    private static PageRenderProvider loadProvider(Workspace workspace) throws LoadPageRenderException
    {

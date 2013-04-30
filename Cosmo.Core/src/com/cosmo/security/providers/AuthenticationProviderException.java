@@ -5,7 +5,7 @@ package com.cosmo.security.providers;
  * 
  * @author Gerard Llort
  */
-public class UserProviderException extends Exception
+public class AuthenticationProviderException extends Exception
 {
    /** Serial Version UID */
    private static final long serialVersionUID = 1837331881629720686L;
@@ -15,7 +15,7 @@ public class UserProviderException extends Exception
    /**
     * Constructor de la clase.
     */
-   public UserProviderException()
+   public AuthenticationProviderException()
    {
       super();
    }
@@ -25,7 +25,7 @@ public class UserProviderException extends Exception
     * 
     * @param message Una cadena que contiene el mensaje descriptivo de la excepción.
     */
-   public UserProviderException(String message)
+   public AuthenticationProviderException(String message)
    {
       super(message);
    }
@@ -36,7 +36,7 @@ public class UserProviderException extends Exception
     * @param message Una cadena que contiene el mensaje descriptivo de la excepción.
     * @param innerException Una instancia de {@link Exception} que contiene la información del orígen del problema.
     */
-   public UserProviderException(String message, Exception innerException)
+   public AuthenticationProviderException(String message, Exception innerException)
    {
       super(message);
       this.inner = innerException;

@@ -30,9 +30,9 @@ public abstract class AuthenticationProvider
     * @return Una instancia de {@link User} que representa el usuario al que corresponden las credenciales proporcionadas.
     * 
     * @throws UserNotFoundException
-    * @throws UserProviderException 
+    * @throws AuthenticationProviderException 
     */
-   public abstract User login(String login, String password) throws UserNotFoundException, UserProviderException;
+   public abstract User login(String login, String password) throws UserNotFoundException, AuthenticationProviderException;
 
    /**
     * Crea una nueva cuenta de usuario.
@@ -40,9 +40,9 @@ public abstract class AuthenticationProvider
     * @param user Una instancia de {@link User} que representa el nuevo usuario.
     *     
     * @throws UserAlreadyExistsException
-    * @throws UserProviderException
+    * @throws AuthenticationProviderException
     */
-   public abstract void add(User user) throws UserAlreadyExistsException, UserProviderException;
+   public abstract void add(User user) throws UserAlreadyExistsException, AuthenticationProviderException;
    
    //==============================================
    // Static members
@@ -55,9 +55,9 @@ public abstract class AuthenticationProvider
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     * @return Una instancia única de {@link AuthenticationProvider} (sigleton).
     * 
-    * @throws UserProviderException 
+    * @throws AuthenticationProviderException 
     */
-   public static AuthenticationProvider getInstance(Workspace workspace) throws UserProviderException 
+   public static AuthenticationProvider getInstance(Workspace workspace) throws AuthenticationProviderException 
    {
       if (instance == null) 
       {
@@ -97,9 +97,9 @@ public abstract class AuthenticationProvider
    /**
     * Carga el controlador de usuarios.
     * 
-    * @throws UserProviderException 
+    * @throws AuthenticationProviderException 
     */
-   private static AuthenticationProvider loadProvider(Workspace workspace) throws UserProviderException
+   private static AuthenticationProvider loadProvider(Workspace workspace) throws AuthenticationProviderException
    {
       String className = "-- no user provider defined in proprties --";
       AuthenticationProvider provider;
@@ -116,23 +116,23 @@ public abstract class AuthenticationProvider
 		}
       catch (NoSuchMethodException ex) 
 		{
-         throw new UserProviderException("NoSuchMethodException: " + className, ex);
+         throw new AuthenticationProviderException("NoSuchMethodException: " + className, ex);
       }
       catch (InvocationTargetException ex) 
 		{
-         throw new UserProviderException("InvocationTargetException: " + className, ex);
+         throw new AuthenticationProviderException("InvocationTargetException: " + className, ex);
       }
 		catch (ClassNotFoundException ex) 
 		{
-         throw new UserProviderException("ClassNotFoundException: " + className, ex);
+         throw new AuthenticationProviderException("ClassNotFoundException: " + className, ex);
 		}
       catch (InstantiationException ex)
       {
-         throw new UserProviderException("InstantiationException: " + className, ex);
+         throw new AuthenticationProviderException("InstantiationException: " + className, ex);
       }
       catch (IllegalAccessException ex)
       {
-         throw new UserProviderException("IllegalAccessException: " + className, ex);
+         throw new AuthenticationProviderException("IllegalAccessException: " + className, ex);
       }
    }
 }

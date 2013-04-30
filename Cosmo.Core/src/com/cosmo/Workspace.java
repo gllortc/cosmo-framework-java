@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import com.cosmo.security.User;
 import com.cosmo.security.UserNotFoundException;
 import com.cosmo.security.UserSession;
-import com.cosmo.security.providers.UserProviderException;
+import com.cosmo.security.providers.AuthenticationProviderException;
 import com.cosmo.ui.templates.Rules;
 import com.cosmo.ui.templates.RulesLoadException;
 import com.cosmo.ui.templates.Template;
@@ -189,9 +189,9 @@ public class Workspace
     * @param user Una instancia de {@link User} que contiene el login y password para autenticar al usuario.
     * 
     * @throws UserNotFoundException
-    * @throws UserProviderException 
+    * @throws AuthenticationProviderException 
     */
-   public void createSession(User user) throws UserNotFoundException, UserProviderException
+   public void createSession(User user) throws UserNotFoundException, AuthenticationProviderException
    {
       createSession(user.getLogin(), user.getPwd());
    }
@@ -203,9 +203,9 @@ public class Workspace
     * @param password Contraseña del usuario a autenticar.
     * 
     * @throws UserNotFoundException
-    * @throws UserProviderException 
+    * @throws AuthenticationProviderException 
     */
-   public void createSession(String login, String password) throws UserNotFoundException, UserProviderException
+   public void createSession(String login, String password) throws UserNotFoundException, AuthenticationProviderException
    {
       this.usrSession = new UserSession(this, login, password);
    }

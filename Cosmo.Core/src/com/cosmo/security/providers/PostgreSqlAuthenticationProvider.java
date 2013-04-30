@@ -19,7 +19,7 @@ import com.cosmo.util.CryptoUtils;
  * 
  * @author Gerard Llort
  */
-public class PostgreSqlUserProvider extends AuthenticationProvider 
+public class PostgreSqlAuthenticationProvider extends AuthenticationProvider 
 {
    private Workspace workspace;
    
@@ -34,7 +34,7 @@ public class PostgreSqlUserProvider extends AuthenticationProvider
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace al que está conectado actualmente.
     */
-   public PostgreSqlUserProvider(Workspace workspace)
+   public PostgreSqlAuthenticationProvider(Workspace workspace)
    {
       this.workspace = workspace;
    }
@@ -51,10 +51,10 @@ public class PostgreSqlUserProvider extends AuthenticationProvider
     * @return Una instancia de {@link User} que representa el usuario al que corresponden las credenciales proporcionadas.
     * 
     * @throws UserNotFoundException
-    * @throws UserProviderException 
+    * @throws AuthenticationProviderException 
     */
    @Override
-   public User login(String login, String password) throws UserNotFoundException, UserProviderException
+   public User login(String login, String password) throws UserNotFoundException, AuthenticationProviderException
    {
       String sql;
       User user = null;
@@ -102,11 +102,11 @@ public class PostgreSqlUserProvider extends AuthenticationProvider
       } 
       catch (SQLException ex) 
       {
-         throw new UserProviderException(ex.getMessage(), ex);
+         throw new AuthenticationProviderException(ex.getMessage(), ex);
       }
       catch (GeneralSecurityException ex)
       {
-         throw new UserProviderException(ex.getMessage(), ex);
+         throw new AuthenticationProviderException(ex.getMessage(), ex);
       }
       catch (UserNotFoundException ex)
       {
@@ -114,7 +114,7 @@ public class PostgreSqlUserProvider extends AuthenticationProvider
       }
       catch (Exception ex)
       {
-         throw new UserProviderException(ex.getMessage(), ex);
+         throw new AuthenticationProviderException(ex.getMessage(), ex);
       }
       finally
       {
@@ -130,10 +130,10 @@ public class PostgreSqlUserProvider extends AuthenticationProvider
     * @param user Una instancia de {@link User} que representa el nuevo usuario.
     *     
     * @throws UserAlreadyExistsException
-    * @throws UserProviderException
+    * @throws AuthenticationProviderException
     */
    @Override
-   public void add(User user) throws UserAlreadyExistsException, UserProviderException
+   public void add(User user) throws UserAlreadyExistsException, AuthenticationProviderException
    {
       String sSQL;
       ResultSet rs;
@@ -177,11 +177,11 @@ public class PostgreSqlUserProvider extends AuthenticationProvider
       } 
       catch (SQLException ex) 
       {
-         throw new UserProviderException(ex.getMessage(), ex);
+         throw new AuthenticationProviderException(ex.getMessage(), ex);
       }
       catch (GeneralSecurityException ex)
       {
-         throw new UserProviderException(ex.getMessage(), ex);
+         throw new AuthenticationProviderException(ex.getMessage(), ex);
       }
       catch (UserAlreadyExistsException ex)
       {
@@ -189,7 +189,7 @@ public class PostgreSqlUserProvider extends AuthenticationProvider
       }
       catch (Exception ex)
       {
-         throw new UserProviderException(ex.getMessage(), ex);
+         throw new AuthenticationProviderException(ex.getMessage(), ex);
       }
       finally
       {

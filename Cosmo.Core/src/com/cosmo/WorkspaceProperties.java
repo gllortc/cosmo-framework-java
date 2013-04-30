@@ -262,15 +262,15 @@ public class WorkspaceProperties
       NodeList pList;
       DataSource ds;
       Agent agent;
-      InputStream is = null;
+      InputStream iStream = null;
       
       try
       {
-         is = new FileInputStream(context.getRealPath("/" + WorkspaceProperties.PROPERTIES_FILENAME));
+         iStream = new FileInputStream(context.getRealPath("/" + WorkspaceProperties.PROPERTIES_FILENAME));
 
          DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
          DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-         Document doc = dBuilder.parse(is);
+         Document doc = dBuilder.parse(iStream);
          doc.getDocumentElement().normalize();
 
          // Obtiene los valores de configuración clave/valor
@@ -397,7 +397,7 @@ public class WorkspaceProperties
             }
          }
          
-         is.close();
+         iStream.close();
       }
       catch (ParserConfigurationException ex)
       {
@@ -413,7 +413,7 @@ public class WorkspaceProperties
       }
       finally
       {
-         IOUtils.closeStream(is);
+         IOUtils.closeStream(iStream);
       }
    }
    

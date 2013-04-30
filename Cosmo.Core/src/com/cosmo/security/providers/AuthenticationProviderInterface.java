@@ -9,7 +9,7 @@ import com.cosmo.security.UserNotFoundException;
  * 
  * @author Gerard Llort
  */
-public interface UserProviderInterface 
+public interface AuthenticationProviderInterface 
 {
    //==============================================
    // Methods
@@ -23,9 +23,9 @@ public interface UserProviderInterface
     * @return Una instancia de {@link User} que representa el usuario al que corresponden las credenciales proporcionadas.
     * 
     * @throws UserNotFoundException
-    * @throws UserProviderException 
+    * @throws AuthenticationProviderException 
     */
-   public User login(String login, String password) throws UserNotFoundException, UserProviderException;
+   public User login(String login, String password) throws UserNotFoundException, AuthenticationProviderException;
 
    /**
     * Crea una nueva cuenta de usuario.
@@ -33,7 +33,7 @@ public interface UserProviderInterface
     * @param user Una instancia de {@link User} que representa el nuevo usuario.
     *     
     * @throws DuplicatedUserException
-    * @throws UserProviderException
+    * @throws AuthenticationProviderException
     */
-   public void add(User user) throws UserAlreadyExistsException, UserProviderException;
+   public void add(User user) throws UserAlreadyExistsException, AuthenticationProviderException;
 }
