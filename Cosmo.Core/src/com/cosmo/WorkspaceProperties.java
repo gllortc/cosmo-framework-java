@@ -104,6 +104,25 @@ public class WorkspaceProperties
       return this.dataSources.size();
    }
    
+   /**
+    * Obtiene el nombre de la conexión al servidor Cosmo.
+    * 
+    * @return Una cadena que contiene el nombre del datasource definido como servidor Cosmo.
+    */
+   public String getServerDataSourceName()
+   {
+      return this.serverDatasource;
+   }
+   
+   /**
+    * Obtiene la página de login.
+    * 
+    * @return Una cadena que contiene el nombre del servlet que actúa de página de login.
+    */
+   public String getLoginPage()
+   {
+      return this.loginPage;
+   }
    
    //==============================================
    // Methods
@@ -165,16 +184,6 @@ public class WorkspaceProperties
    }
    
    /**
-    * Obtiene el nombre de la conexión al servidor Cosmo.
-    * 
-    * @return Una cadena que contiene el nombre del datasource definido como servidor Cosmo.
-    */
-   public String getServerDataSourceName()
-   {
-      return this.serverDatasource;
-   }
-   
-   /**
     * Obtiene la consexión al servidor Cosmo.
     * 
     * @return Una instancia de {@link DataSource} que contiene los parámetros de conexión a la base de datos.
@@ -228,16 +237,6 @@ public class WorkspaceProperties
       }
       
       return this.authorizationAgents.get(this.authorizationAgent);
-   }
-   
-   /**
-    * Obtiene la página de login.
-    * 
-    * @return Una cadena que contiene el nombre del servlet que actúa de página de login.
-    */
-   public String getLoginPage()
-   {
-      return this.loginPage;
    }
    
    //==============================================
