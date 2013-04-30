@@ -1,7 +1,7 @@
 package com.cosmo.security;
 
 import com.cosmo.Workspace;
-import com.cosmo.security.providers.UserProvider;
+import com.cosmo.security.providers.AuthenticationProvider;
 import com.cosmo.security.providers.UserProviderException;
 import java.util.Date;
 
@@ -30,7 +30,7 @@ public class UserSession
       this.workspace = workspace;
       
       // Instancia el proveedor de seguridad
-      UserProvider provider = UserProvider.getInstance(workspace);
+      AuthenticationProvider provider = AuthenticationProvider.getInstance(workspace);
       
       // Autentica el usuario
       this.currentUser = provider.login(login, pwd);

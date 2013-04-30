@@ -19,7 +19,7 @@ import com.cosmo.util.CryptoUtils;
  * 
  * @author Gerard Llort
  */
-public class PostgreSqlUserProvider extends UserProvider 
+public class PostgreSqlUserProvider extends AuthenticationProvider 
 {
    private Workspace workspace;
    
@@ -166,7 +166,7 @@ public class PostgreSqlUserProvider extends UserProvider
                 " '" + user.getName() + "', " +
                 " '" + user.getCity() + "', " +
                 "  " + 0 + ", " +
-                "  " + UserProvider.statusToNumber(user.getStatus()) + ", " +
+                "  " + AuthenticationProvider.statusToNumber(user.getStatus()) + ", " +
                 "  current_timestamp, " +
                 "  null, " +
                 "  " + 0 + ")";

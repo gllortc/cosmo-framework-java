@@ -14,9 +14,9 @@ import java.lang.reflect.InvocationTargetException;
  * 
  * @author Gerard Llort
  */
-public abstract class UserProvider 
+public abstract class AuthenticationProvider 
 {
-   private static UserProvider instance = null;
+   private static AuthenticationProvider instance = null;
    
    //==============================================
    // Methods
@@ -49,15 +49,15 @@ public abstract class UserProvider
    //==============================================
    
    /**
-    * Devuelve una instancia de {@link UserProvider} convenientemente instanciada y con
+    * Devuelve una instancia de {@link AuthenticationProvider} convenientemente instanciada y con
     * el proveedor de autenticaci�n de usuarios cargado.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
-    * @return Una instancia única de {@link UserProvider} (sigleton).
+    * @return Una instancia única de {@link AuthenticationProvider} (sigleton).
     * 
     * @throws UserProviderException 
     */
-   public static UserProvider getInstance(Workspace workspace) throws UserProviderException 
+   public static AuthenticationProvider getInstance(Workspace workspace) throws UserProviderException 
    {
       if (instance == null) 
       {
@@ -99,10 +99,10 @@ public abstract class UserProvider
     * 
     * @throws UserProviderException 
     */
-   private static UserProvider loadProvider(Workspace workspace) throws UserProviderException
+   private static AuthenticationProvider loadProvider(Workspace workspace) throws UserProviderException
    {
       String className = "-- no user provider defined in proprties --";
-      UserProvider provider;
+      AuthenticationProvider provider;
       
       try 
 		{
@@ -110,7 +110,7 @@ public abstract class UserProvider
          
          Class<?> cls = Class.forName(className);
          Constructor<?> cons = cls.getConstructor(Workspace.class);
-         provider = (UserProvider) cons.newInstance(workspace);
+         provider = (AuthenticationProvider) cons.newInstance(workspace);
          
          return provider;
 		}
