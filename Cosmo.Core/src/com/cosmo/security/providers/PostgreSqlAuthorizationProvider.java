@@ -9,7 +9,7 @@ import com.cosmo.data.DataSource;
 import com.cosmo.security.Activity;
 import com.cosmo.security.Role;
 
-public class PostgreSqlAuthorizationProvider implements AuthProviderInterface
+public class PostgreSqlAuthorizationProvider implements AuthorizationProviderInterface
 {
    private Workspace workspace;
    

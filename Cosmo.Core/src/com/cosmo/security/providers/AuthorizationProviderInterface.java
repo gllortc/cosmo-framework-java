@@ -5,7 +5,7 @@ package com.cosmo.security.providers;
  * 
  * @author Gerard Llort
  */
-public interface AuthProviderInterface 
+public interface AuthorizationProviderInterface 
 {
    
    //==============================================
