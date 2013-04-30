@@ -3,7 +3,7 @@ package com.cosmo.web.pages;
 import com.cosmo.net.HttpRequestUtils;
 import com.cosmo.security.User;
 import com.cosmo.security.UserAlreadyExistsException;
-import com.cosmo.security.providers.UserProvider;
+import com.cosmo.security.providers.AuthenticationProvider;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.controls.DynamicMessageControl;
 import com.cosmo.ui.controls.FormButton;
@@ -98,7 +98,7 @@ public class UserRegisterPage extends Page
 
          // Acciones
 
-         UserProvider up = UserProvider.getInstance(this.getWorkspace());
+         AuthenticationProvider up = AuthenticationProvider.getInstance(this.getWorkspace());
          up.add(user);
 
          // Redirección a destino
