@@ -99,18 +99,18 @@ public class UserRegisterPage extends Page
          // Acciones
 
          AuthenticationProvider up = AuthenticationProvider.getInstance(this.getWorkspace());
-         up.add(user);
+         // up.add(user);
 
          // Redirección a destino
          
          response.sendRedirect("/LoginPage");
       }
-      catch (UserAlreadyExistsException ex)
+      /*catch (UserAlreadyExistsException ex)
       {
          DynamicMessageControl msg = (DynamicMessageControl) this.getControl("msg");
          msg.setVisible(true);
          msg.setMessage("Ja s'ha trobat un usuari amb el mateix LOGIN o MAIL. Si us plau, verifiqui les dades proporcionades.");
-      }
+      }*/
       catch (Exception ex) 
       {
          DynamicMessageControl msg = (DynamicMessageControl) this.getControl("msg");

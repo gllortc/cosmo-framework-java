@@ -16,6 +16,25 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<webXml>Web\WEB-INF\web.xml</webXml>
+					<webResources>
+						<resource>
+							<directory>Web</directory>
+							<includes>
+								<include>*.xml</include>
+							</includes>
+						</resource>
+						<resource>
+                     <directory>Web\templates</directory>
+                     <targetPath>templates</targetPath>
+                  </resource>
+					</webResources>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
@@ -29,6 +48,11 @@
 			<groupId>Cosmo.Core</groupId>
 			<artifactId>Cosmo.Core</artifactId>
 			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>ldapsdk</groupId>
+			<artifactId>ldapsdk</artifactId>
+			<version>4.1</version>
 		</dependency>
 	</dependencies>
 	<packaging>war</packaging>
