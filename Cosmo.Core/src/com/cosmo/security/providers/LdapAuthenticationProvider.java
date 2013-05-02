@@ -1,21 +1,24 @@
 package com.cosmo.security.providers;
 
-import netscape.ldap.LDAPConnection;
-import netscape.ldap.LDAPEntry;
-import netscape.ldap.LDAPException;
-import netscape.ldap.LDAPSearchConstraints;
-import netscape.ldap.LDAPSearchResults;
-import netscape.ldap.LDAPv2;
+import java.util.Enumeration;
+import java.util.Hashtable;
+
+import javax.naming.Context;
+import javax.naming.NamingEnumeration;
+import javax.naming.directory.Attribute;
+import javax.naming.directory.Attributes;
+import javax.naming.directory.DirContext;
+import javax.naming.directory.InitialDirContext;
+import javax.naming.directory.SearchControls;
+import javax.naming.directory.SearchResult;
 
 import com.cosmo.Workspace;
 import com.cosmo.security.Agent;
 import com.cosmo.security.User;
 import com.cosmo.security.UserNotFoundException;
-import com.cosmo.util.StringUtils;
 
 /**
- * Proveedor de seguridad nativo de Cosmo.<br />
- * Este proveedor requiere conexión a BBDD y tener las tablas de usuarios de Cosmo.
+ * Proveedor de autenticación LDAP para Cosmo.
  * 
  * @author Gerard Llort
  */
@@ -24,18 +27,16 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
    private Workspace workspace;
    private Agent agent;
 
-   private LDAPConnection connection;
-   private LDAPSearchConstraints searchCons;
-   private int option;
-   private Object optionValue;
-   private boolean connected;
-   private String searchBase;
+   private String loginPattern;
    
    private static String PARAM_HOSTURL = "host-url";
    private static String PARAM_HOSTPORT = "host-port";
    private static String PARAM_SEARCHBASE = "search-base";
-   
-   private static int MAX_QUERY_RESULTS = 100;
+   private static String PARAM_LOGINPATTERN = "login-pattern";
+   private static String PARAM_CONTEXTFACTORY = "context-factory";
+   private static String PARAM_ATTR_MAIL = "ldap-attrib-mail";
+   private static String PARAM_ATTR_NAME = "ldap-attrib-name";
+   private static String PARAM_ATTR_SURNAME = "ldap-attrib-surname";
    
    //==============================================
    // Constructors
@@ -48,14 +49,11 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
     */
    public LdapAuthenticationProvider(Workspace workspace)
    {
-      connected = false;
-      option = -1;
-      optionValue = null;
-      
       this.workspace = workspace;
-      this.agent = workspace.getProperties().getAuthenticationAgent();
+      this.agent = this.workspace.getProperties().getAuthenticationAgent();
 
-      this.searchBase = agent.getParam(PARAM_SEARCHBASE);
+      agent.getParam(PARAM_SEARCHBASE);
+      this.loginPattern = agent.getParam(PARAM_LOGINPATTERN);
    }
    
    
@@ -80,11 +78,13 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
       
       try
       {
-         connect();
+         user = authenticate(login, password);
+         
+         /*connect();
          autheticate(login, password);
-         disconnect();
+         disconnect();*/
       }
-      catch (LDAPException ex)
+      catch (Exception ex)
       {
          throw new AuthenticationProviderException(ex.getMessage(), ex);
       }
@@ -120,7 +120,7 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
     *
     * @exception netscape.ldap.LDAPException Si no es pot establir la connexió.
     */
-   private void connect() throws LDAPException
+   /*private void connect() throws LDAPException
    {
       int hostPort;
       String hostUrl;
@@ -145,14 +145,14 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
       searchCons.setMaxResults(MAX_QUERY_RESULTS);
       // this.mSearchCons.setServerTimeLimit(this.mTimeLimit); ?? no va pq??
       // searchCons.setBatchSize(1); // hauria de ser 0 o 1? o no posar res??
-   }
+   }*/
    
    /**
     * Ens desconecta del directori.
     *
     * @exception netscape.ldap.LDAPException Si no es pot desconectar.
     */
-   private void disconnect() throws LDAPException
+   /*private void disconnect() throws LDAPException
    {
       if (connected)
       {
@@ -161,7 +161,7 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
 
       connected = false;
       connection = null;
-   }
+   }*/
    
    /**
     * Ens diu si ja existeix un usuari amb un uid especificat al directori.
@@ -170,7 +170,7 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
     * @return True si existeix l'usuari al directori, False en cas contrari
     * @exception netscape.ldap.LDAPException Si no es pot establir la connexió.
     */
-   public boolean existsUid(String uid) throws LDAPException
+   /*public boolean existsUid(String uid) throws LDAPException
    {
       LDAPSearchResults res = null;
 
@@ -188,7 +188,7 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
       }
 
       return false;
-   }
+   }*/
    
    /**
     * Ens diu si la cadena té la forma d'un DN (Distinguished Name).
@@ -196,7 +196,7 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
     * @param usr String que representa el Distinguished Name que volem comprovar.
     * @return True si el format del String passat com a paràmetre té la forma d'un DN (Distinguished Name), False en cas contrari
     */
-   public boolean isDN(String usr)
+   /*public boolean isDN(String usr)
    {
       if (StringUtils.isNullOrEmptyTrim(usr))
       {
@@ -209,7 +209,7 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
       }
 
       return false;
-   }
+   }*/
    
    /**
     * Recupera el DN (Distinguished Name) d'un usuari amb un uid especificat.
@@ -219,7 +219,7 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
     * @throws netscape.ldap.LDAPException Si no es troba el DN, si no ens podem autenticar, si no es pot modificar la entrada, ...
     * @throws AuthenticationProviderException 
     */
-   public String getDN(String uid) throws LDAPException, AuthenticationProviderException
+   /*public String getDN(String uid) throws LDAPException, AuthenticationProviderException
    {
       String dn = null;
       LDAPEntry findEntry = null;
@@ -238,7 +238,7 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
       }
       
       return dn;
-   }
+   }*/
 
    /**
     * Autentica al directori fent servir un usuari i un password especificats .
@@ -248,25 +248,105 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
     * @exception netscape.ldap.LDAPException Si no es troba el DN, si no ens podem autenticar, si no es pot modificar la entrada, ...
     * @throws AuthenticationProviderException 
     */
-   private void autheticate(String dn, String passwd) throws LDAPException, AuthenticationProviderException
+   /*private void autheticate(String dn, String passwd) throws LDAPException, AuthenticationProviderException
    {
       if (StringUtils.isNullOrEmptyTrim(dn))
       {
          throw new AuthenticationProviderException("Cosmo LDAP Authentication provider: Can't authenticate. No DN provided.");
       }
 
-      if (!isDN(dn))
+      / *if (!isDN(dn))
       {
-         dn = getDN(dn);
-      }
+         dn = getDN(getFormattedLogin(dn));
+      }* /
 
-      if (!connected)
+      connect();
+      connection.authenticate(getFormattedLogin(dn), passwd);
+      disconnect();
+   }*/
+   
+   private String getFormattedLogin(String login)
+   {
+      return this.loginPattern.replace("%login%", login);
+   }
+   
+   
+   /*public static String INITCTX = "com.sun.jndi.ldap.LdapCtxFactory";
+   public static String MY_HOST = "ldap://yoda:391";
+   public static String MY_SEARCHBASE = "dc=isdintegration,dc=com";
+   public static String MY_FILTER = "jabberID=test1@yoda";
+   public static String MGR_DN = "cn=stuart";
+   public static String MGR_PW = "stuart";*/
+   
+   private User authenticate(String login, String password) 
+   {
+      String attrValue;
+      User user = null;
+      
+      try
       {
-         connect();
+         Hashtable<String, String> env = new Hashtable<String, String>();
+         env.put(Context.INITIAL_CONTEXT_FACTORY, agent.getParam(PARAM_CONTEXTFACTORY));
+         env.put(Context.PROVIDER_URL, "ldap://" + agent.getParam(PARAM_HOSTURL) + ":" + agent.getParam(PARAM_HOSTPORT));
+         env.put(Context.SECURITY_AUTHENTICATION, "simple");
+         env.put(Context.SECURITY_PRINCIPAL, getFormattedLogin(login));
+         env.put(Context.SECURITY_CREDENTIALS, password);
+         
+         DirContext ctx = new InitialDirContext(env);
+         SearchControls constraints = new SearchControls();
+         constraints.setSearchScope(SearchControls.SUBTREE_SCOPE);
+         
+         //We give it a searchbase, a filter and the contraints containing the scope of the search
+         NamingEnumeration<?> results = ctx.search(agent.getParam(PARAM_SEARCHBASE), "cn=" + login, constraints);
+         
+         //now stop through the search results
+         while (results != null && results.hasMore())
+         {
+            user = new User();
+            user.setLogin(login);
+            
+            SearchResult sr = (SearchResult) results.next();
+            // String dn = sr.getName();
+            Attributes attrs = sr.getAttributes();
+            for (NamingEnumeration<?> ne = attrs.getAll(); ne.hasMoreElements();)
+            {
+               Attribute attr = (Attribute) ne.next();
+               
+               if (attr.getID().trim().equalsIgnoreCase(agent.getParam(PARAM_ATTR_MAIL)))
+               {
+                  attrValue = "";
+                  for (Enumeration<?> vals = attr.getAll(); vals.hasMoreElements();)  
+                  {
+                     attrValue += vals.nextElement();
+                  }
+                  user.setMail(attrValue);
+               }
+               else if (attr.getID().trim().equalsIgnoreCase(agent.getParam(PARAM_ATTR_NAME)))
+               {
+                  attrValue = "";
+                  for (Enumeration<?> vals = attr.getAll(); vals.hasMoreElements();)  
+                  {
+                     attrValue += vals.nextElement();
+                  }
+                  user.setName(attrValue);
+               }
+               else if (attr.getID().trim().equalsIgnoreCase(agent.getParam(PARAM_ATTR_SURNAME)))
+               {
+                  attrValue = "";
+                  for (Enumeration<?> vals = attr.getAll(); vals.hasMoreElements();)  
+                  {
+                     attrValue += vals.nextElement();
+                  }
+                  user.setName(user.getName() + " " + attrValue);
+               }
+            }
+         }
+      }
+      catch (Exception ex)
+      {
+         ex.printStackTrace();
       }
       
-      connection.authenticate(dn, passwd);
-
-      disconnect();
+      return user;
    }
 }
