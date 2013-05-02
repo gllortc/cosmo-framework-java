@@ -16,6 +16,7 @@ import javax.naming.directory.SearchResult;
 import com.cosmo.Workspace;
 import com.cosmo.security.Agent;
 import com.cosmo.security.User;
+import com.cosmo.security.User.UserStates;
 import com.cosmo.security.UserNotFoundException;
 
 /**
@@ -101,168 +102,10 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
    // Private members
    //==============================================
    
-   /**
-    * Ens conecta al directori.
-    *
-    * @exception netscape.ldap.LDAPException Si no es pot establir la connexió.
-    */
-   /*private void connect() throws LDAPException
-   {
-      int hostPort;
-      String hostUrl;
-      
-      if (connected)
-      {
-         return;
-      }
-      
-      // Obtiene la configuración de conexión
-      hostUrl = workspace.getProperties().getAuthenticationAgent().getParam(PARAM_HOSTURL);
-      hostPort = Integer.parseInt(workspace.getProperties().getAuthenticationAgent().getParam(PARAM_HOSTPORT));
-
-      connection = new LDAPConnection();
-      connection.connect(hostUrl, hostPort);
-      searchCons = connection.getSearchConstraints();
-      if (optionValue != null)
-      {
-         connection.setOption(option, optionValue);
-      }
-
-      searchCons.setMaxResults(MAX_QUERY_RESULTS);
-      // this.mSearchCons.setServerTimeLimit(this.mTimeLimit); ?? no va pq??
-      // searchCons.setBatchSize(1); // hauria de ser 0 o 1? o no posar res??
-   }*/
-   
-   /**
-    * Ens desconecta del directori.
-    *
-    * @exception netscape.ldap.LDAPException Si no es pot desconectar.
-    */
-   /*private void disconnect() throws LDAPException
-   {
-      if (connected)
-      {
-         connection.disconnect();
-      }
-
-      connected = false;
-      connection = null;
-   }*/
-   
-   /**
-    * Ens diu si ja existeix un usuari amb un uid especificat al directori.
-    *
-    * @param uid Identificador d'usuari que es busca.
-    * @return True si existeix l'usuari al directori, False en cas contrari
-    * @exception netscape.ldap.LDAPException Si no es pot establir la connexió.
-    */
-   /*public boolean existsUid(String uid) throws LDAPException
-   {
-      LDAPSearchResults res = null;
-
-      if (StringUtils.isNullOrEmptyTrim(uid))
-      {
-         return false;
-      }
-
-      String my_filter = "(uid=" + uid + ")";
-      res = connection.search(searchBase, LDAPv2.SCOPE_SUB, my_filter, null, false, searchCons);
-
-      if (res.hasMoreElements())
-      {
-         return true;
-      }
-
-      return false;
-   }*/
-   
-   /**
-    * Ens diu si la cadena té la forma d'un DN (Distinguished Name).
-    *
-    * @param usr String que representa el Distinguished Name que volem comprovar.
-    * @return True si el format del String passat com a paràmetre té la forma d'un DN (Distinguished Name), False en cas contrari
-    */
-   /*public boolean isDN(String usr)
-   {
-      if (StringUtils.isNullOrEmptyTrim(usr))
-      {
-         return false;
-      }
-
-      if (usr.indexOf("=") != -1)
-      {
-         return true;
-      }
-
-      return false;
-   }*/
-   
-   /**
-    * Recupera el DN (Distinguished Name) d'un usuari amb un uid especificat.
-    *
-    * @param uid Identificador d'usuari únic (uid) del que volem obtenir el Distinguished Name
-    * 
-    * @throws netscape.ldap.LDAPException Si no es troba el DN, si no ens podem autenticar, si no es pot modificar la entrada, ...
-    * @throws AuthenticationProviderException 
-    */
-   /*public String getDN(String uid) throws LDAPException, AuthenticationProviderException
-   {
-      String dn = null;
-      LDAPEntry findEntry = null;
-
-      if (StringUtils.isNullOrEmptyTrim(uid))
-      {
-         throw new AuthenticationProviderException("Cosmo LDAP Authentication provider: Can't get DN. No UID provided.");
-      }
-      
-      String my_filter = "(uid=" + uid + ")";
-      LDAPSearchResults res = connection.search(searchBase, LDAPv2.SCOPE_SUB, my_filter, null, false, searchCons);
-      if (res.hasMoreElements())
-      {
-         findEntry = res.next();
-         dn = findEntry.getDN();
-      }
-      
-      return dn;
-   }*/
-
-   /**
-    * Autentica al directori fent servir un usuari i un password especificats .
-    *
-    * @param dn Distinguished Name que volem autenticar.
-    * @param passwd Password corresponent a aquella entrada (dn) que volem autenticar.
-    * @exception netscape.ldap.LDAPException Si no es troba el DN, si no ens podem autenticar, si no es pot modificar la entrada, ...
-    * @throws AuthenticationProviderException 
-    */
-   /*private void autheticate(String dn, String passwd) throws LDAPException, AuthenticationProviderException
-   {
-      if (StringUtils.isNullOrEmptyTrim(dn))
-      {
-         throw new AuthenticationProviderException("Cosmo LDAP Authentication provider: Can't authenticate. No DN provided.");
-      }
-
-      / *if (!isDN(dn))
-      {
-         dn = getDN(getFormattedLogin(dn));
-      }* /
-
-      connect();
-      connection.authenticate(getFormattedLogin(dn), passwd);
-      disconnect();
-   }*/
-   
    private String getFormattedLogin(String login)
    {
       return this.loginPattern.replace("%login%", login);
    }
-   
-   
-   /*public static String INITCTX = "com.sun.jndi.ldap.LdapCtxFactory";
-   public static String MY_HOST = "ldap://yoda:391";
-   public static String MY_SEARCHBASE = "dc=isdintegration,dc=com";
-   public static String MY_FILTER = "jabberID=test1@yoda";
-   public static String MGR_DN = "cn=stuart";
-   public static String MGR_PW = "stuart";*/
    
    private User authenticate(String login, String password) throws UserNotFoundException, AuthenticationProviderException
    {
@@ -291,10 +134,10 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
             throw new UserNotFoundException();
          }
          else
-         // while (results.hasMore())
          {
             user = new User();
             user.setLogin(login);
+            user.setStatus(UserStates.Active);
             
             SearchResult sr = (SearchResult) results.next();
             Attributes attrs = sr.getAttributes();
