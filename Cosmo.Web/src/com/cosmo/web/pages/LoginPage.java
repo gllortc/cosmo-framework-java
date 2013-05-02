@@ -33,7 +33,7 @@ public class LoginPage extends Page
    
    private static final String FIELD_LOGIN = "txtLogin";
    private static final String FIELD_PASSWORD = "txtPwd";
-   private static final String FIELD_TOURL = "toUrl";
+   // private static final String FIELD_TOURL = "toUrl";
 
    @Override
    public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
