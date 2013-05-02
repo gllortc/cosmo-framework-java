@@ -30,6 +30,8 @@ public class CasAuthenticationProvider extends AuthenticationProvider
 
    private static String PARAM_CASSERVICE = "cas-service";
    
+   private String grantingTicket;
+   
    //==============================================
    // Constructors
    //==============================================
@@ -41,8 +43,25 @@ public class CasAuthenticationProvider extends AuthenticationProvider
     */
    public CasAuthenticationProvider(Workspace workspace)
    {
+      grantingTicket = "";
+      
       this.workspace = workspace;
-      this.agent = workspace.getProperties().getAuthenticationAgent();
+      this.agent = this.workspace.getProperties().getAuthenticationAgent();
+   }
+   
+   
+   //==============================================
+   // Properties
+   //==============================================
+   
+   /**
+    * Devuelve el Ticket Granting Ticket de CAS.
+    * 
+    * @return Una cadena que contiene el Ticket Granting Ticket de CAS.
+    */
+   public String getGrantingTicket()
+   {
+      return this.grantingTicket;
    }
    
    
@@ -86,6 +105,15 @@ public class CasAuthenticationProvider extends AuthenticationProvider
       return;
    }
    
+   /**
+    * Revalida la sesión de usuario.
+    */
+   @Override
+   public void validate() 
+   {
+      return;   
+   };
+   
    
    //==============================================
    // Private members
@@ -102,47 +130,47 @@ public class CasAuthenticationProvider extends AuthenticationProvider
          qurl.addParameter("username", username);
          qurl.addParameter("password", password);
          
-         HttpsURLConnection hsu = (HttpsURLConnection)openConn(url);
+         HttpsURLConnection httpsConnection = (HttpsURLConnection)openConn(url);
          s = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
          s += "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
     
          System.out.println(s);
-         OutputStreamWriter out = new OutputStreamWriter(hsu.getOutputStream());
+         OutputStreamWriter out = new OutputStreamWriter(httpsConnection.getOutputStream());
          BufferedWriter bwr = new BufferedWriter(out);
          bwr.write(s);
          bwr.flush();
          bwr.close();
          out.close();
     
-         String tgt = hsu.getHeaderField("location");
-         System.out.println( hsu.getResponseCode());
-         if (tgt != null && hsu.getResponseCode() == 201)
+         this.grantingTicket = httpsConnection.getHeaderField("location");
+         System.out.println( httpsConnection.getResponseCode());
+         if (this.grantingTicket != null && httpsConnection.getResponseCode() == 201)
          {
-            System.out.println(tgt);
-            System.out.println("Tgt is : " + tgt.substring( tgt.lastIndexOf("/") + 1));
-            tgt = tgt.substring(tgt.lastIndexOf("/") + 1);
+            System.out.println(this.grantingTicket);
+            System.out.println("Tgt is : " + this.grantingTicket.substring(this.grantingTicket.lastIndexOf("/") + 1));
+            this.grantingTicket = this.grantingTicket.substring(this.grantingTicket.lastIndexOf("/") + 1);
             bwr.close();
-            closeConn(hsu);
+            closeConn(httpsConnection);
 
             String serviceURL = "https://myserver.com/testApplication";
             String encodedServiceURL = URLEncoder.encode("service", "utf-8") + "=" + URLEncoder.encode(serviceURL, "utf-8");
             System.out.println("Service url is : " + encodedServiceURL);
 
-            String myURL = url + "/" + tgt ;
+            String myURL = url + "/" + this.grantingTicket;
             System.out.println(myURL);
-            hsu = (HttpsURLConnection)openConn(myURL);
-            out = new OutputStreamWriter(hsu.getOutputStream());
+            httpsConnection = (HttpsURLConnection)openConn(myURL);
+            out = new OutputStreamWriter(httpsConnection.getOutputStream());
             bwr = new BufferedWriter(out);
             bwr.write(encodedServiceURL);
             bwr.flush();
             bwr.close();
             out.close();
   
-            System.out.println("Response code is:  " + hsu.getResponseCode());
+            System.out.println("Response code is: " + httpsConnection.getResponseCode());
     
-            BufferedReader isr = new BufferedReader(new InputStreamReader(hsu.getInputStream()));
+            BufferedReader isr = new BufferedReader(new InputStreamReader(httpsConnection.getInputStream()));
             String line;
-            System.out.println(hsu.getResponseCode());
+            System.out.println(httpsConnection.getResponseCode());
             
             while ((line = isr.readLine()) != null) 
             {
@@ -150,7 +178,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
             }
 
             isr.close();
-            hsu.disconnect();
+            httpsConnection.disconnect();
 
             return true;
          }

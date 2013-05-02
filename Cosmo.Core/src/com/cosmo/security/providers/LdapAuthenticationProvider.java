@@ -31,8 +31,6 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
    private boolean connected;
    private String searchBase;
    
-   // private static String PARAM_CONTEXTFACTORY = "context-factory";
-   // private static String PARAM_PROVIDERURL = "provider-url";
    private static String PARAM_HOSTURL = "host-url";
    private static String PARAM_HOSTPORT = "host-port";
    private static String PARAM_SEARCHBASE = "search-base";
@@ -102,6 +100,15 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
    {
       return;
    }
+   
+   /**
+    * Revalida la sesión de usuario.
+    */
+   @Override
+   public void validate() 
+   {
+      return;   
+   };
    
    
    //==============================================
@@ -233,36 +240,6 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
       return dn;
    }
 
-   /**
-    * Recupera el DN (Distinguished Name) d'un usuari amb un uid especificat. La búsqueda es realitza a partir de la base especificada.
-    *
-    * @param uid Uid de l'usuari del que volem recuperar el DN
-    * @param searchbase Nivell del directori a partil del qual començarà a buscar
-    * @exception netscape.ldap.LDAPException Si no es troba el DN, si no ens podem autenticar, si no es pot modificar la entrada, ...
-    */
-   private String getDN(String uid, String searchbase) throws LDAPException
-   {
-      String dn = null;
-      LDAPEntry findEntry = null;
-
-      if (!connected)
-      {
-         connect();
-      }
-      
-      String my_filter = "(uid=" + uid + ")";
-      LDAPSearchResults res = connection.search(searchbase, LDAPv2.SCOPE_SUB, my_filter, null, false, searchCons);
-      if (res.hasMoreElements())
-      {
-         findEntry = res.next();
-         dn = findEntry.getDN();
-      }
-
-      disconnect();
-
-      return dn;
-   }
-   
    /**
     * Autentica al directori fent servir un usuari i un password especificats .
     *

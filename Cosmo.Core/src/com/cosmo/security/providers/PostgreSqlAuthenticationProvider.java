@@ -39,6 +39,7 @@ public class PostgreSqlAuthenticationProvider extends AuthenticationProvider
       this.workspace = workspace;
    }
    
+   
    //==============================================
    // Methods
    //==============================================
@@ -127,10 +128,20 @@ public class PostgreSqlAuthenticationProvider extends AuthenticationProvider
    /**
     * Elimina la información de autenticación actual.
     */
+   @Override
    public void logout()
    {
       
    }
+   
+   /**
+    * Revalida la sesión de usuario.
+    */
+   @Override
+   public void validate() 
+   {
+      return;   
+   };
    
    /**
     * Crea una nueva cuenta de usuario.

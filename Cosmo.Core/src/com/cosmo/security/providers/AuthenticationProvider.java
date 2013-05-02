@@ -7,7 +7,6 @@ import com.cosmo.Workspace;
 import com.cosmo.security.Agent;
 import com.cosmo.security.User;
 import com.cosmo.security.User.UserStates;
-import com.cosmo.security.UserAlreadyExistsException;
 import com.cosmo.security.UserNotFoundException;
 import com.cosmo.util.StringUtils;
 
@@ -19,6 +18,7 @@ import com.cosmo.util.StringUtils;
 public abstract class AuthenticationProvider 
 {
    private static AuthenticationProvider instance = null;
+   
    
    //==============================================
    // Methods
@@ -42,14 +42,10 @@ public abstract class AuthenticationProvider
    public abstract void logout();
    
    /**
-    * Crea una nueva cuenta de usuario.
-    * 
-    * @param user Una instancia de {@link User} que representa el nuevo usuario.
-    *     
-    * @throws UserAlreadyExistsException
-    * @throws AuthenticationProviderException
+    * Revalida la sesión de usuario.
     */
-   // public abstract void add(User user) throws UserAlreadyExistsException, AuthenticationProviderException;
+   public abstract void validate();
+   
    
    //==============================================
    // Static members
@@ -74,6 +70,7 @@ public abstract class AuthenticationProvider
       return instance;
    }
 
+   
    //==============================================
    // Static members
    //==============================================
@@ -96,6 +93,7 @@ public abstract class AuthenticationProvider
             return 0;
       }
    }
+   
    
    //==============================================
    // Private members
