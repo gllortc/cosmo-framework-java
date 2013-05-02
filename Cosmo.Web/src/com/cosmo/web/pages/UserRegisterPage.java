@@ -4,6 +4,7 @@ import com.cosmo.net.HttpRequestUtils;
 import com.cosmo.security.User;
 import com.cosmo.security.UserAlreadyExistsException;
 import com.cosmo.security.providers.AuthenticationProvider;
+import com.cosmo.security.providers.PostgreSqlAuthenticationProvider;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.controls.DynamicMessageControl;
 import com.cosmo.ui.controls.FormButton;
@@ -98,19 +99,19 @@ public class UserRegisterPage extends Page
 
          // Acciones
 
-         AuthenticationProvider up = AuthenticationProvider.getInstance(this.getWorkspace());
-         // up.add(user);
+         PostgreSqlAuthenticationProvider up = (PostgreSqlAuthenticationProvider) AuthenticationProvider.getInstance(this.getWorkspace());
+         up.add(user);
 
          // Redirección a destino
-         
+
          response.sendRedirect("/LoginPage");
       }
-      /*catch (UserAlreadyExistsException ex)
+      catch (UserAlreadyExistsException ex)
       {
          DynamicMessageControl msg = (DynamicMessageControl) this.getControl("msg");
          msg.setVisible(true);
          msg.setMessage("Ja s'ha trobat un usuari amb el mateix LOGIN o MAIL. Si us plau, verifiqui les dades proporcionades.");
-      }*/
+      }
       catch (Exception ex) 
       {
          DynamicMessageControl msg = (DynamicMessageControl) this.getControl("msg");
