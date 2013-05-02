@@ -5,6 +5,7 @@ import java.util.Hashtable;
 
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
+import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
@@ -74,22 +75,7 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
    @Override
    public User login(String login, String password) throws UserNotFoundException, AuthenticationProviderException
    {
-      User user = null;
-      
-      try
-      {
-         user = authenticate(login, password);
-         
-         /*connect();
-         autheticate(login, password);
-         disconnect();*/
-      }
-      catch (Exception ex)
-      {
-         throw new AuthenticationProviderException(ex.getMessage(), ex);
-      }
-      
-      return user;
+      return authenticate(login, password);
    }
    
    /**
@@ -278,7 +264,7 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
    public static String MGR_DN = "cn=stuart";
    public static String MGR_PW = "stuart";*/
    
-   private User authenticate(String login, String password) 
+   private User authenticate(String login, String password) throws UserNotFoundException, AuthenticationProviderException
    {
       String attrValue;
       User user = null;
@@ -296,44 +282,49 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
          SearchControls constraints = new SearchControls();
          constraints.setSearchScope(SearchControls.SUBTREE_SCOPE);
          
-         //We give it a searchbase, a filter and the contraints containing the scope of the search
+         // Realiza la búsqueda del usuario en el directorio y se autentica
          NamingEnumeration<?> results = ctx.search(agent.getParam(PARAM_SEARCHBASE), "cn=" + login, constraints);
          
-         //now stop through the search results
-         while (results != null && results.hasMore())
+         // Verifica si se ha encontrado la entrada en el directorio
+         if (results == null || !results.hasMore())
+         {
+            throw new UserNotFoundException();
+         }
+         else
+         // while (results.hasMore())
          {
             user = new User();
             user.setLogin(login);
             
             SearchResult sr = (SearchResult) results.next();
-            // String dn = sr.getName();
             Attributes attrs = sr.getAttributes();
-            for (NamingEnumeration<?> ne = attrs.getAll(); ne.hasMoreElements();)
+
+            for (NamingEnumeration<?> nenum = attrs.getAll(); nenum.hasMoreElements();)
             {
-               Attribute attr = (Attribute) ne.next();
+               Attribute attrib = (Attribute) nenum.next();
                
-               if (attr.getID().trim().equalsIgnoreCase(agent.getParam(PARAM_ATTR_MAIL)))
+               if (attrib.getID().trim().equalsIgnoreCase(agent.getParam(PARAM_ATTR_MAIL)))
                {
                   attrValue = "";
-                  for (Enumeration<?> vals = attr.getAll(); vals.hasMoreElements();)  
+                  for (Enumeration<?> vals = attrib.getAll(); vals.hasMoreElements();)  
                   {
                      attrValue += vals.nextElement();
                   }
                   user.setMail(attrValue);
                }
-               else if (attr.getID().trim().equalsIgnoreCase(agent.getParam(PARAM_ATTR_NAME)))
+               else if (attrib.getID().trim().equalsIgnoreCase(agent.getParam(PARAM_ATTR_NAME)))
                {
                   attrValue = "";
-                  for (Enumeration<?> vals = attr.getAll(); vals.hasMoreElements();)  
+                  for (Enumeration<?> vals = attrib.getAll(); vals.hasMoreElements();)  
                   {
                      attrValue += vals.nextElement();
                   }
                   user.setName(attrValue);
                }
-               else if (attr.getID().trim().equalsIgnoreCase(agent.getParam(PARAM_ATTR_SURNAME)))
+               else if (attrib.getID().trim().equalsIgnoreCase(agent.getParam(PARAM_ATTR_SURNAME)))
                {
                   attrValue = "";
-                  for (Enumeration<?> vals = attr.getAll(); vals.hasMoreElements();)  
+                  for (Enumeration<?> vals = attrib.getAll(); vals.hasMoreElements();)  
                   {
                      attrValue += vals.nextElement();
                   }
@@ -342,9 +333,9 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
             }
          }
       }
-      catch (Exception ex)
+      catch (NamingException ex)
       {
-         ex.printStackTrace();
+         throw new AuthenticationProviderException(ex.getMessage());
       }
       
       return user;
