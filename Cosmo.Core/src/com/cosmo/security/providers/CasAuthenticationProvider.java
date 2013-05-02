@@ -1,18 +1,21 @@
 package com.cosmo.security.providers;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import com.cosmo.Workspace;
 import com.cosmo.security.Agent;
 import com.cosmo.security.User;
 import com.cosmo.security.UserNotFoundException;
-import com.cosmo.util.StringUtils;
-
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.PostMethod;
 
 /**
  * Proveedor de seguridad nativo de Cosmo.<br />
@@ -25,8 +28,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
    private Workspace workspace;
    private Agent agent;
 
-   // private static String PARAM_CONTEXTFACTORY = "context-factory";
-   // private static String PARAM_PROVIDERURL = "provider-url";
+   private static String PARAM_CASSERVICE = "cas-service";
    
    //==============================================
    // Constructors
@@ -65,7 +67,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
       
       try
       {
-         getTicket("server", login, password, "service");
+         validateFromCAS(login, password, "service");
       }
       catch (Exception ex)
       {
@@ -89,127 +91,100 @@ public class CasAuthenticationProvider extends AuthenticationProvider
    // Private members
    //==============================================
    
-   // private static final Logger LOG = Logger.getLogger(Client.class.getName());
-   
-   public static String getTicket(final String server, final String username, final String password, final String service)
+   public boolean validateFromCAS(String username, String password, String service) throws Exception
    {
-      notNull(server, "server must not be null");
-      notNull(username, "username must not be null");
-      notNull(password, "password must not be null");
-      notNull(service, "service must not be null");
-  
-      return getServiceTicket(server, getTicketGrantingTicket(server, username, password), service);
-   }
-  
-   private static String getServiceTicket(final String server, final String ticketGrantingTicket, final String service)
-   {
-      if (ticketGrantingTicket == null)
-      {
-         return null;
-      }
-  
-      final HttpClient client = new HttpClient();
-      final PostMethod post = new PostMethod(server + "/" + ticketGrantingTicket);
-  
-      post.setRequestBody(new NameValuePair[] 
-      { 
-            new NameValuePair("service", service) 
-      });
-  
+      String s;
+      String url = agent.getParam(PARAM_CASSERVICE);
+      
       try
       {
-         client.executeMethod(post);
-  
-         final String response = post.getResponseBodyAsString();
-  
-         switch (post.getStatusCode())
+         com.cosmo.util.URL qurl = new com.cosmo.util.URL(url);
+         qurl.addParameter("username", username);
+         qurl.addParameter("password", password);
+         
+         HttpsURLConnection hsu = (HttpsURLConnection)openConn(url);
+         s = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
+         s += "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
+    
+         System.out.println(s);
+         OutputStreamWriter out = new OutputStreamWriter(hsu.getOutputStream());
+         BufferedWriter bwr = new BufferedWriter(out);
+         bwr.write(s);
+         bwr.flush();
+         bwr.close();
+         out.close();
+    
+         String tgt = hsu.getHeaderField("location");
+         System.out.println( hsu.getResponseCode());
+         if (tgt != null && hsu.getResponseCode() == 201)
          {
-            case 200:
-               return response;
-  
-            default:
-               // LOG.warning("Invalid response code (" + post.getStatusCode() + ") from CAS server!");
-               // LOG.info("Response (1k): " + response.substring(0, Math.min(1024, response.length())));
-               break;
-         }
-      }
-      catch (final IOException e)
-      {
-         // LOG.warning(e.getMessage());
-      }
-      finally
-      {
-         post.releaseConnection();
-      }
+            System.out.println(tgt);
+            System.out.println("Tgt is : " + tgt.substring( tgt.lastIndexOf("/") + 1));
+            tgt = tgt.substring(tgt.lastIndexOf("/") + 1);
+            bwr.close();
+            closeConn(hsu);
 
-      return null;
-   }
+            String serviceURL = "https://myserver.com/testApplication";
+            String encodedServiceURL = URLEncoder.encode("service", "utf-8") + "=" + URLEncoder.encode(serviceURL, "utf-8");
+            System.out.println("Service url is : " + encodedServiceURL);
+
+            String myURL = url + "/" + tgt ;
+            System.out.println(myURL);
+            hsu = (HttpsURLConnection)openConn(myURL);
+            out = new OutputStreamWriter(hsu.getOutputStream());
+            bwr = new BufferedWriter(out);
+            bwr.write(encodedServiceURL);
+            bwr.flush();
+            bwr.close();
+            out.close();
   
-   private static String getTicketGrantingTicket(final String server, final String username, final String password)
-   {
-      final HttpClient client = new HttpClient();
-      final PostMethod post = new PostMethod(server);
-  
-      post.setRequestBody(new NameValuePair[] 
-      {
-         new NameValuePair("username", username),
-         new NameValuePair("password", password) 
-      });
-  
-      try
-      {
-         client.executeMethod(post);
-         final String response = post.getResponseBodyAsString();
-  
-         switch (post.getStatusCode())
-         {
-            case 201:
+            System.out.println("Response code is:  " + hsu.getResponseCode());
+    
+            BufferedReader isr = new BufferedReader(new InputStreamReader(hsu.getInputStream()));
+            String line;
+            System.out.println(hsu.getResponseCode());
+            
+            while ((line = isr.readLine()) != null) 
             {
-               final Matcher matcher = Pattern.compile(".*action=\".*/(.*?)\".*").matcher(response);
-  
-               if (matcher.matches())
-               {
-                  return matcher.group(1);
-               }
-  
-               // LOG.warning("Successful ticket granting request, but no ticket found!");
-               // LOG.info("Response (1k): " + response.substring(0, Math.min(1024, response.length())));
-               break;
+               System.out.println( line);
             }
-  
-            default:
-               // LOG.warning("Invalid response code (" + post.getStatusCode() + ") from CAS server!");
-               // LOG.info("Response (1k): " + response.substring(0, Math.min(1024, response.length())));
-               break;
+
+            isr.close();
+            hsu.disconnect();
+
+            return true;
+         }
+         else
+         {
+            return false;
          }
       }
-      catch (final IOException e)
+      catch(MalformedURLException mue)
       {
-        // LOG.warning(e.getMessage());
+         mue.printStackTrace();
+         throw mue;
       }
-      finally
+      catch(IOException ioe)
       {
-        post.releaseConnection();
+         ioe.printStackTrace();
+         throw ioe;
       }
-  
-      return null;
    }
-  
-   private static void notNull(final Object object, final String message)
+
+   static URLConnection openConn(String urlk) throws MalformedURLException, IOException
    {
-     if (object == null)
-     {
-        throw new IllegalArgumentException(message);
-     }
+      URL url = new URL(urlk);
+      HttpsURLConnection hsu = (HttpsURLConnection) url.openConnection();
+
+      hsu.setDoInput(true);
+      hsu.setDoOutput(true);
+      hsu.setRequestMethod("POST");
+
+      return hsu;
    }
-  
-   public static void main(final String[] args)
+
+   static void closeConn(HttpsURLConnection c)
    {
-     final String server = "http://localhost:8080/cas/v1/tickets";
-     final String username = "username";
-     final String password = "password";
-     final String service = "http://localhost:8080/service";
-  
-     // LOG.info(getTicket(server, username, password, service));
+      c.disconnect();
    }
 }
