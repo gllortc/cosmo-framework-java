@@ -66,6 +66,10 @@
          <param key="host-url" value="ldap.testathon.net" />
          <param key="host-port" value="389" />
          <param key="search-base" value="OU=users,DC=testathon,DC=net" />
+         <param key="login-pattern" value="CN=%login%,OU=Users,DC=testathon,DC=net" />
+         <param key="ldap-attrib-mail" value="mail" />
+         <param key="ldap-attrib-name" value="givenName" />
+         <param key="ldap-attrib-surname" value="sn" />
       </authentication-agent>
       
       <authentication-agent id="cas" driver="com.cosmo.security.providers.CasAuthenticationProvider">
