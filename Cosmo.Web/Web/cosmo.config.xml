@@ -68,6 +68,10 @@
          <param key="search-base" value="OU=users,DC=testathon,DC=net" />
       </authentication-agent>
       
+      <authentication-agent id="cas" driver="com.cosmo.security.providers.CasAuthenticationProvider">
+         <param key="cas-service" value="https://myserver.machine.com:8443/cas/v1/tickets" />
+      </authentication-agent>
+      
       <authorization-agent id="rdbms" driver="com.cosmo.security.providers.PostgreSqlAuthorizationProvider">
          <param key="connection" value="cosmo.server" />
       </authorization-agent>
