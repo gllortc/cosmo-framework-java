@@ -18,7 +18,7 @@ import com.cosmo.security.Role;
  * @author Gerard Llort
  *
  */
-public class PostgreSqlAuthorizationProvider implements AuthorizationProviderInterface
+public class PostgreSqlAuthorizationProvider extends AuthorizationProvider
 {
    private Workspace workspace;
    
@@ -46,24 +46,52 @@ public class PostgreSqlAuthorizationProvider implements AuthorizationProviderInt
    // Interface implementation: AuthProviderInterface
    //================================================================
 
+   /**
+    * Carga la información de autorización de un usuario determinado.
+    * 
+    * @param login Una cadena que contiene el <em>login</em> del usuario.
+    */
    @Override
    public void loadAuthorizationData(String login)
    {
       return;
    }
    
+   /**
+    * Determina si un usuario tiene un determinado rol.
+    * 
+    * @param login Una cadena que contiene el <em>login</em> del usuario.
+    * @param role Una cadena que contiene el nombre (ID) del rol.
+    * 
+    * @return {@code true} si el usuario tiene asignado el rol o {@code false} en cualquier otro caso.
+    */
    @Override
    public boolean isUserInRole(String login, String role) 
    {
       return false;
    }
 
+   /**
+    * Determina si un usuario tiene permiso para ejecutar determinada actividad.
+    * 
+    * @param login Una cadena que contiene el <em>login</em> del usuario.
+    * @param activityId Una cadena que contiene el nombre (ID) de la actividad.
+    * 
+    * @return @return {@code true} si el usuario tiene permiso para ejecutar la actividad o {@code false} en cualquier otro caso.
+    */
    @Override
    public boolean isActivityGranted(String login, String activityId) 
    {
       return false;
    }
 
+   /**
+    * Obtiene la lista de roles asignados al usuario.
+    * 
+    * @param login Una cadena que contiene el <em>login</em> del usuario.
+    * 
+    * @return Un array con los nombres (IDs) de los roles asignados al usuario.
+    */
    @Override
    public String[] getUserRoles(String login) 
    {

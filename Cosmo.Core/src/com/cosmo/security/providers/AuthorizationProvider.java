@@ -5,10 +5,6 @@ import java.lang.reflect.InvocationTargetException;
 
 import com.cosmo.Workspace;
 import com.cosmo.security.Agent;
-import com.cosmo.security.User;
-import com.cosmo.security.User.UserStates;
-import com.cosmo.security.UserAlreadyExistsException;
-import com.cosmo.security.UserNotFoundException;
 import com.cosmo.util.StringUtils;
 
 /**
@@ -26,26 +22,40 @@ public abstract class AuthorizationProvider
    //==============================================
    
    /**
-    * Verifica las credenciales de un usuario.
+    * Carga la información de autorización de un usuario determinado.
     * 
-    * @param login Login del usuario.
-    * @param password Contraseña (sin encriptar) del usuario.
-    * @return Una instancia de {@link User} que representa el usuario al que corresponden las credenciales proporcionadas.
-    * 
-    * @throws UserNotFoundException
-    * @throws AuthorizationProviderException 
+    * @param login Una cadena que contiene el <em>login</em> del usuario.
     */
-   public abstract User login(String login, String password) throws UserNotFoundException, AuthorizationProviderException;
+   public abstract void loadAuthorizationData(String login);
+   
+   /**
+    * Determina si un usuario tiene un determinado rol.
+    * 
+    * @param login Una cadena que contiene el <em>login</em> del usuario.
+    * @param role Una cadena que contiene el nombre (ID) del rol.
+    * 
+    * @return {@code true} si el usuario tiene asignado el rol o {@code false} en cualquier otro caso.
+    */
+   public abstract boolean isUserInRole(String login, String role);
 
    /**
-    * Crea una nueva cuenta de usuario.
+    * Determina si un usuario tiene permiso para ejecutar determinada actividad.
     * 
-    * @param user Una instancia de {@link User} que representa el nuevo usuario.
-    *     
-    * @throws UserAlreadyExistsException
-    * @throws AuthorizationProviderException
+    * @param login Una cadena que contiene el <em>login</em> del usuario.
+    * @param activityId Una cadena que contiene el nombre (ID) de la actividad.
+    * 
+    * @return @return {@code true} si el usuario tiene permiso para ejecutar la actividad o {@code false} en cualquier otro caso.
     */
-   public abstract void add(User user) throws UserAlreadyExistsException, AuthorizationProviderException;
+   public abstract boolean isActivityGranted(String login, String activityId);
+
+   /**
+    * Obtiene la lista de roles asignados al usuario.
+    * 
+    * @param login Una cadena que contiene el <em>login</em> del usuario.
+    * 
+    * @return Un array con los nombres (IDs) de los roles asignados al usuario.
+    */
+   public abstract String[] getUserRoles(String login);
    
    
    //==============================================
@@ -57,7 +67,7 @@ public abstract class AuthorizationProvider
     * el proveedor de autenticación de usuarios cargado.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
-    * @return Una instancia Ãºnica de {@link AuthorizationProvider} (sigleton).
+    * @return Una instancia única de {@link AuthorizationProvider} (sigleton).
     * 
     * @throws AuthorizationProviderException 
     */
@@ -69,30 +79,6 @@ public abstract class AuthorizationProvider
       }
 
       return instance;
-   }
-
-   
-   //==============================================
-   // Static members
-   //==============================================
-   
-   /**
-    * Convierte el estado de un usuario a un valor numérico usable en soportes como BBDD, archivos, etc.
-    * 
-    * @param state Un elemento de la enumeración {@link UserStates}.
-    * @return El valor numérico equivalente al estado proporcionado.
-    */
-   public static int statusToNumber(UserStates state)
-   {
-      switch (state)
-      {
-         case Active:
-            return 1;
-         case NotConfirmed:
-            return 2;
-         default:
-            return 0;
-      }
    }
    
    
