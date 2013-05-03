@@ -4,6 +4,7 @@ import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 
@@ -40,6 +41,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
    public CasAuthenticationProvider(Workspace workspace)
    {
       grantingTicket = "";
+      fClient = new HttpClient();
       
       this.workspace = workspace;
       this.agent = this.workspace.getProperties().getAuthenticationAgent();
@@ -82,6 +84,8 @@ public class CasAuthenticationProvider extends AuthenticationProvider
       
       try
       {
+         fCasUrl = agent.getParam(PARAM_CASSERVICE);
+         
          authenticate(agent.getParam(PARAM_SERVICEURL), login, password);
       }
       catch (Exception ex)
@@ -186,8 +190,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
    }
   
    /**
-    * Authenticate the specified user with the specified password against the
-    * specified service.
+    * Authenticate the specified user with the specified password against the specified service.
     *
     * @param serviceUrl May be null. If a url is specified, the authentication will happen against this service, yielding a service ticket which can be validated.
     * @param username
@@ -207,17 +210,27 @@ public class CasAuthenticationProvider extends AuthenticationProvider
       }
        
       method = new PostMethod(fCasUrl + LOGIN_URL_PART);
-      if (serviceUrl != null) // optional
+
+      /*if (serviceUrl != null) // optional
       {
          method.setParameter("service", serviceUrl);
       }
-       
       method.setParameter("_eventId", "submit");
       method.setParameter("username", username);
       method.setParameter("password", password);
       method.setParameter("lt", lt);
-      method.setParameter("gateway", "true");
-       
+      method.setParameter("gateway", "true");*/
+      
+      method.setRequestBody(new NameValuePair[] 
+      {
+         new NameValuePair("service", serviceUrl),
+         new NameValuePair("_eventId", "submit"),
+         new NameValuePair("username", username),
+         new NameValuePair("password", password),
+         new NameValuePair("lt", lt),
+         new NameValuePair("gateway", "true")
+      });
+      
       try
       {
          fClient.executeMethod(method);
