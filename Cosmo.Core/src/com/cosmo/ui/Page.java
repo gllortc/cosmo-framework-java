@@ -16,9 +16,6 @@ import com.cosmo.WorkspaceLoadException;
 import com.cosmo.WorkspaceProvider;
 import com.cosmo.security.annotations.SessionRequired;
 import com.cosmo.security.providers.AuthenticationProvider;
-import com.cosmo.security.providers.AuthenticationProviderException;
-import com.cosmo.security.providers.AuthorizationProvider;
-import com.cosmo.security.providers.AuthorizationProviderException;
 import com.cosmo.ui.controls.Control;
 import com.cosmo.ui.controls.FormControl;
 import com.cosmo.ui.render.LoadPageRenderException;
@@ -440,7 +437,8 @@ public abstract class Page extends HttpServlet implements PageInterface
    }
    
    /**
-    * Comprueba si el usuario puede ver la página.
+    * Comprueba si la página dispone de seguridad y si existe sesión autenticada. 
+    * En caso de requerir autenticación y no existir autenticación, redirige a la página de login.
     * 
     * @throws IOException 
     */
