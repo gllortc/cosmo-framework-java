@@ -1,9 +1,13 @@
 package com.cosmo.security;
 
+import java.util.Date;
+import java.util.HashMap;
+
 import com.cosmo.Workspace;
 import com.cosmo.security.providers.AuthenticationProvider;
 import com.cosmo.security.providers.AuthenticationProviderException;
-import java.util.Date;
+import com.cosmo.security.providers.AuthorizationProvider;
+import com.cosmo.security.providers.AuthorizationProviderException;
 
 /**
  * Representa una sesión de usuario en el workspace.
@@ -15,6 +19,8 @@ public class UserSession
    private Workspace workspace;
    private User currentUser;
    private Date created;
+   private HashMap<String, ActivityPermission> activityPermissions;
+
    
    //==============================================
    // Constructors
@@ -22,18 +28,38 @@ public class UserSession
    
    /**
     * Constructor de la clase.
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
+    * @param login Una cadena que contiene el login del usuario.
+    * @param pwd Una cadena que contiene la contraseña del usuario.
+    * 
+    * @throws UserNotFoundException
+    * @throws AuthenticationProviderException
+    * @throws AuthorizationProviderException
     */
-   public UserSession(Workspace workspace, String login, String pwd) throws UserNotFoundException, AuthenticationProviderException
+   public UserSession(Workspace workspace, String login, String pwd) throws UserNotFoundException, AuthenticationProviderException, AuthorizationProviderException
    {
       initialize();
       
       this.workspace = workspace;
       
-      // Instancia el proveedor de seguridad
-      AuthenticationProvider provider = AuthenticationProvider.getInstance(workspace);
+      // Instancia el proveedor de autenticación
+      AuthenticationProvider authenticationProvider = AuthenticationProvider.getInstance(workspace);
       
-      // Autentica el usuario
-      this.currentUser = provider.login(login, pwd);
+      if (authenticationProvider != null)
+      {
+         // Autenticación
+         this.currentUser = authenticationProvider.login(login, pwd);
+         
+         // Instancia el proveedor de seguridad
+         AuthorizationProvider authorizationProvider = AuthorizationProvider.getInstance(workspace);
+         
+         if (authorizationProvider != null)
+         {
+            // Obtiene la información de seguridad
+            authorizationProvider.loadAuthorizationData(login);
+         }
+      }
    }
    
    //==============================================
@@ -64,6 +90,7 @@ public class UserSession
       return workspace;
    }   
    
+   
    //==============================================
    // Methods
    //==============================================
@@ -81,6 +108,7 @@ public class UserSession
       return (diffInSeconds = (diffInSeconds / 60)) >= 60 ? diffInSeconds % 60 : diffInSeconds;
    }
 
+   
    //==============================================
    // Private members
    //==============================================
@@ -90,7 +118,9 @@ public class UserSession
     */
    private void initialize()
    {
+      this.workspace = null;
       this.currentUser = null;
       this.created = new Date();
+      this.activityPermissions = new HashMap<String, ActivityPermission>();
    }
 }

@@ -260,6 +260,7 @@ public class PostgreSqlAuthorizationProvider extends AuthorizationProvider
       return activities;
    }
    
+   
    //==============================================
    // Private members
    //==============================================

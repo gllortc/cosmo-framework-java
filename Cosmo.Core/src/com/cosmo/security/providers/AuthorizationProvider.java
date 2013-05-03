@@ -105,8 +105,8 @@ public abstract class AuthorizationProvider
       }
       
       // Obtiene el driver de autorización
-      className = workspace.getProperties().getString(agent.getModuleClass());
-      if (StringUtils.isNullOrEmptyTrim(agent.getModuleClass()))
+      className = agent.getModuleClass();
+      if (StringUtils.isNullOrEmptyTrim(className))
       {
          throw new AuthorizationProviderException("Security Configuration Exception: No authorization driver found");
       }

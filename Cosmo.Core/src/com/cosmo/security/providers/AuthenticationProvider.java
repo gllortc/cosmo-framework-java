@@ -56,7 +56,7 @@ public abstract class AuthenticationProvider
     * el proveedor de autenticación de usuarios cargado.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
-    * @return Una instancia Ãºnica de {@link AuthenticationProvider} (sigleton).
+    * @return Una instancia única de {@link AuthenticationProvider} (sigleton).
     * 
     * @throws AuthenticationProviderException 
     */

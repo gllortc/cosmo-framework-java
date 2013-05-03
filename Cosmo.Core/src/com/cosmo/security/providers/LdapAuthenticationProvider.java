@@ -40,6 +40,7 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
    private static String PARAM_ATTR_NAME = "ldap-attrib-name";
    private static String PARAM_ATTR_SURNAME = "ldap-attrib-surname";
    
+   
    //==============================================
    // Constructors
    //==============================================
@@ -66,7 +67,7 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
    /**
     * Verifica las credenciales de un usuario.
     * 
-    * @param login Login del usuario.
+    * @param login Una cadena que contiene el login del usuario.
     * @param password Contraseña (sin encriptar) del usuario.
     * @return Una instancia de {@link User} que representa el usuario al que corresponden las credenciales proporcionadas.
     * 
@@ -102,11 +103,17 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
    // Private members
    //==============================================
    
-   private String getFormattedLogin(String login)
-   {
-      return this.loginPattern.replace("%login%", login);
-   }
-   
+   /**
+    * Autentica un usuario y obtiene sus propiedades.
+    * 
+    * @param login Una cadena que contiene el login del usuario.
+    * @param password Una cadena que contiene la contraseña del usuario.
+    * 
+    * @return Una instancia de {@link User} que contiene la información del usuario autenticado o {@code null} si la autenticación a fallado.
+    * 
+    * @throws UserNotFoundException
+    * @throws AuthenticationProviderException
+    */
    private User authenticate(String login, String password) throws UserNotFoundException, AuthenticationProviderException
    {
       String attrValue;
@@ -182,5 +189,13 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
       }
       
       return user;
+   }
+   
+   /**
+    * Obtiene el patrón de login y la formatea con el login proporcionado.
+    */
+   private String getFormattedLogin(String login)
+   {
+      return this.loginPattern.replace("%login%", login);
    }
 }
