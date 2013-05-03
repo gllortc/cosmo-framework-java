@@ -29,6 +29,7 @@ public class Workspace
    private HttpServletRequest srvRequest;
    private HttpServletResponse srvResponse;
    private UserSession usrSession;
+   private String requestedUrl;
    private String url;
    private String name;
    private String mail;
@@ -180,6 +181,16 @@ public class Workspace
       return this.usrSession;
    }   
    
+   /**
+    * Devuelve la URL pedida.
+    * 
+    * @return Una cadena con la URL correspondiente a la llamada.
+    */
+   public String getRequestedUrl()
+   {
+      return this.requestedUrl;
+   }
+   
    //==============================================
    // Methods
    //==============================================
@@ -239,6 +250,8 @@ public class Workspace
       this.rules = new Rules(context);
       this.template = this.rules.checkRules(request.getHeader("User-Agent"));
 
+      this.requestedUrl = getRequestedUrl(request);
+      
       this.url = this.properties.getString(Cosmo.PROPERTY_WORKSPACE_URL);
       this.name = this.properties.getString(Cosmo.PROPERTY_WORKSPACE_TITLE);
       this.mail = this.properties.getString(Cosmo.PROPERTY_WORKSPACE_MAIL);
@@ -257,8 +270,24 @@ public class Workspace
       this.srvRequest = null;
       this.srvResponse = null;
       
+      this.requestedUrl = "";
       this.url = "";
       this.name = "";
       this.mail = "";
    }
+   
+   private String getRequestedUrl(HttpServletRequest request) 
+   {
+      StringBuffer requestURL = request.getRequestURL();
+      String queryString = request.getQueryString();
+
+      if (queryString == null) 
+      {
+          return requestURL.toString();
+      } 
+      else 
+      {
+          return requestURL.append('?').append(queryString).toString();
+      }
+  }
 }

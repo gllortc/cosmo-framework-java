@@ -15,6 +15,10 @@ import com.cosmo.Workspace;
 import com.cosmo.WorkspaceLoadException;
 import com.cosmo.WorkspaceProvider;
 import com.cosmo.security.annotations.SessionRequired;
+import com.cosmo.security.providers.AuthenticationProvider;
+import com.cosmo.security.providers.AuthenticationProviderException;
+import com.cosmo.security.providers.AuthorizationProvider;
+import com.cosmo.security.providers.AuthorizationProviderException;
 import com.cosmo.ui.controls.Control;
 import com.cosmo.ui.controls.FormControl;
 import com.cosmo.ui.render.LoadPageRenderException;
@@ -442,6 +446,8 @@ public abstract class Page extends HttpServlet implements PageInterface
     */
    private void checkSecurity() throws IOException
    {
+      String toUrl;
+      
       if (!this.isSessionRequired())
       {
          return;
@@ -449,27 +455,42 @@ public abstract class Page extends HttpServlet implements PageInterface
       
       if (!getWorkspace().isValidUserSession())
       {
-         URL url = new URL(getWorkspace().getProperties().getLoginPage());
-         
-         // Determina si existe una dirección de origen
          try
          {
-            HttpServletRequest request = getWorkspace().getServerRequest();
-            String urlSource = request.getRequestURL().toString();
-            url.addParameter(Cosmo.URL_PARAM_TOURL, urlSource);
-         }
-         catch (Exception ex)
+            AuthenticationProvider auth = AuthenticationProvider.getInstance(workspace);
+            if (auth.isLoginGateway())
+            {
+               toUrl = auth.getLoginGateway();
+            }
+            else
+            {
+               URL url = new URL(getWorkspace().getProperties().getLoginPage());
+               
+               // Determina si existe una dirección de origen
+               try
+               {
+                  HttpServletRequest request = getWorkspace().getServerRequest();
+                  String urlSource = request.getRequestURL().toString();
+                  url.addParameter(Cosmo.URL_PARAM_TOURL, urlSource);
+               }
+               catch (Exception ex)
+               {
+                  // No lo tiene en cuenta
+               }
+   
+               // Redirecciona la página al servlet de LOGIN.
+               String charSet = getWorkspace().getProperties().getString(Cosmo.PROPERTY_WORKSPACE_UI_CHARSET);
+               charSet = (StringUtils.isNullOrEmptyTrim(charSet) ? Cosmo.CHARSET_UTF_8 : charSet);
+               toUrl = url.toString(charSet);
+            }
+            
+            HttpServletResponse response = getWorkspace().getServerResponse();
+            response.sendRedirect(toUrl);
+         } 
+         catch (Exception e) 
          {
-            // No lo tiene en cuenta
+            // throw new Exception(e.getMessage());
          }
-
-         // Redirecciona la página al servlet de LOGIN.
-         String charSet = getWorkspace().getProperties().getString(Cosmo.PROPERTY_WORKSPACE_UI_CHARSET);
-         charSet = (StringUtils.isNullOrEmptyTrim(charSet) ? Cosmo.CHARSET_UTF_8 : charSet);
-         String toUrl = url.toString(charSet);
-         
-         HttpServletResponse response = getWorkspace().getServerResponse();
-         response.sendRedirect(toUrl);
       }
    }
    

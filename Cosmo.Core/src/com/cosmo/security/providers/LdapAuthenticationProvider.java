@@ -98,6 +98,22 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
       return;   
    };
    
+   /**
+    * Indica si el servicio usa un gateway para la autenticación de usuarios.
+    */
+   public boolean isLoginGateway()
+   {
+      return false;
+   }
+   
+   /**
+    * Devuelve la URL usada para la autenticación de usuarios.
+    */
+   public String getLoginGateway()
+   {
+      return null;
+   }
+   
    
    //==============================================
    // Private members

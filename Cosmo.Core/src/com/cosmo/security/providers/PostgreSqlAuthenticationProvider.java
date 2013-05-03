@@ -144,6 +144,22 @@ public class PostgreSqlAuthenticationProvider extends AuthenticationProvider
    };
    
    /**
+    * Indica si el servicio usa un gateway para la autenticación de usuarios.
+    */
+   public boolean isLoginGateway()
+   {
+      return false;
+   }
+   
+   /**
+    * Devuelve la URL usada para la autenticación de usuarios.
+    */
+   public String getLoginGateway()
+   {
+      return null;
+   }
+   
+   /**
     * Crea una nueva cuenta de usuario.
     * 
     * @param user Una instancia de {@link User} que representa el nuevo usuario.

@@ -46,6 +46,16 @@ public abstract class AuthenticationProvider
     */
    public abstract void validate();
    
+   /**
+    * Indica si el servicio usa un gateway para la autenticación de usuarios.
+    */
+   public abstract boolean isLoginGateway();
+   
+   /**
+    * Devuelve la URL usada para la autenticación de usuarios.
+    */
+   public abstract String getLoginGateway();
+   
    
    //==============================================
    // Static members
