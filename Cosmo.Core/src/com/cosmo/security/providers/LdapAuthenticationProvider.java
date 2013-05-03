@@ -1,5 +1,6 @@
 package com.cosmo.security.providers;
 
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -161,6 +162,8 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
             user = new User();
             user.setLogin(login);
             user.setStatus(UserStates.Active);
+            user.setLogonCount(1);
+            user.setLastLogin(new Date());
             
             SearchResult sr = (SearchResult) results.next();
             Attributes attrs = sr.getAttributes();
