@@ -453,7 +453,8 @@ public class CasAuthenticationProvider extends AuthenticationProvider
            } 
            else
            {
-               Object o = method.getResponseHeaders();
+               // Object o = method.getResponseHeaders();
+               method.getResponseHeaders();
                return extractLt(new String(method.getResponseBody()));
            }
        } 

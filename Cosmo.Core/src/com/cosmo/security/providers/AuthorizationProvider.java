@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import com.cosmo.Workspace;
 import com.cosmo.security.Agent;
+import com.cosmo.security.UserSession.SecurityInfo;
 import com.cosmo.util.StringUtils;
 
 /**
@@ -26,7 +27,7 @@ public abstract class AuthorizationProvider
     * 
     * @param login Una cadena que contiene el <em>login</em> del usuario.
     */
-   public abstract void loadAuthorizationData(String login);
+   public abstract SecurityInfo loadAuthorizationData(String login);
    
    /**
     * Determina si un usuario tiene un determinado rol.

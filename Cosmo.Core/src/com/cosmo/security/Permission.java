@@ -1,17 +1,17 @@
 package com.cosmo.security;
 
-public class ActivityPermission extends Activity
+public class Permission extends Activity
 {
    private boolean isGranted;
    
-   public ActivityPermission()
+   public Permission()
    {
       super();
       
       this.isGranted = false;
    }
    
-   public ActivityPermission(Activity activity, boolean isGranted)
+   public Permission(Activity activity, boolean isGranted)
    {
       super();
       

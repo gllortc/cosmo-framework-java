@@ -19,8 +19,7 @@ public class UserSession
    private Workspace workspace;
    private User currentUser;
    private Date created;
-   private HashMap<String, ActivityPermission> activityPermissions;
-
+   private SecurityInfo securityInfo;
    
    //==============================================
    // Constructors
@@ -57,7 +56,7 @@ public class UserSession
          if (authorizationProvider != null)
          {
             // Obtiene la información de seguridad
-            authorizationProvider.loadAuthorizationData(login);
+            this.securityInfo = authorizationProvider.loadAuthorizationData(login);
          }
       }
    }
@@ -88,7 +87,7 @@ public class UserSession
    public Workspace getWorkspace() 
    {
       return workspace;
-   }   
+   }
    
    
    //==============================================
@@ -121,6 +120,24 @@ public class UserSession
       this.workspace = null;
       this.currentUser = null;
       this.created = new Date();
-      this.activityPermissions = new HashMap<String, ActivityPermission>();
+      this.securityInfo = null;
    }
+   
+   
+   //==============================================
+   // Internal classes
+   //==============================================
+   
+   public class SecurityInfo
+   {
+      private HashMap<String, Role> roles;
+      private HashMap<String, Permission> permissions;
+      
+      public SecurityInfo()
+      {
+         this.roles = new HashMap<String, Role>();
+         this.permissions = new HashMap<String, Permission>();
+      }
+   }
+   
 }
