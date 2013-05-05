@@ -68,6 +68,25 @@ public class UserSession
    //==============================================
 
    /**
+    * Indica si la sesión es válida.
+    * 
+    * @return {@code true} si la sesión es válida o {@code false} en cualquier otro caso.
+    */
+   public boolean isValidSession()
+   {
+      if (this.currentUser == null)
+      {
+         return false;
+      }
+      else if (this.securityInfo == null)
+      {
+         return false;
+      }
+      
+      return true;
+   }
+   
+   /**
     * Devuelve una instancia de {@link User} que representa el usuario propietario de la sesión.
     */
    public User getCurrentUser() 
@@ -103,12 +122,38 @@ public class UserSession
     */
    public long getSessionMinutes()
    {
-      Date now = new Date();
-      long diffInSeconds = (now.getTime() - this.created.getTime()) / 1000;
+      long diffInSeconds;
+      Date now;
       
+      now = new Date();
+      diffInSeconds = (now.getTime() - this.created.getTime()) / 1000;
+
       return (diffInSeconds = (diffInSeconds / 60)) >= 60 ? diffInSeconds % 60 : diffInSeconds;
    }
+   
+   /**
+    * Determina si el usuario propietario de la sesión tiene asignado un determinado rol.
+    * 
+    * @param roleId Una cadena que contiene el identificador (nombre) del rol.
+    * 
+    * @return {@code true} si el usuario pertenece al rol especificado o {@code false} en cualquier otro caso.
+    */
+   public boolean isInRole(String roleId)
+   {
+      return this.securityInfo.isInRole(roleId);
+   }
 
+   /**
+    * Determina si el usuario propietario de la sesión tiene permiso para ejecutar determinada actividad.
+    * 
+    * @param activityId Una cadena que contiene el identificador (nombre) de la actividad.
+    * 
+    * @return {@code true} si el usuario puede ejecutar la actividad o {@code false} en cualquier otro caso.
+    */
+   public boolean isActivityGranted(String activityId)
+   {
+      return this.securityInfo.isActivityGranted(activityId);
+   }
    
    //==============================================
    // Private members
@@ -130,6 +175,9 @@ public class UserSession
    // Internal classes
    //==============================================
    
+   /**
+    * Contiene la información de autorización referente a la sesión actual.
+    */
    public class SecurityInfo
    {
       private HashMap<String, Role> roles;
@@ -144,11 +192,21 @@ public class UserSession
          this.permissions = new HashMap<String, Permission>();
       }
       
+      /**
+       * Agrega un rol a la información de seguridad de una sesión de usuario.
+       * 
+       * @param role Una instancia de {@link Role} que representa el rol a agregar.
+       */
       public void addRole(Role role)
       {
          this.roles.put(role.getId(), role);
       }
 
+      /**
+       * Agrega un conjunto de roles a la información de seguridad de una sesión de usuario.
+       * 
+       * @param roles Un array de instancias de {@link Role} que representan los roles a agregar.
+       */
       public void addRoles(ArrayList<Role> roles)
       {
          this.roles = new HashMap<String, Role>();
@@ -159,11 +217,21 @@ public class UserSession
          }
       }
       
+      /**
+       * Agrega un permiso sobre una actividad a la información de seguridad de una sesión de usuario.
+       * 
+       * @param permission Una instancia de {@link Permission} que representa el permiso a agregar.
+       */
       public void addPermission(Permission permission)
       {
          this.permissions.put(permission.getId(), permission);
       }
       
+      /**
+       * Agrega un conjunto de permisos a la información de seguridad de una sesión de usuario.
+       * 
+       * @param permissions Un array de instancias de {@link Permission} que representan los permisos a agregar.
+       */
       public void addPermissions(ArrayList<Permission> permissions)
       {
          this.permissions = new HashMap<String, Permission>();
@@ -172,6 +240,34 @@ public class UserSession
          {
             addPermission(permission);
          }
+      }
+      
+      /**
+       * Determina si el usuario propietario de la sesión tiene asignado un determinado rol.
+       * 
+       * @param roleId Una cadena que contiene el identificador (nombre) del rol.
+       * 
+       * @return {@code true} si el usuario pertenece al rol especificado o {@code false} en cualquier otro caso.
+       */
+      public boolean isInRole(String roleId)
+      {
+         Role role = this.roles.get(roleId);
+
+         return (role != null);
+      }
+      
+      /**
+       * Determina si el usuario propietario de la sesión tiene permiso para ejecutar determinada actividad.
+       * 
+       * @param activityId Una cadena que contiene el identificador (nombre) de la actividad.
+       * 
+       * @return {@code true} si el usuario puede ejecutar la actividad o {@code false} en cualquier otro caso.
+       */
+      public boolean isActivityGranted(String activityId)
+      {
+         Permission permission = this.permissions.get(activityId);
+
+         return permission.isGranted();
       }
    }
    

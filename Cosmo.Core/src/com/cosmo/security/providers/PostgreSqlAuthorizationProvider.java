@@ -177,7 +177,7 @@ public class PostgreSqlAuthorizationProvider extends AuthorizationProvider
          sql = "SELECT * " +
                "FROM " + TABLE_ROLES + " Inner Join " + TABLE_USER_ROLES + " On (" + TABLE_ROLES + ".roleid=" + TABLE_USER_ROLES + ".roleid) " +
                "WHERE " + TABLE_USER_ROLES + ".usrlogin='" + DataConnection.sqlFormatTextValue(login) + "' " + 
-               "ORDER BY roleid";
+               "ORDER BY " + TABLE_ROLES + ".roleid";
 
          ds = this.workspace.getProperties().getServerDataSource();
          conn = new DataConnection(ds);
