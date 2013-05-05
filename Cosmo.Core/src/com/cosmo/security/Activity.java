@@ -2,6 +2,7 @@ package com.cosmo.security;
 
 /**
  * Implementa una actividad que precisa autorización en la aplicación.
+ * 
  * @author Gerard Llort
  */
 public class Activity 

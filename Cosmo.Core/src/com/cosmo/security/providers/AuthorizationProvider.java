@@ -26,8 +26,10 @@ public abstract class AuthorizationProvider
     * Carga la información de autorización de un usuario determinado.
     * 
     * @param login Una cadena que contiene el <em>login</em> del usuario.
+    * 
+    * @throws AuthorizationProviderException
     */
-   public abstract SecurityInfo loadAuthorizationData(String login);
+   public abstract SecurityInfo loadAuthorizationData(String login, SecurityInfo si) throws AuthorizationProviderException;
    
    /**
     * Determina si un usuario tiene un determinado rol.

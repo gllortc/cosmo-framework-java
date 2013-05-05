@@ -7,7 +7,9 @@ import com.cosmo.Workspace;
 import com.cosmo.data.DataConnection;
 import com.cosmo.data.DataSource;
 import com.cosmo.security.Activity;
+import com.cosmo.security.Permission;
 import com.cosmo.security.Role;
+import com.cosmo.security.UserSession.SecurityInfo;
 
 /**
  * Implementa el proveedor de autorización nativo de Cosmo.<br />
@@ -50,11 +52,23 @@ public class PostgreSqlAuthorizationProvider extends AuthorizationProvider
     * Carga la información de autorización de un usuario determinado.
     * 
     * @param login Una cadena que contiene el <em>login</em> del usuario.
+    * 
+    * @return 
+    * 
+    * @throws AuthorizationProviderException 
     */
    @Override
-   public void loadAuthorizationData(String login)
+   public SecurityInfo loadAuthorizationData(String login, SecurityInfo si) throws AuthorizationProviderException
    {
-      return;
+      // SecurityInfo si = new SecurityInfo();
+      
+      // Carga los roles del usuario
+      si.addRoles(getRolesByUser(login));
+      
+      // Carga todas las actividades sobre las que el usuario tiene permisos
+      si.addPermissions(getActivitiesByUser(login));
+      
+      return null;
    }
    
    /**
@@ -108,9 +122,9 @@ public class PostgreSqlAuthorizationProvider extends AuthorizationProvider
     * 
     * @return Una instancia de {@link ArrayList} que contiene instancias de {@link Role}.
     * 
-    * @throws Exception
+    * @throws AuthorizationProviderException
     */
-   public ArrayList<Role> getRoles() throws Exception
+   public ArrayList<Role> getRoles() throws AuthorizationProviderException 
    {
       String sql;
       DataSource ds;
@@ -135,7 +149,7 @@ public class PostgreSqlAuthorizationProvider extends AuthorizationProvider
       }
       catch (Exception ex) 
       {
-         throw ex;
+         throw new AuthorizationProviderException(ex.getMessage(), ex);
       }
       
       return roles;
@@ -144,13 +158,13 @@ public class PostgreSqlAuthorizationProvider extends AuthorizationProvider
    /**
     * Devuelve la lista de roles a los que pertenece un determinado usuario.
     * 
-    * @param login Una cadena que contiene el login del usuario.
+    * @param login Una cadena que contiene el <em>login</em> del usuario.
     * 
     * @return Una instancia de {@link ArrayList} que contiene las instancias de {@link Role} que corresponden a los roles a los que pertenece un determinado usuario.
     * 
-    * @throws Exception
+    * @throws AuthorizationProviderException
     */
-   public ArrayList<Role> getRolesByUser(String login) throws Exception
+   public ArrayList<Role> getRolesByUser(String login) throws AuthorizationProviderException
    {
       String sql;
       DataSource ds;
@@ -176,7 +190,7 @@ public class PostgreSqlAuthorizationProvider extends AuthorizationProvider
       }
       catch (Exception ex) 
       {
-         throw ex;
+         throw new AuthorizationProviderException(ex.getMessage(), ex);
       }
       
       return roles;
@@ -187,9 +201,9 @@ public class PostgreSqlAuthorizationProvider extends AuthorizationProvider
     * 
     * @return Una instancia de {@link ArrayList} que contiene instancias de {@link Activity}.
     * 
-    * @throws Exception
+    * @throws AuthorizationProviderException
     */
-   public ArrayList<Activity> getActivities() throws Exception
+   public ArrayList<Activity> getActivities() throws AuthorizationProviderException
    {
       String sql;
       DataSource ds;
@@ -214,7 +228,7 @@ public class PostgreSqlAuthorizationProvider extends AuthorizationProvider
       }
       catch (Exception ex) 
       {
-         throw ex;
+         throw new AuthorizationProviderException(ex.getMessage(), ex);
       }
       
       return activities;
@@ -225,9 +239,9 @@ public class PostgreSqlAuthorizationProvider extends AuthorizationProvider
     * 
     * @return Una instancia de {@link ArrayList} que contiene instancias de {@link Activity}.
     * 
-    * @throws Exception
+    * @throws AuthorizationProviderException
     */
-   public ArrayList<Activity> getActivitiesByRole(String roleId) throws Exception
+   public ArrayList<Activity> getActivitiesByRole(String roleId) throws AuthorizationProviderException
    {
       String sql;
       DataSource ds;
@@ -238,7 +252,7 @@ public class PostgreSqlAuthorizationProvider extends AuthorizationProvider
       try
       {
          sql = "SELECT " + TABLE_ACTIVITIES + ".* " +
-               "FROM " + TABLE_ROLES + " Inner Join " + TABLE_ROLE_ACTIVITIES + " On (" + TABLE_ROLES + ".roleid=" + TABLE_ROLE_ACTIVITIES + "roleid) " +
+               "FROM " + TABLE_ROLES + " Inner Join " + TABLE_ROLE_ACTIVITIES + " On (" + TABLE_ROLES + ".roleid=" + TABLE_ROLE_ACTIVITIES + ".roleid) " +
                                        " Inner Join " + TABLE_ACTIVITIES + " On (" + TABLE_ROLE_ACTIVITIES + ".actid=" + TABLE_ACTIVITIES + ".actid) " +
                "WHERE " + TABLE_ROLES + ".roleid = '" + DataConnection.sqlFormatTextValue(roleId) + "' " +
                "ORDER BY actid";
@@ -254,10 +268,53 @@ public class PostgreSqlAuthorizationProvider extends AuthorizationProvider
       }
       catch (Exception ex) 
       {
-         throw ex;
+         throw new AuthorizationProviderException(ex.getMessage(), ex);
       }
       
       return activities;
+   }
+   
+   /**
+    * Obtiene todas las actividades con permisos otorgados (o denegados) asociadas a los roles asociados al usuario.
+    * 
+    * @param login Una cadena que contiene el <em>login</em> del usuario.
+    * 
+    * @return Un array de instancias de {@link Permission} que contiene los permisos efectivos del usuario.
+    * 
+    * @throws AuthorizationProviderException
+    */
+   public ArrayList<Permission> getActivitiesByUser(String login) throws AuthorizationProviderException
+   {
+      String sql;
+      DataSource ds;
+      DataConnection conn = null;
+      
+      ArrayList<Permission> permissions = new ArrayList<Permission>();
+      
+      try
+      {
+         sql = "SELECT cosmo_auth_activity.*, cosmo_auth_role_activity.isgranted " +
+               "FROM cosmo_auth_user_role Inner Join cosmo_auth_roles On (cosmo_auth_user_role.roleid = cosmo_auth_roles.roleid) " +
+               "                          Inner Join cosmo_auth_role_activity On (cosmo_auth_roles.roleid = cosmo_auth_role_activity.roleid) " +
+               "                          Inner Join cosmo_auth_activity On (cosmo_auth_role_activity.actid = cosmo_auth_activity.actid) " +
+               "WHERE cosmo_auth_user_role.usrlogin = '" + DataConnection.sqlFormatTextValue(login) + "' " +
+               "ORDER BY cosmo_auth_role_activity.actid";
+         
+         ds = this.workspace.getProperties().getServerDataSource();
+         conn = new DataConnection(ds);
+         conn.connect();
+         ResultSet rs = conn.executeSql(sql);
+         while (rs.next())
+         {
+            permissions.add(new Permission(readActivity(rs), true));
+         }
+      }
+      catch (Exception ex) 
+      {
+         throw new AuthorizationProviderException(ex.getMessage(), ex);
+      }
+      
+      return permissions;
    }
    
    

@@ -1,5 +1,6 @@
 package com.cosmo.security;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -55,8 +56,9 @@ public class UserSession
          
          if (authorizationProvider != null)
          {
-            // Obtiene la información de seguridad
-            this.securityInfo = authorizationProvider.loadAuthorizationData(login);
+            // Obtiene la información de seguridad para el usuario autenticado
+            this.securityInfo = new SecurityInfo();
+            authorizationProvider.loadAuthorizationData(login, this.securityInfo);
          }
       }
    }
@@ -133,10 +135,43 @@ public class UserSession
       private HashMap<String, Role> roles;
       private HashMap<String, Permission> permissions;
       
+      /**
+       * Constructor de la clase.
+       */
       public SecurityInfo()
       {
          this.roles = new HashMap<String, Role>();
          this.permissions = new HashMap<String, Permission>();
+      }
+      
+      public void addRole(Role role)
+      {
+         this.roles.put(role.getId(), role);
+      }
+
+      public void addRoles(ArrayList<Role> roles)
+      {
+         this.roles = new HashMap<String, Role>();
+         
+         for (Role role : roles)
+         {
+            addRole(role);
+         }
+      }
+      
+      public void addPermission(Permission permission)
+      {
+         this.permissions.put(permission.getId(), permission);
+      }
+      
+      public void addPermissions(ArrayList<Permission> permissions)
+      {
+         this.permissions = new HashMap<String, Permission>();
+         
+         for (Permission permission : permissions)
+         {
+            addPermission(permission);
+         }
       }
    }
    
