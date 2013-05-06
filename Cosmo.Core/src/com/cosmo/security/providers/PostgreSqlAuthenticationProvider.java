@@ -110,6 +110,12 @@ public class PostgreSqlAuthenticationProvider extends AuthenticationProvider
          }
          else
          {
+            // Si tiene el control de bloqueo activado, actualiza la información de bloqueo
+            if (agent.getParamBoolean(PARAM_LOCKCONTROL, false))
+            {
+               loginFail(login);
+            }
+            
             throw new UserNotFoundException();
          }
          
@@ -306,8 +312,38 @@ public class PostgreSqlAuthenticationProvider extends AuthenticationProvider
          int nregs = conn.executeScalar(sql);
          
          return (nregs > 0);
+      } 
+      catch (SQLException ex) 
+      {
+         throw new AuthenticationProviderException(ex.getMessage(), ex);
+      }
+      catch (GeneralSecurityException ex)
+      {
+         throw new AuthenticationProviderException(ex.getMessage(), ex);
+      }
+      catch (Exception ex)
+      {
+         throw new AuthenticationProviderException(ex.getMessage(), ex);
+      }
+      finally
+      {
+         conn.disconnect();
+      }
+   }
+   
+   private void loginFail(String login) throws AuthenticationProviderException
+   {
+      String sql;
+      DataSource ds;
+      DataConnection conn = null;
+      
+      try 
+      {
+         // Obtiene y abre la conexión a BBDD
+         ds = this.workspace.getProperties().getServerDataSource();
+         conn = new DataConnection(ds);
+         conn.connect();
          
-         /*
          // Consulta si el login tiene un registro asociado
          sql = "SELECT Count(*) " +
                "FROM  " + TABLE_LOCKS + " " +
@@ -330,7 +366,6 @@ public class PostgreSqlAuthenticationProvider extends AuthenticationProvider
          
          // Confirma los cambios en la bbdd
          if (!conn.isAutoCommit()) conn.commit();
-         */
       } 
       catch (SQLException ex) 
       {
@@ -347,7 +382,7 @@ public class PostgreSqlAuthenticationProvider extends AuthenticationProvider
       finally
       {
          conn.disconnect();
-      }              
+      }
    }
    
 }
