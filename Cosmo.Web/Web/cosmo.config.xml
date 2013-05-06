@@ -55,10 +55,13 @@
 
    </connections>
    
-   <security authentication-agent="cas" authorization-agent="rdbms" login-page="LoginPage">
+   <security authentication-agent="rdbms" authorization-agent="rdbms" login-page="LoginPage">
       
       <authentication-agent id="rdbms" driver="com.cosmo.security.providers.PostgreSqlAuthenticationProvider">
          <param key="connection" value="cosmo.server" />
+         <param key="lockControl" value="true" />
+         <param key="lockTimeout" value="60" />
+         <param key="lockAttempts" value="3" />
       </authentication-agent>
       
       <authentication-agent id="ldap" driver="com.cosmo.security.providers.LdapAuthenticationProvider">
