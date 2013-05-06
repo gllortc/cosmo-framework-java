@@ -56,8 +56,8 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
       this.workspace = workspace;
       this.agent = this.workspace.getProperties().getAuthenticationAgent();
 
-      agent.getParam(PARAM_SEARCHBASE);
-      this.loginPattern = agent.getParam(PARAM_LOGINPATTERN);
+      agent.getParamString(PARAM_SEARCHBASE);
+      this.loginPattern = agent.getParamString(PARAM_LOGINPATTERN);
    }
    
    
@@ -139,8 +139,8 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
       try
       {
          Hashtable<String, String> env = new Hashtable<String, String>();
-         env.put(Context.INITIAL_CONTEXT_FACTORY, agent.getParam(PARAM_CONTEXTFACTORY));
-         env.put(Context.PROVIDER_URL, "ldap://" + agent.getParam(PARAM_HOSTURL) + ":" + agent.getParam(PARAM_HOSTPORT));
+         env.put(Context.INITIAL_CONTEXT_FACTORY, agent.getParamString(PARAM_CONTEXTFACTORY));
+         env.put(Context.PROVIDER_URL, "ldap://" + agent.getParamString(PARAM_HOSTURL) + ":" + agent.getParamString(PARAM_HOSTPORT));
          env.put(Context.SECURITY_AUTHENTICATION, "simple");
          env.put(Context.SECURITY_PRINCIPAL, getFormattedLogin(login));
          env.put(Context.SECURITY_CREDENTIALS, password);
@@ -150,7 +150,7 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
          constraints.setSearchScope(SearchControls.SUBTREE_SCOPE);
          
          // Realiza la búsqueda del usuario en el directorio y se autentica
-         NamingEnumeration<?> results = ctx.search(agent.getParam(PARAM_SEARCHBASE), "cn=" + login, constraints);
+         NamingEnumeration<?> results = ctx.search(agent.getParamString(PARAM_SEARCHBASE), "cn=" + login, constraints);
          
          // Verifica si se ha encontrado la entrada en el directorio
          if (results == null || !results.hasMore())
@@ -172,7 +172,7 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
             {
                Attribute attrib = (Attribute) nenum.next();
                
-               if (attrib.getID().trim().equalsIgnoreCase(agent.getParam(PARAM_ATTR_MAIL)))
+               if (attrib.getID().trim().equalsIgnoreCase(agent.getParamString(PARAM_ATTR_MAIL)))
                {
                   attrValue = "";
                   for (Enumeration<?> vals = attrib.getAll(); vals.hasMoreElements();)  
@@ -181,7 +181,7 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
                   }
                   user.setMail(attrValue);
                }
-               else if (attrib.getID().trim().equalsIgnoreCase(agent.getParam(PARAM_ATTR_NAME)))
+               else if (attrib.getID().trim().equalsIgnoreCase(agent.getParamString(PARAM_ATTR_NAME)))
                {
                   attrValue = "";
                   for (Enumeration<?> vals = attrib.getAll(); vals.hasMoreElements();)  
@@ -190,7 +190,7 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
                   }
                   user.setName(attrValue);
                }
-               else if (attrib.getID().trim().equalsIgnoreCase(agent.getParam(PARAM_ATTR_SURNAME)))
+               else if (attrib.getID().trim().equalsIgnoreCase(agent.getParamString(PARAM_ATTR_SURNAME)))
                {
                   attrValue = "";
                   for (Enumeration<?> vals = attrib.getAll(); vals.hasMoreElements();)  

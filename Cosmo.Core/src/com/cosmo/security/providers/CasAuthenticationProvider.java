@@ -84,9 +84,9 @@ public class CasAuthenticationProvider extends AuthenticationProvider
       
       try
       {
-         fCasUrl = agent.getParam(PARAM_CASSERVICE);
+         fCasUrl = agent.getParamString(PARAM_CASSERVICE);
          
-         authenticate(agent.getParam(PARAM_SERVICEURL), login, password);
+         authenticate(agent.getParamString(PARAM_SERVICEURL), login, password);
       }
       catch (Exception ex)
       {
@@ -127,7 +127,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
     */
    public String getLoginGateway()
    {
-      String host = agent.getParam(PARAM_CASSERVICE).trim();
+      String host = agent.getParamString(PARAM_CASSERVICE).trim();
       host += (host.endsWith("/") ? "" : "/") + "login";
       
       com.cosmo.util.URL url = new com.cosmo.util.URL(host);
