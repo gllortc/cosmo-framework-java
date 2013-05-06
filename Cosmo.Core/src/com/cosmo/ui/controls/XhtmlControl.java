@@ -92,6 +92,27 @@ public class XhtmlControl extends Control
    }
    
    /**
+    * Agrega un párrafo al contenido.
+    * 
+    * @param text Texto que contiene el párrafo.
+    */
+   public void appendParagraph(String text)
+   {
+      append("<p>" + text + "</p>\n");
+   }
+   
+   /**
+    * Agrega un título H1 al contenido.
+    * 
+    * @param title Texto que contiene el título.
+    * @param headderLevel Nivel de importancia del título (1..5).
+    */
+   public void appendHeadder(String title, int headderLevel)
+   {
+      append("<h" + headderLevel + ">" + title + "</h" + headderLevel + ">\n");
+   }
+   
+   /**
     * Renderiza el control y genera el código XHTML de representación.
     *
     * @return Devuelve una cadena en formato XHTML que representa el control. 
@@ -100,6 +121,21 @@ public class XhtmlControl extends Control
    public String render() 
    {
       return xhtml.toString();
+   }
+   
+   
+   //==============================================
+   // Static members
+   //==============================================
+   
+   public static String formatBold(String text)
+   {
+      return "<strong>" + text + "</strong>";
+   }
+   
+   public static String formatEmphatized(String text)
+   {
+      return "<em>" + text + "</em>";
    }
    
    //==============================================

@@ -14,6 +14,8 @@ import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
 import com.cosmo.WorkspaceLoadException;
 import com.cosmo.WorkspaceProvider;
+import com.cosmo.security.annotations.ActivitiesAllowed;
+import com.cosmo.security.annotations.RolesAllowed;
 import com.cosmo.security.annotations.SessionRequired;
 import com.cosmo.security.providers.AuthenticationProvider;
 import com.cosmo.ui.controls.Control;
@@ -203,14 +205,6 @@ public abstract class Page extends HttpServlet implements PageInterface
     * Método que es llamado al cargar la página.
     */
    public abstract void loadPageEvent(HttpServletRequest request, HttpServletResponse response);
-   
-   /**
-    * Indica si la página requiere sesión de usuario para ser accedida. 
-    */
-   public boolean isSessionRequired()
-   {
-      return this.getClass().isAnnotationPresent(SessionRequired.class);
-   }
    
    /**
     * Agrega un control a la página.
@@ -437,18 +431,20 @@ public abstract class Page extends HttpServlet implements PageInterface
    }
    
    /**
-    * Comprueba si la página dispone de seguridad y si existe sesión autenticada. 
+    * Comprueba si la página dispone de seguridad y si existe sesión autenticada.<br />
     * En caso de requerir autenticación y no existir autenticación, redirige a la página de login.
+    * 
+    * @param response Una instancia de {@link HttpServletResponse} que corresponde a la respuesta actual del contexto.
     * 
     * @throws IOException 
     */
-   private void checkSecurity() throws IOException
+   private boolean checkSecurity(HttpServletResponse response) throws IOException
    {
       String toUrl;
       
       if (!this.isSessionRequired())
       {
-         return;
+         return false;
       }
       
       if (!getWorkspace().isValidUserSession())
@@ -482,14 +478,18 @@ public abstract class Page extends HttpServlet implements PageInterface
                toUrl = url.toString(charSet);
             }
             
-            HttpServletResponse response = getWorkspace().getServerResponse();
             response.sendRedirect(toUrl);
+            return true;
          } 
          catch (Exception e) 
          {
+            // TODO: Aquí se debe generar una excepción ya que de lo contrario se puede acceder al recurso
+            
             // throw new Exception(e.getMessage());
          }
       }
+      
+      return false;
    }
    
    /**
@@ -500,8 +500,8 @@ public abstract class Page extends HttpServlet implements PageInterface
     * <li>- {@code loadPageEvent()}</li>
     * </ul>
     * 
-    * @param request
-    * @param response
+    * @param request Una instancia de {@link HttpServletRequest} que corresponde a la llamada actual del contexto.
+    * @param response Una instancia de {@link HttpServletResponse} que corresponde a la respuesta actual del contexto.
     * 
     * @throws ServletException
     * @throws IOException
@@ -519,7 +519,10 @@ public abstract class Page extends HttpServlet implements PageInterface
       this.workspace = WorkspaceProvider.getWorkspace(getServletContext(), request, response);
 
       // Comprueba si el usuario puede ver la página
-      checkSecurity();
+      if (checkSecurity(response))
+      {
+         return;  // Evita la excepción java.lang.IllegalStateException
+      }
       
       // Lanza el evento initPageEvent sólo si es la primera vez que se accede a la página
       if (!init)
@@ -546,5 +549,29 @@ public abstract class Page extends HttpServlet implements PageInterface
       PrintWriter out = response.getWriter();
       out.println(xhtml.toString());
       out.print("<!-- Page generated in " + (System.currentTimeMillis() - startTime) + " mSec using " + Cosmo.COSMO_NAME + " -->\n");
+   }
+   
+   /**
+    * Indica si la página requiere sesión de usuario para ser accedida. 
+    */
+   private boolean isSessionRequired()
+   {
+      return this.getClass().isAnnotationPresent(SessionRequired.class);
+   }
+   
+   /**
+    * Indica si la página requiere uno de los roles especificados para ser accedida. 
+    */
+   private boolean isRoleRequired()
+   {
+      return this.getClass().isAnnotationPresent(RolesAllowed.class);
+   }
+   
+   /**
+    * Indica si la página requiere permisos sobre una o varias actividades para ser accedida. 
+    */
+   private boolean isActivityRequired()
+   {
+      return this.getClass().isAnnotationPresent(ActivitiesAllowed.class);
    }
 }
