@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.cosmo.ui.Page;
 import com.cosmo.ui.controls.HeaderControl;
+import com.cosmo.ui.controls.XhtmlControl;
 
 /**
  * Home page.
@@ -25,12 +26,16 @@ public class HomePage extends Page
       this.setTitle("Página de prova");
 
       HeaderControl header = new HeaderControl(getWorkspace());
-      header.setTitle("PROVA DE PÁGINA");
-      header.setDescription("Això és una prova de creació de págines amb Cosmo for Java!");
-      
-      // int a = 1 / 0;
+      header.setTitle("Benvingut!");
+      header.setDescription("Benvingut al site de demostració de <strong>Cosmo Framework</strong>.");
       
       this.addContent(header, ContentColumns.MAIN);
+      
+      XhtmlControl xhtml = new XhtmlControl(getWorkspace());
+      xhtml.appendParagraph("Aquest site presenta les diferents funcionalitats de " + 
+                            XhtmlControl.formatBold("Cosmo Framework") + ".");
+      
+      this.addContent(xhtml, ContentColumns.MAIN);
    }
    
    @Override
