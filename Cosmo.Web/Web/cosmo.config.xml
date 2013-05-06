@@ -6,7 +6,7 @@
    <settings>
 
       <param key="ws.title" value="Workspace de proves" />
-      <param key="ws.url" value="http://localhost:8080/cosmo/" />
+      <param key="ws.url" value="http://localhost:8080/Cosmo.Web/" />
       <param key="ws.mail" value="gllort@dipta.cat" />
       
       <param key="ws.ui.charset" value="ISO-8859-1" />
