@@ -95,7 +95,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
       {
          fCasUrl = agent.getParamString(PARAM_CASSERVICE);
          
-         authenticate(agent.getParamString(PARAM_SERVICEURL), login, password);
+         authenticate(workspace.getRequestedUrl(), login, password);
       }
       catch (Exception ex)
       {
@@ -140,7 +140,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
       host += (host.endsWith("/") ? "" : "/") + "login";
       
       com.cosmo.util.URL url = new com.cosmo.util.URL(host);
-      url.addParameter("service", agent.getParamString(PARAM_SERVICEURL));
+      url.addParameter("service", workspace.getRequestedUrl()); // agent.getParamString(PARAM_SERVICEURL));
       
       return url.toString();
    }
@@ -357,6 +357,8 @@ public class CasAuthenticationProvider extends AuthenticationProvider
       {
          method.releaseConnection();
       }
+      
+      System.out.print("CAS USER: " + result);
       
       return result;
    }
