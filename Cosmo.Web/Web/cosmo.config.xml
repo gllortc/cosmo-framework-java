@@ -55,7 +55,7 @@
 
    </connections>
    
-   <security authentication-agent="rdbms" authorization-agent="rdbms" login-page="LoginPage">
+   <security authentication-agent="cas" authorization-agent="rdbms" login-page="LoginPage">
       
       <authentication-agent id="rdbms" driver="com.cosmo.security.providers.PostgreSqlAuthenticationProvider">
          <param key="connection" value="cosmo.server" />
@@ -77,7 +77,7 @@
       
       <authentication-agent id="cas" driver="com.cosmo.security.providers.CasAuthenticationProvider">
          <param key="cas-service" value="https://developsc.intranet.dtgna:8443/cas-dipta/" />
-         <param key="service-url" value="https://localhost:8080/Cosmo.Web" />
+         <param key="service-url" value="http://localhost:8080/Cosmo.Web" />
       </authentication-agent>
       
       <authorization-agent id="rdbms" driver="com.cosmo.security.providers.PostgreSqlAuthorizationProvider">
