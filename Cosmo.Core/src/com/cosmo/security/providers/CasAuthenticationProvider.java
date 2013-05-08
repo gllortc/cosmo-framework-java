@@ -126,7 +126,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
    /**
     * Indica si el servicio usa un gateway para la autenticación de usuarios.
     */
-   public boolean isLoginGateway()
+   public boolean isLoginGatewayRequired()
    {
       return true;
    }
@@ -134,7 +134,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
    /**
     * Devuelve la URL usada para la autenticación de usuarios.
     */
-   public String getLoginGateway()
+   public String getLoginGatewayUrl()
    {
       String host = agent.getParamString(PARAM_CASSERVICE).trim();
       host += (host.endsWith("/") ? "" : "/") + "login";

@@ -103,7 +103,7 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
    /**
     * Indica si el servicio usa un gateway para la autenticación de usuarios.
     */
-   public boolean isLoginGateway()
+   public boolean isLoginGatewayRequired()
    {
       return false;
    }
@@ -111,7 +111,7 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
    /**
     * Devuelve la URL usada para la autenticación de usuarios.
     */
-   public String getLoginGateway()
+   public String getLoginGatewayUrl()
    {
       return null;
    }

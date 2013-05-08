@@ -52,7 +52,12 @@ public abstract class AuthenticationProvider
    /**
     * Indica si el servicio usa un gateway para la autenticación de usuarios.
     */
-   public abstract boolean isLoginGateway();
+   public abstract boolean isLoginGatewayRequired();
+   
+   /**
+    * Devuelve la URL usada para la autenticación de usuarios.
+    */
+   public abstract String getLoginGatewayUrl();
    
    /**
     * Detecta si una autenticación delegada (Login Gateway) ha sido exitosa.<br />
@@ -64,11 +69,6 @@ public abstract class AuthenticationProvider
     * @return {@code true} si detecta que la autenticación ha tenido éxito o {@code false} en cualquier otro caso. 
     */
    public abstract boolean isLoginGatewayValidated(HttpServletRequest request);
-   
-   /**
-    * Devuelve la URL usada para la autenticación de usuarios.
-    */
-   public abstract String getLoginGateway();
    
    
    //==============================================
