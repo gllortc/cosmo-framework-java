@@ -14,6 +14,7 @@ import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
 import com.cosmo.WorkspaceLoadException;
 import com.cosmo.WorkspaceProvider;
+import com.cosmo.net.HttpRequestUtils;
 import com.cosmo.security.annotations.ActivitiesAllowed;
 import com.cosmo.security.annotations.RolesAllowed;
 import com.cosmo.security.annotations.SessionRequired;
@@ -438,11 +439,16 @@ public abstract class Page extends HttpServlet implements PageInterface
     * 
     * @throws IOException 
     */
-   private boolean checkSecurity(HttpServletResponse response) throws IOException
+   private boolean checkSecurity(HttpServletRequest request, HttpServletResponse response) throws IOException
    {
       String toUrl;
       
       if (!this.isSessionRequired())
+      {
+         return false;
+      }
+      
+      if (this.isLoginResponse(request))
       {
          return false;
       }
@@ -452,6 +458,8 @@ public abstract class Page extends HttpServlet implements PageInterface
          try
          {
             AuthenticationProvider auth = AuthenticationProvider.getInstance(workspace);
+            
+            
             if (auth.isLoginGateway())
             {
                toUrl = auth.getLoginGateway();
@@ -463,7 +471,7 @@ public abstract class Page extends HttpServlet implements PageInterface
                // Determina si existe una dirección de origen
                try
                {
-                  HttpServletRequest request = getWorkspace().getServerRequest();
+                  // HttpServletRequest request = getWorkspace().getServerRequest();
                   String urlSource = request.getRequestURL().toString();
                   url.addParameter(Cosmo.URL_PARAM_TOURL, urlSource);
                }
@@ -519,7 +527,7 @@ public abstract class Page extends HttpServlet implements PageInterface
       this.workspace = WorkspaceProvider.getWorkspace(getServletContext(), request, response);
 
       // Comprueba si el usuario puede ver la página
-      if (checkSecurity(response))
+      if (checkSecurity(request, response))
       {
          return;  // Evita la excepción java.lang.IllegalStateException
       }
