@@ -33,7 +33,8 @@ public class CasAuthenticationProvider extends AuthenticationProvider
    
    private static String URL_PARAM_TICKET = "ticket";
    
-   private String grantingTicket;
+   private String loginTicket;
+   private String serviceTicket;
    
    //==============================================
    // Constructors
@@ -46,7 +47,9 @@ public class CasAuthenticationProvider extends AuthenticationProvider
     */
    public CasAuthenticationProvider(Workspace workspace)
    {
-      grantingTicket = "";
+      serviceTicket = "";
+      loginTicket = "";
+      
       fClient = new HttpClient();
       
       this.workspace = workspace;
@@ -65,7 +68,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
     */
    public String getGrantingTicket()
    {
-      return this.grantingTicket;
+      return this.serviceTicket;
    }
    
    
@@ -137,16 +140,33 @@ public class CasAuthenticationProvider extends AuthenticationProvider
       host += (host.endsWith("/") ? "" : "/") + "login";
       
       com.cosmo.util.URL url = new com.cosmo.util.URL(host);
-      url.addParameter("service", workspace.getRequestedUrl());
-      url.addParameter("result", AuthenticationProvider.TOKEN_LOGIN_VALIDATED);
+      url.addParameter("service", agent.getParamString(PARAM_SERVICEURL));
       
       return url.toString();
    }
    
+   /**
+    * Detecta si una autenticación delegada (Login Gateway) ha sido exitosa.<br />
+    * Las clases que extiendan a {@link AuthenticationProvider} serán responsables de obtener los datos del usuario autenticado
+    * en el sistema externo, ya sea mediante servicios REST u otros mecanismos.
+    * 
+    * @param request Una instancia de {@link HttpServletRequest} que cotniene el contexto de la llamada.
+    * 
+    * @return {@code true} si detecta que la autenticación ha tenido éxito o {@code false} en cualquier otro caso. 
+    */
    @Override
    public boolean isLoginGatewayValidated(HttpServletRequest request)
    {
-      return (StringUtils.isNullOrEmpty(HttpRequestUtils.getValue(request, URL_PARAM_TICKET)));
+      // Obtiene el ServiceTicket
+      serviceTicket = HttpRequestUtils.getValue(request, URL_PARAM_TICKET);
+
+      if (!StringUtils.isNullOrEmpty(serviceTicket))
+      {
+         // Valida el ticket para obtener el LOGIN de usuario
+         String login = validate(agent.getParamString(PARAM_SERVICEURL), serviceTicket);
+      }
+      
+      return (!StringUtils.isNullOrEmpty(serviceTicket));
    }
    
    //==============================================
@@ -309,8 +329,8 @@ public class CasAuthenticationProvider extends AuthenticationProvider
    public String validate(String serviceUrl, String serviceTicket)
    {
       String result = null;
-      PostMethod method = new PostMethod(fCasUrl + SERVICE_VALIDATE_URL_PART);
-       
+      PostMethod method = new PostMethod(agent.getParamString(PARAM_CASSERVICE) + SERVICE_VALIDATE_URL_PART);
+
       method.setParameter("service", serviceUrl);
       method.setParameter("ticket", serviceTicket);
       

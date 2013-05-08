@@ -224,6 +224,20 @@ public class Workspace
       this.usrSession = new UserSession(this, login, password);
    }
    
+   /**
+    * Crea una sesión de usuario sin validación de login.
+    * 
+    * @param login Login del usuario a autenticar.
+    * 
+    * @throws UserNotFoundException
+    * @throws AuthenticationProviderException 
+    * @throws AuthorizationProviderException 
+    */
+   public void createSession(String login) throws AuthorizationProviderException
+   {
+      this.usrSession = new UserSession(this, login);
+   }
+   
    //==============================================
    // Private members
    //==============================================

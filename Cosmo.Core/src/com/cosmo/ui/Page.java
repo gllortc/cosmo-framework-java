@@ -14,7 +14,6 @@ import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
 import com.cosmo.WorkspaceLoadException;
 import com.cosmo.WorkspaceProvider;
-import com.cosmo.net.HttpRequestUtils;
 import com.cosmo.security.annotations.ActivitiesAllowed;
 import com.cosmo.security.annotations.RolesAllowed;
 import com.cosmo.security.annotations.SessionRequired;
@@ -448,19 +447,19 @@ public abstract class Page extends HttpServlet implements PageInterface
          return false;
       }
       
-      if (this.isLoginResponse(request))
-      {
-         return false;
-      }
-      
       if (!getWorkspace().isValidUserSession())
       {
          try
          {
             AuthenticationProvider auth = AuthenticationProvider.getInstance(workspace);
             
-            
-            if (auth.isLoginGateway())
+            if (auth.isLoginGateway() && auth.isLoginGatewayValidated(request))
+            {
+               getWorkspace().createSession("gllort");
+               
+               return false;
+            }
+            else if (auth.isLoginGateway())
             {
                toUrl = auth.getLoginGateway();
             }

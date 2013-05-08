@@ -54,6 +54,15 @@ public abstract class AuthenticationProvider
     */
    public abstract boolean isLoginGateway();
    
+   /**
+    * Detecta si una autenticación delegada (Login Gateway) ha sido exitosa.<br />
+    * Las clases que extiendan a {@link AuthenticationProvider} serán responsables de obtener los datos del usuario autenticado
+    * en el sistema externo, ya sea mediante servicios REST u otros mecanismos.
+    * 
+    * @param request Una instancia de {@link HttpServletRequest} que cotniene el contexto de la llamada.
+    * 
+    * @return {@code true} si detecta que la autenticación ha tenido éxito o {@code false} en cualquier otro caso. 
+    */
    public abstract boolean isLoginGatewayValidated(HttpServletRequest request);
    
    /**

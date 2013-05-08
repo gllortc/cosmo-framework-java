@@ -63,6 +63,33 @@ public class UserSession
       }
    }
    
+   /**
+    * Constructor de la clase.<br />
+    * Este contructor crea una sesión de usuario sin autenticar y sirve exclusivamente cuando se delega la página de login
+    * a otro servicio externo mediante LoginGateway (por ejemplo, Jasig CAS).
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
+    * @param login Una cadena que contiene el login del usuario.
+    * 
+    * @throws AuthorizationProviderException
+    */
+   public UserSession(Workspace workspace, String login) throws AuthorizationProviderException
+   {
+      this.currentUser = new User();
+      this.currentUser.setLogin(login);
+      this.currentUser.setName(login);
+      
+      // Instancia el proveedor de seguridad
+      AuthorizationProvider authorizationProvider = AuthorizationProvider.getInstance(workspace);
+      
+      if (authorizationProvider != null)
+      {
+         // Obtiene la información de seguridad para el usuario autenticado
+         this.securityInfo = new SecurityInfo();
+         authorizationProvider.loadAuthorizationData(login, this.securityInfo);
+      }
+   }
+   
    //==============================================
    // Properties
    //==============================================
