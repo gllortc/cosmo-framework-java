@@ -1,5 +1,7 @@
 package com.cosmo.security.providers;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
@@ -9,9 +11,11 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 
 import com.cosmo.Workspace;
+import com.cosmo.net.HttpRequestUtils;
 import com.cosmo.security.Agent;
 import com.cosmo.security.User;
 import com.cosmo.security.UserNotFoundException;
+import com.cosmo.util.StringUtils;
 
 /**
  * Proveedor de seguridad nativo de Cosmo.<br />
@@ -26,6 +30,8 @@ public class CasAuthenticationProvider extends AuthenticationProvider
 
    private static String PARAM_CASSERVICE = "cas-service";
    private static String PARAM_SERVICEURL = "service-url";
+   
+   private static String URL_PARAM_TICKET = "ticket";
    
    private String grantingTicket;
    
@@ -119,7 +125,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
     */
    public boolean isLoginGateway()
    {
-      return false;
+      return true;
    }
    
    /**
@@ -132,8 +138,15 @@ public class CasAuthenticationProvider extends AuthenticationProvider
       
       com.cosmo.util.URL url = new com.cosmo.util.URL(host);
       url.addParameter("service", workspace.getRequestedUrl());
+      url.addParameter("result", AuthenticationProvider.TOKEN_LOGIN_VALIDATED);
       
       return url.toString();
+   }
+   
+   @Override
+   public boolean isLoginGatewayValidated(HttpServletRequest request)
+   {
+      return (StringUtils.isNullOrEmpty(HttpRequestUtils.getValue(request, URL_PARAM_TICKET)));
    }
    
    //==============================================

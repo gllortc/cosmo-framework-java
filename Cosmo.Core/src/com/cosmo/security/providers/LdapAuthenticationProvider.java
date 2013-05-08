@@ -13,6 +13,7 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
+import javax.servlet.http.HttpServletRequest;
 
 import com.cosmo.Workspace;
 import com.cosmo.security.Agent;
@@ -113,6 +114,11 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
    public String getLoginGateway()
    {
       return null;
+   }
+   
+   public boolean isLoginGatewayValidated(HttpServletRequest request)
+   {
+      return false;
    }
    
    

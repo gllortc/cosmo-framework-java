@@ -3,6 +3,8 @@ package com.cosmo.security.providers;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.cosmo.Workspace;
 import com.cosmo.security.Agent;
 import com.cosmo.security.User;
@@ -19,6 +21,7 @@ public abstract class AuthenticationProvider
 {
    private static AuthenticationProvider instance = null;
    
+   public static String TOKEN_LOGIN_VALIDATED = "cosmo.authentication.logingateway.success";
    
    //==============================================
    // Methods
@@ -50,6 +53,8 @@ public abstract class AuthenticationProvider
     * Indica si el servicio usa un gateway para la autenticación de usuarios.
     */
    public abstract boolean isLoginGateway();
+   
+   public abstract boolean isLoginGatewayValidated(HttpServletRequest request);
    
    /**
     * Devuelve la URL usada para la autenticación de usuarios.

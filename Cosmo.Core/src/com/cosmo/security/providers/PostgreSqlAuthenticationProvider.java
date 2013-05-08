@@ -4,6 +4,8 @@ import java.security.GeneralSecurityException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.cosmo.Workspace;
 import com.cosmo.data.DataConnection;
 import com.cosmo.data.DataSource;
@@ -175,6 +177,11 @@ public class PostgreSqlAuthenticationProvider extends AuthenticationProvider
     * Indica si el servicio usa un gateway para la autenticación de usuarios.
     */
    public boolean isLoginGateway()
+   {
+      return false;
+   }
+   
+   public boolean isLoginGatewayValidated(HttpServletRequest request)
    {
       return false;
    }
