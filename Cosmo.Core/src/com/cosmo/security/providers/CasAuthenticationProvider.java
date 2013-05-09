@@ -150,6 +150,9 @@ public class CasAuthenticationProvider extends AuthenticationProvider
     * Las clases que extiendan a {@link AuthenticationProvider} serán responsables de obtener los datos del usuario autenticado
     * en el sistema externo, ya sea mediante servicios REST u otros mecanismos.
     * 
+    * @see Detalls del protocol: https://wiki.jasig.org/display/CAS/CAS+Functional+Tests
+    * @see Detalls del protocol amb proxy: https://wiki.jasig.org/display/CAS/Proxy+CAS+Walkthrough
+    * 
     * @param request Una instancia de {@link HttpServletRequest} que cotniene el contexto de la llamada.
     * 
     * @return {@code true} si detecta que la autenticación ha tenido éxito o {@code false} en cualquier otro caso. 
@@ -185,6 +188,23 @@ public class CasAuthenticationProvider extends AuthenticationProvider
    private HttpClient fClient;
    private String fCasUrl;
   
+   // public String 
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    /**
     * Construct a new CasClient.
     *
@@ -330,9 +350,11 @@ public class CasAuthenticationProvider extends AuthenticationProvider
    {
       String result = null;
       PostMethod method = new PostMethod(agent.getParamString(PARAM_CASSERVICE) + SERVICE_VALIDATE_URL_PART);
-
+      
       method.setParameter("service", serviceUrl);
       method.setParameter("ticket", serviceTicket);
+
+      String url = method.getQueryString();
       
       try
       {
