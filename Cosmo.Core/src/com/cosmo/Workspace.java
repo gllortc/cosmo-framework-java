@@ -16,6 +16,7 @@ import com.cosmo.ui.templates.Template;
 import com.cosmo.ui.templates.TemplateLoadException;
 import com.cosmo.ui.templates.TemplateUnavailableException;
 import com.cosmo.ui.widgets.providers.MenuProviderException;
+import com.cosmo.util.StringUtils;
 
 /**
  * Representa un espacio de trabajo de Cosmo.
@@ -156,6 +157,15 @@ public class Workspace
    public String getMail() 
    {
       return this.mail;
+   }
+   
+   /**
+    * Devuelve el juego de carácteres usado en el workspace.
+    */
+   public String getCharset()
+   {
+      String charSet = this.properties.getString(Cosmo.PROPERTY_WORKSPACE_UI_CHARSET);
+      return (StringUtils.isNullOrEmptyTrim(charSet) ? Cosmo.CHARSET_UTF_8 : charSet);
    }
    
    /**
