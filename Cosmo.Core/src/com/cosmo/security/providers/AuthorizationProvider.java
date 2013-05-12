@@ -2,9 +2,11 @@ package com.cosmo.security.providers;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 import com.cosmo.Workspace;
 import com.cosmo.security.Agent;
+import com.cosmo.security.Role;
 import com.cosmo.security.UserSession.SecurityInfo;
 import com.cosmo.util.StringUtils;
 
@@ -32,14 +34,26 @@ public abstract class AuthorizationProvider
    public abstract SecurityInfo loadAuthorizationData(String login, SecurityInfo si) throws AuthorizationProviderException;
    
    /**
-    * Determina si un usuario tiene un determinado rol.
+    * Determina si un usuario tiene un rol especifico.
     * 
     * @param login Una cadena que contiene el <em>login</em> del usuario.
     * @param role Una cadena que contiene el nombre (ID) del rol.
     * 
     * @return {@code true} si el usuario tiene asignado el rol o {@code false} en cualquier otro caso.
     */
-   public abstract boolean isUserInRole(String login, String role);
+   public abstract boolean isUserInRole(String login, String role) throws AuthorizationProviderException;
+   
+   /**
+    * Determina si un usuario tiene un rol especifico entre una lista de roles.
+    * 
+    * @param login Una cadena que contiene el <em>login</em> del usuario.
+    * @param roles Un array con los identificadores de rol.
+    * 
+    * @return {@code true} si el usuario tiene asignado al menos un rol de los contenidos en la lista o {@code false} en cualquier otro caso.
+    * 
+    * @throws AuthorizationProviderException
+    */
+   public abstract boolean isUserInRole(String login, ArrayList<String> roles) throws AuthorizationProviderException;
 
    /**
     * Determina si un usuario tiene permiso para ejecutar determinada actividad.
@@ -58,8 +72,7 @@ public abstract class AuthorizationProvider
     * 
     * @return Un array con los nombres (IDs) de los roles asignados al usuario.
     */
-   public abstract String[] getUserRoles(String login);
-   
+   public abstract ArrayList<Role> getRolesByUser(String login) throws AuthorizationProviderException;
    
    //==============================================
    // Static members

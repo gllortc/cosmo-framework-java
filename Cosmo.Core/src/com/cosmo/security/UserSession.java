@@ -246,12 +246,24 @@ public class UserSession
       
       /**
        * Agrega un permiso sobre una actividad a la información de seguridad de una sesión de usuario.
+       * <br /><br />
+       * La política de permisos indica que si el usuario tiene varios permisos sobre una actividad y al menos
+       * una de ellas es afirmativa, el usuario tendrá permiso de ejecución de dicha actividad.
        * 
        * @param permission Una instancia de {@link Permission} que representa el permiso a agregar.
        */
       public void addPermission(Permission permission)
       {
-         this.permissions.put(permission.getId(), permission);
+         Permission perm = this.permissions.get(permission.getId());
+         
+         if (perm == null)
+         {
+            this.permissions.put(permission.getId(), permission);
+         }
+         else if (!perm.isGranted() && permission.isGranted())
+         {
+            this.permissions.put(permission.getId(), permission);
+         }
       }
       
       /**
@@ -281,6 +293,31 @@ public class UserSession
          Role role = this.roles.get(roleId);
 
          return (role != null);
+      }
+      
+      /**
+       * Determina si el usuario propietario de la sesión tiene asignado como mínimo un rol de entre la lista 
+       * de roles proporcionada.
+       * 
+       * @param roleList Un array que contiene los identificadores (nombre) de los roles.
+       * 
+       * @return {@code true} si el usuario pertenece a como mínimo uno de los roles de la lista o {@code false} en cualquier otro caso.
+       */
+      public boolean isInRole(ArrayList<String> roleList)
+      {
+         Role role;
+         
+         for (String roleId : roleList)
+         {
+            role = this.roles.get(roleId);
+            
+            if (role != null)
+            {
+               return true;
+            }
+         }
+         
+         return false;
       }
       
       /**

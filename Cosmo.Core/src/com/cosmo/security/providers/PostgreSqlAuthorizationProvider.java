@@ -72,7 +72,7 @@ public class PostgreSqlAuthorizationProvider extends AuthorizationProvider
    }
    
    /**
-    * Determina si un usuario tiene un determinado rol.
+    * Determina si un usuario tiene un rol especifico.
     * 
     * @param login Una cadena que contiene el <em>login</em> del usuario.
     * @param role Una cadena que contiene el nombre (ID) del rol.
@@ -80,8 +80,46 @@ public class PostgreSqlAuthorizationProvider extends AuthorizationProvider
     * @return {@code true} si el usuario tiene asignado el rol o {@code false} en cualquier otro caso.
     */
    @Override
-   public boolean isUserInRole(String login, String role) 
+   public boolean isUserInRole(String login, String role) throws AuthorizationProviderException
    {
+      ArrayList<String> roles = new ArrayList<String>();
+      roles.add(role);
+      
+      return isUserInRole(login, roles);
+   }
+   
+   /**
+    * Determina si un usuario tiene un rol especifico entre una lista de roles.
+    * 
+    * @param login Una cadena que contiene el <em>login</em> del usuario.
+    * @param roles Un array con los identificadores de rol.
+    * 
+    * @return {@code true} si el usuario tiene asignado al menos un rol de los contenidos en la lista o {@code false} en cualquier otro caso.
+    * 
+    * @throws AuthorizationProviderException
+    */
+   @Override
+   public boolean isUserInRole(String login, ArrayList<String> roles) throws AuthorizationProviderException
+   {
+      ArrayList<Role> roleList = null;
+      
+      // Obtiene los roles del usuario
+      roleList = getRolesByUser(login);
+      
+      // Para cada rol del usuario comprueba la lista proporcionada 
+      for (String roleId : roles)
+      {
+         for (Role role : roleList)
+         {
+            // Si los IDs coinciden, el usuario tiene uno de los roles
+            if (role.getId().equals(roleId))
+            {
+               return true;
+            }
+         }
+      }
+      
+      // No de ha hallado ninguna coincidnecia
       return false;
    }
 
@@ -100,16 +138,45 @@ public class PostgreSqlAuthorizationProvider extends AuthorizationProvider
    }
 
    /**
-    * Obtiene la lista de roles asignados al usuario.
+    * Devuelve la lista de roles a los que pertenece un determinado usuario.
     * 
     * @param login Una cadena que contiene el <em>login</em> del usuario.
     * 
-    * @return Un array con los nombres (IDs) de los roles asignados al usuario.
+    * @return Una instancia de {@link ArrayList} que contiene las instancias de {@link Role} que corresponden a los roles a los que pertenece un determinado usuario.
+    * 
+    * @throws AuthorizationProviderException
     */
    @Override
-   public String[] getUserRoles(String login) 
+   public ArrayList<Role> getRolesByUser(String login) throws AuthorizationProviderException
    {
-      return null;
+      String sql;
+      DataSource ds;
+      DataConnection conn = null;
+      
+      ArrayList<Role> roles = new ArrayList<Role>();
+      
+      try
+      {
+         sql = "SELECT * " +
+               "FROM " + TABLE_ROLES + " Inner Join " + TABLE_USER_ROLES + " On (" + TABLE_ROLES + ".roleid=" + TABLE_USER_ROLES + ".roleid) " +
+               "WHERE " + TABLE_USER_ROLES + ".usrlogin='" + DataConnection.sqlFormatTextValue(login) + "' " + 
+               "ORDER BY " + TABLE_ROLES + ".roleid";
+
+         ds = this.workspace.getProperties().getServerDataSource();
+         conn = new DataConnection(ds);
+         conn.connect();
+         ResultSet rs = conn.executeSql(sql);
+         while (rs.next())
+         {
+            roles.add(readRole(rs));
+         }
+      }
+      catch (Exception ex) 
+      {
+         throw new AuthorizationProviderException(ex.getMessage(), ex);
+      }
+      
+      return roles;
    }
    
    
@@ -155,46 +222,9 @@ public class PostgreSqlAuthorizationProvider extends AuthorizationProvider
       return roles;
    }
    
-   /**
-    * Devuelve la lista de roles a los que pertenece un determinado usuario.
-    * 
-    * @param login Una cadena que contiene el <em>login</em> del usuario.
-    * 
-    * @return Una instancia de {@link ArrayList} que contiene las instancias de {@link Role} que corresponden a los roles a los que pertenece un determinado usuario.
-    * 
-    * @throws AuthorizationProviderException
-    */
-   public ArrayList<Role> getRolesByUser(String login) throws AuthorizationProviderException
-   {
-      String sql;
-      DataSource ds;
-      DataConnection conn = null;
-      
-      ArrayList<Role> roles = new ArrayList<Role>();
-      
-      try
-      {
-         sql = "SELECT * " +
-               "FROM " + TABLE_ROLES + " Inner Join " + TABLE_USER_ROLES + " On (" + TABLE_ROLES + ".roleid=" + TABLE_USER_ROLES + ".roleid) " +
-               "WHERE " + TABLE_USER_ROLES + ".usrlogin='" + DataConnection.sqlFormatTextValue(login) + "' " + 
-               "ORDER BY " + TABLE_ROLES + ".roleid";
-
-         ds = this.workspace.getProperties().getServerDataSource();
-         conn = new DataConnection(ds);
-         conn.connect();
-         ResultSet rs = conn.executeSql(sql);
-         while (rs.next())
-         {
-            roles.add(readRole(rs));
-         }
-      }
-      catch (Exception ex) 
-      {
-         throw new AuthorizationProviderException(ex.getMessage(), ex);
-      }
-      
-      return roles;
-   }
+   
+   
+   
    
    /**
     * Devuelve una lista completa de actividades definidas en el esquema.
