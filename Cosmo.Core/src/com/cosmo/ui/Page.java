@@ -453,15 +453,15 @@ public abstract class Page extends HttpServlet implements PageInterface
          {
             AuthenticationProvider auth = AuthenticationProvider.getInstance(workspace);
             
-            if (auth.isLoginGateway() && auth.isLoginGatewayValidated(request))
+            if (auth.isLoginGatewayRequired() && auth.isLoginGatewayValidated(request))
             {
                getWorkspace().createSession("gllort");
                
                return false;
             }
-            else if (auth.isLoginGateway())
+            else if (auth.isLoginGatewayRequired())
             {
-               toUrl = auth.getLoginGateway();
+               toUrl = auth.getLoginGatewayUrl();
             }
             else
             {
@@ -566,19 +566,5 @@ public abstract class Page extends HttpServlet implements PageInterface
       return this.getClass().isAnnotationPresent(SessionRequired.class);
    }
    
-   /**
-    * Indica si la página requiere uno de los roles especificados para ser accedida. 
-    */
-   private boolean isRoleRequired()
-   {
-      return this.getClass().isAnnotationPresent(RolesAllowed.class);
-   }
    
-   /**
-    * Indica si la página requiere permisos sobre una o varias actividades para ser accedida. 
-    */
-   private boolean isActivityRequired()
-   {
-      return this.getClass().isAnnotationPresent(ActivitiesAllowed.class);
-   }
 }
