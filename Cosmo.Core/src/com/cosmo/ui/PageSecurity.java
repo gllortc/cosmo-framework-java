@@ -98,6 +98,7 @@ public class PageSecurity
          
          AuthenticationProvider auth = AuthenticationProvider.getInstance(workspace);
          
+         // AQUÍ????
          if (auth.isLoginGatewayRequired() && auth.isLoginGatewayValidated(request))
          {
             workspace.createSession("gllort");
