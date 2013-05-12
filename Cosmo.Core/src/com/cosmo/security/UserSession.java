@@ -171,6 +171,19 @@ public class UserSession
    }
 
    /**
+    * Determina si el usuario propietario de la sesión tiene asignado como mínimo un rol de entre la lista 
+    * de roles proporcionada.
+    * 
+    * @param roleList Un array que contiene los identificadores (nombre) de los roles.
+    * 
+    * @return {@code true} si el usuario pertenece a como mínimo uno de los roles de la lista o {@code false} en cualquier otro caso.
+    */
+   public boolean isInRole(ArrayList<String> roleList)
+   {
+      return this.securityInfo.isInRole(roleList);
+   }
+   
+   /**
     * Determina si el usuario propietario de la sesión tiene permiso para ejecutar determinada actividad.
     * 
     * @param activityId Una cadena que contiene el identificador (nombre) de la actividad.
@@ -180,6 +193,19 @@ public class UserSession
    public boolean isActivityGranted(String activityId)
    {
       return this.securityInfo.isActivityGranted(activityId);
+   }
+   
+   /**
+    * Determina si el usuario propietario de la sesión tiene permiso para ejecutar como mínimo una determinada actividad
+    * de las contenidas en una lista.
+    * 
+    * @param activityList Array de cadenas que contiene los identificadores (nombre) de las actividades.
+    * 
+    * @return {@code true} si el usuario puede ejecutar como mínimo una actividad de las contenidas en la lista o {@code false} en cualquier otro caso.
+    */
+   public boolean isActivityGranted(ArrayList<String> activityList)
+   {
+      return this.securityInfo.isActivityGranted(activityList);
    }
    
    //==============================================
@@ -332,6 +358,31 @@ public class UserSession
          Permission permission = this.permissions.get(activityId);
 
          return permission.isGranted();
+      }
+      
+      /**
+       * Determina si el usuario propietario de la sesión tiene permiso para ejecutar como mínimo una determinada actividad
+       * de las contenidas en una lista.
+       * 
+       * @param activityList Array de cadenas que contiene los identificadores (nombre) de las actividades.
+       * 
+       * @return {@code true} si el usuario puede ejecutar como mínimo una actividad de las contenidas en la lista o {@code false} en cualquier otro caso.
+       */
+      public boolean isActivityGranted(ArrayList<String> activityList)
+      {
+         Permission permission;
+         
+         for (String activityId : activityList)
+         {
+            permission = this.permissions.get(activityId);
+            
+            if (permission != null)
+            {
+               return true;
+            }
+         }
+         
+         return false;
       }
    }
    
