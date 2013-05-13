@@ -1,8 +1,7 @@
 package com.cosmo.security.providers;
 
-import java.io.FileInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.StringReader;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,14 +24,11 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.cosmo.Workspace;
-import com.cosmo.WorkspaceLoadException;
-import com.cosmo.WorkspaceProperties;
 import com.cosmo.data.DataSource;
 import com.cosmo.net.HttpRequestUtils;
 import com.cosmo.security.Agent;
 import com.cosmo.security.User;
 import com.cosmo.security.UserNotFoundException;
-import com.cosmo.util.IOUtils;
 import com.cosmo.util.StringUtils;
 
 /**
@@ -561,8 +557,10 @@ public class CasAuthenticationProvider extends AuthenticationProvider
     * @param responseData Una cadena que contiene la respuesta del servidor CAS (en formato XML).
     * 
     * @return Una instancia de {@link User} que contiene los datos del usuario.
+    * 
+    * @throws Exception 
     */
-   public User getUserDataFromValidation(String responseData)
+   public static User getUserDataFromValidation(String responseData) throws Exception
    {
       Node nNode;
       Node pNode;
@@ -570,19 +568,16 @@ public class CasAuthenticationProvider extends AuthenticationProvider
       Element pElement;
       NodeList nList;
       NodeList pList;
-      DataSource ds;
-      Agent agent;
-      InputStream iStream = null;
       
-      User user = new User();
+      User user = null;
       
       try
       {
-         InputSource is = new InputSource(new StringReader(responseData));
-         
-         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-         Document doc = dBuilder.parse(is);
+         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+         factory.setNamespaceAware(true);
+
+         DocumentBuilder builder = factory.newDocumentBuilder();
+         Document doc = builder.parse(new InputSource(new StringReader(responseData)));
          doc.getDocumentElement().normalize();
 
          // Obtiene el LOGIN del usuario
@@ -609,23 +604,52 @@ public class CasAuthenticationProvider extends AuthenticationProvider
             }
          }
          
-         iStream.close();
+         return user;
       }
       catch (ParserConfigurationException ex)
       {
-         throw new WorkspaceLoadException(ex.getMessage(), ex);
+         throw new Exception(ex.getMessage(), ex);
       }
       catch (SAXException ex)
       {
-         throw new WorkspaceLoadException(ex.getMessage(), ex);
+         throw new Exception(ex.getMessage(), ex);
       }
       catch (IOException ex)
       {
-         throw new WorkspaceLoadException(ex.getMessage(), ex);
+         throw new Exception(ex.getMessage(), ex);
       }
-      finally
+   }
+   
+   public static void main(String[] args)
+   {
+      String str = "<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>\n" +
+                   "<cas:authenticationSuccess>\n" +
+                   "  <cas:user>gllort</cas:user>\n" +
+                   "  <!-- Begin Ldap Attributes -->\n" +
+                   "    <cas:attributes>\n" +
+                   "      <cas:attribute>\n" +
+                   "        <cas:name>mail</cas:name>\n" +
+                   "        <cas:value>gllort@altanet.org</cas:value>\n" +
+                   "      </cas:attribute>\n" +
+                   "      <cas:attribute>\n" +
+                   "        <cas:name>nif</cas:name>\n" +
+                   "        <cas:value>46725607A</cas:value>\n" +
+                   "      </cas:attribute>\n" +
+                   "      <cas:attribute>\n" +
+                   "        <cas:name>nomComplet</cas:name>\n" +
+                   "        <cas:value>Gerard Llort Casanova</cas:value>\n" +
+                   "      </cas:attribute>\n" +
+                   "    </cas:attributes>\n" +
+                   "  </cas:authenticationSuccess>\n" +
+                   "</cas:serviceResponse>";
+      
+      try 
       {
-         IOUtils.closeStream(iStream);
+         System.out.print(getUserDataFromValidation(str));
+      } 
+      catch (Exception e) 
+      {
+         e.printStackTrace();
       }
    }
 }
