@@ -1,6 +1,5 @@
 package com.cosmo.security.providers;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringReader;
 
@@ -9,12 +8,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -24,7 +19,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.cosmo.Workspace;
-import com.cosmo.data.DataSource;
 import com.cosmo.net.HttpRequestUtils;
 import com.cosmo.security.Agent;
 import com.cosmo.security.User;
@@ -39,16 +33,32 @@ import com.cosmo.util.StringUtils;
  */
 public class CasAuthenticationProvider extends AuthenticationProvider 
 {
+   // Parámetros URL
+   private static String URL_PARAM_TICKET = "ticket";
+   private static String URL_PARAM_SERVICE = "service";
+   
+   // Llamadas URL
+   private static final String SERVICE_VALIDATE_URL_PART = "serviceValidate";
+   private static final String LOGIN_URL_PART = "login";
+   
+   // Tags XML para el parseo de las respuestas de CAS
+   private static String TAG_CAS_USER = "user";
+   private static String TAG_CAS_PROPERTY = "attribute";
+   private static String TAG_CAS_ATTRIBNAME = "name";
+   private static String TAG_CAS_ATTRIBVALUE = "value";
+   
+   // Constantes para obtener las propiedades de configuración del agente
+   private static String AGENT_PARAM_CASSERVICE = "cas-service";
+   private static String AGENT_PARAM_SERVICEURL = "service-url";
+   private static String CAS_ATTRIB_MAIL = "cas-attrib-mail";
+   private static String CAS_ATTRIB_COMPLETNAME = "cas-attrib-cname";
+   private static String CAS_ATTRIB_NAME = "cas-attrib-name";
+   private static String CAS_ATTRIB_SURNAME = "cas-attrib-surname";
+   
    private Workspace workspace;
    private Agent agent;
-
-   private static String PARAM_CASSERVICE = "cas-service";
-   private static String PARAM_SERVICEURL = "service-url";
-   
-   private static String URL_PARAM_TICKET = "ticket";
-   
-   private String loginTicket;
    private String serviceTicket;
+   private HttpClient httpClient;
    
    //==============================================
    // Constructors
@@ -61,11 +71,8 @@ public class CasAuthenticationProvider extends AuthenticationProvider
     */
    public CasAuthenticationProvider(Workspace workspace)
    {
-      serviceTicket = "";
-      loginTicket = "";
-      
-      fClient = new HttpClient();
-      
+      this.serviceTicket = "";
+      this.httpClient = new HttpClient();
       this.workspace = workspace;
       this.agent = this.workspace.getProperties().getAuthenticationAgent();
    }
@@ -103,11 +110,13 @@ public class CasAuthenticationProvider extends AuthenticationProvider
    @Override
    public User login(String login, String password) throws UserNotFoundException, AuthenticationProviderException
    {
-      User user = null;
+      return null;
+      
+      /*User user = null;
       
       try
       {
-         fCasUrl = agent.getParamString(PARAM_CASSERVICE);
+         fCasUrl = agent.getParamString(AGENT_PARAM_CASSERVICE);
          
          authenticate(workspace.getRequestedUrl(), login, password);
       }
@@ -116,7 +125,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
          throw new AuthenticationProviderException(ex.getMessage(), ex);
       }
       
-      return user;
+      return user;*/
    }
    
    /**
@@ -150,11 +159,11 @@ public class CasAuthenticationProvider extends AuthenticationProvider
     */
    public String getLoginGatewayUrl()
    {
-      String host = agent.getParamString(PARAM_CASSERVICE).trim();
-      host += (host.endsWith("/") ? "" : "/") + "login";
+      String host = agent.getParamString(AGENT_PARAM_CASSERVICE).trim();
+      host += (host.endsWith("/") ? "" : "/") + LOGIN_URL_PART;
       
       com.cosmo.util.URL url = new com.cosmo.util.URL(host);
-      url.addParameter("service", agent.getParamString(PARAM_SERVICEURL)); // workspace.getRequestedUrl()); 
+      url.addParameter(URL_PARAM_SERVICE, agent.getParamString(AGENT_PARAM_SERVICEURL)); 
       
       return url.toString();
    }
@@ -174,26 +183,268 @@ public class CasAuthenticationProvider extends AuthenticationProvider
    @Override
    public boolean isLoginGatewayValidated(HttpServletRequest request)
    {
-      // Obtiene el ServiceTicket
-      serviceTicket = HttpRequestUtils.getValue(request, URL_PARAM_TICKET);
-
-      if (!StringUtils.isNullOrEmpty(serviceTicket))
+      boolean validated = false;
+      
+      try
       {
-         // Valida el ticket para obtener el LOGIN de usuario
-         String login = validate(agent.getParamString(PARAM_SERVICEURL), serviceTicket);
+         // Obtiene el ServiceTicket
+         serviceTicket = HttpRequestUtils.getValue(request, URL_PARAM_TICKET);
+   
+         if (!StringUtils.isNullOrEmpty(serviceTicket))
+         {
+            // Valida el ticket para obtener el LOGIN de usuario
+            User user = validate(agent.getParamString(AGENT_PARAM_SERVICEURL), serviceTicket);
+            
+            // TODO: Genera la sesión de usuario
+         }
+         
+         validated = (!StringUtils.isNullOrEmpty(serviceTicket));
+      }
+      catch (AuthenticationProviderException ex)
+      {
+         // Omite cualquier acción
       }
       
-      return (!StringUtils.isNullOrEmpty(serviceTicket));
+      return validated;
    }
+   
    
    //==============================================
    // Private members
    //==============================================
    
+   /**
+    * Valida el ticket obtenido del servidor CAS para la URL del servicio (aplicación).
+    * 
+    * @param serviceUrl Una cadena que representa la URL del servicio (aplicación).
+    * @param serviceTicket Una cadena que contiene el Service Ticket obtenido en el retorno de la pantalla de Login. 
+    * 
+    * @return Una instancia de {@link User} si la validación es correcta o {@code null} en cualquier otro caso.
+    * 
+    * @throws AuthenticationProviderException
+    */
+   private User validate(String serviceUrl, String serviceTicket) throws AuthenticationProviderException
+   {
+      User user = null;
+      
+      PostMethod method = new PostMethod(agent.getParamString(AGENT_PARAM_CASSERVICE) + SERVICE_VALIDATE_URL_PART);
+      method.setParameter(URL_PARAM_SERVICE, serviceUrl);
+      method.setParameter(URL_PARAM_TICKET, serviceTicket);
+
+      // String url = method.getQueryString();
+      
+      try
+      {
+         int statusCode = httpClient.executeMethod(method);
+         
+         if (statusCode != HttpStatus.SC_OK)
+         {
+            // LOG.error("Could not validate: " + method.getStatusLine());
+            method.releaseConnection();
+         } 
+         else
+         {   
+            user = getUserDataFromValidation(new String(method.getResponseBody()));
+            // result = extractUser(new String(method.getResponseBody()));
+         }
+      }
+      catch (IOException ex)
+      {
+         throw new AuthenticationProviderException(ex.getMessage(), ex);
+      }
+      catch (AuthenticationProviderException ex)
+      {
+         throw ex;
+      }
+      finally
+      {
+         method.releaseConnection();
+      }
+      
+      return user;
+   }
+   
+   /**
+    * Parsea la respuesta de la validación de ticket de CAS y extrae la información del usuario.
+    * 
+    * @param responseData Una cadena que contiene la respuesta del servidor CAS (en formato XML).
+    * 
+    * @return Una instancia de {@link User} que contiene los datos del usuario.
+    * 
+    * @throws AuthenticationProviderException 
+    */
+   public User getUserDataFromValidation(String responseData) throws AuthenticationProviderException
+   {
+      Node nNode;
+      NodeList nList;
+      String attribName = "";
+      String attribValue = "";
+      
+      User user = null;
+      
+      try
+      {
+         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+         factory.setNamespaceAware(true);
+
+         DocumentBuilder builder = factory.newDocumentBuilder();
+         Document doc = builder.parse(new InputSource(new StringReader(responseData)));
+         doc.getDocumentElement().normalize();
+         
+         // Obtiene el LOGIN del usuario
+         nList = doc.getElementsByTagNameNS("*", TAG_CAS_USER);
+         for (int temp = 0; temp < nList.getLength(); temp++)
+         {
+            nNode = nList.item(0);
+            if (nNode.getNodeType() == Node.ELEMENT_NODE)
+            {
+               user = new User();
+               user.setLogin(nNode.getFirstChild().getNodeValue());
+               break;
+            }
+         }
+         
+         // Si no se ha podido extraer el usuario, se devuelve null 
+         if (user == null)
+         {
+            return user;
+         }
+         
+         // Obtiene las PROPIEDADES del usuario
+         nList = doc.getElementsByTagNameNS("*", TAG_CAS_PROPERTY);
+         for (int temp = 0; temp < nList.getLength(); temp++)
+         {
+            nNode = nList.item(temp);
+            if (nNode.getNodeType() == Node.ELEMENT_NODE)
+            {
+               getResponseAttribute((Element) nNode, attribName, attribValue);
+               setUserAttribute(user, attribName, attribValue);
+            }
+         }
+         
+         return user;
+      }
+      catch (ParserConfigurationException ex)
+      {
+         throw new AuthenticationProviderException(ex.getMessage(), ex);
+      }
+      catch (SAXException ex)
+      {
+         throw new AuthenticationProviderException(ex.getMessage(), ex);
+      }
+      catch (IOException ex)
+      {
+         throw new AuthenticationProviderException(ex.getMessage(), ex);
+      }
+   }
+   
+   /**
+    * Obtiene los valores (nombre y valor) de un atributo de usuario en la respuesta del servidor CAS.
+    * 
+    * @param attribNode Una instancia de {@link Element} que representa el nodo raíz del atributo a leer.
+    * @param name La cadena que se actualizará con el nombre del atributo.
+    * @param value La cadena que se actualizará con el valor del atributo.
+    */
+   private void getResponseAttribute(Element attribNode, String name, String value)
+   {
+      Node node;
+      NodeList nList;
+      
+      nList = attribNode.getElementsByTagNameNS("*", TAG_CAS_ATTRIBNAME);
+      if (nList.getLength() > 0)
+      {
+         node = nList.item(0);
+         name = node.getFirstChild().getNodeValue();
+      }
+      
+      nList = attribNode.getElementsByTagNameNS("*", TAG_CAS_ATTRIBVALUE);
+      if (nList.getLength() > 0)
+      {
+         node = nList.item(0);
+         value = node.getFirstChild().getNodeValue();
+      }
+   }
+   
+   /**
+    * Establece un atributo del usuario.<br />
+    * Si el nombre de la propiedad es desconocida, se omite cualquier acción.
+    * 
+    * @param user La instancia de {@link User} que va a ser actualizada.
+    * @param name Nombre del atributo a actualizar (constantes {@code CAS_ATTRIB_XXXX}).
+    * @param value Valor que va a tomar el atributo.
+    */
+   private void setUserAttribute(User user, String name, String value)
+   {
+      if (agent.getParamString(CAS_ATTRIB_MAIL).equalsIgnoreCase(name))
+      {
+         user.setMail(value);
+         return;
+      }
+
+      if (agent.getParamString(CAS_ATTRIB_NAME).equalsIgnoreCase(name))
+      {
+         user.setName(value);
+         return;
+      }
+      
+      if (agent.getParamString(CAS_ATTRIB_SURNAME).equalsIgnoreCase(name))
+      {
+         user.setName(user.getName() + " " + value);
+         return;
+      }
+      
+      if (agent.getParamString(CAS_ATTRIB_COMPLETNAME).equalsIgnoreCase(name))
+      {
+         user.setName(value);
+         return;
+      }
+   }
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+/*   
+   
+   
+   
    // public static Logger LOG = Logger.getLogger( CasClient.class  );
 
-   public static final String LOGIN_URL_PART = "login";
-   public static final String SERVICE_VALIDATE_URL_PART = "serviceValidate";
+   
    public static final String TICKET_BEGIN = "ticket=";
    private static final String LT_BEGIN = "name=\"lt\" value=\"";
    public static final String CAS_USER_BEGIN = "<cas:user>";
@@ -219,30 +470,9 @@ public class CasAuthenticationProvider extends AuthenticationProvider
    
    
    
-   /**
-    * Construct a new CasClient.
-    *
-    * @param casUrl The base URL of the CAS service to be used.
-    */
-   /*public CasClient( String casBaseUrl )
-   {
-       this( new HttpClient(), casBaseUrl );
-   }*/
+   
   
-   /**
-    * Construct a new CasClient which uses the specified HttpClient
-    * for its HTTP calls.
-    *
-    * @param client
-    * @param casBaseUrl
-    */
-   /*public CasClient( HttpClient client, String casBaseUrl )
-   {
-       fClient = client;
-       fCasUrl = casBaseUrl;
-   }*/
-  
-   /**
+   / **
     * Authenticate the specified username with the specified password.
     * This will not yield any ticket, as no service is authenticated
     * against. This wil just set the CAS cookie in this client upon
@@ -250,20 +480,20 @@ public class CasAuthenticationProvider extends AuthenticationProvider
     *
     * @param username
     * @param password
-    */
+    * /
    public void authenticate(String username, String password)
    {
       authenticate(null, username, password);
    }
   
-   /**
+   / **
     * Authenticate the specified user with the specified password against the specified service.
     *
     * @param serviceUrl May be null. If a url is specified, the authentication will happen against this service, yielding a service ticket which can be validated.
     * @param username
     * @param password
     * @return A valid service ticket, if and only if the specified service URL is not null.
-    */
+    * /
    public String authenticate(String serviceUrl, String username, String password)
    {
       String lt = getLt(serviceUrl);
@@ -278,7 +508,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
        
       method = new PostMethod(fCasUrl + LOGIN_URL_PART);
 
-      /*if (serviceUrl != null) // optional
+      / *if (serviceUrl != null) // optional
       {
          method.setParameter("service", serviceUrl);
       }
@@ -286,7 +516,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
       method.setParameter("username", username);
       method.setParameter("password", password);
       method.setParameter("lt", lt);
-      method.setParameter("gateway", "true");*/
+      method.setParameter("gateway", "true");* /
       
       method.setRequestBody(new NameValuePair[] 
       {
@@ -348,63 +578,14 @@ public class CasAuthenticationProvider extends AuthenticationProvider
       return result;
    }
    
-   /**
-    * Validate the specified service ticket against the specified service.
-    * If the ticket is valid, this will yield the clear text user name
-    * of the autenticated user.<br>
-    * Note that each service ticket issued by CAS can be used exactly once
-    * to validate.
-    *
-    * @param serviceUrl
-    * @param serviceTicket
-    *
-    * @return Clear text username of the authenticated user.
-    */
-   public String validate(String serviceUrl, String serviceTicket)
-   {
-      String result = null;
-      PostMethod method = new PostMethod(agent.getParamString(PARAM_CASSERVICE) + SERVICE_VALIDATE_URL_PART);
-      
-      method.setParameter("service", serviceUrl);
-      method.setParameter("ticket", serviceTicket);
-
-      String url = method.getQueryString();
-      
-      try
-      {
-         int statusCode = fClient.executeMethod(method);
-         
-         if (statusCode != HttpStatus.SC_OK)
-         {
-            // LOG.error("Could not validate: " + method.getStatusLine());
-            method.releaseConnection();
-         } 
-         else
-         {   
-            result = extractUser(new String(method.getResponseBody()));
-         }
-      } 
-      catch (Exception x)
-      {
-         // LOG.error("Could not validate: " + x.toString ());
-         x.printStackTrace();
-      }
-      finally
-      {
-         method.releaseConnection();
-      }
-      
-      System.out.print("CAS USER: " + result);
-      
-      return result;
-   }
+   
   
-   /**
+   / **
     * Helper method to extract the user name from a "service validate" call to CAS.
     *
     * @param data Response data.
     * @return The clear text username, if it could be extracted, null otherwise.
-    */
+    * /
    protected String extractUser(String data)
    {
       int start;
@@ -435,12 +616,12 @@ public class CasAuthenticationProvider extends AuthenticationProvider
       return user;
    }
   
-   /**
+   / **
     * Helper method to extract the service ticket from a login call to CAS.
     *
     * @param data Response data.
     * @return The service ticket, if it could be extracted, null otherwise.
-    */
+    * /
    protected String extractServiceTicket(String data)
    {
       int start;
@@ -457,12 +638,12 @@ public class CasAuthenticationProvider extends AuthenticationProvider
       return serviceTicket;
    }
   
-   /**
+   / **
     * Helper method to extract the LT from a login form from CAS.
     *
     * @param data Response data.
     * @return The LT, if it could be extracted, null otherwise.
-    */
+    * /
    protected String extractLt(String data)
    {
       int start;
@@ -485,7 +666,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
       return token;
    }
   
-   /**
+   / **
     * This method requests the original login form from CAS.
     * This form contains an LT, an initial token that must be
     * presented to CAS upon sending it an authentication request
@@ -497,7 +678,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
     *
     * @param serviceUrl
     * @return The LT token if it could be extracted from the CAS response.
-    */
+    * /
    protected String getLt(String serviceUrl)
    {
        String lt = null;
@@ -541,87 +722,14 @@ public class CasAuthenticationProvider extends AuthenticationProvider
        return lt;
    }
    
-   // Tags XML para el parseo de las respuestas de CAS
-   private static String TAG_CAS_USER = "<cas:user>";
-   private static String TAG_CAS_PROPERTY = "<cas:attribute>";
    
-   // Constantes para el mapeo de propiedades del usuario
-   private static String CAS_ATTRIB_MAIL = "cas-attrib-mail";
-   private static String CAS_ATTRIB_COMPLETNAME = "cas-attrib-cname";
-   private static String CAS_ATTRIB_NAME = "cas-attrib-name";
-   private static String CAS_ATTRIB_SURNAME = "cas-attrib-surname";
    
-   /**
-    * Parsea la respuesta de la validación de ticket de CAS y extrae la información del usuario.
-    * 
-    * @param responseData Una cadena que contiene la respuesta del servidor CAS (en formato XML).
-    * 
-    * @return Una instancia de {@link User} que contiene los datos del usuario.
-    * 
-    * @throws Exception 
-    */
-   public static User getUserDataFromValidation(String responseData) throws Exception
-   {
-      Node nNode;
-      Node pNode;
-      Element eElement;
-      Element pElement;
-      NodeList nList;
-      NodeList pList;
-      
-      User user = null;
-      
-      try
-      {
-         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-         factory.setNamespaceAware(true);
-
-         DocumentBuilder builder = factory.newDocumentBuilder();
-         Document doc = builder.parse(new InputSource(new StringReader(responseData)));
-         doc.getDocumentElement().normalize();
-
-         // Obtiene el LOGIN del usuario
-         nList = doc.getElementsByTagName(CasAuthenticationProvider.TAG_CAS_USER);  // solo devolverá 1 elemento
-         if (nList.getLength() > 0)
-         {
-            nNode = nList.item(0);
-            if (nNode.getNodeType() == Node.ELEMENT_NODE)
-            {
-               eElement = (Element) nNode;
-               user.setLogin(eElement.getNodeValue());
-            }
-         }
-         
-         // Obtiene las PROPIEDADES del usuario
-         nList = doc.getElementsByTagName(CasAuthenticationProvider.TAG_CAS_PROPERTY);
-         for (int temp = 0; temp < nList.getLength(); temp++)
-         {
-            nNode = nList.item(0);
-            if (nNode.getNodeType() == Node.ELEMENT_NODE)
-            {
-               eElement = (Element) nNode;
-               user.setLogin(eElement.getNodeValue());
-            }
-         }
-         
-         return user;
-      }
-      catch (ParserConfigurationException ex)
-      {
-         throw new Exception(ex.getMessage(), ex);
-      }
-      catch (SAXException ex)
-      {
-         throw new Exception(ex.getMessage(), ex);
-      }
-      catch (IOException ex)
-      {
-         throw new Exception(ex.getMessage(), ex);
-      }
-   }
+   
    
    public static void main(String[] args)
    {
+      
+      
       String str = "<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>\n" +
                    "<cas:authenticationSuccess>\n" +
                    "  <cas:user>gllort</cas:user>\n" +
@@ -652,4 +760,6 @@ public class CasAuthenticationProvider extends AuthenticationProvider
          e.printStackTrace();
       }
    }
+   
+   */
 }
