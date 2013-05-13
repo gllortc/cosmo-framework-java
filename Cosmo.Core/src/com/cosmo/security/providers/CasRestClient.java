@@ -31,7 +31,7 @@ public class CasRestClient
    
    public static void main(String [] args)
    {
-      CasRestClient cas = new CasRestClient("https://developsc.intranet.dtgna:8443/cas-dipta/", "http://localhost:8080/Cosmo.Web");
+      CasRestClient cas = new CasRestClient("https://localhost:8443/cas-server-webapp-3.5.2/", "http://localhost:8080/Cosmo.Web");
       cas.authenticate("gllort", "dbag103");
    }
    
