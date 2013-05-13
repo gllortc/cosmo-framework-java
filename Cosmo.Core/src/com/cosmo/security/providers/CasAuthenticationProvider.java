@@ -1,6 +1,14 @@
 package com.cosmo.security.providers;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
@@ -9,12 +17,22 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import com.cosmo.Workspace;
+import com.cosmo.WorkspaceLoadException;
+import com.cosmo.WorkspaceProperties;
+import com.cosmo.data.DataSource;
 import com.cosmo.net.HttpRequestUtils;
 import com.cosmo.security.Agent;
 import com.cosmo.security.User;
 import com.cosmo.security.UserNotFoundException;
+import com.cosmo.util.IOUtils;
 import com.cosmo.util.StringUtils;
 
 /**
@@ -140,7 +158,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
       host += (host.endsWith("/") ? "" : "/") + "login";
       
       com.cosmo.util.URL url = new com.cosmo.util.URL(host);
-      url.addParameter("service", workspace.getRequestedUrl()); // agent.getParamString(PARAM_SERVICEURL));
+      url.addParameter("service", agent.getParamString(PARAM_SERVICEURL)); // workspace.getRequestedUrl()); 
       
       return url.toString();
    }
@@ -525,5 +543,89 @@ public class CasAuthenticationProvider extends AuthenticationProvider
        }
        
        return lt;
+   }
+   
+   // Tags XML para el parseo de las respuestas de CAS
+   private static String TAG_CAS_USER = "<cas:user>";
+   private static String TAG_CAS_PROPERTY = "<cas:attribute>";
+   
+   // Constantes para el mapeo de propiedades del usuario
+   private static String CAS_ATTRIB_MAIL = "cas-attrib-mail";
+   private static String CAS_ATTRIB_COMPLETNAME = "cas-attrib-cname";
+   private static String CAS_ATTRIB_NAME = "cas-attrib-name";
+   private static String CAS_ATTRIB_SURNAME = "cas-attrib-surname";
+   
+   /**
+    * Parsea la respuesta de la validación de ticket de CAS y extrae la información del usuario.
+    * 
+    * @param responseData Una cadena que contiene la respuesta del servidor CAS (en formato XML).
+    * 
+    * @return Una instancia de {@link User} que contiene los datos del usuario.
+    */
+   public User getUserDataFromValidation(String responseData)
+   {
+      Node nNode;
+      Node pNode;
+      Element eElement;
+      Element pElement;
+      NodeList nList;
+      NodeList pList;
+      DataSource ds;
+      Agent agent;
+      InputStream iStream = null;
+      
+      User user = new User();
+      
+      try
+      {
+         InputSource is = new InputSource(new StringReader(responseData));
+         
+         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+         Document doc = dBuilder.parse(is);
+         doc.getDocumentElement().normalize();
+
+         // Obtiene el LOGIN del usuario
+         nList = doc.getElementsByTagName(CasAuthenticationProvider.TAG_CAS_USER);  // solo devolverá 1 elemento
+         if (nList.getLength() > 0)
+         {
+            nNode = nList.item(0);
+            if (nNode.getNodeType() == Node.ELEMENT_NODE)
+            {
+               eElement = (Element) nNode;
+               user.setLogin(eElement.getNodeValue());
+            }
+         }
+         
+         // Obtiene las PROPIEDADES del usuario
+         nList = doc.getElementsByTagName(CasAuthenticationProvider.TAG_CAS_PROPERTY);
+         for (int temp = 0; temp < nList.getLength(); temp++)
+         {
+            nNode = nList.item(0);
+            if (nNode.getNodeType() == Node.ELEMENT_NODE)
+            {
+               eElement = (Element) nNode;
+               user.setLogin(eElement.getNodeValue());
+            }
+         }
+         
+         iStream.close();
+      }
+      catch (ParserConfigurationException ex)
+      {
+         throw new WorkspaceLoadException(ex.getMessage(), ex);
+      }
+      catch (SAXException ex)
+      {
+         throw new WorkspaceLoadException(ex.getMessage(), ex);
+      }
+      catch (IOException ex)
+      {
+         throw new WorkspaceLoadException(ex.getMessage(), ex);
+      }
+      finally
+      {
+         IOUtils.closeStream(iStream);
+      }
    }
 }
