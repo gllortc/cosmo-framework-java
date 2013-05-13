@@ -181,9 +181,18 @@ public class PostgreSqlAuthenticationProvider extends AuthenticationProvider
       return false;
    }
    
-   public boolean isLoginGatewayValidated(HttpServletRequest request)
+   /**
+    * Detecta si una autenticación delegada (Login Gateway) ha sido exitosa.<br />
+    * Las clases que extiendan a {@link AuthenticationProvider} serán responsables de obtener los datos del usuario 
+    * autenticado en el sistema externo, ya sea mediante servicios REST u otros mecanismos.
+    * 
+    * @param request Una instancia de {@link HttpServletRequest} que cotniene el contexto de la llamada.
+    * 
+    * @return Una instancia de {@link User} que contiene las propiedades del usuario autenticado o {@code null} en cualquier otro caso. 
+    */
+   public User isLoginGatewayValidated(HttpServletRequest request)
    {
-      return false;
+      return null;
    }
    
    /**

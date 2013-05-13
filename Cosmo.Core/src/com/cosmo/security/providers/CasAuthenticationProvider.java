@@ -170,21 +170,16 @@ public class CasAuthenticationProvider extends AuthenticationProvider
    
    /**
     * Detecta si una autenticación delegada (Login Gateway) ha sido exitosa.<br />
-    * Las clases que extiendan a {@link AuthenticationProvider} serán responsables de obtener los datos del usuario autenticado
-    * en el sistema externo, ya sea mediante servicios REST u otros mecanismos.
-    * 
-    * @see Detalls del protocol: https://wiki.jasig.org/display/CAS/CAS+Functional+Tests
-    * @see Detalls del protocol amb proxy: https://wiki.jasig.org/display/CAS/Proxy+CAS+Walkthrough
+    * Las clases que extiendan a {@link AuthenticationProvider} serán responsables de obtener los datos del usuario 
+    * autenticado en el sistema externo, ya sea mediante servicios REST u otros mecanismos.
     * 
     * @param request Una instancia de {@link HttpServletRequest} que cotniene el contexto de la llamada.
     * 
-    * @return {@code true} si detecta que la autenticación ha tenido éxito o {@code false} en cualquier otro caso. 
+    * @return Una instancia de {@link User} que contiene las propiedades del usuario autenticado o {@code null} en cualquier otro caso. 
     */
    @Override
-   public boolean isLoginGatewayValidated(HttpServletRequest request)
+   public User isLoginGatewayValidated(HttpServletRequest request)
    {
-      boolean validated = false;
-      
       try
       {
          // Obtiene el ServiceTicket
@@ -192,20 +187,18 @@ public class CasAuthenticationProvider extends AuthenticationProvider
    
          if (!StringUtils.isNullOrEmpty(serviceTicket))
          {
-            // Valida el ticket para obtener el LOGIN de usuario
-            User user = validate(agent.getParamString(AGENT_PARAM_SERVICEURL), serviceTicket);
-            
-            // TODO: Genera la sesión de usuario
+            // Valida el ticket y obtiene una instancia con las propiedades del usuario
+            return validate(agent.getParamString(AGENT_PARAM_SERVICEURL), serviceTicket);
          }
-         
-         validated = (!StringUtils.isNullOrEmpty(serviceTicket));
+         else
+         {
+            return null;
+         }
       }
       catch (AuthenticationProviderException ex)
       {
-         // Omite cualquier acción
+         return null;
       }
-      
-      return validated;
    }
    
    
@@ -230,8 +223,6 @@ public class CasAuthenticationProvider extends AuthenticationProvider
       PostMethod method = new PostMethod(agent.getParamString(AGENT_PARAM_CASSERVICE) + SERVICE_VALIDATE_URL_PART);
       method.setParameter(URL_PARAM_SERVICE, serviceUrl);
       method.setParameter(URL_PARAM_TICKET, serviceTicket);
-
-      // String url = method.getQueryString();
       
       try
       {
@@ -239,8 +230,8 @@ public class CasAuthenticationProvider extends AuthenticationProvider
          
          if (statusCode != HttpStatus.SC_OK)
          {
-            // LOG.error("Could not validate: " + method.getStatusLine());
             method.releaseConnection();
+            throw new AuthenticationProviderException("El servidor de CAS no ha respondido correctamente a la llamada de validación de la autenticación (CAS ticket=" + serviceTicket + ").");
          } 
          else
          {   
