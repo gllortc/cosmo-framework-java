@@ -76,8 +76,11 @@
       </authentication-agent>
       
       <authentication-agent id="cas" driver="com.cosmo.security.providers.CasAuthenticationProvider">
+         <!-- <param key="cas-service" value="http://localhost:8080/cas-server-webapp-3.5.2/" /> -->
          <param key="cas-service" value="https://developsc.intranet.dtgna:8443/cas-dipta/" />
-         <param key="service-url" value="http://localhost:8080/Cosmo.Web" />
+         <param key="service-url" value="http://localhost:8080/Cosmo.Web/SecretPage" />
+         <param key="cas-attrib-mail" value="mail" />
+         <param key="cas-attrib-cname" value="nomComplet" />
       </authentication-agent>
       
       <authorization-agent id="rdbms" driver="com.cosmo.security.providers.PostgreSqlAuthorizationProvider">
