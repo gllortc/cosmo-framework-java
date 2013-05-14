@@ -9,11 +9,14 @@ import javax.servlet.http.HttpServletResponse;
 import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
 import com.cosmo.security.NotAuthorizedException;
+import com.cosmo.security.User;
+import com.cosmo.security.UserNotFoundException;
 import com.cosmo.security.annotations.ActivitiesAllowed;
 import com.cosmo.security.annotations.RolesAllowed;
 import com.cosmo.security.annotations.SessionRequired;
 import com.cosmo.security.providers.AuthenticationProvider;
-import com.cosmo.util.StringUtils;
+import com.cosmo.security.providers.AuthenticationProviderException;
+import com.cosmo.security.providers.AuthorizationProviderException;
 import com.cosmo.util.URL;
 
 /**
@@ -24,6 +27,11 @@ import com.cosmo.util.URL;
 public class PageSecurity 
 {
    /**
+    * Constructor de la clase.
+    */
+   public PageSecurity() { }
+   
+   /**
     * Chequea la seguridad de una página y activa los mecanismos necesarios.
     * 
     * @param page Una instancia de {@link Page} que representa la página a comprobar.
@@ -31,8 +39,11 @@ public class PageSecurity
     * 
     * @throws IOException 
     * @throws NotAuthorizedException 
+    * @throws AuthenticationProviderException 
+    * @throws AuthorizationProviderException 
+    * @throws UserNotFoundException 
     */
-   public void checkPageSecurity(Page page, Workspace workspace, HttpServletRequest request, HttpServletResponse response) throws IOException, NotAuthorizedException
+   public void checkPageSecurity(Page page, Workspace workspace, HttpServletRequest request, HttpServletResponse response) throws IOException, NotAuthorizedException, AuthenticationProviderException, UserNotFoundException, AuthorizationProviderException
    {
       //----------------------
       // Autenticación
@@ -47,11 +58,36 @@ public class PageSecurity
       // Comprueba si existe autenticación (obligatorio)
       if (!workspace.isValidUserSession())
       {
-         sendLoginRedirect(workspace, request, response);
+         AuthenticationProvider auth = AuthenticationProvider.getInstance(workspace);
+         if (auth.isLoginGatewayRequired()) 
+         {
+            // Comprueba si la llamada es una respuesta de autenticación (retorno de login)
+            if (auth.isLoginGatewayResponse(request))
+            {
+               // Obtiene el usuario y genera una nueva sesión
+               User user = auth.getLoginGatewayUser(request);
+               
+               if (user == null)
+               {
+                  throw new AuthenticationProviderException("El proveedor de seguridad no pudo obtener las credenciales del usuario autenticado. La autenticación ha fallado.");
+               }
+               
+               workspace.createSession(user);
+            }
+            else
+            {
+               // Redirige hacia el mecanismo de login
+               sendLoginGatewayRedirect(workspace, auth, response);
+            }
+         }
+         else
+         {
+            // Redirige hacia la pantalla de login
+            sendLoginRedirect(workspace, response);
+         }
+         
          return;
       }
-      
-      
       
       //----------------------
       // Anotaciones
@@ -82,24 +118,44 @@ public class PageSecurity
    }
 
    /**
+    * Redirecciona el flujo hacia la pantalla (o mecanismo) de login mediante Login gateway.
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual. 
+    * @param auth Una instancia de {@link AuthenticationProvider} que proporciona la funcionalidad específica del agente para redireccionar.
+    * @param response Una instancia de {@link HttpServletResponse} que representa la respuesta en el contexto.
+    * 
+    * @throws IOException
+    */
+   private void sendLoginGatewayRedirect(Workspace workspace, AuthenticationProvider auth, HttpServletResponse response) throws IOException
+   {
+      response.sendRedirect(auth.getLoginGatewayUrl());
+   }
+   
+   /**
     * Envia una redirección hacia el mecanismo de authenticación (login).
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     * 
     * @throws IOException 
     */
-   private void sendLoginRedirect(Workspace workspace, HttpServletRequest request, HttpServletResponse response) throws IOException
+   private void sendLoginRedirect(Workspace workspace, HttpServletResponse response) throws IOException
    {
-      URL url = new URL(workspace.getProperties().getLoginPage());
+      URL url;
       
+      url = new URL(workspace.getProperties().getLoginPage());
+      url.addParameter(Cosmo.URL_PARAM_TOURL, workspace.getRequestedUrl());
+      
+      // Redirecciona la página al servlet de LOGIN.
+      response.sendRedirect(url.toString(workspace.getCharset()));
+      
+      /*
       // Determina si existe una dirección de origen
       try
       {
          
-         AuthenticationProvider auth = AuthenticationProvider.getInstance(workspace);
+         // AuthenticationProvider auth = AuthenticationProvider.getInstance(workspace);
          
-         // AQUÍ????
-         if (auth.isLoginGatewayRequired() && auth.isLoginGatewayValidated(request))
+         if (auth.isLoginGatewayRequired() && auth.getLoginGatewayUser(request))
          {
             workspace.createSession("gllort");
             
@@ -115,19 +171,16 @@ public class PageSecurity
             
             String urlSource = request.getRequestURL().toString();
             url.addParameter(Cosmo.URL_PARAM_TOURL, urlSource);
-         }
+         } 
          
          // HttpServletRequest request = getWorkspace().getServerRequest();
-         String urlSource = request.getRequestURL().toString();
-         url.addParameter(Cosmo.URL_PARAM_TOURL, urlSource);
+         // String urlSource = request.getRequestURL().toString();
+         // url.addParameter(Cosmo.URL_PARAM_TOURL, workspace.getRequestedUrl()); //  urlSource);
       }
       catch (Exception ex)
       {
          // No lo tiene en cuenta
-      }
-
-      // Redirecciona la página al servlet de LOGIN.
-      response.sendRedirect(url.toString(workspace.getCharset()));
+      } */
    }
    
    /**

@@ -64,6 +64,36 @@ public class UserSession
    }
    
    /**
+    * Constructor de la clase.
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
+    * @param user Una instancia de {@link User} que representa el usuario para el que se desea crear la sesión.
+    * 
+    * @throws UserNotFoundException
+    * @throws AuthenticationProviderException
+    * @throws AuthorizationProviderException
+    */
+   public UserSession(Workspace workspace, User user) throws UserNotFoundException, AuthenticationProviderException, AuthorizationProviderException
+   {
+      initialize();
+      
+      this.workspace = workspace;
+      
+      // Autenticación
+      this.currentUser = user;
+         
+      // Instancia el proveedor de seguridad
+      AuthorizationProvider authorizationProvider = AuthorizationProvider.getInstance(workspace);
+         
+      if (authorizationProvider != null)
+      {
+         // Obtiene la información de seguridad para el usuario autenticado
+         this.securityInfo = new SecurityInfo();
+         authorizationProvider.loadAuthorizationData(user.getLogin(), this.securityInfo);
+      }
+   }
+   
+   /**
     * Constructor de la clase.<br />
     * Este contructor crea una sesión de usuario sin autenticar y sirve exclusivamente cuando se delega la página de login
     * a otro servicio externo mediante LoginGateway (por ejemplo, Jasig CAS).
@@ -73,7 +103,7 @@ public class UserSession
     * 
     * @throws AuthorizationProviderException
     */
-   public UserSession(Workspace workspace, String login) throws AuthorizationProviderException
+   /*public UserSession(Workspace workspace, String login) throws AuthorizationProviderException
    {
       this.currentUser = new User();
       this.currentUser.setLogin(login);
@@ -88,7 +118,7 @@ public class UserSession
          this.securityInfo = new SecurityInfo();
          authorizationProvider.loadAuthorizationData(login, this.securityInfo);
       }
-   }
+   }*/
    
    //==============================================
    // Properties

@@ -109,6 +109,18 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
    }
    
    /**
+    * Indica si una respuesta corresponde al retorno de la acción de login.
+    * 
+    * @param request Una instancia de {@link HttpServletRequest} que cotniene el contexto de la llamada.
+    * 
+    * @return {@code true} si la petición corresponde al retorno de la pantalla de login o {@coe false} en cualquier otro caso.
+    */
+   public boolean isLoginGatewayResponse(HttpServletRequest request)
+   {
+      return false;
+   }
+   
+   /**
     * Devuelve la URL usada para la autenticación de usuarios.
     */
    public String getLoginGatewayUrl()
@@ -125,7 +137,7 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
     * 
     * @return Una instancia de {@link User} que contiene las propiedades del usuario autenticado o {@code null} en cualquier otro caso. 
     */
-   public User isLoginGatewayValidated(HttpServletRequest request)
+   public User getLoginGatewayUser(HttpServletRequest request)
    {
       return null;
    }

@@ -2,6 +2,7 @@ package com.cosmo.security.providers;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.AbstractMap.SimpleEntry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilder;
@@ -24,6 +25,7 @@ import com.cosmo.security.Agent;
 import com.cosmo.security.User;
 import com.cosmo.security.UserNotFoundException;
 import com.cosmo.util.StringUtils;
+import com.cosmo.util.URL;
 
 /**
  * Proveedor de seguridad nativo de Cosmo.<br />
@@ -155,14 +157,25 @@ public class CasAuthenticationProvider extends AuthenticationProvider
    }
    
    /**
+    * Indica si una respuesta corresponde al retorno de la acción de login.
+    * 
+    * @param request Una instancia de {@link HttpServletRequest} que cotniene el contexto de la llamada.
+    * 
+    * @return {@code true} si la petición corresponde al retorno de la pantalla de login o {@coe false} en cualquier otro caso.
+    */
+   public boolean isLoginGatewayResponse(HttpServletRequest request)
+   {
+      String st = HttpRequestUtils.getValue(request, URL_PARAM_TICKET);
+      return (st != null && !st.isEmpty());
+   }
+   
+   /**
     * Devuelve la URL usada para la autenticación de usuarios.
     */
    public String getLoginGatewayUrl()
    {
-      String host = agent.getParamString(AGENT_PARAM_CASSERVICE).trim();
-      host += (host.endsWith("/") ? "" : "/") + LOGIN_URL_PART;
-      
-      com.cosmo.util.URL url = new com.cosmo.util.URL(host);
+      URL url = new URL(agent.getParamString(AGENT_PARAM_CASSERVICE).trim());
+      url.addFolder(LOGIN_URL_PART);
       url.addParameter(URL_PARAM_SERVICE, agent.getParamString(AGENT_PARAM_SERVICEURL)); 
       
       return url.toString();
@@ -178,7 +191,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
     * @return Una instancia de {@link User} que contiene las propiedades del usuario autenticado o {@code null} en cualquier otro caso. 
     */
    @Override
-   public User isLoginGatewayValidated(HttpServletRequest request)
+   public User getLoginGatewayUser(HttpServletRequest request)
    {
       try
       {
@@ -220,7 +233,12 @@ public class CasAuthenticationProvider extends AuthenticationProvider
    {
       User user = null;
       
-      PostMethod method = new PostMethod(agent.getParamString(AGENT_PARAM_CASSERVICE) + SERVICE_VALIDATE_URL_PART);
+      URL url = new URL(agent.getParamString(AGENT_PARAM_CASSERVICE));
+      url.addFolder(SERVICE_VALIDATE_URL_PART);
+      
+      String toUrl = url.toString();
+      
+      PostMethod method = new PostMethod(toUrl);
       method.setParameter(URL_PARAM_SERVICE, serviceUrl);
       method.setParameter(URL_PARAM_TICKET, serviceTicket);
       
@@ -268,9 +286,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
    {
       Node nNode;
       NodeList nList;
-      String attribName = "";
-      String attribValue = "";
-      
+      SimpleEntry<String, String> attrib = null;
       User user = null;
       
       try
@@ -308,8 +324,8 @@ public class CasAuthenticationProvider extends AuthenticationProvider
             nNode = nList.item(temp);
             if (nNode.getNodeType() == Node.ELEMENT_NODE)
             {
-               getResponseAttribute((Element) nNode, attribName, attribValue);
-               setUserAttribute(user, attribName, attribValue);
+               attrib = getResponseAttribute((Element) nNode);
+               setUserAttribute(user, attrib.getKey(), attrib.getValue());
             }
          }
          
@@ -336,8 +352,10 @@ public class CasAuthenticationProvider extends AuthenticationProvider
     * @param name La cadena que se actualizará con el nombre del atributo.
     * @param value La cadena que se actualizará con el valor del atributo.
     */
-   private void getResponseAttribute(Element attribNode, String name, String value)
+   private SimpleEntry<String, String> getResponseAttribute(Element attribNode)
    {
+      String name = "";
+      String value = "";
       Node node;
       NodeList nList;
       
@@ -354,6 +372,15 @@ public class CasAuthenticationProvider extends AuthenticationProvider
          node = nList.item(0);
          value = node.getFirstChild().getNodeValue();
       }
+
+      if (!name.isEmpty())
+      {
+         return new SimpleEntry<String, String>(name, value);
+      }
+      else
+      {
+         return null;
+      }
    }
    
    /**
@@ -366,25 +393,29 @@ public class CasAuthenticationProvider extends AuthenticationProvider
     */
    private void setUserAttribute(User user, String name, String value)
    {
-      if (agent.getParamString(CAS_ATTRIB_MAIL).equalsIgnoreCase(name))
+      if (agent.getParamString(CAS_ATTRIB_MAIL) != null && 
+          agent.getParamString(CAS_ATTRIB_MAIL).equalsIgnoreCase(name))
       {
          user.setMail(value);
          return;
       }
 
-      if (agent.getParamString(CAS_ATTRIB_NAME).equalsIgnoreCase(name))
+      if (agent.getParamString(CAS_ATTRIB_NAME) != null && 
+          agent.getParamString(CAS_ATTRIB_NAME).equalsIgnoreCase(name))
       {
          user.setName(value);
          return;
       }
       
-      if (agent.getParamString(CAS_ATTRIB_SURNAME).equalsIgnoreCase(name))
+      if (agent.getParamString(CAS_ATTRIB_SURNAME) != null && 
+          agent.getParamString(CAS_ATTRIB_SURNAME).equalsIgnoreCase(name))
       {
          user.setName(user.getName() + " " + value);
          return;
       }
       
-      if (agent.getParamString(CAS_ATTRIB_COMPLETNAME).equalsIgnoreCase(name))
+      if (agent.getParamString(CAS_ATTRIB_COMPLETNAME) != null && 
+          agent.getParamString(CAS_ATTRIB_COMPLETNAME).equalsIgnoreCase(name))
       {
          user.setName(value);
          return;

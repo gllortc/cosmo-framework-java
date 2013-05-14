@@ -32,6 +32,7 @@ public abstract class AuthenticationProvider
     * 
     * @param login Login del usuario.
     * @param password Contraseña (sin encriptar) del usuario.
+    * 
     * @return Una instancia de {@link User} que representa el usuario al que corresponden las credenciales proporcionadas.
     * 
     * @throws UserNotFoundException
@@ -60,6 +61,15 @@ public abstract class AuthenticationProvider
    public abstract String getLoginGatewayUrl();
    
    /**
+    * Indica si una respuesta corresponde al retorno de la acción de login.
+    * 
+    * @param request Una instancia de {@link HttpServletRequest} que cotniene el contexto de la llamada.
+    * 
+    * @return {@code true} si la petición corresponde al retorno de la pantalla de login o {@coe false} en cualquier otro caso.
+    */
+   public abstract boolean isLoginGatewayResponse(HttpServletRequest request);
+   
+   /**
     * Detecta si una autenticación delegada (Login Gateway) ha sido exitosa.<br />
     * Las clases que extiendan a {@link AuthenticationProvider} serán responsables de obtener los datos del usuario 
     * autenticado en el sistema externo, ya sea mediante servicios REST u otros mecanismos.
@@ -68,7 +78,7 @@ public abstract class AuthenticationProvider
     * 
     * @return Una instancia de {@link User} que contiene las propiedades del usuario autenticado o {@code null} en cualquier otro caso. 
     */
-   public abstract User isLoginGatewayValidated(HttpServletRequest request);
+   public abstract User getLoginGatewayUser(HttpServletRequest request);
    
    
    //==============================================
@@ -80,6 +90,7 @@ public abstract class AuthenticationProvider
     * el proveedor de autenticación de usuarios cargado.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
+    * 
     * @return Una instancia única de {@link AuthenticationProvider} (sigleton).
     * 
     * @throws AuthenticationProviderException 
@@ -103,6 +114,7 @@ public abstract class AuthenticationProvider
     * Convierte el estado de un usuario a un valor numérico usable en soportes como BBDD, archivos, etc.
     * 
     * @param state Un elemento de la enumeración {@link UserStates}.
+    * 
     * @return El valor numérico equivalente al estado proporcionado.
     */
    public static int statusToNumber(UserStates state)

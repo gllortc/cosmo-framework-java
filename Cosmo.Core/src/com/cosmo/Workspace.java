@@ -216,7 +216,7 @@ public class Workspace
     */
    public void createSession(User user) throws UserNotFoundException, AuthenticationProviderException, AuthorizationProviderException
    {
-      createSession(user.getLogin(), user.getPwd());
+      this.usrSession = new UserSession(this, user);
    }
 
    /**
@@ -234,19 +234,6 @@ public class Workspace
       this.usrSession = new UserSession(this, login, password);
    }
    
-   /**
-    * Crea una sesión de usuario sin validación de login.
-    * 
-    * @param login Login del usuario a autenticar.
-    * 
-    * @throws UserNotFoundException
-    * @throws AuthenticationProviderException 
-    * @throws AuthorizationProviderException 
-    */
-   public void createSession(String login) throws AuthorizationProviderException
-   {
-      this.usrSession = new UserSession(this, login);
-   }
    
    //==============================================
    // Private members

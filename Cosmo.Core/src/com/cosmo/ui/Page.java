@@ -14,10 +14,13 @@ import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
 import com.cosmo.WorkspaceLoadException;
 import com.cosmo.WorkspaceProvider;
-import com.cosmo.security.annotations.ActivitiesAllowed;
-import com.cosmo.security.annotations.RolesAllowed;
+import com.cosmo.security.NotAuthorizedException;
+import com.cosmo.security.User;
+import com.cosmo.security.UserNotFoundException;
 import com.cosmo.security.annotations.SessionRequired;
 import com.cosmo.security.providers.AuthenticationProvider;
+import com.cosmo.security.providers.AuthenticationProviderException;
+import com.cosmo.security.providers.AuthorizationProviderException;
 import com.cosmo.ui.controls.Control;
 import com.cosmo.ui.controls.FormControl;
 import com.cosmo.ui.render.LoadPageRenderException;
@@ -453,16 +456,24 @@ public abstract class Page extends HttpServlet implements PageInterface
          {
             AuthenticationProvider auth = AuthenticationProvider.getInstance(workspace);
             
-            if (auth.isLoginGatewayRequired() && auth.isLoginGatewayValidated(request))
+            if (auth.isLoginGatewayRequired()) // && auth.isLoginGatewayValidated(request))
             {
-               getWorkspace().createSession("gllort");
-               
-               return false;
+               if (auth.isLoginGatewayResponse(request))
+               {
+                  User user = auth.getLoginGatewayUser(request);
+                  workspace.createSession(user);
+
+                  return true;
+               }
+               else
+               {
+                  toUrl = auth.getLoginGatewayUrl();
+               }
             }
-            else if (auth.isLoginGatewayRequired())
+            /*else if (auth.isLoginGatewayRequired())
             {
                toUrl = auth.getLoginGatewayUrl();
-            }
+            }*/
             else
             {
                URL url = new URL(getWorkspace().getProperties().getLoginPage());
@@ -517,8 +528,12 @@ public abstract class Page extends HttpServlet implements PageInterface
     * @throws TemplateUnavailableException
     * @throws TemplateLoadException
     * @throws MenuProviderException
+    * @throws AuthorizationProviderException 
+    * @throws UserNotFoundException 
+    * @throws AuthenticationProviderException 
+    * @throws NotAuthorizedException 
     */
-   private void createPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, WorkspaceLoadException, RulesLoadException, TemplateUnavailableException, TemplateLoadException, MenuProviderException
+   private void createPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, WorkspaceLoadException, RulesLoadException, TemplateUnavailableException, TemplateLoadException, MenuProviderException, NotAuthorizedException, AuthenticationProviderException, UserNotFoundException, AuthorizationProviderException
    {
       long startTime = System.currentTimeMillis();
       
@@ -526,10 +541,13 @@ public abstract class Page extends HttpServlet implements PageInterface
       this.workspace = WorkspaceProvider.getWorkspace(getServletContext(), request, response);
 
       // Comprueba si el usuario puede ver la página
-      if (checkSecurity(request, response))
+      PageSecurity psec = new PageSecurity();
+      psec.checkPageSecurity(this, workspace, request, response);
+      
+      /*if (checkSecurity(request, response))
       {
          return;  // Evita la excepción java.lang.IllegalStateException
-      }
+      }*/
       
       // Lanza el evento initPageEvent sólo si es la primera vez que se accede a la página
       if (!init)

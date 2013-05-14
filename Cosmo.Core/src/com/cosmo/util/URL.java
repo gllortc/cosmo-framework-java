@@ -58,6 +58,16 @@ public class URL
    //==============================================
 
    /**
+    * Agrega una nueva carpeta a la URL.
+    * 
+    * @param name Una cadena que contiene el nombre de la carpeta a agregar a la URL.
+    */
+   public void addFolder(String name)
+   {
+      this.url += (this.url.endsWith("/") ? "" : "/") + name;
+   }
+   
+   /**
     * Agrega un nuevo parámetro a la URL.
     * 
     * @param name Nombre del parámetro.
@@ -164,20 +174,25 @@ public class URL
       String url = "";
       String encodedValue;
       
-      url += this.url + URL.TOKEN_PARAM_INIT;
-      for (UrlParameter param : this.params)
+      url = this.url;
+      
+      if (!this.params.isEmpty())
       {
-         try 
+         url += URL.TOKEN_PARAM_INIT;
+         for (UrlParameter param : this.params)
          {
-            encodedValue =  (param.value == null ? "" : URLEncoder.encode(param.value, enc));
-         } 
-         catch (Exception e) 
-         {
-            encodedValue =  param.value;
+            try 
+            {
+               encodedValue =  (param.value == null ? "" : URLEncoder.encode(param.value, enc));
+            } 
+            catch (Exception e) 
+            {
+               encodedValue =  param.value;
+            }
+            
+            url += (first ? "" : URL.TOKEN_PARAM_SEPARATOR) + param.name + "=" + encodedValue;
+            first = false;
          }
-         
-         url += (first ? "" : URL.TOKEN_PARAM_SEPARATOR) + param.name + "=" + encodedValue;
-         first = false;
       }
       
       return url;
