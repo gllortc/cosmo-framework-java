@@ -233,8 +233,8 @@ public class Workspace
    {
       this.usrSession = new UserSession(this, login, password);
    }
-   
-   
+
+
    //==============================================
    // Private members
    //==============================================
@@ -286,7 +286,7 @@ public class Workspace
       this.name = "";
       this.mail = "";
    }
-   
+
    private String getRequestedUrl(HttpServletRequest request) 
    {
       StringBuffer requestURL = request.getRequestURL();
