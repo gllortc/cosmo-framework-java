@@ -112,22 +112,8 @@ public class CasAuthenticationProvider extends AuthenticationProvider
    @Override
    public User login(String login, String password) throws UserNotFoundException, AuthenticationProviderException
    {
+      // Este agente usa Login Gateway por lo que este método no se invocará nunca.
       return null;
-      
-      /*User user = null;
-      
-      try
-      {
-         fCasUrl = agent.getParamString(AGENT_PARAM_CASSERVICE);
-         
-         authenticate(workspace.getRequestedUrl(), login, password);
-      }
-      catch (Exception ex)
-      {
-         throw new AuthenticationProviderException(ex.getMessage(), ex);
-      }
-      
-      return user;*/
    }
    
    /**
