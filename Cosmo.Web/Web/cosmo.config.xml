@@ -55,7 +55,7 @@
 
    </connections>
    
-   <security authentication-agent="cas" authorization-agent="rdbms" login-page="LoginPage">
+   <security authentication-agent="cas" authorization-agent="" login-page="LoginPage">
       
       <authentication-agent id="rdbms" driver="com.cosmo.security.providers.PostgreSqlAuthenticationProvider">
          <param key="connection" value="cosmo.server" />
@@ -63,7 +63,7 @@
          <param key="lockTimeout" value="60" />
          <param key="lockAttempts" value="3" />
       </authentication-agent>
-      
+
       <authentication-agent id="ldap" driver="com.cosmo.security.providers.LdapAuthenticationProvider">
          <param key="context-factory" value="com.sun.jndi.ldap.LdapCtxFactory" />
          <param key="host-url" value="ldap.testathon.net" />
@@ -76,9 +76,8 @@
       </authentication-agent>
       
       <authentication-agent id="cas" driver="com.cosmo.security.providers.CasAuthenticationProvider">
-         <!-- <param key="cas-service" value="http://localhost:8080/cas-server-webapp-3.5.2/" /> -->
-         <param key="cas-service" value="https://developsc.intranet.dtgna:8443/cas-dipta/" />
          <param key="service-url" value="http://localhost:8080/Cosmo.Web/SecretPage" />
+         <param key="cas-service" value="https://developsc.intranet.dtgna:8443/cas-dipta/" />
          <param key="cas-attrib-mail" value="mail" />
          <param key="cas-attrib-cname" value="nomComplet" />
       </authentication-agent>
