@@ -1,5 +1,7 @@
 package com.cosmo.web.pages;
 
+import com.cosmo.logging.LogManager;
+import com.cosmo.logging.Logger;
 import com.cosmo.security.annotations.SessionRequired;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.controls.BreadcrumbsControl;
@@ -23,7 +25,7 @@ public class SecretPage extends Page
 {
    /** Serial Version UID */
    private static final long serialVersionUID = -1863993648152701220L;
-
+   
    @Override
    public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
    {
