@@ -60,8 +60,8 @@ public class WorkspaceProperties
    
    // Seguridad
    private String loginPage;
-   private String authenticationAgent;
-   private String authorizationAgent;
+   private String authenticationAgentId;
+   private String authorizationAgentId;
    private HashMap<String, PluginProperties> authenticationAgents;
    private HashMap<String, PluginProperties> authorizationAgents;
       
@@ -216,12 +216,12 @@ public class WorkspaceProperties
     */
    public PluginProperties getAuthenticationAgent()
    {
-      if (StringUtils.isNullOrEmptyTrim(this.authenticationAgent))
+      if (StringUtils.isNullOrEmptyTrim(this.authenticationAgentId))
       {
          return null;
       }
       
-      return this.authenticationAgents.get(this.authenticationAgent);
+      return this.authenticationAgents.get(this.authenticationAgentId);
    }
    
    /**
@@ -231,12 +231,12 @@ public class WorkspaceProperties
     */
    public PluginProperties getAuthorizationAgent()
    {
-      if (StringUtils.isNullOrEmptyTrim(this.authorizationAgent))
+      if (StringUtils.isNullOrEmptyTrim(this.authorizationAgentId))
       {
          return null;
       }
       
-      return this.authorizationAgents.get(this.authorizationAgent);
+      return this.authorizationAgents.get(this.authorizationAgentId);
    }
    
    //==============================================
@@ -333,8 +333,8 @@ public class WorkspaceProperties
             {
                eElement = (Element) nNode;
 
-               this.authenticationAgent = eElement.getAttribute(WorkspaceProperties.XML_ATT_AUTHENTICATIONAGENT);
-               this.authorizationAgent = eElement.getAttribute(WorkspaceProperties.XML_ATT_AUTHORIZATIONAGENT);
+               this.authenticationAgentId = eElement.getAttribute(WorkspaceProperties.XML_ATT_AUTHENTICATIONAGENT);
+               this.authorizationAgentId = eElement.getAttribute(WorkspaceProperties.XML_ATT_AUTHORIZATIONAGENT);
                this.loginPage = eElement.getAttribute(WorkspaceProperties.XML_ATT_LOGINPAGE);
             }
             
@@ -428,7 +428,7 @@ public class WorkspaceProperties
       authenticationAgents = new HashMap<String, PluginProperties>();
       authorizationAgents = new HashMap<String, PluginProperties>();
       loginPage = "";
-      authenticationAgent = "";
-      authorizationAgent = "";
+      authenticationAgentId = "";
+      authorizationAgentId = "";
    }
 }
