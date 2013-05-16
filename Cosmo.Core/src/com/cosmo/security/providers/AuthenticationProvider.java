@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.cosmo.Workspace;
 import com.cosmo.security.User;
-import com.cosmo.security.User.UserStates;
 import com.cosmo.security.UserNotFoundException;
 import com.cosmo.structures.PluginProperties;
 import com.cosmo.util.StringUtils;
@@ -112,7 +111,7 @@ public abstract class AuthenticationProvider
     * 
     * @return El valor numérico equivalente al estado proporcionado.
     */
-   public static int statusToNumber(UserStates state)
+   /*public static int statusToNumber(UserStates state)
    {
       switch (state)
       {
@@ -123,7 +122,7 @@ public abstract class AuthenticationProvider
          default:
             return 0;
       }
-   }
+   }*/
    
    
    //==============================================

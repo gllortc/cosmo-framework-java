@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.cosmo.Workspace;
 import com.cosmo.security.User;
-import com.cosmo.security.User.UserStates;
 import com.cosmo.security.UserNotFoundException;
 import com.cosmo.structures.PluginProperties;
 
@@ -188,7 +187,7 @@ public class LdapAuthenticationProvider extends AuthenticationProvider
          {
             user = new User();
             user.setLogin(login);
-            user.setStatus(UserStates.Active);
+            // user.setStatus(UserStates.Active);
             user.setLogonCount(1);
             user.setLastLogin(new Date());
             

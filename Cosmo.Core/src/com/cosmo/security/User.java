@@ -14,13 +14,13 @@ public class User implements java.security.Principal
    private String pwd;
    private String mail;
    private String name;
-   private String city;
-   private UserStates status;
+   // private String city;
+   // private UserStates status;
    private Date created;
    private Date lastLogon;
    private int logonCount;
    
-   public enum UserStates 
+   /*public enum UserStates 
    {
       Disabled(0), 
       Active(1),
@@ -45,7 +45,7 @@ public class User implements java.security.Principal
             default: return UserStates.Disabled;
          }
       }
-   };   
+   };*/
    
    //==============================================
    // Constructors
@@ -127,7 +127,7 @@ public class User implements java.security.Principal
       this.name = name;
    }
 
-   public String getCity() 
+   /*public String getCity() 
    {
       return city;
    }
@@ -135,7 +135,7 @@ public class User implements java.security.Principal
    public void setCity(String city)
    {
       this.city = city;
-   }
+   }*/
 
    public Date getCreated() 
    {
@@ -167,7 +167,7 @@ public class User implements java.security.Principal
       this.logonCount = logonCount;
    }
 
-   public UserStates getStatus() 
+   /*public UserStates getStatus() 
    {
       return status;
    }
@@ -175,7 +175,7 @@ public class User implements java.security.Principal
    public void setStatus(UserStates status) 
    {
       this.status = status;
-   }
+   }*/
 
    //==============================================
    // Private members
@@ -191,10 +191,10 @@ public class User implements java.security.Principal
       this.pwd = "";
       this.mail = "";
       this.name = "";
-      this.city = "";
+      // this.city = "";
       this.created = new Date();
       this.lastLogon = null;
       this.logonCount = 0;
-      this.status = UserStates.Disabled;
+      // this.status = UserStates.Disabled;
    }
 }

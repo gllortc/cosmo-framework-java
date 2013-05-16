@@ -10,7 +10,6 @@ import com.cosmo.Workspace;
 import com.cosmo.data.DataConnection;
 import com.cosmo.data.DataSource;
 import com.cosmo.security.User;
-import com.cosmo.security.User.UserStates;
 import com.cosmo.security.UserAlreadyExistsException;
 import com.cosmo.security.UserNotFoundException;
 import com.cosmo.structures.PluginProperties;
@@ -105,7 +104,7 @@ public class PostgreSqlAuthenticationProvider extends AuthenticationProvider
             user.setPwd(password);
             user.setMail(rs.getString("usrmail"));
             user.setName(rs.getString("usrname"));
-            user.setStatus(UserStates.valueOf(rs.getInt("usrstatus")));
+            // user.setStatus(UserStates.valueOf(rs.getInt("usrstatus")));
             user.setCreated(rs.getDate("usrcreated"));
             user.setLastLogin(rs.getDate("usrlastlogin"));
             user.setLogonCount(rs.getInt("usrlogoncount"));
@@ -248,7 +247,7 @@ public class PostgreSqlAuthenticationProvider extends AuthenticationProvider
          }
          
          // Agrega la petición
-         sSQL = "INSERT INTO " + TABLE_NAME + " (usrlogin, usrmail, usrpwd, usrname, usrcity, usroptions, usrstatus, usrcreated, usrlastlogin, usrlogoncount) " +
+         /*sSQL = "INSERT INTO " + TABLE_NAME + " (usrlogin, usrmail, usrpwd, usrname, usrcity, usroptions, usrstatus, usrcreated, usrlastlogin, usrlogoncount) " +
                 "VALUES " +
                 "('" + user.getLogin() + "', " +
                 " '" + user.getMail() + "', " +
@@ -259,7 +258,19 @@ public class PostgreSqlAuthenticationProvider extends AuthenticationProvider
                 "  " + AuthenticationProvider.statusToNumber(user.getStatus()) + ", " +
                 "  current_timestamp, " +
                 "  null, " +
-                "  " + 0 + ")";
+                "  " + 0 + ")";*/
+         
+         sSQL = "INSERT INTO " + TABLE_NAME + " (usrlogin, usrmail, usrpwd, usrname, usroptions, usrcreated, usrlastlogin, usrlogoncount) " +
+               "VALUES " +
+               "('" + user.getLogin() + "', " +
+               " '" + user.getMail() + "', " +
+               " '" + CryptoUtils.encrypt(user.getPwd()) + "', " +
+               " '" + user.getName() + "', " +
+               "  " + 0 + ", " +
+               "  current_timestamp, " +
+               "  null, " +
+               "  " + 0 + ")";
+         
          conn.execute(sSQL);
          
          // Confirma los cambios en la bbdd
@@ -359,6 +370,13 @@ public class PostgreSqlAuthenticationProvider extends AuthenticationProvider
       }
    }
    
+   /**
+    * Registra un fallo de login, actualizando los datos de registro para evitar intentos de acceso mediante fuerza bruta.
+    * 
+    * @param login Una cadena que contiene el login para el que se desea registrar el fallo de autenticación.
+    *  
+    * @throws AuthenticationProviderException
+    */
    private void loginFail(String login) throws AuthenticationProviderException
    {
       String sql;
