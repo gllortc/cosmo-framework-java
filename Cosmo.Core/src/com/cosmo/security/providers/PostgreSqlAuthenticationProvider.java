@@ -21,7 +21,7 @@ import com.cosmo.util.CryptoUtils;
  * 
  * @author Gerard Llort
  */
-public class PostgreSqlAuthenticationProvider extends AuthenticationProvider 
+public class PostgreSqlAuthenticationProvider implements Authentication
 {
    private Workspace workspace;
    private PluginProperties agent;
@@ -160,7 +160,7 @@ public class PostgreSqlAuthenticationProvider extends AuthenticationProvider
    @Override
    public void logout()
    {
-      
+      // Este driver no informa al SGBD de la salida del usuario
    }
    
    /**
@@ -194,7 +194,7 @@ public class PostgreSqlAuthenticationProvider extends AuthenticationProvider
    
    /**
     * Detecta si una autenticación delegada (Login Gateway) ha sido exitosa.<br />
-    * Las clases que extiendan a {@link AuthenticationProvider} serán responsables de obtener los datos del usuario 
+    * Las clases que extiendan a {@link AuthenticationFactory} serán responsables de obtener los datos del usuario 
     * autenticado en el sistema externo, ya sea mediante servicios REST u otros mecanismos.
     * 
     * @param request Una instancia de {@link HttpServletRequest} que cotniene el contexto de la llamada.

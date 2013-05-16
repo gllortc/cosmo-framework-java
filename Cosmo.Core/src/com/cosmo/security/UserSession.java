@@ -5,7 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 
 import com.cosmo.Workspace;
-import com.cosmo.security.providers.AuthenticationProvider;
+import com.cosmo.security.providers.Authentication;
+import com.cosmo.security.providers.AuthenticationFactory;
 import com.cosmo.security.providers.AuthenticationProviderException;
 import com.cosmo.security.providers.AuthorizationProvider;
 import com.cosmo.security.providers.AuthorizationProviderException;
@@ -44,21 +45,21 @@ public class UserSession
       this.workspace = workspace;
       
       // Instancia el proveedor de autenticación
-      AuthenticationProvider authenticationProvider = AuthenticationProvider.getInstance(workspace);
+      Authentication authenticator = AuthenticationFactory.getInstance(workspace);
       
-      if (authenticationProvider != null)
+      if (authenticator != null)
       {
          // Autenticación
-         this.currentUser = authenticationProvider.login(login, pwd);
+         this.currentUser = authenticator.login(login, pwd);
          
          // Instancia el proveedor de seguridad
-         AuthorizationProvider authorizationProvider = AuthorizationProvider.getInstance(workspace);
+         AuthorizationProvider authorizator = AuthorizationProvider.getInstance(workspace);
          
-         if (authorizationProvider != null)
+         if (authorizator != null)
          {
             // Obtiene la información de seguridad para el usuario autenticado
             this.securityInfo = new SecurityInfo();
-            authorizationProvider.loadAuthorizationData(login, this.securityInfo);
+            authorizator.loadAuthorizationData(login, this.securityInfo);
          }
       }
    }
@@ -78,47 +79,18 @@ public class UserSession
       initialize();
       
       this.workspace = workspace;
-      
-      // Autenticación
       this.currentUser = user;
          
       // Instancia el proveedor de seguridad
-      AuthorizationProvider authorizationProvider = AuthorizationProvider.getInstance(workspace);
+      AuthorizationProvider authorizator = AuthorizationProvider.getInstance(workspace);
          
-      if (authorizationProvider != null)
+      if (authorizator != null)
       {
          // Obtiene la información de seguridad para el usuario autenticado
          this.securityInfo = new SecurityInfo();
-         authorizationProvider.loadAuthorizationData(user.getLogin(), this.securityInfo);
+         authorizator.loadAuthorizationData(user.getLogin(), this.securityInfo);
       }
    }
-   
-   /**
-    * Constructor de la clase.<br />
-    * Este contructor crea una sesión de usuario sin autenticar y sirve exclusivamente cuando se delega la página de login
-    * a otro servicio externo mediante LoginGateway (por ejemplo, Jasig CAS).
-    * 
-    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
-    * @param login Una cadena que contiene el login del usuario.
-    * 
-    * @throws AuthorizationProviderException
-    */
-   /*public UserSession(Workspace workspace, String login) throws AuthorizationProviderException
-   {
-      this.currentUser = new User();
-      this.currentUser.setLogin(login);
-      this.currentUser.setName(login);
-      
-      // Instancia el proveedor de seguridad
-      AuthorizationProvider authorizationProvider = AuthorizationProvider.getInstance(workspace);
-      
-      if (authorizationProvider != null)
-      {
-         // Obtiene la información de seguridad para el usuario autenticado
-         this.securityInfo = new SecurityInfo();
-         authorizationProvider.loadAuthorizationData(login, this.securityInfo);
-      }
-   }*/
    
    //==============================================
    // Properties
@@ -181,7 +153,7 @@ public class UserSession
       try
       {
          // Invoca el método logout() en el agente de autenticación
-         AuthenticationProvider authenticationProvider = AuthenticationProvider.getInstance(workspace);
+         Authentication authenticationProvider = AuthenticationFactory.getInstance(workspace);
          authenticationProvider.logout();
       }
       catch (Exception ex)

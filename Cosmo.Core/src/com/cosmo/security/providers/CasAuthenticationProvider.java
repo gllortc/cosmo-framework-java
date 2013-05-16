@@ -33,7 +33,7 @@ import com.cosmo.util.URL;
  * 
  * @author Gerard Llort
  */
-public class CasAuthenticationProvider extends AuthenticationProvider 
+public class CasAuthenticationProvider implements Authentication
 {
    // Parámetros URL
    private static String URL_PARAM_TICKET = "ticket";
@@ -169,7 +169,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
    
    /**
     * Detecta si una autenticación delegada (Login Gateway) ha sido exitosa.<br />
-    * Las clases que extiendan a {@link AuthenticationProvider} serán responsables de obtener los datos del usuario 
+    * Las clases que extiendan a {@link Authentication} serán responsables de obtener los datos del usuario 
     * autenticado en el sistema externo, ya sea mediante servicios REST u otros mecanismos.
     * 
     * @param request Una instancia de {@link HttpServletRequest} que cotniene el contexto de la llamada.

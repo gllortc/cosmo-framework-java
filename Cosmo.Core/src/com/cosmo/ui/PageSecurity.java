@@ -14,7 +14,8 @@ import com.cosmo.security.UserNotFoundException;
 import com.cosmo.security.annotations.ActivitiesAllowed;
 import com.cosmo.security.annotations.RolesAllowed;
 import com.cosmo.security.annotations.SessionRequired;
-import com.cosmo.security.providers.AuthenticationProvider;
+import com.cosmo.security.providers.Authentication;
+import com.cosmo.security.providers.AuthenticationFactory;
 import com.cosmo.security.providers.AuthenticationProviderException;
 import com.cosmo.security.providers.AuthorizationProviderException;
 import com.cosmo.util.URL;
@@ -58,7 +59,7 @@ public class PageSecurity
       // Comprueba si existe autenticación (obligatorio)
       if (!workspace.isValidUserSession())
       {
-         AuthenticationProvider auth = AuthenticationProvider.getInstance(workspace);
+         Authentication auth = AuthenticationFactory.getInstance(workspace);
          if (auth.isLoginGatewayRequired()) 
          {
             // Comprueba si la llamada es una respuesta de autenticación (retorno de login)
@@ -121,12 +122,12 @@ public class PageSecurity
     * Redirecciona el flujo hacia la pantalla (o mecanismo) de login mediante Login gateway.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual. 
-    * @param auth Una instancia de {@link AuthenticationProvider} que proporciona la funcionalidad específica del agente para redireccionar.
+    * @param auth Una instancia de {@link Authentication} que proporciona la funcionalidad específica del agente para redireccionar.
     * @param response Una instancia de {@link HttpServletResponse} que representa la respuesta en el contexto.
     * 
     * @throws IOException
     */
-   private void sendLoginGatewayRedirect(Workspace workspace, AuthenticationProvider auth, HttpServletResponse response) throws IOException
+   private void sendLoginGatewayRedirect(Workspace workspace, Authentication auth, HttpServletResponse response) throws IOException
    {
       response.sendRedirect(auth.getLoginGatewayUrl());
    }
@@ -147,40 +148,6 @@ public class PageSecurity
       
       // Redirecciona la página al servlet de LOGIN.
       response.sendRedirect(url.toString(workspace.getCharset()));
-      
-      /*
-      // Determina si existe una dirección de origen
-      try
-      {
-         
-         // AuthenticationProvider auth = AuthenticationProvider.getInstance(workspace);
-         
-         if (auth.isLoginGatewayRequired() && auth.getLoginGatewayUser(request))
-         {
-            workspace.createSession("gllort");
-            
-            return;
-         }
-         else if (auth.isLoginGatewayRequired())
-         {
-            url = new URL(auth.getLoginGatewayUrl());
-         }
-         else
-         {
-            url = new URL(workspace.getProperties().getLoginPage());
-            
-            String urlSource = request.getRequestURL().toString();
-            url.addParameter(Cosmo.URL_PARAM_TOURL, urlSource);
-         } 
-         
-         // HttpServletRequest request = getWorkspace().getServerRequest();
-         // String urlSource = request.getRequestURL().toString();
-         // url.addParameter(Cosmo.URL_PARAM_TOURL, workspace.getRequestedUrl()); //  urlSource);
-      }
-      catch (Exception ex)
-      {
-         // No lo tiene en cuenta
-      } */
    }
    
    /**
