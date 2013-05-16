@@ -105,11 +105,6 @@ public abstract class AuthenticationProvider
       return instance;
    }
 
-   
-   //==============================================
-   // Static members
-   //==============================================
-   
    /**
     * Convierte el estado de un usuario a un valor numérico usable en soportes como BBDD, archivos, etc.
     * 
