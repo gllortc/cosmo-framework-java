@@ -1,0 +1,206 @@
+package com.cosmo.logging.impl;
+
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+
+import com.cosmo.logging.LogFactory;
+import com.cosmo.logging.Logger;
+
+public class JdkLogFactory implements LogFactory
+{
+   @SuppressWarnings("rawtypes")
+   @Override
+   public Logger getLogger(Class clazz)
+   {
+      return new JdkLogger(java.util.logging.Logger.getLogger(clazz.getName()));
+   }
+
+   @Override
+   public void setProperties(Map<String, String> props) {
+   }
+
+   public static final class JdkLogger implements Logger 
+   {
+      private final java.util.logging.Logger logger;
+
+      public JdkLogger(java.util.logging.Logger logger) 
+      {
+         this.logger = logger;
+      }
+
+      public void log(String message, Level level) 
+      {
+         if (logger.isLoggable(level)) 
+         {
+            LogRecord log = create(level, message);
+            logger.log(log);
+         }
+      }
+
+      public void log(String message, Throwable error, Level level) 
+      {
+         if (logger.isLoggable(level)) 
+         {
+            LogRecord log = create(level, message);
+            log.setThrown(error);
+            logger.log(log);
+         }
+      }
+
+      public void log(Throwable error, Level level)
+      {
+         if (logger.isLoggable(level))
+         {
+            LogRecord log = create(level, "");
+            log.setThrown(error);
+            logger.log(log);
+         }
+      }
+
+      private LogRecord create(Level level, String message)
+      {
+         StackTraceElement[] stackTrace = new Throwable().getStackTrace();
+
+         String logSourceClassName = null;
+         String logSourceMethodName = null;
+
+         int logSourceFrame = 3;
+         if (logSourceFrame < stackTrace.length)
+         {
+            StackTraceElement logSource = stackTrace[logSourceFrame];
+            if (logSource != null)
+            {
+               logSourceClassName = logSource.getClassName();
+               logSourceMethodName = logSource.getMethodName();
+            }
+         }
+
+         LogRecord log = new LogRecord(level, message);
+         log.setSourceClassName(logSourceClassName == null ? "Unknown" : logSourceClassName);
+         log.setSourceMethodName(logSourceMethodName == null ? "Unknown" : logSourceMethodName);
+
+         return log;
+      }
+
+      public void debug(String message)
+      {
+         log(message, Level.FINER);
+      }
+
+      public void debug(String message, Throwable error)
+      {
+         log(message, error, Level.FINER);
+      }
+
+      public void debug(Throwable error)
+      {
+         log(error, Level.FINER);
+      }
+
+      public void error(String message)
+      {
+         log(message, Level.SEVERE);
+      }
+
+      public void error(String message, Throwable error)
+      {
+         log(message, error, Level.SEVERE);
+      }
+
+      public void error(Throwable error)
+      {
+         log(error, Level.SEVERE);
+      }
+
+      public void info(String message)
+      {
+         log(message, Level.INFO);
+      }
+
+      public void info(String message, Throwable error)
+      {
+         log(message, error, Level.INFO);
+      }
+
+      public void info(Throwable error)
+      {
+         log(error, Level.INFO);
+      }
+
+      public boolean isDebugEnabled()
+      {
+         return logger.isLoggable(Level.FINER);
+      }
+
+      public boolean isErrorEnabled() {
+         return logger.isLoggable(Level.SEVERE);
+      }
+
+      public boolean isInfoEnabled()
+      {
+         return logger.isLoggable(Level.INFO);
+      }
+
+      public boolean isTraceEnabled()
+      {
+         return logger.isLoggable(Level.FINEST);
+      }
+
+      public boolean isVerboseEnabled()
+      {
+         return logger.isLoggable(Level.FINE);
+      }
+
+      public boolean isWarnEnabled()
+      {
+         return logger.isLoggable(Level.WARNING);
+      }
+
+      public void trace(String message) 
+      {
+         log(message, Level.FINEST);
+      }
+
+      public void trace(String message, Throwable error)
+      {
+         log(message, error, Level.FINEST);
+      }
+
+      public void trace(Throwable error) 
+      {
+         log(error, Level.FINEST);
+      }
+
+      public void warn(String message)
+      {
+         log(message, Level.WARNING);
+      }
+
+      public void warn(String message, Throwable error) 
+      {
+         log(message, error, Level.WARNING);
+      }
+
+      public void warn(Throwable error) 
+      {
+         log(error, Level.WARNING);
+      }
+
+      public void verbose(String message) 
+      {
+         log(message, Level.FINE);
+      }
+
+      public void verbose(String message, Throwable error) 
+      {
+         log(message, error, Level.FINE);
+      }
+
+      public void verbose(Throwable error) 
+      {
+         log(error, Level.FINE);
+      }
+   }
+
+}
