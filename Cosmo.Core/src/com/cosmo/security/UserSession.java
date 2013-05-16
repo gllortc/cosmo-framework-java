@@ -173,6 +173,29 @@ public class UserSession
    //==============================================
 
    /**
+    * Destruye la sesión de usuario, eliminando cualquir dato que contenga.<br />
+    * Este método equivale a realizar la acción de <em>logout</em> en el agente activo.
+    */
+   public void destroy()
+   {
+      try
+      {
+         // Invoca el método logout() en el agente de autenticación
+         AuthenticationProvider authenticationProvider = AuthenticationProvider.getInstance(workspace);
+         authenticationProvider.logout();
+      }
+      catch (Exception ex)
+      {
+         // No se tiene en cuenta
+      }
+      finally
+      {
+         // Elimina los datos de la instáncia
+         initialize();
+      }
+   }
+   
+   /**
     * Obtiene el número de minutos desde que se creó la sesión de usuario.
     * 
     * @return Devuelve un entero que representa el número de minutos desde que se creó la sesión de usuario.
@@ -220,7 +243,7 @@ public class UserSession
     * 
     * @return {@code true} si el usuario puede ejecutar la actividad o {@code false} en cualquier otro caso.
     */
-   public boolean isActivityGranted(String activityId)
+   public boolean isActivityAllowed(String activityId)
    {
       return this.securityInfo.isActivityGranted(activityId);
    }
@@ -233,7 +256,7 @@ public class UserSession
     * 
     * @return {@code true} si el usuario puede ejecutar como mínimo una actividad de las contenidas en la lista o {@code false} en cualquier otro caso.
     */
-   public boolean isActivityGranted(ArrayList<String> activityList)
+   public boolean isActivityAllowed(ArrayList<String> activityList)
    {
       return this.securityInfo.isActivityGranted(activityList);
    }
