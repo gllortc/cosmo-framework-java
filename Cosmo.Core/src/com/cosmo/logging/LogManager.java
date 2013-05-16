@@ -1,17 +1,18 @@
 package com.cosmo.logging;
 
-import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import com.cosmo.logging.impl.ConsoleLogFactory;
+import com.cosmo.Cosmo;
+import com.cosmo.Workspace;
 import com.cosmo.logging.impl.NoLogFactory;
 
 public class LogManager 
 {
-   public static final String CONFIG_BUNDLE = "esl4j.properties";
+   // public static final String CONFIG_BUNDLE = "esl4j.properties";
+   
    private static LogFactory logFactory = null;
    private static final Object lock = new Object();
    private static Properties config = new Properties();
@@ -22,20 +23,20 @@ public class LogManager
     * 
     * @return LogFactory
     */
-   public static LogFactory getFactory() 
+   public static LogFactory getFactory(Workspace workspace) 
    {
       synchronized (lock) 
       {
          if (logFactory == null)
          {
-            createFactory();
+            createFactory(workspace);
          }
       }
 
       return logFactory;
    }
 
-   private static void createFactory() 
+   private static void createFactory(Workspace workspace) 
    {
       String className = System.getProperty(LogFactory.class.getName());
       
@@ -49,17 +50,9 @@ public class LogManager
          }
       }
 
-      try 
-      {
-         config.load(getCurrentClassLoader().getResourceAsStream(CONFIG_BUNDLE));
-         className = config.getProperty(LogFactory.class.getName());
-      } 
-      catch (IOException e) 
-      {
-         className = ConsoleLogFactory.class.getName();
-      }
-
+      className = workspace.getProperties().getString(Cosmo.PROPERTY_WORKSPACE_LOGGER_PROVIDER);
       LogFactory factory = createFactory(className);
+
       if (factory != null) 
       {
          logFactory = factory;
@@ -84,9 +77,7 @@ public class LogManager
 
          if (!(factory instanceof LogFactory))
          {
-            System.err.println("Class '" + className
-                  + "' is not an implementation of "
-                  + LogFactory.class.getName());
+            System.err.println("Class '" + className + "' is not an implementation of " + LogFactory.class.getName());
             return null;
          }
 
@@ -160,8 +151,8 @@ public class LogManager
     * @return Logger
     */
    @SuppressWarnings("rawtypes")
-   public static Logger getLogger(Class sourceClass)
+   public static Logger getLogger(Workspace workspace, Class sourceClass)
    {
-      return getFactory().getLogger(sourceClass);
+      return getFactory(workspace).getLogger(sourceClass);
    }
 }

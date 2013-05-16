@@ -1,5 +1,12 @@
 package com.cosmo.logging;
 
+/**
+ * Interface que han d'implementar els proveïdors de LOG.
+ * 
+ * @see Basat en el projecte https://code.google.com/p/esl4j/
+ * @author Gerard Llort
+ *
+ */
 public interface Logger 
 {
    /**
