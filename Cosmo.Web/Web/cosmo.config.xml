@@ -19,6 +19,8 @@
       <param key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoStaticMenuProvider" />
       <!-- value key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoDynamicMenuProvider" / -->
 
+      <param key="ws.logger.provider" value="com.cosmo.logging.impl.JdkLogFactory" />
+
       <param key="ws.data.serverId" value="cosmo.server" />
       
       <param key="ws.comm.mail.transport.protocol" value="smtp" />
@@ -55,7 +57,7 @@
 
    </connections>
    
-   <security authentication-agent="cas" authorization-agent="" login-page="LoginPage">
+   <security authentication-agent="cas" authorization-agent="rdbms" login-page="LoginPage">
       
       <authentication-agent id="rdbms" driver="com.cosmo.security.providers.PostgreSqlAuthenticationProvider">
          <param key="connection" value="cosmo.server" />
