@@ -15,10 +15,7 @@ import com.cosmo.Workspace;
 import com.cosmo.WorkspaceLoadException;
 import com.cosmo.WorkspaceProvider;
 import com.cosmo.security.NotAuthorizedException;
-import com.cosmo.security.User;
 import com.cosmo.security.UserNotFoundException;
-import com.cosmo.security.annotations.SessionRequired;
-import com.cosmo.security.providers.AuthenticationProvider;
 import com.cosmo.security.providers.AuthenticationProviderException;
 import com.cosmo.security.providers.AuthorizationProviderException;
 import com.cosmo.ui.controls.Control;
@@ -30,8 +27,6 @@ import com.cosmo.ui.templates.RulesLoadException;
 import com.cosmo.ui.templates.TemplateLoadException;
 import com.cosmo.ui.templates.TemplateUnavailableException;
 import com.cosmo.ui.widgets.providers.MenuProviderException;
-import com.cosmo.util.StringUtils;
-import com.cosmo.util.URL;
 
 /**
  * Implementa una página de Cosmo.
@@ -441,7 +436,7 @@ public abstract class Page extends HttpServlet implements PageInterface
     * 
     * @throws IOException 
     */
-   private boolean checkSecurity(HttpServletRequest request, HttpServletResponse response) throws IOException
+   /*private boolean checkSecurity(HttpServletRequest request, HttpServletResponse response) throws IOException
    {
       String toUrl;
       
@@ -470,10 +465,10 @@ public abstract class Page extends HttpServlet implements PageInterface
                   toUrl = auth.getLoginGatewayUrl();
                }
             }
-            /*else if (auth.isLoginGatewayRequired())
+            / *else if (auth.isLoginGatewayRequired())
             {
                toUrl = auth.getLoginGatewayUrl();
-            }*/
+            }* /
             else
             {
                URL url = new URL(getWorkspace().getProperties().getLoginPage());
@@ -508,7 +503,7 @@ public abstract class Page extends HttpServlet implements PageInterface
       }
       
       return false;
-   }
+   } */
    
    /**
     * Crea la página.<br />
@@ -579,10 +574,10 @@ public abstract class Page extends HttpServlet implements PageInterface
    /**
     * Indica si la página requiere sesión de usuario para ser accedida. 
     */
-   private boolean isSessionRequired()
+   /*private boolean isSessionRequired()
    {
       return this.getClass().isAnnotationPresent(SessionRequired.class);
-   }
+   }*/
    
    
 }

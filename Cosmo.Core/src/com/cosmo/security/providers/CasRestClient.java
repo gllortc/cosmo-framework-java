@@ -1,10 +1,8 @@
 package com.cosmo.security.providers;
 
-import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 
 import com.cosmo.security.User;
@@ -17,11 +15,11 @@ import com.cosmo.security.User;
 public class CasRestClient 
 {
    private static final String LOGIN_URL_PART = "login";
-   private static final String SERVICE_VALIDATE_URL_PART = "serviceValidate";
-   private static final String TICKET_BEGIN = "ticket=";
+   // private static final String SERVICE_VALIDATE_URL_PART = "serviceValidate";
+   // private static final String TICKET_BEGIN = "ticket=";
    private static final String LT_BEGIN = "name=\"lt\" value=\"";
-   private static final String CAS_USER_BEGIN = "<cas:user>";
-   private static final String CAS_USER_END = "</cas:user>";
+   // private static final String CAS_USER_BEGIN = "<cas:user>";
+   // private static final String CAS_USER_END = "</cas:user>";
    
    private HttpClient httpClient;
    private String loginTicket;
