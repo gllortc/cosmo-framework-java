@@ -5,9 +5,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import com.cosmo.Workspace;
-import com.cosmo.security.PluginProperties;
 import com.cosmo.security.Role;
 import com.cosmo.security.UserSession.SecurityInfo;
+import com.cosmo.structures.PluginProperties;
 import com.cosmo.util.StringUtils;
 
 /**

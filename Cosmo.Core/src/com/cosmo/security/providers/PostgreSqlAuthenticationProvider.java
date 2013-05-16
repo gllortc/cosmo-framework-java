@@ -11,9 +11,9 @@ import com.cosmo.data.DataConnection;
 import com.cosmo.data.DataSource;
 import com.cosmo.security.User;
 import com.cosmo.security.User.UserStates;
-import com.cosmo.security.PluginProperties;
 import com.cosmo.security.UserAlreadyExistsException;
 import com.cosmo.security.UserNotFoundException;
+import com.cosmo.structures.PluginProperties;
 import com.cosmo.util.CryptoUtils;
 
 /**

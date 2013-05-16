@@ -1,4 +1,4 @@
-package com.cosmo.security;
+package com.cosmo.structures;
 
 import java.util.HashMap;
 

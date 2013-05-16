@@ -17,7 +17,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.cosmo.data.DataSource;
-import com.cosmo.security.PluginProperties;
+import com.cosmo.structures.PluginProperties;
 import com.cosmo.util.IOUtils;
 import com.cosmo.util.StringUtils;
 

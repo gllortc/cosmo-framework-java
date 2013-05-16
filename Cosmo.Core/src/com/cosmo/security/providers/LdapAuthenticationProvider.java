@@ -16,10 +16,10 @@ import javax.naming.directory.SearchResult;
 import javax.servlet.http.HttpServletRequest;
 
 import com.cosmo.Workspace;
-import com.cosmo.security.PluginProperties;
 import com.cosmo.security.User;
 import com.cosmo.security.User.UserStates;
 import com.cosmo.security.UserNotFoundException;
+import com.cosmo.structures.PluginProperties;
 
 /**
  * Proveedor de autenticación LDAP para Cosmo.
