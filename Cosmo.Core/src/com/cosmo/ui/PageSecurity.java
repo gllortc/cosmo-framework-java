@@ -109,7 +109,7 @@ public class PageSecurity
       // Comprueba si existe la anotación ActivitiesAllowed y efectúa las comporbaciones de seguridad
       if (isActivityAllowed(page))
       {
-         if (!workspace.getUserSession().isActivityGranted(getActivitiesAllowed(page)))
+         if (!workspace.getUserSession().isActivityAllowed(getActivitiesAllowed(page)))
          {
             throw new NotAuthorizedException("El usuario " + workspace.getUserSession().getCurrentUser().getLogin() + 
                                              " no puede ejecutar la acción solicitada debido a que no tiene permisos sobre la(s) actividad(es) solicitada(s).");
