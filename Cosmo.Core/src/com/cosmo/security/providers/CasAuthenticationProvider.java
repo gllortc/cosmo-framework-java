@@ -21,7 +21,7 @@ import org.xml.sax.SAXException;
 
 import com.cosmo.Workspace;
 import com.cosmo.net.HttpRequestUtils;
-import com.cosmo.security.Agent;
+import com.cosmo.security.PluginProperties;
 import com.cosmo.security.User;
 import com.cosmo.security.UserNotFoundException;
 import com.cosmo.util.StringUtils;
@@ -58,7 +58,7 @@ public class CasAuthenticationProvider extends AuthenticationProvider
    private static String CAS_ATTRIB_SURNAME = "cas-attrib-surname";
    
    private Workspace workspace;
-   private Agent agent;
+   private PluginProperties agent;
    private String serviceTicket;
    private HttpClient httpClient;
    

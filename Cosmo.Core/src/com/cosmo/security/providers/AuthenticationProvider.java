@@ -6,7 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import javax.servlet.http.HttpServletRequest;
 
 import com.cosmo.Workspace;
-import com.cosmo.security.Agent;
+import com.cosmo.security.PluginProperties;
 import com.cosmo.security.User;
 import com.cosmo.security.User.UserStates;
 import com.cosmo.security.UserNotFoundException;
@@ -143,7 +143,7 @@ public abstract class AuthenticationProvider
    private static AuthenticationProvider loadProvider(Workspace workspace) throws AuthenticationProviderException
    {
       String className = "-- no authentication provider defined in proprties --";
-      Agent agent;
+      PluginProperties agent;
       AuthenticationProvider provider;
       
       // Obtiene el agente de autenticación

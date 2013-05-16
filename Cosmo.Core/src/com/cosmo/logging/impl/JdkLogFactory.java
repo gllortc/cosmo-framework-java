@@ -1,23 +1,42 @@
 package com.cosmo.logging.impl;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Map;
+import java.util.Properties;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.LogRecord;
 
 import com.cosmo.logging.LogFactory;
 import com.cosmo.logging.Logger;
 
+/**
+ * Implementació del logger pel sistema de LOG del JDK de Java.<br />
+ * Implementació basada en el projecte <strong>esl4j</strong>.
+ * 
+ * @see https://code.google.com/p/esl4j/
+ * 
+ * @author Gerard Llort
+ */
 public class JdkLogFactory implements LogFactory
 {
+   /**
+    * Devuelve la implementación del <em>logger</em>.
+    */
    @SuppressWarnings("rawtypes")
    @Override
-   public Logger getLogger(Class clazz)
+   public Logger getLogger(Class className)
    {
-      return new JdkLogger(java.util.logging.Logger.getLogger(clazz.getName()));
+      return new JdkLogger(java.util.logging.Logger.getLogger(className.getName()));
    }
 
    @Override
-   public void setProperties(Map<String, String> props) {
+   public void setProperties(Map<String, String> props) 
+   {
    }
 
    public static final class JdkLogger implements Logger 
@@ -27,6 +46,22 @@ public class JdkLogFactory implements LogFactory
       public JdkLogger(java.util.logging.Logger logger) 
       {
          this.logger = logger;
+         
+         try 
+         {
+            Properties properties = new Properties();
+            // properties.setProperty(key, value);
+            
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            properties.store(output, null);
+            
+            ByteArrayInputStream input = new ByteArrayInputStream(output.toByteArray());
+            LogManager.getLogManager().readConfiguration(input);
+         } 
+         catch (IOException e) 
+         {
+            e.printStackTrace();
+         }
       }
 
       public void log(String message, Level level) 

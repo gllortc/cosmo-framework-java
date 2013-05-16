@@ -8,7 +8,7 @@ import com.cosmo.util.StringUtils;
  * Implementa un agente de configuración de seguridad.
  * @author Gerard Llort
   */
-public class Agent 
+public class PluginProperties 
 {
    private String id;
    private String moduleClass;
@@ -17,7 +17,7 @@ public class Agent
    /**
     * Constructor de la clase.
     */
-   public Agent()
+   public PluginProperties()
    {
       this.id = "";
       this.moduleClass = "";
@@ -30,7 +30,7 @@ public class Agent
     * @param id Identificador del agente.
     * @param moduleClass Nombre completo de la clase (incluyendo el package). 
     */
-   public Agent(String id, String moduleClass)
+   public PluginProperties(String id, String moduleClass)
    {
       this.id = id;
       this.moduleClass = moduleClass;

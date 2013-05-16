@@ -1,9 +1,11 @@
 package com.cosmo.logging;
 
 /**
- * Interface que han d'implementar els proveïdors de LOG.
+ * Interface que han d'implementar els proveïdors de LOG.<br />
+ * Implementació basada en el projecte <strong>esl4j</strong>.
  * 
- * @see Basat en el projecte https://code.google.com/p/esl4j/
+ * @see https://code.google.com/p/esl4j/
+ * 
  * @author Gerard Llort
  *
  */

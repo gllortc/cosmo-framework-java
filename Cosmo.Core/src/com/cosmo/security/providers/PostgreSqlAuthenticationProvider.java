@@ -11,7 +11,7 @@ import com.cosmo.data.DataConnection;
 import com.cosmo.data.DataSource;
 import com.cosmo.security.User;
 import com.cosmo.security.User.UserStates;
-import com.cosmo.security.Agent;
+import com.cosmo.security.PluginProperties;
 import com.cosmo.security.UserAlreadyExistsException;
 import com.cosmo.security.UserNotFoundException;
 import com.cosmo.util.CryptoUtils;
@@ -25,7 +25,7 @@ import com.cosmo.util.CryptoUtils;
 public class PostgreSqlAuthenticationProvider extends AuthenticationProvider 
 {
    private Workspace workspace;
-   private Agent agent;
+   private PluginProperties agent;
    
    private static String PARAM_LOCKCONTROL = "lockControl";
    private static String PARAM_ATTEMPTS = "lockAttempts";

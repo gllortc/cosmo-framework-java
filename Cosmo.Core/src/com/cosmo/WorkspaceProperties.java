@@ -17,7 +17,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.cosmo.data.DataSource;
-import com.cosmo.security.Agent;
+import com.cosmo.security.PluginProperties;
 import com.cosmo.util.IOUtils;
 import com.cosmo.util.StringUtils;
 
@@ -62,8 +62,8 @@ public class WorkspaceProperties
    private String loginPage;
    private String authenticationAgent;
    private String authorizationAgent;
-   private HashMap<String, Agent> authenticationAgents;
-   private HashMap<String, Agent> authorizationAgents;
+   private HashMap<String, PluginProperties> authenticationAgents;
+   private HashMap<String, PluginProperties> authorizationAgents;
       
 
    //==============================================
@@ -212,9 +212,9 @@ public class WorkspaceProperties
    /**
     * Obtiene el agente de autenticación.
     * 
-    * @return Una instancia de {@link Agent} que contiene la información del agente de autenticación a usar o {@code null} si no se ha configurado.
+    * @return Una instancia de {@link PluginProperties} que contiene la información del agente de autenticación a usar o {@code null} si no se ha configurado.
     */
-   public Agent getAuthenticationAgent()
+   public PluginProperties getAuthenticationAgent()
    {
       if (StringUtils.isNullOrEmptyTrim(this.authenticationAgent))
       {
@@ -227,9 +227,9 @@ public class WorkspaceProperties
    /**
     * Obtiene el agente de autorización.
     * 
-    * @return Una instancia de {@link Agent} que contiene la información del agente de autorización a usar o {@code null} si no se ha configurado.
+    * @return Una instancia de {@link PluginProperties} que contiene la información del agente de autorización a usar o {@code null} si no se ha configurado.
     */
-   public Agent getAuthorizationAgent()
+   public PluginProperties getAuthorizationAgent()
    {
       if (StringUtils.isNullOrEmptyTrim(this.authorizationAgent))
       {
@@ -261,7 +261,7 @@ public class WorkspaceProperties
       NodeList nList;
       NodeList pList;
       DataSource ds;
-      Agent agent;
+      PluginProperties agent;
       InputStream iStream = null;
       
       try
@@ -347,7 +347,7 @@ public class WorkspaceProperties
                {
                   eElement = (Element) nNode;
 
-                  agent = new Agent();
+                  agent = new PluginProperties();
                   agent.setId(eElement.getAttribute(WorkspaceProperties.XML_ATT_ID));
                   agent.setModuleClass(eElement.getAttribute(WorkspaceProperties.XML_ATT_DRIVER));
                   
@@ -376,7 +376,7 @@ public class WorkspaceProperties
                {
                   eElement = (Element) nNode;
 
-                  agent = new Agent();
+                  agent = new PluginProperties();
                   agent.setId(eElement.getAttribute(WorkspaceProperties.XML_ATT_ID));
                   agent.setModuleClass(eElement.getAttribute(WorkspaceProperties.XML_ATT_DRIVER));
                   
@@ -425,8 +425,8 @@ public class WorkspaceProperties
       properties = new HashMap<String, String>();
       dataSources = new HashMap<String, DataSource>();
       serverDatasource = "";
-      authenticationAgents = new HashMap<String, Agent>();
-      authorizationAgents = new HashMap<String, Agent>();
+      authenticationAgents = new HashMap<String, PluginProperties>();
+      authorizationAgents = new HashMap<String, PluginProperties>();
       loginPage = "";
       authenticationAgent = "";
       authorizationAgent = "";

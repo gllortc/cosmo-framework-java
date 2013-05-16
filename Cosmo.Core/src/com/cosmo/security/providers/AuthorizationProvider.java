@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import com.cosmo.Workspace;
-import com.cosmo.security.Agent;
+import com.cosmo.security.PluginProperties;
 import com.cosmo.security.Role;
 import com.cosmo.security.UserSession.SecurityInfo;
 import com.cosmo.util.StringUtils;
@@ -109,7 +109,7 @@ public abstract class AuthorizationProvider
     */
    private static AuthorizationProvider loadProvider(Workspace workspace) throws AuthorizationProviderException
    {
-      Agent agent;
+      PluginProperties agent;
       String className = "-- no authorization provider defined in proprties --";
       AuthorizationProvider provider;
       
