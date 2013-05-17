@@ -20,7 +20,7 @@ import com.cosmo.security.UserSession.SecurityInfo;
  * @author Gerard Llort
  *
  */
-public class PostgreSqlAuthorizationProvider extends AuthorizationProvider
+public class PostgreSqlAuthorizationProvider implements Authorization
 {
    private Workspace workspace;
    
@@ -45,7 +45,7 @@ public class PostgreSqlAuthorizationProvider extends AuthorizationProvider
    
    
    //================================================================
-   // Interface implementation: AuthProviderInterface
+   // Interface implementation: Authorization
    //================================================================
 
    /**

@@ -8,7 +8,8 @@ import com.cosmo.Workspace;
 import com.cosmo.security.providers.Authentication;
 import com.cosmo.security.providers.AuthenticationFactory;
 import com.cosmo.security.providers.AuthenticationProviderException;
-import com.cosmo.security.providers.AuthorizationProvider;
+import com.cosmo.security.providers.Authorization;
+import com.cosmo.security.providers.AuthorizationFactory;
 import com.cosmo.security.providers.AuthorizationProviderException;
 
 /**
@@ -53,7 +54,7 @@ public class UserSession
          this.currentUser = authenticator.login(login, pwd);
          
          // Instancia el proveedor de seguridad
-         AuthorizationProvider authorizator = AuthorizationProvider.getInstance(workspace);
+         Authorization authorizator = AuthorizationFactory.getInstance(workspace);
          
          if (authorizator != null)
          {
@@ -82,7 +83,7 @@ public class UserSession
       this.currentUser = user;
          
       // Instancia el proveedor de seguridad
-      AuthorizationProvider authorizator = AuthorizationProvider.getInstance(workspace);
+      Authorization authorizator = AuthorizationFactory.getInstance(workspace);
          
       if (authorizator != null)
       {

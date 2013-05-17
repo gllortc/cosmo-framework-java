@@ -2,11 +2,8 @@ package com.cosmo.security.providers;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 
 import com.cosmo.Workspace;
-import com.cosmo.security.Role;
-import com.cosmo.security.UserSession.SecurityInfo;
 import com.cosmo.structures.PluginProperties;
 import com.cosmo.util.StringUtils;
 
@@ -15,9 +12,9 @@ import com.cosmo.util.StringUtils;
  * 
  * @author Gerard Llort
  */
-public abstract class AuthorizationProvider 
+public abstract class AuthorizationFactory 
 {
-   private static AuthorizationProvider instance = null;
+   private static Authorization instance = null;
    
    
    //==============================================
@@ -31,7 +28,7 @@ public abstract class AuthorizationProvider
     * 
     * @throws AuthorizationProviderException
     */
-   public abstract SecurityInfo loadAuthorizationData(String login, SecurityInfo si) throws AuthorizationProviderException;
+   //public abstract SecurityInfo loadAuthorizationData(String login, SecurityInfo si) throws AuthorizationProviderException;
    
    /**
     * Determina si un usuario tiene un rol especifico.
@@ -41,7 +38,7 @@ public abstract class AuthorizationProvider
     * 
     * @return {@code true} si el usuario tiene asignado el rol o {@code false} en cualquier otro caso.
     */
-   public abstract boolean isUserInRole(String login, String role) throws AuthorizationProviderException;
+   //public abstract boolean isUserInRole(String login, String role) throws AuthorizationProviderException;
    
    /**
     * Determina si un usuario tiene un rol especifico entre una lista de roles.
@@ -53,7 +50,7 @@ public abstract class AuthorizationProvider
     * 
     * @throws AuthorizationProviderException
     */
-   public abstract boolean isUserInRole(String login, ArrayList<String> roles) throws AuthorizationProviderException;
+   //public abstract boolean isUserInRole(String login, ArrayList<String> roles) throws AuthorizationProviderException;
 
    /**
     * Determina si un usuario tiene permiso para ejecutar determinada actividad.
@@ -63,7 +60,7 @@ public abstract class AuthorizationProvider
     * 
     * @return @return {@code true} si el usuario tiene permiso para ejecutar la actividad o {@code false} en cualquier otro caso.
     */
-   public abstract boolean isActivityGranted(String login, String activityId);
+   // public abstract boolean isActivityGranted(String login, String activityId);
 
    /**
     * Obtiene la lista de roles asignados al usuario.
@@ -72,22 +69,22 @@ public abstract class AuthorizationProvider
     * 
     * @return Un array con los nombres (IDs) de los roles asignados al usuario.
     */
-   public abstract ArrayList<Role> getRolesByUser(String login) throws AuthorizationProviderException;
+   // public abstract ArrayList<Role> getRolesByUser(String login) throws AuthorizationProviderException;
    
    //==============================================
    // Static members
    //==============================================
    
    /**
-    * Devuelve una instancia de {@link AuthorizationProvider} convenientemente instanciada y con
+    * Devuelve una instancia de {@link AuthorizationFactory} convenientemente instanciada y con
     * el proveedor de autenticación de usuarios cargado.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
-    * @return Una instancia única de {@link AuthorizationProvider} (sigleton).
+    * @return Una instancia única de {@link AuthorizationFactory} (sigleton).
     * 
     * @throws AuthorizationProviderException 
     */
-   public static AuthorizationProvider getInstance(Workspace workspace) throws AuthorizationProviderException 
+   public static Authorization getInstance(Workspace workspace) throws AuthorizationProviderException 
    {
       if (instance == null) 
       {
@@ -107,11 +104,11 @@ public abstract class AuthorizationProvider
     * 
     * @throws AuthorizationProviderException 
     */
-   private static AuthorizationProvider loadProvider(Workspace workspace) throws AuthorizationProviderException
+   private static Authorization loadProvider(Workspace workspace) throws AuthorizationProviderException
    {
       PluginProperties agent;
       String className = "-- no authorization provider defined in proprties --";
-      AuthorizationProvider provider;
+      Authorization provider;
       
       // Obtiene el agente de autorización
       agent = workspace.getProperties().getAuthorizationAgent();
@@ -131,7 +128,7 @@ public abstract class AuthorizationProvider
 		{
          Class<?> cls = Class.forName(className);
          Constructor<?> cons = cls.getConstructor(Workspace.class);
-         provider = (AuthorizationProvider) cons.newInstance(workspace);
+         provider = (Authorization) cons.newInstance(workspace);
          
          return provider;
 		}
