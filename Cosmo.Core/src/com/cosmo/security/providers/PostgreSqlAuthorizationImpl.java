@@ -20,7 +20,7 @@ import com.cosmo.security.UserSession.SecurityInfo;
  * @author Gerard Llort
  *
  */
-public class PostgreSqlAuthorizationProvider implements Authorization
+public class PostgreSqlAuthorizationImpl implements Authorization
 {
    private Workspace workspace;
    
@@ -38,7 +38,7 @@ public class PostgreSqlAuthorizationProvider implements Authorization
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace al que está conectado actualmente.
     */
-   public PostgreSqlAuthorizationProvider(Workspace workspace)
+   public PostgreSqlAuthorizationImpl(Workspace workspace)
    {
       this.workspace = workspace;
    }

@@ -25,7 +25,7 @@ import com.cosmo.structures.PluginProperties;
  * 
  * @author Gerard Llort
  */
-public class LdapAuthenticationProvider implements Authentication
+public class LdapAuthenticationImpl implements Authentication
 {
    private Workspace workspace;
    private PluginProperties agent;
@@ -51,7 +51,7 @@ public class LdapAuthenticationProvider implements Authentication
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace al que está conectado actualmente.
     */
-   public LdapAuthenticationProvider(Workspace workspace)
+   public LdapAuthenticationImpl(Workspace workspace)
    {
       this.workspace = workspace;
       this.agent = this.workspace.getProperties().getAuthenticationAgent();

@@ -33,7 +33,7 @@ import com.cosmo.util.URL;
  * 
  * @author Gerard Llort
  */
-public class CasAuthenticationProvider implements Authentication
+public class CasAuthenticationImpl implements Authentication
 {
    // Parámetros URL
    private static String URL_PARAM_TICKET = "ticket";
@@ -71,7 +71,7 @@ public class CasAuthenticationProvider implements Authentication
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace al que está conectado actualmente.
     */
-   public CasAuthenticationProvider(Workspace workspace)
+   public CasAuthenticationImpl(Workspace workspace)
    {
       this.serviceTicket = "";
       this.httpClient = new HttpClient();

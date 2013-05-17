@@ -21,7 +21,7 @@ import com.cosmo.util.CryptoUtils;
  * 
  * @author Gerard Llort
  */
-public class PostgreSqlAuthenticationProvider implements Authentication
+public class PostgreSqlAuthenticationImpl implements Authentication
 {
    private Workspace workspace;
    private PluginProperties agent;
@@ -42,7 +42,7 @@ public class PostgreSqlAuthenticationProvider implements Authentication
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace al que está conectado actualmente.
     */
-   public PostgreSqlAuthenticationProvider(Workspace workspace)
+   public PostgreSqlAuthenticationImpl(Workspace workspace)
    {
       this.workspace = workspace;
       this.agent = this.workspace.getProperties().getAuthenticationAgent();
