@@ -22,9 +22,9 @@ public interface Authentication
     * @return Una instancia de {@link User} que representa el usuario al que corresponden las credenciales proporcionadas.
     * 
     * @throws UserNotFoundException
-    * @throws AuthenticationProviderException 
+    * @throws AuthenticationException 
     */
-   public User login(String login, String password) throws UserNotFoundException, AuthenticationProviderException;
+   public User login(String login, String password) throws UserNotFoundException, AuthenticationException;
 
    /**
     * Elimina la información de autenticación actual.

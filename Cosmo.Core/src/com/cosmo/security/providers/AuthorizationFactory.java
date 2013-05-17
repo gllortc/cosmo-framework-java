@@ -26,9 +26,9 @@ public abstract class AuthorizationFactory
     * 
     * @param login Una cadena que contiene el <em>login</em> del usuario.
     * 
-    * @throws AuthorizationProviderException
+    * @throws AuthorizationException
     */
-   //public abstract SecurityInfo loadAuthorizationData(String login, SecurityInfo si) throws AuthorizationProviderException;
+   //public abstract SecurityInfo loadAuthorizationData(String login, SecurityInfo si) throws AuthorizationException;
    
    /**
     * Determina si un usuario tiene un rol especifico.
@@ -38,7 +38,7 @@ public abstract class AuthorizationFactory
     * 
     * @return {@code true} si el usuario tiene asignado el rol o {@code false} en cualquier otro caso.
     */
-   //public abstract boolean isUserInRole(String login, String role) throws AuthorizationProviderException;
+   //public abstract boolean isUserInRole(String login, String role) throws AuthorizationException;
    
    /**
     * Determina si un usuario tiene un rol especifico entre una lista de roles.
@@ -48,9 +48,9 @@ public abstract class AuthorizationFactory
     * 
     * @return {@code true} si el usuario tiene asignado al menos un rol de los contenidos en la lista o {@code false} en cualquier otro caso.
     * 
-    * @throws AuthorizationProviderException
+    * @throws AuthorizationException
     */
-   //public abstract boolean isUserInRole(String login, ArrayList<String> roles) throws AuthorizationProviderException;
+   //public abstract boolean isUserInRole(String login, ArrayList<String> roles) throws AuthorizationException;
 
    /**
     * Determina si un usuario tiene permiso para ejecutar determinada actividad.
@@ -69,7 +69,7 @@ public abstract class AuthorizationFactory
     * 
     * @return Un array con los nombres (IDs) de los roles asignados al usuario.
     */
-   // public abstract ArrayList<Role> getRolesByUser(String login) throws AuthorizationProviderException;
+   // public abstract ArrayList<Role> getRolesByUser(String login) throws AuthorizationException;
    
    //==============================================
    // Static members
@@ -82,9 +82,9 @@ public abstract class AuthorizationFactory
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     * @return Una instancia única de {@link AuthorizationFactory} (sigleton).
     * 
-    * @throws AuthorizationProviderException 
+    * @throws AuthorizationException 
     */
-   public static Authorization getInstance(Workspace workspace) throws AuthorizationProviderException 
+   public static Authorization getInstance(Workspace workspace) throws AuthorizationException 
    {
       if (instance == null) 
       {
@@ -102,9 +102,9 @@ public abstract class AuthorizationFactory
    /**
     * Carga el controlador de usuarios.
     * 
-    * @throws AuthorizationProviderException 
+    * @throws AuthorizationException 
     */
-   private static Authorization loadProvider(Workspace workspace) throws AuthorizationProviderException
+   private static Authorization loadProvider(Workspace workspace) throws AuthorizationException
    {
       PluginProperties agent;
       String className = "-- no authorization provider defined in proprties --";
@@ -114,14 +114,14 @@ public abstract class AuthorizationFactory
       agent = workspace.getProperties().getAuthorizationAgent();
       if (agent == null)
       {
-         throw new AuthorizationProviderException("Security Configuration Exception: No authorization agent found");
+         throw new AuthorizationException("Security Configuration Exception: No authorization agent found");
       }
       
       // Obtiene el driver de autorización
       className = agent.getModuleClass();
       if (StringUtils.isNullOrEmptyTrim(className))
       {
-         throw new AuthorizationProviderException("Security Configuration Exception: No authorization driver found");
+         throw new AuthorizationException("Security Configuration Exception: No authorization driver found");
       }
       
       try 
@@ -134,23 +134,23 @@ public abstract class AuthorizationFactory
 		}
       catch (NoSuchMethodException ex) 
 		{
-         throw new AuthorizationProviderException("NoSuchMethodException: " + className, ex);
+         throw new AuthorizationException("NoSuchMethodException: " + className, ex);
       }
       catch (InvocationTargetException ex) 
 		{
-         throw new AuthorizationProviderException("InvocationTargetException: " + className, ex);
+         throw new AuthorizationException("InvocationTargetException: " + className, ex);
       }
 		catch (ClassNotFoundException ex) 
 		{
-         throw new AuthorizationProviderException("ClassNotFoundException: " + className, ex);
+         throw new AuthorizationException("ClassNotFoundException: " + className, ex);
 		}
       catch (InstantiationException ex)
       {
-         throw new AuthorizationProviderException("InstantiationException: " + className, ex);
+         throw new AuthorizationException("InstantiationException: " + className, ex);
       }
       catch (IllegalAccessException ex)
       {
-         throw new AuthorizationProviderException("IllegalAccessException: " + className, ex);
+         throw new AuthorizationException("IllegalAccessException: " + className, ex);
       }
    }
 }

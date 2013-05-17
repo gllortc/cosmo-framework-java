@@ -61,10 +61,10 @@ public class PostgreSqlAuthenticationImpl implements Authentication
     * @return Una instancia de {@link User} que representa el usuario al que corresponden las credenciales proporcionadas.
     * 
     * @throws UserNotFoundException
-    * @throws AuthenticationProviderException 
+    * @throws AuthenticationException 
     */
    @Override
-   public User login(String login, String password) throws UserNotFoundException, AuthenticationProviderException
+   public User login(String login, String password) throws UserNotFoundException, AuthenticationException
    {
       String sql;
       User user = null;
@@ -81,7 +81,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
          // Determina si la cuenta del usuario está o no bloqueada
          if (isLocked(login, attemps, timeout))
          {
-            throw new AuthenticationProviderException("La cuenta " + login + " está bloqueada.");
+            throw new AuthenticationException("La cuenta " + login + " está bloqueada.");
          }
       }
       
@@ -132,11 +132,11 @@ public class PostgreSqlAuthenticationImpl implements Authentication
       } 
       catch (SQLException ex) 
       {
-         throw new AuthenticationProviderException(ex.getMessage(), ex);
+         throw new AuthenticationException(ex.getMessage(), ex);
       }
       catch (GeneralSecurityException ex)
       {
-         throw new AuthenticationProviderException(ex.getMessage(), ex);
+         throw new AuthenticationException(ex.getMessage(), ex);
       }
       catch (UserNotFoundException ex)
       {
@@ -144,7 +144,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
       }
       catch (Exception ex)
       {
-         throw new AuthenticationProviderException(ex.getMessage(), ex);
+         throw new AuthenticationException(ex.getMessage(), ex);
       }
       finally
       {
@@ -220,9 +220,9 @@ public class PostgreSqlAuthenticationImpl implements Authentication
     * @param user Una instancia de {@link User} que representa el nuevo usuario.
     *     
     * @throws UserAlreadyExistsException
-    * @throws AuthenticationProviderException
+    * @throws AuthenticationException
     */
-   public void add(User user) throws UserAlreadyExistsException, AuthenticationProviderException
+   public void add(User user) throws UserAlreadyExistsException, AuthenticationException
    {
       String sSQL;
       ResultSet rs;
@@ -278,11 +278,11 @@ public class PostgreSqlAuthenticationImpl implements Authentication
       } 
       catch (SQLException ex) 
       {
-         throw new AuthenticationProviderException(ex.getMessage(), ex);
+         throw new AuthenticationException(ex.getMessage(), ex);
       }
       catch (GeneralSecurityException ex)
       {
-         throw new AuthenticationProviderException(ex.getMessage(), ex);
+         throw new AuthenticationException(ex.getMessage(), ex);
       }
       catch (UserAlreadyExistsException ex)
       {
@@ -290,7 +290,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
       }
       catch (Exception ex)
       {
-         throw new AuthenticationProviderException(ex.getMessage(), ex);
+         throw new AuthenticationException(ex.getMessage(), ex);
       }
       finally
       {
@@ -315,9 +315,9 @@ public class PostgreSqlAuthenticationImpl implements Authentication
     * 
     * @return {@code false} si la cuenta está habilitada o {@code true} si la cuenta se encuentra bloqueada (o en cualquier otro caso).
     * 
-    * @throws AuthenticationProviderException 
+    * @throws AuthenticationException 
     */
-   private boolean isLocked(String login, int attempts, int timeout) throws AuthenticationProviderException
+   private boolean isLocked(String login, int attempts, int timeout) throws AuthenticationException
    {
       String sql;
       DataSource ds;
@@ -354,15 +354,15 @@ public class PostgreSqlAuthenticationImpl implements Authentication
       } 
       catch (SQLException ex) 
       {
-         throw new AuthenticationProviderException(ex.getMessage(), ex);
+         throw new AuthenticationException(ex.getMessage(), ex);
       }
       catch (GeneralSecurityException ex)
       {
-         throw new AuthenticationProviderException(ex.getMessage(), ex);
+         throw new AuthenticationException(ex.getMessage(), ex);
       }
       catch (Exception ex)
       {
-         throw new AuthenticationProviderException(ex.getMessage(), ex);
+         throw new AuthenticationException(ex.getMessage(), ex);
       }
       finally
       {
@@ -375,9 +375,9 @@ public class PostgreSqlAuthenticationImpl implements Authentication
     * 
     * @param login Una cadena que contiene el login para el que se desea registrar el fallo de autenticación.
     *  
-    * @throws AuthenticationProviderException
+    * @throws AuthenticationException
     */
-   private void loginFail(String login) throws AuthenticationProviderException
+   private void loginFail(String login) throws AuthenticationException
    {
       String sql;
       DataSource ds;
@@ -415,15 +415,15 @@ public class PostgreSqlAuthenticationImpl implements Authentication
       } 
       catch (SQLException ex) 
       {
-         throw new AuthenticationProviderException(ex.getMessage(), ex);
+         throw new AuthenticationException(ex.getMessage(), ex);
       }
       catch (GeneralSecurityException ex)
       {
-         throw new AuthenticationProviderException(ex.getMessage(), ex);
+         throw new AuthenticationException(ex.getMessage(), ex);
       }
       catch (Exception ex)
       {
-         throw new AuthenticationProviderException(ex.getMessage(), ex);
+         throw new AuthenticationException(ex.getMessage(), ex);
       }
       finally
       {

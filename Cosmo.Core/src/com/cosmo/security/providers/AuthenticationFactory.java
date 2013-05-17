@@ -33,9 +33,9 @@ public abstract class AuthenticationFactory
     * 
     * @return Una instancia única de {@link Authentication} (sigleton).
     * 
-    * @throws AuthenticationProviderException 
+    * @throws AuthenticationException 
     */
-   public static Authentication getInstance(Workspace workspace) throws AuthenticationProviderException 
+   public static Authentication getInstance(Workspace workspace) throws AuthenticationException 
    {
       if (instance == null) 
       {
@@ -53,9 +53,9 @@ public abstract class AuthenticationFactory
    /**
     * Carga el controlador de usuarios.
     * 
-    * @throws AuthenticationProviderException 
+    * @throws AuthenticationException 
     */
-   private static Authentication loadProvider(Workspace workspace) throws AuthenticationProviderException
+   private static Authentication loadProvider(Workspace workspace) throws AuthenticationException
    {
       String className = "-- no authentication provider defined in proprties --";
       PluginProperties agent;
@@ -65,14 +65,14 @@ public abstract class AuthenticationFactory
       agent = workspace.getProperties().getAuthenticationAgent();
       if (agent == null)
       {
-         throw new AuthenticationProviderException("Security Configuration Exception: No authentication agent found");
+         throw new AuthenticationException("Security Configuration Exception: No authentication agent found");
       }
       
       // Obtiene el driver de autenticación
       className = agent.getModuleClass();
       if (StringUtils.isNullOrEmptyTrim(className))
       {
-         throw new AuthenticationProviderException("Security Configuration Exception: No authentication driver found");
+         throw new AuthenticationException("Security Configuration Exception: No authentication driver found");
       }
       
       try 
@@ -85,23 +85,23 @@ public abstract class AuthenticationFactory
 		}
       catch (NoSuchMethodException ex) 
 		{
-         throw new AuthenticationProviderException("NoSuchMethodException: " + className, ex);
+         throw new AuthenticationException("NoSuchMethodException: " + className, ex);
       }
       catch (InvocationTargetException ex) 
 		{
-         throw new AuthenticationProviderException("InvocationTargetException: " + className, ex);
+         throw new AuthenticationException("InvocationTargetException: " + className, ex);
       }
 		catch (ClassNotFoundException ex) 
 		{
-         throw new AuthenticationProviderException("ClassNotFoundException: " + className, ex);
+         throw new AuthenticationException("ClassNotFoundException: " + className, ex);
 		}
       catch (InstantiationException ex)
       {
-         throw new AuthenticationProviderException("InstantiationException: " + className, ex);
+         throw new AuthenticationException("InstantiationException: " + className, ex);
       }
       catch (IllegalAccessException ex)
       {
-         throw new AuthenticationProviderException("IllegalAccessException: " + className, ex);
+         throw new AuthenticationException("IllegalAccessException: " + className, ex);
       }
    }
 }

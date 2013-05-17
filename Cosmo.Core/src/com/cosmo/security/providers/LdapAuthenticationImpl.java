@@ -73,10 +73,10 @@ public class LdapAuthenticationImpl implements Authentication
     * @return Una instancia de {@link User} que representa el usuario al que corresponden las credenciales proporcionadas.
     * 
     * @throws UserNotFoundException
-    * @throws AuthenticationProviderException 
+    * @throws AuthenticationException 
     */
    @Override
-   public User login(String login, String password) throws UserNotFoundException, AuthenticationProviderException
+   public User login(String login, String password) throws UserNotFoundException, AuthenticationException
    {
       return authenticate(login, password);
    }
@@ -155,9 +155,9 @@ public class LdapAuthenticationImpl implements Authentication
     * @return Una instancia de {@link User} que contiene la información del usuario autenticado o {@code null} si la autenticación a fallado.
     * 
     * @throws UserNotFoundException
-    * @throws AuthenticationProviderException
+    * @throws AuthenticationException
     */
-   private User authenticate(String login, String password) throws UserNotFoundException, AuthenticationProviderException
+   private User authenticate(String login, String password) throws UserNotFoundException, AuthenticationException
    {
       String attrValue;
       User user = null;
@@ -230,7 +230,7 @@ public class LdapAuthenticationImpl implements Authentication
       }
       catch (NamingException ex)
       {
-         throw new AuthenticationProviderException(ex.getMessage());
+         throw new AuthenticationException(ex.getMessage());
       }
       
       return user;

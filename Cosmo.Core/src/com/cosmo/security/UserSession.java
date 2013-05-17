@@ -7,10 +7,10 @@ import java.util.HashMap;
 import com.cosmo.Workspace;
 import com.cosmo.security.providers.Authentication;
 import com.cosmo.security.providers.AuthenticationFactory;
-import com.cosmo.security.providers.AuthenticationProviderException;
+import com.cosmo.security.providers.AuthenticationException;
 import com.cosmo.security.providers.Authorization;
 import com.cosmo.security.providers.AuthorizationFactory;
-import com.cosmo.security.providers.AuthorizationProviderException;
+import com.cosmo.security.providers.AuthorizationException;
 
 /**
  * Representa una sesión de usuario en el workspace.
@@ -36,10 +36,10 @@ public class UserSession
     * @param pwd Una cadena que contiene la contraseña del usuario.
     * 
     * @throws UserNotFoundException
-    * @throws AuthenticationProviderException
-    * @throws AuthorizationProviderException
+    * @throws AuthenticationException
+    * @throws AuthorizationException
     */
-   public UserSession(Workspace workspace, String login, String pwd) throws UserNotFoundException, AuthenticationProviderException, AuthorizationProviderException
+   public UserSession(Workspace workspace, String login, String pwd) throws UserNotFoundException, AuthenticationException, AuthorizationException
    {
       initialize();
       
@@ -72,10 +72,10 @@ public class UserSession
     * @param user Una instancia de {@link User} que representa el usuario para el que se desea crear la sesión.
     * 
     * @throws UserNotFoundException
-    * @throws AuthenticationProviderException
-    * @throws AuthorizationProviderException
+    * @throws AuthenticationException
+    * @throws AuthorizationException
     */
-   public UserSession(Workspace workspace, User user) throws UserNotFoundException, AuthenticationProviderException, AuthorizationProviderException
+   public UserSession(Workspace workspace, User user) throws UserNotFoundException, AuthenticationException, AuthorizationException
    {
       initialize();
       

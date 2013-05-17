@@ -107,10 +107,10 @@ public class CasAuthenticationImpl implements Authentication
     * @return Una instancia de {@link User} que representa el usuario al que corresponden las credenciales proporcionadas.
     * 
     * @throws UserNotFoundException
-    * @throws AuthenticationProviderException 
+    * @throws AuthenticationException 
     */
    @Override
-   public User login(String login, String password) throws UserNotFoundException, AuthenticationProviderException
+   public User login(String login, String password) throws UserNotFoundException, AuthenticationException
    {
       // Este agente usa Login Gateway por lo que este método no se invocará nunca.
       return null;
@@ -194,7 +194,7 @@ public class CasAuthenticationImpl implements Authentication
             return null;
          }
       }
-      catch (AuthenticationProviderException ex)
+      catch (AuthenticationException ex)
       {
          return null;
       }
@@ -213,9 +213,9 @@ public class CasAuthenticationImpl implements Authentication
     * 
     * @return Una instancia de {@link User} si la validación es correcta o {@code null} en cualquier otro caso.
     * 
-    * @throws AuthenticationProviderException
+    * @throws AuthenticationException
     */
-   private User validate(String serviceUrl, String serviceTicket) throws AuthenticationProviderException
+   private User validate(String serviceUrl, String serviceTicket) throws AuthenticationException
    {
       User user = null;
       
@@ -235,7 +235,7 @@ public class CasAuthenticationImpl implements Authentication
          if (statusCode != HttpStatus.SC_OK)
          {
             method.releaseConnection();
-            throw new AuthenticationProviderException("El servidor de CAS no ha respondido correctamente a la llamada de validación de la autenticación (CAS ticket=" + serviceTicket + ").");
+            throw new AuthenticationException("El servidor de CAS no ha respondido correctamente a la llamada de validación de la autenticación (CAS ticket=" + serviceTicket + ").");
          } 
          else
          {   
@@ -245,9 +245,9 @@ public class CasAuthenticationImpl implements Authentication
       }
       catch (IOException ex)
       {
-         throw new AuthenticationProviderException(ex.getMessage(), ex);
+         throw new AuthenticationException(ex.getMessage(), ex);
       }
-      catch (AuthenticationProviderException ex)
+      catch (AuthenticationException ex)
       {
          throw ex;
       }
@@ -266,9 +266,9 @@ public class CasAuthenticationImpl implements Authentication
     * 
     * @return Una instancia de {@link User} que contiene los datos del usuario.
     * 
-    * @throws AuthenticationProviderException 
+    * @throws AuthenticationException 
     */
-   public User getUserDataFromValidation(String responseData) throws AuthenticationProviderException
+   public User getUserDataFromValidation(String responseData) throws AuthenticationException
    {
       Node nNode;
       NodeList nList;
@@ -319,15 +319,15 @@ public class CasAuthenticationImpl implements Authentication
       }
       catch (ParserConfigurationException ex)
       {
-         throw new AuthenticationProviderException(ex.getMessage(), ex);
+         throw new AuthenticationException(ex.getMessage(), ex);
       }
       catch (SAXException ex)
       {
-         throw new AuthenticationProviderException(ex.getMessage(), ex);
+         throw new AuthenticationException(ex.getMessage(), ex);
       }
       catch (IOException ex)
       {
-         throw new AuthenticationProviderException(ex.getMessage(), ex);
+         throw new AuthenticationException(ex.getMessage(), ex);
       }
    }
    

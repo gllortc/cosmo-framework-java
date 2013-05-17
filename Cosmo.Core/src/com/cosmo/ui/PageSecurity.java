@@ -16,8 +16,8 @@ import com.cosmo.security.annotations.RolesAllowed;
 import com.cosmo.security.annotations.SessionRequired;
 import com.cosmo.security.providers.Authentication;
 import com.cosmo.security.providers.AuthenticationFactory;
-import com.cosmo.security.providers.AuthenticationProviderException;
-import com.cosmo.security.providers.AuthorizationProviderException;
+import com.cosmo.security.providers.AuthenticationException;
+import com.cosmo.security.providers.AuthorizationException;
 import com.cosmo.util.URL;
 
 /**
@@ -40,11 +40,11 @@ public class PageSecurity
     * 
     * @throws IOException 
     * @throws NotAuthorizedException 
-    * @throws AuthenticationProviderException 
-    * @throws AuthorizationProviderException 
+    * @throws AuthenticationException 
+    * @throws AuthorizationException 
     * @throws UserNotFoundException 
     */
-   public void checkPageSecurity(Page page, Workspace workspace, HttpServletRequest request, HttpServletResponse response) throws IOException, NotAuthorizedException, AuthenticationProviderException, UserNotFoundException, AuthorizationProviderException
+   public void checkPageSecurity(Page page, Workspace workspace, HttpServletRequest request, HttpServletResponse response) throws IOException, NotAuthorizedException, AuthenticationException, UserNotFoundException, AuthorizationException
    {
       //----------------------
       // Autenticación
@@ -70,7 +70,7 @@ public class PageSecurity
                
                if (user == null)
                {
-                  throw new AuthenticationProviderException("El proveedor de seguridad no pudo obtener las credenciales del usuario autenticado. La autenticación ha fallado.");
+                  throw new AuthenticationException("El proveedor de seguridad no pudo obtener las credenciales del usuario autenticado. La autenticación ha fallado.");
                }
                
                workspace.createSession(user);

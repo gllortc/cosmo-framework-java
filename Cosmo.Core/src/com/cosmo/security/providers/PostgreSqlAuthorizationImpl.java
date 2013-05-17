@@ -55,10 +55,10 @@ public class PostgreSqlAuthorizationImpl implements Authorization
     * 
     * @return 
     * 
-    * @throws AuthorizationProviderException 
+    * @throws AuthorizationException 
     */
    @Override
-   public SecurityInfo loadAuthorizationData(String login, SecurityInfo si) throws AuthorizationProviderException
+   public SecurityInfo loadAuthorizationData(String login, SecurityInfo si) throws AuthorizationException
    {
       // SecurityInfo si = new SecurityInfo();
       
@@ -80,7 +80,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
     * @return {@code true} si el usuario tiene asignado el rol o {@code false} en cualquier otro caso.
     */
    @Override
-   public boolean isUserInRole(String login, String role) throws AuthorizationProviderException
+   public boolean isUserInRole(String login, String role) throws AuthorizationException
    {
       ArrayList<String> roles = new ArrayList<String>();
       roles.add(role);
@@ -96,10 +96,10 @@ public class PostgreSqlAuthorizationImpl implements Authorization
     * 
     * @return {@code true} si el usuario tiene asignado al menos un rol de los contenidos en la lista o {@code false} en cualquier otro caso.
     * 
-    * @throws AuthorizationProviderException
+    * @throws AuthorizationException
     */
    @Override
-   public boolean isUserInRole(String login, ArrayList<String> roles) throws AuthorizationProviderException
+   public boolean isUserInRole(String login, ArrayList<String> roles) throws AuthorizationException
    {
       ArrayList<Role> roleList = null;
       
@@ -144,10 +144,10 @@ public class PostgreSqlAuthorizationImpl implements Authorization
     * 
     * @return Una instancia de {@link ArrayList} que contiene las instancias de {@link Role} que corresponden a los roles a los que pertenece un determinado usuario.
     * 
-    * @throws AuthorizationProviderException
+    * @throws AuthorizationException
     */
    @Override
-   public ArrayList<Role> getRolesByUser(String login) throws AuthorizationProviderException
+   public ArrayList<Role> getRolesByUser(String login) throws AuthorizationException
    {
       String sql;
       DataSource ds;
@@ -173,7 +173,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       }
       catch (Exception ex) 
       {
-         throw new AuthorizationProviderException(ex.getMessage(), ex);
+         throw new AuthorizationException(ex.getMessage(), ex);
       }
       
       return roles;
@@ -189,9 +189,9 @@ public class PostgreSqlAuthorizationImpl implements Authorization
     * 
     * @return Una instancia de {@link ArrayList} que contiene instancias de {@link Role}.
     * 
-    * @throws AuthorizationProviderException
+    * @throws AuthorizationException
     */
-   public ArrayList<Role> getRoles() throws AuthorizationProviderException 
+   public ArrayList<Role> getRoles() throws AuthorizationException 
    {
       String sql;
       DataSource ds;
@@ -216,7 +216,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       }
       catch (Exception ex) 
       {
-         throw new AuthorizationProviderException(ex.getMessage(), ex);
+         throw new AuthorizationException(ex.getMessage(), ex);
       }
       
       return roles;
@@ -231,9 +231,9 @@ public class PostgreSqlAuthorizationImpl implements Authorization
     * 
     * @return Una instancia de {@link ArrayList} que contiene instancias de {@link Activity}.
     * 
-    * @throws AuthorizationProviderException
+    * @throws AuthorizationException
     */
-   public ArrayList<Activity> getActivities() throws AuthorizationProviderException
+   public ArrayList<Activity> getActivities() throws AuthorizationException
    {
       String sql;
       DataSource ds;
@@ -258,7 +258,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       }
       catch (Exception ex) 
       {
-         throw new AuthorizationProviderException(ex.getMessage(), ex);
+         throw new AuthorizationException(ex.getMessage(), ex);
       }
       
       return activities;
@@ -269,9 +269,9 @@ public class PostgreSqlAuthorizationImpl implements Authorization
     * 
     * @return Una instancia de {@link ArrayList} que contiene instancias de {@link Activity}.
     * 
-    * @throws AuthorizationProviderException
+    * @throws AuthorizationException
     */
-   public ArrayList<Activity> getActivitiesByRole(String roleId) throws AuthorizationProviderException
+   public ArrayList<Activity> getActivitiesByRole(String roleId) throws AuthorizationException
    {
       String sql;
       DataSource ds;
@@ -298,7 +298,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       }
       catch (Exception ex) 
       {
-         throw new AuthorizationProviderException(ex.getMessage(), ex);
+         throw new AuthorizationException(ex.getMessage(), ex);
       }
       
       return activities;
@@ -311,9 +311,9 @@ public class PostgreSqlAuthorizationImpl implements Authorization
     * 
     * @return Un array de instancias de {@link Permission} que contiene los permisos efectivos del usuario.
     * 
-    * @throws AuthorizationProviderException
+    * @throws AuthorizationException
     */
-   public ArrayList<Permission> getActivitiesByUser(String login) throws AuthorizationProviderException
+   public ArrayList<Permission> getActivitiesByUser(String login) throws AuthorizationException
    {
       String sql;
       DataSource ds;
@@ -341,7 +341,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       }
       catch (Exception ex) 
       {
-         throw new AuthorizationProviderException(ex.getMessage(), ex);
+         throw new AuthorizationException(ex.getMessage(), ex);
       }
       
       return permissions;

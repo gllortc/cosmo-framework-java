@@ -12,9 +12,9 @@ public interface Authorization
     * 
     * @param login Una cadena que contiene el <em>login</em> del usuario.
     * 
-    * @throws AuthorizationProviderException
+    * @throws AuthorizationException
     */
-   public SecurityInfo loadAuthorizationData(String login, SecurityInfo si) throws AuthorizationProviderException;
+   public SecurityInfo loadAuthorizationData(String login, SecurityInfo si) throws AuthorizationException;
    
    /**
     * Determina si un usuario tiene un rol especifico.
@@ -24,7 +24,7 @@ public interface Authorization
     * 
     * @return {@code true} si el usuario tiene asignado el rol o {@code false} en cualquier otro caso.
     */
-   public boolean isUserInRole(String login, String role) throws AuthorizationProviderException;
+   public boolean isUserInRole(String login, String role) throws AuthorizationException;
    
    /**
     * Determina si un usuario tiene un rol especifico entre una lista de roles.
@@ -34,9 +34,9 @@ public interface Authorization
     * 
     * @return {@code true} si el usuario tiene asignado al menos un rol de los contenidos en la lista o {@code false} en cualquier otro caso.
     * 
-    * @throws AuthorizationProviderException
+    * @throws AuthorizationException
     */
-   public boolean isUserInRole(String login, ArrayList<String> roles) throws AuthorizationProviderException;
+   public boolean isUserInRole(String login, ArrayList<String> roles) throws AuthorizationException;
 
    /**
     * Determina si un usuario tiene permiso para ejecutar determinada actividad.
@@ -55,5 +55,5 @@ public interface Authorization
     * 
     * @return Un array con los nombres (IDs) de los roles asignados al usuario.
     */
-   public ArrayList<Role> getRolesByUser(String login) throws AuthorizationProviderException;
+   public ArrayList<Role> getRolesByUser(String login) throws AuthorizationException;
 }

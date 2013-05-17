@@ -16,8 +16,8 @@ import com.cosmo.WorkspaceLoadException;
 import com.cosmo.WorkspaceProvider;
 import com.cosmo.security.NotAuthorizedException;
 import com.cosmo.security.UserNotFoundException;
-import com.cosmo.security.providers.AuthenticationProviderException;
-import com.cosmo.security.providers.AuthorizationProviderException;
+import com.cosmo.security.providers.AuthenticationException;
+import com.cosmo.security.providers.AuthorizationException;
 import com.cosmo.ui.controls.Control;
 import com.cosmo.ui.controls.FormControl;
 import com.cosmo.ui.render.LoadPageRenderException;
@@ -523,12 +523,12 @@ public abstract class Page extends HttpServlet implements PageInterface
     * @throws TemplateUnavailableException
     * @throws TemplateLoadException
     * @throws MenuProviderException
-    * @throws AuthorizationProviderException 
+    * @throws AuthorizationException 
     * @throws UserNotFoundException 
-    * @throws AuthenticationProviderException 
+    * @throws AuthenticationException 
     * @throws NotAuthorizedException 
     */
-   private void createPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, WorkspaceLoadException, RulesLoadException, TemplateUnavailableException, TemplateLoadException, MenuProviderException, NotAuthorizedException, AuthenticationProviderException, UserNotFoundException, AuthorizationProviderException
+   private void createPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, WorkspaceLoadException, RulesLoadException, TemplateUnavailableException, TemplateLoadException, MenuProviderException, NotAuthorizedException, AuthenticationException, UserNotFoundException, AuthorizationException
    {
       long startTime = System.currentTimeMillis();
       
