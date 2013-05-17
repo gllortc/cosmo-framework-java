@@ -255,6 +255,23 @@
 &lt;/ul&gt;
             </celement>
 			</pcontrol>
+			
+			<!-- BARRA DE BOTONES -->
+         <pcontrol id="CosmoUiCtrlButtonBar">
+            <celement id="buttonbar-header">
+&lt;ul class="button-bar"&gt;
+            </celement>
+            <celement id="buttonbar-item">
+&lt;li&gt;
+   &lt;a href="[@HREF]"&gt;
+      [#IF ICON]&lt;i class="[@ICON]"&gt;&lt;/i&gt; [#ENDIF ICON][@FTITLE]
+   &lt;/a&gt;
+&lt;/li&gt;
+            </celement>
+            <celement id="buttonbar-footer">
+&lt;/ul&gt;
+            </celement>
+         </pcontrol>
 
          <!-- ZONA DE BANNERS -->
          <pcontrol id="CosmoUiWdgtBannerArea">
