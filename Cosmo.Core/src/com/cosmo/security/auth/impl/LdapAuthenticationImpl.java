@@ -1,4 +1,4 @@
-package com.cosmo.security.providers;
+package com.cosmo.security.auth.impl;
 
 import java.util.Date;
 import java.util.Enumeration;
@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import com.cosmo.Workspace;
 import com.cosmo.security.User;
 import com.cosmo.security.UserNotFoundException;
+import com.cosmo.security.auth.Authentication;
+import com.cosmo.security.auth.AuthenticationException;
 import com.cosmo.structures.PluginProperties;
 
 /**

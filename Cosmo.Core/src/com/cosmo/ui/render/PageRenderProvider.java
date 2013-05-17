@@ -2,7 +2,7 @@ package com.cosmo.ui.render;
 
 import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
-import com.cosmo.security.providers.AuthenticationException;
+import com.cosmo.security.auth.AuthenticationException;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.templates.TemplateUnavailableException;
 

@@ -1,4 +1,4 @@
-package com.cosmo.security.providers;
+package com.cosmo.security.auth;
 
 /**
  * Se produce cuando hay un error con el proveedor de perfiles de usuario.

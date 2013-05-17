@@ -1,4 +1,4 @@
-package com.cosmo.security.providers;
+package com.cosmo.security.auth;
 
 import java.util.ArrayList;
 

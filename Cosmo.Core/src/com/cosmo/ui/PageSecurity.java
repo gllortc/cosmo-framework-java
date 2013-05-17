@@ -14,10 +14,10 @@ import com.cosmo.security.UserNotFoundException;
 import com.cosmo.security.annotations.ActivitiesAllowed;
 import com.cosmo.security.annotations.RolesAllowed;
 import com.cosmo.security.annotations.SessionRequired;
-import com.cosmo.security.providers.Authentication;
-import com.cosmo.security.providers.AuthenticationFactory;
-import com.cosmo.security.providers.AuthenticationException;
-import com.cosmo.security.providers.AuthorizationException;
+import com.cosmo.security.auth.Authentication;
+import com.cosmo.security.auth.AuthenticationException;
+import com.cosmo.security.auth.AuthenticationFactory;
+import com.cosmo.security.auth.AuthorizationException;
 import com.cosmo.util.URL;
 
 /**

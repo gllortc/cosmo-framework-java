@@ -1,4 +1,4 @@
-package com.cosmo.security.providers;
+package com.cosmo.security.auth.impl;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -10,6 +10,8 @@ import com.cosmo.security.Activity;
 import com.cosmo.security.Permission;
 import com.cosmo.security.Role;
 import com.cosmo.security.UserSession.SecurityInfo;
+import com.cosmo.security.auth.Authorization;
+import com.cosmo.security.auth.AuthorizationException;
 
 /**
  * Implementa el proveedor de autorización nativo de Cosmo.<br />

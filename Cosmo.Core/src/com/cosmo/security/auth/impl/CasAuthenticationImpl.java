@@ -1,4 +1,4 @@
-package com.cosmo.security.providers;
+package com.cosmo.security.auth.impl;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -23,6 +23,8 @@ import com.cosmo.Workspace;
 import com.cosmo.net.HttpRequestUtils;
 import com.cosmo.security.User;
 import com.cosmo.security.UserNotFoundException;
+import com.cosmo.security.auth.Authentication;
+import com.cosmo.security.auth.AuthenticationException;
 import com.cosmo.structures.PluginProperties;
 import com.cosmo.util.StringUtils;
 import com.cosmo.util.URL;

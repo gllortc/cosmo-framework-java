@@ -1,4 +1,4 @@
-package com.cosmo.security.providers;
+package com.cosmo.security.auth.impl;
 
 import java.security.GeneralSecurityException;
 import java.sql.ResultSet;
@@ -12,6 +12,9 @@ import com.cosmo.data.DataSource;
 import com.cosmo.security.User;
 import com.cosmo.security.UserAlreadyExistsException;
 import com.cosmo.security.UserNotFoundException;
+import com.cosmo.security.auth.Authentication;
+import com.cosmo.security.auth.AuthenticationException;
+import com.cosmo.security.auth.AuthenticationFactory;
 import com.cosmo.structures.PluginProperties;
 import com.cosmo.util.CryptoUtils;
 
@@ -246,20 +249,6 @@ public class PostgreSqlAuthenticationImpl implements Authentication
             throw new UserAlreadyExistsException();
          }
          
-         // Agrega la petición
-         /*sSQL = "INSERT INTO " + TABLE_NAME + " (usrlogin, usrmail, usrpwd, usrname, usrcity, usroptions, usrstatus, usrcreated, usrlastlogin, usrlogoncount) " +
-                "VALUES " +
-                "('" + user.getLogin() + "', " +
-                " '" + user.getMail() + "', " +
-                " '" + CryptoUtils.encrypt(user.getPwd()) + "', " +
-                " '" + user.getName() + "', " +
-                " '" + user.getCity() + "', " +
-                "  " + 0 + ", " +
-                "  " + AuthenticationProvider.statusToNumber(user.getStatus()) + ", " +
-                "  current_timestamp, " +
-                "  null, " +
-                "  " + 0 + ")";*/
-         
          sSQL = "INSERT INTO " + TABLE_NAME + " (usrlogin, usrmail, usrpwd, usrname, usroptions, usrcreated, usrlastlogin, usrlogoncount) " +
                "VALUES " +
                "('" + user.getLogin() + "', " +
@@ -291,6 +280,44 @@ public class PostgreSqlAuthenticationImpl implements Authentication
       catch (Exception ex)
       {
          throw new AuthenticationException(ex.getMessage(), ex);
+      }
+      finally
+      {
+         conn.disconnect();
+      }
+   }
+   
+   /**
+    * Obtiene un listado con todos los usuarios.
+    * 
+    * @return Una instancia de {@link ResultSet} que contiene los datos del listado.
+    * 
+    * @throws Exception
+    */
+   public ResultSet getUsersList() throws Exception
+   {
+      String sSQL;
+      DataSource ds;
+      DataConnection conn = null;
+      
+      try 
+      {
+         sSQL = "SELECT   usrlogin   As Login, " +
+                "         usrname    As Nom, " +
+                "         usrmail    As Mail, " +
+                "         usrcreated As Creat " +
+                "FROM     cosmo_users " +
+                "ORDER BY cosmo_users";
+         
+         ds = this.workspace.getProperties().getServerDataSource();
+         conn = new DataConnection(ds);
+         conn.connect();
+         
+         return conn.executeSql(sSQL);
+      }
+      catch (Exception ex)
+      {
+         throw ex;
       }
       finally
       {

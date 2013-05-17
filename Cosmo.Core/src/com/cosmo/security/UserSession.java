@@ -5,12 +5,12 @@ import java.util.Date;
 import java.util.HashMap;
 
 import com.cosmo.Workspace;
-import com.cosmo.security.providers.Authentication;
-import com.cosmo.security.providers.AuthenticationFactory;
-import com.cosmo.security.providers.AuthenticationException;
-import com.cosmo.security.providers.Authorization;
-import com.cosmo.security.providers.AuthorizationFactory;
-import com.cosmo.security.providers.AuthorizationException;
+import com.cosmo.security.auth.Authentication;
+import com.cosmo.security.auth.AuthenticationException;
+import com.cosmo.security.auth.AuthenticationFactory;
+import com.cosmo.security.auth.Authorization;
+import com.cosmo.security.auth.AuthorizationException;
+import com.cosmo.security.auth.AuthorizationFactory;
 
 /**
  * Representa una sesión de usuario en el workspace.
