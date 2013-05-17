@@ -57,16 +57,16 @@
 
    </connections>
    
-   <security authentication-agent="cas" authorization-agent="rdbms" login-page="LoginPage">
+   <security authentication-agent="rdbms" authorization-agent="rdbms" login-page="LoginPage">
       
-      <authentication-agent id="rdbms" driver="com.cosmo.security.providers.PostgreSqlAuthenticationProvider">
+      <authentication-agent id="rdbms" driver="com.cosmo.security.auth.impl.PostgreSqlAuthenticationImpl">
          <param key="connection" value="cosmo.server" />
          <param key="lockControl" value="true" />
          <param key="lockTimeout" value="60" />
          <param key="lockAttempts" value="3" />
       </authentication-agent>
 
-      <authentication-agent id="ldap" driver="com.cosmo.security.providers.LdapAuthenticationProvider">
+      <authentication-agent id="ldap" driver="com.cosmo.security.auth.impl.LdapAuthenticationImpl">
          <param key="context-factory" value="com.sun.jndi.ldap.LdapCtxFactory" />
          <param key="host-url" value="ldap.testathon.net" />
          <param key="host-port" value="389" />
@@ -77,14 +77,14 @@
          <param key="ldap-attrib-surname" value="sn" />
       </authentication-agent>
       
-      <authentication-agent id="cas" driver="com.cosmo.security.providers.CasAuthenticationProvider">
+      <authentication-agent id="cas" driver="com.cosmo.security.auth.impl.CasAuthenticationImpl">
          <param key="service-url" value="http://localhost:8080/Cosmo.Web/SecretPage" />
          <param key="cas-service" value="https://developsc.intranet.dtgna:8443/cas-dipta/" />
          <param key="cas-attrib-mail" value="mail" />
          <param key="cas-attrib-cname" value="nomComplet" />
       </authentication-agent>
       
-      <authorization-agent id="rdbms" driver="com.cosmo.security.providers.PostgreSqlAuthorizationProvider">
+      <authorization-agent id="rdbms" driver="com.cosmo.security.auth.impl.PostgreSqlAuthorizationImpl">
          <param key="connection" value="cosmo.server" />
       </authorization-agent>
       
