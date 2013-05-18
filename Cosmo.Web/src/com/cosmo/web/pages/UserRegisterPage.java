@@ -1,15 +1,18 @@
 package com.cosmo.web.pages;
 
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.cosmo.net.HttpRequestUtils;
 import com.cosmo.security.User;
 import com.cosmo.security.UserAlreadyExistsException;
 import com.cosmo.security.annotations.SessionRequired;
 import com.cosmo.security.auth.Authentication;
-import com.cosmo.security.auth.AuthenticationFactory;
 import com.cosmo.security.auth.AuthenticationException;
+import com.cosmo.security.auth.AuthenticationFactory;
 import com.cosmo.security.auth.impl.PostgreSqlAuthenticationImpl;
 import com.cosmo.ui.Page;
-import com.cosmo.ui.Page.PageLayout;
 import com.cosmo.ui.controls.DynamicMessageControl;
 import com.cosmo.ui.controls.DynamicMessageControl.MessageTypes;
 import com.cosmo.ui.controls.FormButton;
@@ -17,10 +20,6 @@ import com.cosmo.ui.controls.FormControl;
 import com.cosmo.ui.controls.FormFieldGroup;
 import com.cosmo.ui.controls.FormFieldText;
 import com.cosmo.ui.controls.HeaderControl;
-
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Página estandar de identificación de usuarios.
