@@ -1,13 +1,10 @@
 package com.cosmo.web.pages;
 
-import javax.enterprise.context.SessionScoped;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cosmo.data.DataConnection;
 import com.cosmo.security.annotations.SessionRequired;
-import com.cosmo.security.auth.Authentication;
 import com.cosmo.security.auth.AuthenticationFactory;
 import com.cosmo.security.auth.impl.PostgreSqlAuthenticationImpl;
 import com.cosmo.structures.GridData;
@@ -20,7 +17,6 @@ import com.cosmo.ui.controls.DynamicMessageControl;
 import com.cosmo.ui.controls.GridControl;
 import com.cosmo.ui.controls.HeaderControl;
 import com.cosmo.ui.controls.Icon;
-import com.cosmo.web.sample.WeatherManager;
 
 /**
  * Página de prova.
