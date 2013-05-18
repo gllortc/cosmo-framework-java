@@ -69,7 +69,7 @@ public class ContentPage extends Page
       xhtml.append("<p><em>Emphasis</em></p>");
       xhtml.append("<p><a href=\"\">Inline Link</a></p>");
       xhtml.append("<p><strike>Strike</strike></p>");
-      xhtml.append("<p>Inline " + Icon.render(Icon.ICON_IMAGE_LOCATION, Icon.ICON_SIZE_DEFAULT) + " Icons</p>");
+      xhtml.append("<p>Inline " + Icon.render(Icon.ICON_IMAGE_HOME, Icon.ICON_SIZE_DEFAULT) + " Icons</p>");
       xhtml.append("<p><code>&lt;h1&gt;Sample Code&lt;/h1&gt;</code></p>");
       xhtml.append("<hr />");
 
