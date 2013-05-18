@@ -4,10 +4,12 @@ import com.cosmo.net.HttpRequestUtils;
 import com.cosmo.security.User;
 import com.cosmo.security.UserAlreadyExistsException;
 import com.cosmo.security.annotations.SessionRequired;
-import com.cosmo.security.providers.AuthenticationProvider;
-import com.cosmo.security.providers.AuthenticationProviderException;
-import com.cosmo.security.providers.PostgreSqlAuthenticationProvider;
+import com.cosmo.security.auth.Authentication;
+import com.cosmo.security.auth.AuthenticationFactory;
+import com.cosmo.security.auth.AuthenticationException;
+import com.cosmo.security.auth.impl.PostgreSqlAuthenticationImpl;
 import com.cosmo.ui.Page;
+import com.cosmo.ui.Page.PageLayout;
 import com.cosmo.ui.controls.DynamicMessageControl;
 import com.cosmo.ui.controls.DynamicMessageControl.MessageTypes;
 import com.cosmo.ui.controls.FormButton;
@@ -37,20 +39,20 @@ public class UserRegisterPage extends Page
    private static final String FIELD_PASSWORDVER = "txtPwdV";
    private static final String FIELD_MAIL = "txtMail";
    private static final String FIELD_NAME = "txtName";
-   private static final String FIELD_CITY = "txtCity";
    
    String dataReceived = "";
    
    @Override
    public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
    {
+      this.setLayout(PageLayout.TwoColumnsLeft);
       this.setTitle("Crear compte d'usuari - " + this.getWorkspace().getName());
       
       try 
       {
          // Comprueba si el agente es el adecuado
-         AuthenticationProvider ap = AuthenticationProvider.getInstance(this.getWorkspace());
-         if (!(ap instanceof PostgreSqlAuthenticationProvider))
+         Authentication ap = AuthenticationFactory.getInstance(this.getWorkspace());
+         if (!(ap instanceof PostgreSqlAuthenticationImpl))
          {
             DynamicMessageControl msg = new DynamicMessageControl(getWorkspace(), "msg");
             msg.setType(MessageTypes.Error);
@@ -75,22 +77,21 @@ public class UserRegisterPage extends Page
 
             FormFieldGroup grpId = new FormFieldGroup("Identificació");
             grpId.addField(new FormFieldText(FIELD_LOGIN, "Login", 35));
-            grpId.addField(new FormFieldText(FIELD_PASSWORD, "ContraseÃ±a", 32, true));
+            grpId.addField(new FormFieldText(FIELD_PASSWORD, "Contrassenya", 32, true));
             grpId.addField(new FormFieldText(FIELD_PASSWORDVER, "Verificació", 32, true));
             grpId.addField(new FormFieldText(FIELD_MAIL, "Correu-e", 255));
             form.addGroup(grpId);
 
             FormFieldGroup grpDat = new FormFieldGroup("Dades personals");
             grpDat.addField(new FormFieldText(FIELD_NAME, "Nom complert", 64));
-            grpDat.addField(new FormFieldText(FIELD_CITY, "Ciutat", 64));
             form.addGroup(grpDat);
             
             form.addButton(new FormButton("cmdSend", "Aceptar", FormButton.ButtonType.Submit));
-            form.addButton(new FormButton("cmdReset", "Limpiar", FormButton.ButtonType.Reset));
+            form.addButton(new FormButton("cmdCancel", "Cancel·lar", "UserManagerPage"));
             this.addContent(form, Page.ContentColumns.MAIN);
          }
       } 
-      catch (AuthenticationProviderException e) 
+      catch (AuthenticationException e) 
       {
          // TODO Auto-generated catch block
          e.printStackTrace();
@@ -124,15 +125,12 @@ public class UserRegisterPage extends Page
          user.setPwd(HttpRequestUtils.getValue(request, FIELD_PASSWORD));
          user.setMail(HttpRequestUtils.getValue(request, FIELD_MAIL));
          user.setName(HttpRequestUtils.getValue(request, FIELD_NAME));
-         user.setCity(HttpRequestUtils.getValue(request, FIELD_CITY));
-         user.setStatus(User.UserStates.Active);
 
          // Acciones
-         PostgreSqlAuthenticationProvider up = (PostgreSqlAuthenticationProvider) AuthenticationProvider.getInstance(this.getWorkspace());
+         PostgreSqlAuthenticationImpl up = (PostgreSqlAuthenticationImpl) AuthenticationFactory.getInstance(this.getWorkspace());
          up.add(user);
 
-         // Redirección a destino
-         response.sendRedirect("/LoginPage");
+         response.sendRedirect("/UserManagerPage");
          return;
       }
       catch (UserAlreadyExistsException ex)

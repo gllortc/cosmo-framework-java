@@ -1,7 +1,9 @@
 package com.cosmo.web.pages;
 
-import com.cosmo.logging.LogManager;
-import com.cosmo.logging.Logger;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.cosmo.security.annotations.SessionRequired;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.controls.BreadcrumbsControl;
@@ -9,10 +11,6 @@ import com.cosmo.ui.controls.BreadcrumbsItem;
 import com.cosmo.ui.controls.HeaderControl;
 import com.cosmo.ui.controls.Icon;
 import com.cosmo.ui.controls.XhtmlControl;
-
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Página de prova.
@@ -73,7 +71,7 @@ public class SecretPage extends Page
       xhtml.append("<p><em>Emphasis</em></p>");
       xhtml.append("<p><a href=\"\">Inline Link</a></p>");
       xhtml.append("<p><strike>Strike</strike></p>");
-      xhtml.append("<p>Inline " + Icon.render(Icon.ICON_IMAGE_LOCATION, Icon.ICON_SIZE_DEFAULT) + " Icons</p>");
+      xhtml.append("<p>Inline " + Icon.render(Icon.ICON_IMAGE_HEART, Icon.ICON_SIZE_DEFAULT) + " Icons</p>");
       xhtml.append("<p><code>&lt;h1&gt;Sample Code&lt;/h1&gt;</code></p>");
       xhtml.append("<hr />");
 
