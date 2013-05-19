@@ -6,11 +6,11 @@
    <copyright>InforGEST</copyright>
    <first-cssclass>first</first-cssclass>
    <head>
-      <hscript type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" />
-      <hscript type="text/javascript" src="prettify.js" />                 
-      <hscript type="text/javascript" src="kickstart.js" />
+      <hscript type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" />
+      <!-- <hscript type="text/javascript" src="prettify.js" /> -->                 
+      <hscript type="text/javascript" src="js/kickstart.js" />
       <hlink rel="icon" type="image/x-icon" href="favicon.ico" />
-      <hlink rel="stylesheet" type="text/css" href="kickstart.css" media="all" />
+      <hlink rel="stylesheet" type="text/css" href="css/kickstart.css" media="all" />
       <hlink rel="stylesheet" type="text/css" href="style.css" media="all" />
    </head>
    <dom>
@@ -44,7 +44,6 @@
       &lt;div class="bottom"&gt;&amp;nbsp;&lt;/div&gt;
    &lt;/div&gt;
 &lt;/div&gt;
-[@STATS]
          </layout>
          
          <layout id="one-col">
@@ -81,7 +80,6 @@
 		&lt;a id="link-top" href="#top-of-page"&gt;Top&lt;/a&gt;
 	&lt;/div&gt;
 &lt;/div&gt;
-[@STATS]
          </layout>
 
          <layout id="two-cols-left">
@@ -124,7 +122,6 @@
 		&lt;a id="link-top" href="#top-of-page"&gt;Top&lt;/a&gt;
 	&lt;/div>
 &lt;/div>
-[@STATS]
          </layout>
 
          <layout id="two-cols-right">
@@ -167,7 +164,6 @@
 		&lt;a id="link-top" href="#top-of-page"&gt;Top&lt;/a&gt;
 	&lt;/div>
 &lt;/div>
-[@STATS]
          </layout>
 
          <layout id="three-cols">
@@ -214,7 +210,6 @@
 		&lt;a id="link-top" href="#top-of-page"&gt;Top&lt;/a&gt;
 	&lt;/div>
 &lt;/div>
-[@STATS]
          </layout>
 
       </page-layouts>
@@ -259,7 +254,7 @@
 			<!-- BARRA DE BOTONES -->
          <pcontrol id="CosmoUiCtrlButtonBar">
             <celement id="buttonbar-header">
-&lt;ul class="button-bar"&gt;
+&lt;ul class="button-bar" style="margin-bottom:10px;"&gt;
             </celement>
             <celement id="buttonbar-item">
 &lt;li&gt;
