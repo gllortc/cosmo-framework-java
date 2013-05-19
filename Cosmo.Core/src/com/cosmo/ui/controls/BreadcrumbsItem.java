@@ -3,7 +3,7 @@ package com.cosmo.ui.controls;
 import com.cosmo.ui.templates.TemplateControl;
 
 /**
- * Implementa un elemento de la barra de navegaciÃ³n (breadcrumbs).
+ * Implementa un elemento de la barra de navegación (breadcrumbs).
  * 
  * @author Gerard Llort
  */
@@ -36,7 +36,20 @@ public class BreadcrumbsItem
    /**
     * Constructor de la clase.
     * 
-    * @param title TÃ­tulo del elemento.
+    * @param title Título del elemento.
+    * @param href URL del enlace.
+    */
+   public BreadcrumbsItem(String title)
+   {
+      this.title = title;
+      this.href = "";
+      this.icon = "";
+   }
+   
+   /**
+    * Constructor de la clase.
+    * 
+    * @param title Título del elemento.
     * @param href URL del enlace.
     */
    public BreadcrumbsItem(String title, String href)
@@ -49,7 +62,7 @@ public class BreadcrumbsItem
    /**
     * Constructor de la clase.
     * 
-    * @param title TÃ­tulo del elemento.
+    * @param title Título del elemento.
     * @param href URL del enlace.
     */
    public BreadcrumbsItem(String title, String href, String icon)

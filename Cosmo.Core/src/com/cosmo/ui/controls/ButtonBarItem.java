@@ -124,7 +124,7 @@ public class ButtonBarItem
       String xhtml;
       
       xhtml = tc.getElement(CPART_ITEM);
-      xhtml = Control.replaceTag(xhtml, TAG_ICON, Icon.render(this.icon, Icon.ICON_SIZE_DEFAULT));
+      xhtml = Control.replaceTag(xhtml, TAG_ICON, this.icon);
       xhtml = Control.replaceTag(xhtml, TAG_TITLE, this.title);
       xhtml = Control.replaceTag(xhtml, TAG_HREF, this.href);
 

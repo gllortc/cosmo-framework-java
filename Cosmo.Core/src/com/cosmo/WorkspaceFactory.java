@@ -15,7 +15,7 @@ import com.cosmo.ui.widgets.providers.MenuProviderException;
  * 
  * @author Gerard Llort
  */
-public class WorkspaceProvider 
+public class WorkspaceFactory 
 {
    /**
     * Obtiene una instancia de {@link Workspace}.
@@ -27,13 +27,13 @@ public class WorkspaceProvider
     * 
     * @throws WorkspaceLoadException 
     */
-   public static Workspace getWorkspace(ServletContext context, HttpServletRequest request, HttpServletResponse response) throws WorkspaceLoadException, RulesLoadException, TemplateUnavailableException, TemplateLoadException, MenuProviderException
+   public static Workspace getInstance(ServletContext context, HttpServletRequest request, HttpServletResponse response) throws WorkspaceLoadException, RulesLoadException, TemplateUnavailableException, TemplateLoadException, MenuProviderException
    {
       Workspace ws;
       HttpSession session;
       
       // Obtiene la sessión de usuario
-      session = request.getSession();
+      session = request.getSession(true);
       
       if (session == null)
       {

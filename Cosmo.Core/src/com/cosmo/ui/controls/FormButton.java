@@ -11,6 +11,7 @@ public class FormButton  extends FormField
 {
    private String name;
    private String label;
+   private String href = "";
    private ButtonType type;
    
    /**
@@ -22,6 +23,8 @@ public class FormButton  extends FormField
       Submit,
       /** Borra todos los datos del formulario en el cliente */ 
       Reset,
+      /** Botón que actúa de enlace */ 
+      Link,
       /** NO SOPORTADO: Ejecuta una acción JavaScript */ 
       JsAction
    }
@@ -40,7 +43,23 @@ public class FormButton  extends FormField
    {
       this.name = name;
       this.label = label;
+      this.href = "";
       this.type = type;
+   }
+   
+   /**
+    * Constructor de la clase.
+    * 
+    * @param name Una cadena que contiene el nombre único del control.
+    * @param label Cadena de texto que será visible en el botón.
+    * @param href Una cadena que contiene la URL de destino para el enlace.
+    */
+   public FormButton(String name, String label, String href)
+   {
+      this.name = name;
+      this.label = label;
+      this.href = href;
+      this.type = ButtonType.Link;
    }
    
    //==============================================
@@ -78,10 +97,21 @@ public class FormButton  extends FormField
       this.type = type;
    }
    
+   public String getHref()
+   {
+      return href;
+   }
+
+   public void setHref(String href)
+   {
+      this.href = href;
+   }
+   
+   
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Establece el valor del campo.
     */
@@ -105,16 +135,23 @@ public class FormButton  extends FormField
    public String toString()
    {
       String btnType = "";
-      
-      switch (this.type)
-      {
-         case Submit:   btnType = "submit";  break;
-         case Reset:    btnType = "reset";   break;
-         case JsAction: btnType = "button";  break;
-      }
-      
       StringBuilder sb = new StringBuilder();
-      sb.append("<input type=\"").append(btnType).append("\" id=\"").append(this.name).append("\" name=\"").append(this.name).append("\" value=\"").append(this.label).append("\" />");
+      
+      if (this.type == ButtonType.JsAction || this.type == ButtonType.Submit || this.type == ButtonType.Reset)
+      {      
+         switch (this.type)
+         {
+            case Submit:   btnType = "submit";  break;
+            case Reset:    btnType = "reset";   break;
+            case JsAction: btnType = "button";  break;
+         }
+         
+         sb.append("<input type=\"").append(btnType).append("\" id=\"").append(this.name).append("\" name=\"").append(this.name).append("\" value=\"").append(this.label).append("\" />");
+      }
+      else
+      {
+         sb.append("<a class=\"button\" href=\"").append(this.href).append("\">").append(this.label).append("</a>");
+      }
       
       return sb.toString();
    }

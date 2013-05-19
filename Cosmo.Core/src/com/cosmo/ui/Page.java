@@ -9,11 +9,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
 import com.cosmo.WorkspaceLoadException;
-import com.cosmo.WorkspaceProvider;
+import com.cosmo.WorkspaceFactory;
 import com.cosmo.security.NotAuthorizedException;
 import com.cosmo.security.UserNotFoundException;
 import com.cosmo.security.auth.AuthenticationException;
@@ -48,6 +49,7 @@ public abstract class Page extends HttpServlet implements PageInterface
    private ArrayList<Control> rightContents;
    private StringBuilder xhtml;
    private PageRenderProvider renderProvider;
+   private HttpSession session;
 
    /**
     * Enumera las distintas regiones dónde se pueden agregar controles en la página.
@@ -91,9 +93,11 @@ public abstract class Page extends HttpServlet implements PageInterface
     */
    public Page(String title)
    {
+      // Inicialización de la instancia
       super();
       initPage();
       
+      // Inicializaciones por parámetro
       this.title = title;
    }
    
@@ -321,6 +325,9 @@ public abstract class Page extends HttpServlet implements PageInterface
    {
       try 
       {
+         // Assegura que exista la sessión associada a la petición actual
+         this.session = request.getSession(true);
+         
          createPage(request, response);
       } 
       catch (Exception ex) 
@@ -402,16 +409,16 @@ public abstract class Page extends HttpServlet implements PageInterface
     */
    private void initPage()
    {
-      leftContents = new ArrayList<Control>();
-      centerContents = new ArrayList<Control>();
-      rightContents = new ArrayList<Control>();
+      this.leftContents = new ArrayList<Control>();
+      this.centerContents = new ArrayList<Control>();
+      this.rightContents = new ArrayList<Control>();
 
-      xhtml = new StringBuilder();
-      workspace = null;
-      renderProvider = null;
-      title = "";
-      charset = Cosmo.CHARSET_ISO_8859_1;
-      layout = PageLayout.OneColumn;
+      this.xhtml = new StringBuilder();
+      this.workspace = null;
+      this.renderProvider = null;
+      this.title = "";
+      this.charset = Cosmo.CHARSET_ISO_8859_1;
+      this.layout = PageLayout.OneColumn;
    }
    
    /**
@@ -533,7 +540,7 @@ public abstract class Page extends HttpServlet implements PageInterface
       long startTime = System.currentTimeMillis();
       
       // Obtiene el workspace
-      this.workspace = WorkspaceProvider.getWorkspace(getServletContext(), request, response);
+      this.workspace = WorkspaceFactory.getInstance(getServletContext(), request, response);
 
       // Comprueba si el usuario puede ver la página
       PageSecurity psec = new PageSecurity();
