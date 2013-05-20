@@ -45,7 +45,7 @@ body{
 margin:0;
 padding:0 0 0 0;
 color:#000;
-background:#efefef url(css/img/background.jpg) fixed;
+background:#01305A; /* url(css/img/background.jpg) fixed; */
 font:normal 0.9em/150% 'Arimo', arial, verdana, sans-serif;
 text-shadow: 0px 0px 1px transparent; /* google font pixelation fix */
 }

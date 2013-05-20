@@ -19,7 +19,7 @@
       <page-layouts>
       
          <layout id="home-page">
-&lt;div id="page"&gt;
+&lt;div id="page" class="grid"&gt;
    &lt;div id="banner"&gt;&amp;nbsp;&lt;/div&gt;
    &lt;a name="top"&gt;&lt;/a&gt;
    &lt;div id="container"&gt;
@@ -83,7 +83,7 @@
          </layout>
 
          <layout id="two-cols-left">
-&lt;div id="wrap" class="clearfix"&gt;
+&lt;div id="wrap" class="grid"&gt;
 	&lt;div class="col_12"&gt;
 		&lt;div class="col_3"&gt;
 [@MENU]
@@ -225,10 +225,10 @@
 &lt;ul&gt;
             </celement>
             <celement id="menu-item">
-&lt;li&gt;&lt;a href="[@IHREF]"&gt;[@ICAPTION]&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="[@IHREF]"&gt;[#IF ICON]&lt;i class="[@ICON]"&gt;&lt;/i&gt; [#ENDIF ICON][@ICAPTION]&lt;/a&gt;&lt;/li&gt;
             </celement>
             <celement id="menu-subitem">
-&lt;li&gt;&lt;a href="[@IHREF]"&gt;[@ICAPTION]&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="[@IHREF]"&gt;[#IF ICON]&lt;i class="[@ICON]"&gt;&lt;/i&gt; [#ENDIF ICON][@ICAPTION]&lt;/a&gt;&lt;/li&gt;
             </celement>
             <celement id="menu-grp-footer">
 &lt;/ul&gt;
@@ -418,6 +418,7 @@
             <celement id="grid-rowtitle-cell">&lt;th&gt;[@VALUE]&lt;/th&gt;</celement>
             <celement id="grid-row-body">&lt;tr&gt;[@CELLS]&lt;/tr&gt;</celement>
             <celement id="grid-row-cell">&lt;td&gt;[@VALUE]&lt;/td&gt;</celement>
+            <celement id="grid-row-action-item">&lt;a href="[@IHREF]"&gt;[#IF ICON]&lt;i class="[@ICON]"&gt;&lt;/i&gt;[#ENDIF ICON][#IF FTITLE] [@FTITLE][#ENDIF FTITLE]&lt;/a&gt; </celement>
          </pcontrol>
 
          <!-- FORMULARIO -->
