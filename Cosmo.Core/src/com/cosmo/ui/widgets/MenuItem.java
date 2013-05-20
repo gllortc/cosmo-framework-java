@@ -15,6 +15,7 @@ public class MenuItem
    private String title;
    private String href;
    private String parentId;
+   private String icon;
    private ArrayList<MenuItem> subitems;
    
    //==============================================
@@ -34,6 +35,7 @@ public class MenuItem
       this.current = false;
       this.title = title;
       this.href = href;
+      this.icon = "";
       this.parentId = parentId;
       this.subitems = new ArrayList<MenuItem>();
    }
@@ -82,6 +84,16 @@ public class MenuItem
       this.href = href;
    }
    
+   public String getIcon() 
+   {
+      return icon;
+   }
+
+   public void setIcon(String icon) 
+   {
+      this.icon = icon;
+   }
+
    public String getParentId() 
    {
       return parentId;
