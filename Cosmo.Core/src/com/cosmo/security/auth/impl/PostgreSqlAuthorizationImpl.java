@@ -9,7 +9,7 @@ import com.cosmo.data.DataSource;
 import com.cosmo.security.Activity;
 import com.cosmo.security.Permission;
 import com.cosmo.security.Role;
-import com.cosmo.security.UserSession.SecurityInfo;
+import com.cosmo.security.UserSecurityPolicy;
 import com.cosmo.security.auth.Authorization;
 import com.cosmo.security.auth.AuthorizationException;
 
@@ -60,17 +60,17 @@ public class PostgreSqlAuthorizationImpl implements Authorization
     * @throws AuthorizationException 
     */
    @Override
-   public SecurityInfo loadAuthorizationData(String login, SecurityInfo si) throws AuthorizationException
+   public UserSecurityPolicy loadAuthorizationData(String login) throws AuthorizationException
    {
-      // SecurityInfo si = new SecurityInfo();
-      
+      UserSecurityPolicy usp = new UserSecurityPolicy();
+
       // Carga los roles del usuario
-      si.addRoles(getRolesByUser(login));
-      
+      usp.addRoles(getRolesByUser(login));
+
       // Carga todas las actividades sobre las que el usuario tiene permisos
-      si.addPermissions(getActivitiesByUser(login));
-      
-      return null;
+      usp.addPermissions(getActivitiesByUser(login));
+
+      return usp;
    }
    
    /**
@@ -81,14 +81,14 @@ public class PostgreSqlAuthorizationImpl implements Authorization
     * 
     * @return {@code true} si el usuario tiene asignado el rol o {@code false} en cualquier otro caso.
     */
-   @Override
+   /*@Override
    public boolean isUserInRole(String login, String role) throws AuthorizationException
    {
       ArrayList<String> roles = new ArrayList<String>();
       roles.add(role);
       
       return isUserInRole(login, roles);
-   }
+   }*/
    
    /**
     * Determina si un usuario tiene un rol especifico entre una lista de roles.
@@ -100,7 +100,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
     * 
     * @throws AuthorizationException
     */
-   @Override
+   /*@Override
    public boolean isUserInRole(String login, ArrayList<String> roles) throws AuthorizationException
    {
       ArrayList<Role> roleList = null;
@@ -123,7 +123,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       
       // No de ha hallado ninguna coincidnecia
       return false;
-   }
+   }*/
 
    /**
     * Determina si un usuario tiene permiso para ejecutar determinada actividad.
@@ -133,53 +133,11 @@ public class PostgreSqlAuthorizationImpl implements Authorization
     * 
     * @return @return {@code true} si el usuario tiene permiso para ejecutar la actividad o {@code false} en cualquier otro caso.
     */
-   @Override
+   /*@Override
    public boolean isActivityGranted(String login, String activityId) 
    {
       return false;
-   }
-
-   /**
-    * Devuelve la lista de roles a los que pertenece un determinado usuario.
-    * 
-    * @param login Una cadena que contiene el <em>login</em> del usuario.
-    * 
-    * @return Una instancia de {@link ArrayList} que contiene las instancias de {@link Role} que corresponden a los roles a los que pertenece un determinado usuario.
-    * 
-    * @throws AuthorizationException
-    */
-   @Override
-   public ArrayList<Role> getRolesByUser(String login) throws AuthorizationException
-   {
-      String sql;
-      DataSource ds;
-      DataConnection conn = null;
-      
-      ArrayList<Role> roles = new ArrayList<Role>();
-      
-      try
-      {
-         sql = "SELECT * " +
-               "FROM " + TABLE_ROLES + " Inner Join " + TABLE_USER_ROLES + " On (" + TABLE_ROLES + ".roleid=" + TABLE_USER_ROLES + ".roleid) " +
-               "WHERE " + TABLE_USER_ROLES + ".usrlogin='" + DataConnection.sqlFormatTextValue(login) + "' " + 
-               "ORDER BY " + TABLE_ROLES + ".roleid";
-
-         ds = this.workspace.getProperties().getServerDataSource();
-         conn = new DataConnection(ds);
-         conn.connect();
-         ResultSet rs = conn.executeSql(sql);
-         while (rs.next())
-         {
-            roles.add(readRole(rs));
-         }
-      }
-      catch (Exception ex) 
-      {
-         throw new AuthorizationException(ex.getMessage(), ex);
-      }
-      
-      return roles;
-   }
+   }*/
    
    
    //==============================================
@@ -224,9 +182,46 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       return roles;
    }
    
-   
-   
-   
+   /**
+    * Devuelve la lista de roles a los que pertenece un determinado usuario.
+    * 
+    * @param login Una cadena que contiene el <em>login</em> del usuario.
+    * 
+    * @return Una instancia de {@link ArrayList} que contiene las instancias de {@link Role} que corresponden a los roles a los que pertenece un determinado usuario.
+    * 
+    * @throws AuthorizationException
+    */
+   public ArrayList<Role> getRolesByUser(String login) throws AuthorizationException
+   {
+      String sql;
+      DataSource ds;
+      DataConnection conn = null;
+      
+      ArrayList<Role> roles = new ArrayList<Role>();
+      
+      try
+      {
+         sql = "SELECT * " +
+               "FROM " + TABLE_ROLES + " Inner Join " + TABLE_USER_ROLES + " On (" + TABLE_ROLES + ".roleid=" + TABLE_USER_ROLES + ".roleid) " +
+               "WHERE " + TABLE_USER_ROLES + ".usrlogin='" + DataConnection.sqlFormatTextValue(login) + "' " + 
+               "ORDER BY " + TABLE_ROLES + ".roleid";
+
+         ds = this.workspace.getProperties().getServerDataSource();
+         conn = new DataConnection(ds);
+         conn.connect();
+         ResultSet rs = conn.executeSql(sql);
+         while (rs.next())
+         {
+            roles.add(readRole(rs));
+         }
+      }
+      catch (Exception ex) 
+      {
+         throw new AuthorizationException(ex.getMessage(), ex);
+      }
+      
+      return roles;
+   }   
    
    /**
     * Devuelve una lista completa de actividades definidas en el esquema.

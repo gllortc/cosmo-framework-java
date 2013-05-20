@@ -1,9 +1,6 @@
 package com.cosmo.security.auth;
 
-import java.util.ArrayList;
-
-import com.cosmo.security.Role;
-import com.cosmo.security.UserSession.SecurityInfo;
+import com.cosmo.security.UserSecurityPolicy;
 
 public interface Authorization 
 {
@@ -14,7 +11,7 @@ public interface Authorization
     * 
     * @throws AuthorizationException
     */
-   public SecurityInfo loadAuthorizationData(String login, SecurityInfo si) throws AuthorizationException;
+   public UserSecurityPolicy loadAuthorizationData(String login) throws AuthorizationException;
    
    /**
     * Determina si un usuario tiene un rol especifico.
@@ -24,7 +21,7 @@ public interface Authorization
     * 
     * @return {@code true} si el usuario tiene asignado el rol o {@code false} en cualquier otro caso.
     */
-   public boolean isUserInRole(String login, String role) throws AuthorizationException;
+   // public boolean isUserInRole(String login, String role, UserSecurityPolicy si) throws AuthorizationException;
    
    /**
     * Determina si un usuario tiene un rol especifico entre una lista de roles.
@@ -36,7 +33,7 @@ public interface Authorization
     * 
     * @throws AuthorizationException
     */
-   public boolean isUserInRole(String login, ArrayList<String> roles) throws AuthorizationException;
+   // public boolean isUserInRole(String login, ArrayList<String> roles, UserSecurityPolicy si) throws AuthorizationException;
 
    /**
     * Determina si un usuario tiene permiso para ejecutar determinada actividad.
@@ -46,7 +43,7 @@ public interface Authorization
     * 
     * @return @return {@code true} si el usuario tiene permiso para ejecutar la actividad o {@code false} en cualquier otro caso.
     */
-   public boolean isActivityGranted(String login, String activityId);
+   // public boolean isActivityGranted(String login, String activityId, UserSecurityPolicy si);
 
    /**
     * Obtiene la lista de roles asignados al usuario.
@@ -55,5 +52,5 @@ public interface Authorization
     * 
     * @return Un array con los nombres (IDs) de los roles asignados al usuario.
     */
-   public ArrayList<Role> getRolesByUser(String login) throws AuthorizationException;
+   // public ArrayList<Role> getRolesByUser(String login, UserSecurityPolicy si) throws AuthorizationException;
 }
