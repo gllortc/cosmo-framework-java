@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * Implementa un elemento de menÃº.
+ * Implementa un elemento de menú.
  * 
  * @author Gerard Llort
  */
@@ -23,8 +23,8 @@ public class MenuWidgetItem
    /**
     * Constructor de la clase.
     * 
-    * @param id Identificador Ãºnico del elemento.
-    * @param title TÃ­tulo visible del elemento de menÃº.
+    * @param id Identificador único del elemento.
+    * @param title Título visible del elemento de menú.
     * @param href URL de acceso a la pÃ¡gina.
     */
    public MenuWidgetItem(String id, String title, String href, String parentId)

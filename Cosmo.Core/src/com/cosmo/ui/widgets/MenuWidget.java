@@ -1,6 +1,7 @@
 package com.cosmo.ui.widgets;
 
 import com.cosmo.Workspace;
+import com.cosmo.ui.controls.Control;
 import com.cosmo.ui.templates.Template;
 import com.cosmo.ui.templates.TemplateControl;
 import com.cosmo.ui.templates.TemplateUnavailableException;
@@ -25,6 +26,7 @@ public class MenuWidget extends Widget
    private static final String TAG_MENU_NAME = "MNAME";
    private static final String TAG_ITEM_HREF = "IHREF";
    private static final String TAG_ITEM_CAPTION = "ICAPTION";
+   private static final String TAG_ITEM_ICON = "ICON";
    
    private MenuTypes type;
    private MenuProvider provider;
@@ -45,6 +47,11 @@ public class MenuWidget extends Widget
    
    /**
     * Constructor de la clase.
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el espacio de aplicación actual.
+    * @param type Un valor de {@link MenuTypes} que indica el tipo de menú.
+    * 
+    * @throws MenuProviderException
     */
    public MenuWidget(Workspace workspace, MenuTypes type) throws MenuProviderException
    {
@@ -107,6 +114,8 @@ public class MenuWidget extends Widget
             xitem = ctrl.getElement(WPART_ITEM);
             xitem = xitem.replace(Widget.getTag(TAG_ITEM_HREF), item.getHref());
             xitem = xitem.replace(Widget.getTag(TAG_ITEM_CAPTION), item.getTitle());
+            xitem = Control.replaceTag(xitem, TAG_ITEM_ICON, item.getIcon());
+            
             xhtml += xitem;
          }
          xhtml += ctrl.getElement(WPART_FOOTER);

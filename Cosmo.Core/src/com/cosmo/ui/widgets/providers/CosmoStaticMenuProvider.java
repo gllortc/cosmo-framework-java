@@ -33,6 +33,7 @@ public class CosmoStaticMenuProvider extends MenuProvider
    private static final String XML_ATT_ID = "id";
    private static final String XML_ATT_NAME = "name";
    private static final String XML_ATT_HREF = "href";
+   private static final String XML_ATT_ICON = "icon";
    private static final String XML_ATT_PARENT = "parent";
    private static final String XML_ATT_TYPE = "type";
    
@@ -96,6 +97,13 @@ public class CosmoStaticMenuProvider extends MenuProvider
                                                    eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_NAME), 
                                                    eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_HREF),
                                                    eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_PARENT));
+                           
+                           // Si existe icono especificado, lo agrega
+                           if (eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_ICON) != null)
+                           {
+                              menuitem.setIcon(eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_ICON));
+                           }
+                           
                            menuItems.add(menuitem);
                         }
                      }
