@@ -60,8 +60,8 @@ public class UserManagerPage extends Page
       this.addContent(btnBar, ContentColumns.MAIN);
       
       GridControl grid = new GridControl(getWorkspace(), ID_GRID);
-      grid.addRowAction(new GridRowAction("", "UserRegisterPage?mode=edit", "icon-pencil"));
-      grid.addRowAction(new GridRowAction("", "UserManagerPage?id=", "icon-remove-circle"));
+      grid.addRowAction(new GridRowAction("", "UserRegisterPage?mode=edit&id=" + GridRowAction.TOKEN_ROW_ID, "icon-pencil"));
+      grid.addRowAction(new GridRowAction("", "UserManagerPage?action=delete&id=" + GridRowAction.TOKEN_ROW_ID, "icon-remove-circle"));
       this.addContent(grid, ContentColumns.MAIN);
    }
    

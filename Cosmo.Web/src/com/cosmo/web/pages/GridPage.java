@@ -9,6 +9,8 @@ import com.cosmo.structures.GridData;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.controls.BreadcrumbsControl;
 import com.cosmo.ui.controls.BreadcrumbsItem;
+import com.cosmo.ui.controls.ButtonBarControl;
+import com.cosmo.ui.controls.ButtonBarItem;
 import com.cosmo.ui.controls.DynamicMessageControl;
 import com.cosmo.ui.controls.GridControl;
 import com.cosmo.ui.controls.HeaderControl;
@@ -33,22 +35,26 @@ public class GridPage extends Page
    public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
    {
       this.setLayout(PageLayout.TwoColumnsLeft);
-      this.setTitle("Cosmo - Samples - Grid Control");
+      this.setTitle("Cosmo - Grid / Formularis");
       
       BreadcrumbsControl navbar = new BreadcrumbsControl(getWorkspace());
       navbar.addItem(new BreadcrumbsItem("Home", "HomePage", Icon.ICON_IMAGE_HOME));
-      navbar.addItem(new BreadcrumbsItem("Samples", "SamplesPage"));
-      navbar.addItem(new BreadcrumbsItem("Grid sample", ""));
+      navbar.addItem(new BreadcrumbsItem("Grid / Formularis", ""));
       this.addContent(navbar, ContentColumns.MAIN);
       
       HeaderControl header = new HeaderControl(getWorkspace());
-      header.setTitle("Grid Control");
-      header.setDescription("Exemple de llistat.");
+      header.setTitle("Grid / Formularis");
+      header.setDescription("Exemple d'utilització combinada del control GridControl i FormControl.");
       this.addContent(header, ContentColumns.MAIN);
       
       DynamicMessageControl msg = new DynamicMessageControl(getWorkspace(), ID_MSG);
       msg.setVisible(false);
       this.addContent(msg, ContentColumns.MAIN);
+      
+      ButtonBarControl btnBar = new ButtonBarControl(getWorkspace());
+      btnBar.addButton(new ButtonBarItem("Nou registre", "FormPage", Icon.ICON_IMAGE_PLUS));
+      btnBar.addButton(new ButtonBarItem("Refrescar", "GridPage", Icon.ICON_IMAGE_REFRESH));
+      this.addContent(btnBar, ContentColumns.MAIN);
       
       GridControl grid = new GridControl(getWorkspace(), ID_GRID);
       this.addContent(grid, ContentColumns.MAIN);

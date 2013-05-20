@@ -58,7 +58,7 @@ public class LoginPage extends Page
       form.addHiddenValue(new FormFieldHidden(Cosmo.URL_PARAM_TOURL, HttpRequestUtils.getValue(request, Cosmo.URL_PARAM_TOURL)));
       FormFieldGroup group = new FormFieldGroup("Datos de identificación");
       group.addField(new FormFieldText(LoginPage.FIELD_LOGIN, "Login"));
-      group.addField(new FormFieldText(LoginPage.FIELD_PASSWORD, "Password"));
+      group.addField(new FormFieldText(LoginPage.FIELD_PASSWORD, "Password", true));
       form.addGroup(group);
       form.addButton(new FormButton("cmdAcceopt", "Enviar", ButtonType.Submit));
       this.addContent(form, ContentColumns.MAIN);
