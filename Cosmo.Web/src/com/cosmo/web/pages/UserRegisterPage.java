@@ -100,6 +100,27 @@ public class UserRegisterPage extends Page
    @Override
    public void loadPageEvent(HttpServletRequest request, HttpServletResponse response) 
    {
+      if (HttpRequestUtils.getValue(request, "mode", "").equals("edit"))
+      {
+         try 
+         {
+            // Obtiene el usuario
+            PostgreSqlAuthenticationImpl up = (PostgreSqlAuthenticationImpl) AuthenticationFactory.getInstance(this.getWorkspace());
+            User user = up.add(HttpRequestUtils.getValue(request, "id", ""));
+            
+            HeaderControl header = (HeaderControl) this.getControl("hc");
+            header.setTitle("Editar compte d'usuari"); 
+            
+            FormControl form = (FormControl) this.getControl("UserRegisterForm");
+            form.setFieldValue(request, FIELD_LOGIN, user.getLogin());
+            
+         }
+         catch (AuthenticationException e) 
+         {
+            
+         }
+      }
+      
       // Nothing to do
    }
    
