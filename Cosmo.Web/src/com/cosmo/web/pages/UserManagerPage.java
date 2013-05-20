@@ -15,6 +15,7 @@ import com.cosmo.ui.controls.ButtonBarControl;
 import com.cosmo.ui.controls.ButtonBarItem;
 import com.cosmo.ui.controls.DynamicMessageControl;
 import com.cosmo.ui.controls.GridControl;
+import com.cosmo.ui.controls.GridRowAction;
 import com.cosmo.ui.controls.HeaderControl;
 import com.cosmo.ui.controls.Icon;
 
@@ -38,7 +39,7 @@ public class UserManagerPage extends Page
    public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
    {
       this.setLayout(PageLayout.TwoColumnsLeft);
-      this.setTitle("Cosmo - Samples - Grid Control");
+      this.setTitle("Cosmo - Gestió d'usuaris");
       
       BreadcrumbsControl navbar = new BreadcrumbsControl(getWorkspace());
       navbar.addItem(new BreadcrumbsItem("Home", "HomePage", Icon.ICON_IMAGE_HOME));
@@ -59,6 +60,8 @@ public class UserManagerPage extends Page
       this.addContent(btnBar, ContentColumns.MAIN);
       
       GridControl grid = new GridControl(getWorkspace(), ID_GRID);
+      grid.addRowAction(new GridRowAction("", "UserRegisterPage?mode=edit", "icon-pencil"));
+      grid.addRowAction(new GridRowAction("", "UserManagerPage?id=", "icon-remove-circle"));
       this.addContent(grid, ContentColumns.MAIN);
    }
    

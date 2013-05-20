@@ -11,6 +11,7 @@ import com.cosmo.ui.controls.HeaderControl;
 import com.cosmo.ui.controls.Icon;
 import com.cosmo.ui.controls.SliderControl;
 import com.cosmo.ui.controls.SliderItem;
+import com.cosmo.ui.controls.XhtmlControl;
 
 /**
  * Página de prova.
@@ -27,17 +28,16 @@ public class SliderPage extends Page
    public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
    {
       this.setLayout(PageLayout.TwoColumnsLeft);
-      this.setTitle("Cosmo - Samples - Slider Control");
+      this.setTitle("Cosmo - Slider");
       
       BreadcrumbsControl navbar = new BreadcrumbsControl(getWorkspace());
-      navbar.addItem(new BreadcrumbsItem("Home", "HomePage", Icon.ICON_IMAGE_HOME));
-      navbar.addItem(new BreadcrumbsItem("Samples", "SamplesPage"));
-      navbar.addItem(new BreadcrumbsItem("Slider sample", ""));
+      navbar.addItem(new BreadcrumbsItem("Inici", "HomePage", Icon.ICON_IMAGE_HOME));
+      navbar.addItem(new BreadcrumbsItem("Slider", ""));
       this.addContent(navbar, ContentColumns.MAIN);
       
       HeaderControl header = new HeaderControl(getWorkspace());
       header.setTitle("Slider Control");
-      header.setDescription("Exemple de control slider.");
+      header.setDescription("Exemple d'ús del control " + XhtmlControl.formatBold("SliderControl") + " per generar presentacions d'imatges i/o contingut XHTML.");
       this.addContent(header, ContentColumns.MAIN);
       
       SliderControl slider = new SliderControl(getWorkspace());

@@ -7,6 +7,8 @@ import com.cosmo.ui.controls.HeaderControl;
 import com.cosmo.ui.controls.Icon;
 import com.cosmo.ui.controls.ListViewControl;
 import com.cosmo.ui.controls.ListViewItem;
+import com.cosmo.ui.controls.XhtmlControl;
+
 import java.util.Date;
 
 import javax.servlet.annotation.WebServlet;
@@ -28,17 +30,16 @@ public class ListViewPage extends Page
    public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
    {
       this.setLayout(PageLayout.TwoColumnsLeft);
-      this.setTitle("Cosmo - Samples - ListView Control");
+      this.setTitle("Cosmo - Llistes");
       
       BreadcrumbsControl navbar = new BreadcrumbsControl(getWorkspace());
-      navbar.addItem(new BreadcrumbsItem("Home", "HomePage", Icon.ICON_IMAGE_HOME));
-      navbar.addItem(new BreadcrumbsItem("Samples", "SamplesPage"));
-      navbar.addItem(new BreadcrumbsItem("ListView sample", ""));
+      navbar.addItem(new BreadcrumbsItem("Inici", "HomePage", Icon.ICON_IMAGE_HOME));
+      navbar.addItem(new BreadcrumbsItem("Llistes", ""));
       this.addContent(navbar, ContentColumns.MAIN);
       
       HeaderControl header = new HeaderControl(getWorkspace());
       header.setTitle("ListView Control");
-      header.setDescription("Exemple de llista ListView.");
+      header.setDescription("Exemple d'ús del control " + XhtmlControl.formatBold("ListViewControl") + " per generar llistats de contingut (tipus bloc).");
       this.addContent(header, ContentColumns.MAIN);
       
       ListViewControl olc = new ListViewControl(getWorkspace());

@@ -32,17 +32,17 @@ public class HomePage extends Page
       logger.info("Iniciant pàgina...");
       
       this.setLayout(PageLayout.TwoColumnsLeft);
-      this.setTitle("Página de prova");
+      this.setTitle("Cosmo - Inici");
 
       HeaderControl header = new HeaderControl(getWorkspace());
       header.setTitle("Benvingut!");
-      header.setDescription("Benvingut al site de demostració de <strong>Cosmo Framework</strong>.");
-      
+      header.setDescription("Benvingut al site de demostració de " + XhtmlControl.formatBold("Cosmo Framework") + ".");
       this.addContent(header, ContentColumns.MAIN);
       
       XhtmlControl xhtml = new XhtmlControl(getWorkspace());
-      xhtml.appendParagraph("Aquest site presenta les diferents funcionalitats de " + 
-                            XhtmlControl.formatBold("Cosmo Framework") + ".");
+      xhtml.appendParagraph("Aquest site presenta les diferents funcionalitats de " + XhtmlControl.formatBold("Cosmo Framework") + ". " +
+            "Aquest site de prova permet comprovar les funcionalitats de " + XhtmlControl.formatBold("Cosmo") + " " +
+            "d'una forma entenedora i simple.");
       
       this.addContent(xhtml, ContentColumns.MAIN);
    }
