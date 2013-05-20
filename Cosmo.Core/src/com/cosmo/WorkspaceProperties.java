@@ -255,14 +255,9 @@ public class WorkspaceProperties
    private void loadConfig(ServletContext context) throws WorkspaceLoadException
    {
       Node nNode;
-      // Node pNode;
       Element eElement;
-      // Element pElement;
       NodeList nList;
-      // NodeList pList;
       DataSource ds;
-      // PluginProperties agent;
-      // PluginProperties plugin;
       InputStream iStream = null;
       
       try
@@ -342,65 +337,8 @@ public class WorkspaceProperties
             // Obtiene todos los agentes de autenticación
             this.authenticationAgents = readPluginsByType(doc, WorkspaceProperties.XML_TAG_AUTHENTICATION);
             
-            /*nList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_AUTHENTICATION);
-            for (int temp = 0; temp < nList.getLength(); temp++) 
-            {
-               nNode = nList.item(temp);
-               if (nNode.getNodeType() == Node.ELEMENT_NODE)
-               {
-                  eElement = (Element) nNode;
-
-                  agent = new PluginProperties();
-                  agent.setId(eElement.getAttribute(WorkspaceProperties.XML_ATT_ID));
-                  agent.setModuleClass(eElement.getAttribute(WorkspaceProperties.XML_ATT_DRIVER));
-                  
-                  pList = eElement.getElementsByTagName(WorkspaceProperties.XML_TAG_PARAMETER);
-                  for (int pNum = 0; pNum < pList.getLength(); pNum++) 
-                  {
-                     pNode = pList.item(pNum);
-                     if (pNode.getNodeType() == Node.ELEMENT_NODE)
-                     {
-                        pElement = (Element) pNode;
-                        agent.setParam(pElement.getAttribute(WorkspaceProperties.XML_ATT_KEY), 
-                                       pElement.getAttribute(WorkspaceProperties.XML_ATT_VALUE));
-                     }
-                  }
-                  
-                  this.authenticationAgents.put(agent.getId(), agent);
-               }
-            }*/
-            
             // Obtiene todos los agentes de autorización
             this.authorizationAgents = readPluginsByType(doc, WorkspaceProperties.XML_TAG_AUTHORIZATION);
-            
-            /*nList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_AUTHORIZATION);
-            for (int temp = 0; temp < nList.getLength(); temp++) 
-            {
-               nNode = nList.item(temp);
-               if (nNode.getNodeType() == Node.ELEMENT_NODE)
-               {
-                  eElement = (Element) nNode;
-
-                  agent = new PluginProperties();
-                  agent.setId(eElement.getAttribute(WorkspaceProperties.XML_ATT_ID));
-                  agent.setModuleClass(eElement.getAttribute(WorkspaceProperties.XML_ATT_DRIVER));
-                  
-                  pList = eElement.getElementsByTagName(WorkspaceProperties.XML_TAG_PARAMETER);
-                  for (int pNum = 0; pNum < pList.getLength(); pNum++) 
-                  {
-                     pNode = pList.item(pNum);
-                     if (pNode.getNodeType() == Node.ELEMENT_NODE)
-                     {
-                        pElement = (Element) pNode;
-                        agent.setParam(pElement.getAttribute(WorkspaceProperties.XML_ATT_KEY), 
-                                       pElement.getAttribute(WorkspaceProperties.XML_ATT_VALUE));
-                     }
-                  }
-
-                  plugin = readPluginData(nNode);
-                  this.authorizationAgents.put(plugin.getId(), plugin);
-               }
-            }*/
          }
          
          iStream.close();

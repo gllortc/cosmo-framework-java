@@ -1,5 +1,7 @@
 package com.cosmo.ui.controls;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -33,6 +35,8 @@ public class GridControl extends Control
    private String title;
    private String description;
    private boolean firstRowTitles;
+   private String rowActionsCaption;
+   private ArrayList<GridRowAction> rowActions;
    
    //==============================================
    // Contructors
@@ -48,6 +52,8 @@ public class GridControl extends Control
       this.firstRowTitles = false;
       this.title = "";
       this.description = "";
+      this.rowActionsCaption = "Acciones";
+      this.rowActions = new ArrayList<GridRowAction>();
    }
    
    //==============================================
@@ -90,10 +96,21 @@ public class GridControl extends Control
       this.firstRowTitles = firstRowTitles;
    }
    
+   public String getRowActionsCaption()
+   {
+      return rowActionsCaption;
+   }
+
+   public void setRowActionsCaption(String rowActionsCaption)
+   {
+      this.rowActionsCaption = rowActionsCaption;
+   }
+   
+   
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Establece los datos del grid.
     * 
@@ -138,6 +155,24 @@ public class GridControl extends Control
    }
    
    /**
+    * Agrega una acción a la columna de acciones de fila.
+    * 
+    * @param action Una instancia de {@link GridRowAction} que representa la acción sobre la fila.
+    */
+   public void addRowAction(GridRowAction action)
+   {
+      this.rowActions.add(action);
+   }
+   
+   /**
+    * Elimina la columna de acciones de fila.
+    */
+   public void clearRowActions()
+   {
+      this.rowActions.clear();
+   }
+   
+   /**
     * Renderiza el control y genera el código XHTML de representación.
     *
     * @return Devuelve una cadena en formato XHTML que representa el control.
@@ -147,6 +182,7 @@ public class GridControl extends Control
    {
       String xhtml = "";
       String xitem;
+      String actions;
       String xrowtitle, xrow, xrowdata, xcell, xhead;
       TemplateControl ctrl;
       
@@ -163,6 +199,10 @@ public class GridControl extends Control
       {
          xrowdata += Control.replaceTag(xcell, TAG_VALUE, data.getCell(0, col, "").toString());
       }
+      if (!this.rowActions.isEmpty())
+      {
+         xrowdata += Control.replaceTag(xcell, TAG_VALUE, this.rowActionsCaption);
+      }
       xrowtitle = ctrl.getElement(CPART_ROWTITLE_BODY);
       xrowtitle = Control.replaceTag(xrowtitle, TAG_CELLS, xrowdata);
 
@@ -176,7 +216,15 @@ public class GridControl extends Control
          {
             xrowdata += Control.replaceTag(xcell, TAG_VALUE, data.getCell(row, col, "").toString());
          }
-         
+         if (!this.rowActions.isEmpty())
+         {
+            actions = "";
+            for (GridRowAction action : this.rowActions)
+            {
+               actions += action.render(ctrl, data.getCell(row, 0, "").toString());
+            }
+            xrowdata += Control.replaceTag(xcell, TAG_VALUE, actions);
+         }
          xhead = ctrl.getElement(CPART_ROW_BODY);
          xhead = Control.replaceTag(xhead, TAG_CELLS, xrowdata);
          
