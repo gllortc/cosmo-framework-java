@@ -37,6 +37,7 @@ public class GridControl extends Control
    private boolean firstRowTitles;
    private String rowActionsCaption;
    private ArrayList<GridRowAction> rowActions;
+   private int idColumn;
    
    //==============================================
    // Contructors
@@ -54,6 +55,7 @@ public class GridControl extends Control
       this.description = "";
       this.rowActionsCaption = "Acciones";
       this.rowActions = new ArrayList<GridRowAction>();
+      this.idColumn = 0;
    }
    
    //==============================================
@@ -104,6 +106,22 @@ public class GridControl extends Control
    public void setRowActionsCaption(String rowActionsCaption)
    {
       this.rowActionsCaption = rowActionsCaption;
+   }
+   
+   /**
+    * Devuelve el índice de la columna (base 0) que contiene el identificador de la fila.
+    */
+   public int getIdColumn() 
+   {
+      return idColumn;
+   }
+
+   /**
+    * Establece el índice de la columna (base 0) que contiene el identificador de la fila.
+    */
+   public void setIdColumn(int idColumn) 
+   {
+      this.idColumn = idColumn;
    }
    
    
@@ -221,7 +239,7 @@ public class GridControl extends Control
             actions = "";
             for (GridRowAction action : this.rowActions)
             {
-               actions += action.render(ctrl, data.getCell(row, 0, "").toString());
+               actions += action.render(ctrl, data.getCell(row, this.idColumn, "").toString());
             }
             xrowdata += Control.replaceTag(xcell, TAG_VALUE, actions);
          }
