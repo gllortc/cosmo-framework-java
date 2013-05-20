@@ -92,14 +92,15 @@
    
    <!-- STATIC MENUS -->
    <menu type="lateral">
-      <menuitem id="mnuHome" name="Inicio" href="HomePage" parent="" />
-      <menuitem id="mnuContent" name="Contenido" href="ContentPage" parent="" />
-      <menuitem id="mnuListView" name="Listas" href="ListViewPage" parent="" />
-      <menuitem id="mnuForm" name="Formularios" href="FormPage" parent="" />
-      <menuitem id="mnuFormOrm" name="Formularios ORM" href="OrmFormPage" parent="" />
-      <menuitem id="mnuGrid" name="Grids" href="GridPage" parent="" />
+      <menuitem id="mnuHome" name="Inici" href="HomePage" parent="" />
+      <menuitem id="mnuContent" name="Contingut" href="ContentPage" parent="" />
+      <menuitem id="mnuListView" name="Llistes" href="ListViewPage" parent="" />
       <menuitem id="mnuSlider" name="Slider" href="SliderPage" parent="" />
-      <menuitem id="mnuSecret" name="Secret Page" href="SecretPage" parent="" />
+      <menuitem id="mnuForm" name="Grid / Formularis" href="GridPage" parent="" />
+      <!-- <menuitem id="mnuFormOrm" name="Formularios ORM" href="OrmFormPage" parent="" />
+      <menuitem id="mnuGrid" name="Grids" href="GridPage" parent="" /> -->
+      <menuitem id="mnuSecret" name="Secret Page" href="SecretPage" icon="icon-lock" parent="" />
+      <menuitem id="mnuUsrMngr" name="User manager" href="UserManagerPage" icon="icon-lock" parent="" />
    </menu>
    
    <menu type="top">
