@@ -78,9 +78,10 @@ public class XhtmlControl extends Control
     * 
     * @param xhtml Código XHTML a concatenar.
     */
-   public void append(String xhtml)
+   public XhtmlControl append(String xhtml)
    {
       this.xhtml.append(xhtml);
+      return this;
    }
    
    /**
@@ -88,9 +89,10 @@ public class XhtmlControl extends Control
     * 
     * @param obj Código XHTML a concatenar.
     */
-   public void append(Object obj)
+   public XhtmlControl append(Object obj)
    {
       this.xhtml.append(obj.toString());
+      return this;
    }
    
    /**
@@ -98,9 +100,9 @@ public class XhtmlControl extends Control
     * 
     * @param text Texto que contiene el párrafo.
     */
-   public void appendParagraph(String text)
+   public XhtmlControl appendParagraph(String text)
    {
-      append("<p>" + text + "</p>\n");
+      return append("<p>" + text + "</p>\n");
    }
    
    /**
@@ -109,9 +111,10 @@ public class XhtmlControl extends Control
     * @param title Texto que contiene el título.
     * @param headderLevel Nivel de importancia del título (1..5).
     */
-   public void appendHeadder(String title, int headderLevel)
+   public XhtmlControl appendHeadder(String title, int headderLevel)
    {
       append("<h" + headderLevel + ">" + title + "</h" + headderLevel + ">\n");
+      return this;
    }
    
    /**
@@ -119,9 +122,10 @@ public class XhtmlControl extends Control
     * 
     * @param list Lista de objetos que forman la lista.
     */
-   public void appendUnorderedList(ArrayList<?> list)
+   public XhtmlControl appendUnorderedList(ArrayList<?> list)
    {
       appendUnorderedList(list, null);
+      return this;
    }
    
    /**
@@ -130,7 +134,7 @@ public class XhtmlControl extends Control
     * @param list Lista de objetos que forman la lista.
     * @param cssClass Clase CSS a aplicar a la lista (se desaconseja su uso).
     */
-   public void appendUnorderedList(ArrayList<?> list, String cssClass)
+   public XhtmlControl appendUnorderedList(ArrayList<?> list, String cssClass)
    {
       append("<ul" + (cssClass != null && !cssClass.isEmpty() ? " class=\"" + cssClass + "\"" : "") + ">\n");
       for (Object item : list)
@@ -138,6 +142,30 @@ public class XhtmlControl extends Control
          append("  <li>" + item.toString() + "</li>\n");
       }
       append("</ul>\n");
+      
+      return this;
+   }
+   
+   /**
+    * Agrega un texto formateado en negrita.
+    * 
+    * @param text Una cadena que contiene el texto a representar en negrita.
+    */
+   public XhtmlControl appendBold(String text)
+   {
+      append(XhtmlControl.formatBold(text));
+      return this;
+   }
+   
+   /**
+    * Agrega un texto formateado en itálica.
+    * 
+    * @param text Una cadena que contiene el texto a representar en itálica.
+    */
+   public XhtmlControl appendEmphatized(String text)
+   {
+      append(XhtmlControl.formatEmphatized(text));
+      return this;
    }
    
    /**

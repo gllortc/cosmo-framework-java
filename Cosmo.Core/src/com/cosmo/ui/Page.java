@@ -577,7 +577,8 @@ public abstract class Page extends HttpServlet implements PageInterface
       }
       catch (NotAuthorizedException ex)
       {
-         this.
+         // Representa un error
+         // this.
       }
       
       // Renderiza la página
