@@ -241,10 +241,10 @@
          <!-- BARRA DE NAVEGACIÓN -->
          <pcontrol id="CosmoUiCtrlBreadcrumbs">
             <celement id="navbar-top-header">
-&lt;ul class="breadcrumbs"&gt;
+&lt;ul class="breadcrumbs alt1"&gt;
             </celement>
             <celement id="navbar-top-item">
-&lt;li&gt;[@ICON]&lt;a href="[@HREF]"&gt;[@FTITLE]&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="[@HREF]"&gt;[#IF ICON][@ICON] [#ENDIF ICON][@FTITLE]&lt;/a&gt;&lt;/li&gt;
             </celement>
             <celement id="navbar-top-footer">
 &lt;/ul&gt;
@@ -301,20 +301,17 @@
          <pcontrol id="CosmoUiCtrlDynamicMsg" center="true" lateral="false">
             <celement id="info-box-info">
 &lt;div class="notice success"&gt;
-   &lt;span class="icon medium" data-icon="!" style="display: inline-block;"&gt;&lt;/span&gt;
-	[@TEXT] &lt;a href="#close" class="icon close" data-icon="x" style="display: inline-block;"&gt;&lt;/a&gt;
+   &lt;i class="icon-ok icon-large"&gt;&lt;/i&gt; [@TEXT]&lt;a href="#close" class="icon-remove">&lt;/a&gt;
 &lt;/div&gt;
             </celement>
             <celement id="info-box-warning">
 &lt;div class="notice warning"&gt;
-   &lt;span class="icon medium" data-icon="!" style="display: inline-block;"&gt;&lt;/span&gt;
-	[@TEXT] &lt;a href="#close" class="icon close" data-icon="x" style="display: inline-block;"&gt;&lt;/a&gt;
+   &lt;i class="icon-warning-sign icon-large"&gt;&lt;/i&gt; [@TEXT]&lt;a href="#close" class="icon-remove">&lt;/a&gt;
 &lt;/div&gt;
             </celement>
             <celement id="info-box-error">
 &lt;div class="notice error"&gt;
-   &lt;span class="icon medium" data-icon="!" style="display: inline-block;"&gt;&lt;/span&gt;
-	[@TEXT] &lt;a href="#close" class="icon close" data-icon="x" style="display: inline-block;"&gt;&lt;/a&gt;
+   &lt;i class="icon-remove-sign icon-large"&gt;&lt;/i&gt; [@TEXT]&lt;a href="#close" class="icon-remove">&lt;/a&gt;
 &lt;/div&gt;
             </celement>
 		   </pcontrol>
