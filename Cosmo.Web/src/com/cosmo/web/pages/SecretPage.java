@@ -107,8 +107,16 @@ public class SecretPage extends Page
          else
          {
             DynamicMessageControl msgAct = (DynamicMessageControl) this.getControl("msg-act");
-            msgAct.setMessage("L'usuari " + XhtmlControl.formatBold(getUserSession().getCurrentUser().getLogin()) + " no té permís d'execució per cap activitat.");
             msgAct.setVisible(true);
+            
+            if (!getUserSession().isSuperUser())
+            {
+               msgAct.setMessage("L'usuari " + XhtmlControl.formatBold(getUserSession().getCurrentUser().getLogin()) + " no té permís d'execució per cap activitat.");
+            }
+            else
+            {
+               msgAct.setMessage("L'usuari " + XhtmlControl.formatBold(getUserSession().getCurrentUser().getLogin()) + " té permís d'execució per totes les activitats (SuperUser).");
+            }
          }
       }
    }

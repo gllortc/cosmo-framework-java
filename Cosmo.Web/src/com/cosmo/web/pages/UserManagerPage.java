@@ -4,7 +4,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cosmo.security.annotations.SessionRequired;
+import com.cosmo.security.annotations.ActivitiesAllowed;
 import com.cosmo.security.auth.AuthenticationFactory;
 import com.cosmo.security.auth.impl.PostgreSqlAuthenticationImpl;
 import com.cosmo.structures.GridData;
@@ -25,7 +25,8 @@ import com.cosmo.ui.controls.Icon;
  * @author Gerard Llort
  */
 // @SessionScoped() --> Investigar!
-@SessionRequired
+
+@ActivitiesAllowed( "admin.users.manage" )
 @WebServlet( description = "UserManagerPage", urlPatterns = { "/UserManagerPage" } )
 public class UserManagerPage extends Page 
 {

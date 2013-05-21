@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.cosmo.net.HttpRequestUtils;
 import com.cosmo.security.User;
 import com.cosmo.security.UserAlreadyExistsException;
-import com.cosmo.security.annotations.SessionRequired;
+import com.cosmo.security.annotations.ActivitiesAllowed;
 import com.cosmo.security.auth.Authentication;
 import com.cosmo.security.auth.AuthenticationException;
 import com.cosmo.security.auth.AuthenticationFactory;
@@ -26,7 +26,7 @@ import com.cosmo.ui.controls.HeaderControl;
  * 
  * @author Gerard Llort
  */
-@SessionRequired
+@ActivitiesAllowed( "admin.users.manage" )
 @WebServlet( description = "User register page", urlPatterns = { "/UserRegisterPage" } )
 public class UserRegisterPage extends Page 
 {
@@ -150,7 +150,7 @@ public class UserRegisterPage extends Page
          PostgreSqlAuthenticationImpl up = (PostgreSqlAuthenticationImpl) AuthenticationFactory.getInstance(this.getWorkspace());
          up.add(user);
 
-         response.sendRedirect("/UserManagerPage");
+         response.sendRedirect("UserManagerPage");
          return;
       }
       catch (UserAlreadyExistsException ex)
