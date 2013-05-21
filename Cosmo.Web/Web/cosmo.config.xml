@@ -5,7 +5,7 @@
    <!-- SETTINGS -->
    <settings>
 
-      <param key="ws.title" value="Workspace de proves" />
+      <param key="ws.title" value="Cosmo Sample App" />
       <param key="ws.url" value="http://localhost:8080/Cosmo.Web/" />
       <param key="ws.mail" value="gllort@dipta.cat" />
       
@@ -99,8 +99,8 @@
       <menuitem id="mnuForm" name="Grid / Formularis" href="GridPage" parent="" />
       <!-- <menuitem id="mnuFormOrm" name="Formularios ORM" href="OrmFormPage" parent="" />
       <menuitem id="mnuGrid" name="Grids" href="GridPage" parent="" /> -->
-      <menuitem id="mnuSecret" name="Secret Page" href="SecretPage" icon="icon-lock" parent="" />
-      <menuitem id="mnuUsrMngr" name="User manager" href="UserManagerPage" icon="icon-lock" parent="" />
+      <menuitem id="mnuSecret" name="Tests de seguretat" href="SecretPage" icon="icon-lock" parent="" />
+      <menuitem id="mnuUsrMngr" name="Gestió d'usuaris" href="UserManagerPage" icon="icon-lock" parent="" />
    </menu>
    
    <menu type="top">
