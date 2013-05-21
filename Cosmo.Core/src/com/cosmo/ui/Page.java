@@ -9,12 +9,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
-import com.cosmo.WorkspaceLoadException;
 import com.cosmo.WorkspaceFactory;
+import com.cosmo.WorkspaceLoadException;
 import com.cosmo.security.NotAuthorizedException;
 import com.cosmo.security.UserNotFoundException;
 import com.cosmo.security.UserSession;
@@ -50,7 +49,6 @@ public abstract class Page extends HttpServlet implements PageInterface
    private ArrayList<Control> rightContents;
    private StringBuilder xhtml;
    private PageRenderProvider renderProvider;
-   private HttpSession session;
 
    /**
     * Enumera las distintas regiones dónde se pueden agregar controles en la página.
@@ -340,9 +338,6 @@ public abstract class Page extends HttpServlet implements PageInterface
    {
       try 
       {
-         // Assegura que exista la sessión associada a la petición actual
-         this.session = request.getSession(true);
-         
          createPage(request, response);
       } 
       catch (Exception ex) 
@@ -557,31 +552,33 @@ public abstract class Page extends HttpServlet implements PageInterface
       // Obtiene el workspace
       this.workspace = WorkspaceFactory.getInstance(getServletContext(), request, response);
 
-      // Comprueba si el usuario puede ver la página
-      PageSecurity psec = new PageSecurity();
-      psec.checkPageSecurity(this, workspace, request, response);
-      
-      /*if (checkSecurity(request, response))
+      try
       {
-         return;  // Evita la excepción java.lang.IllegalStateException
-      }*/
-      
-      // Lanza el evento initPageEvent sólo si es la primera vez que se accede a la página
-      if (!init)
-      {
-         initPageEvent(request, response);
-         init = true;
-      }
-      
-      // Lanza el evento formSendedEvent
-      if (isPostback(request))
-      {
-         formRefreshData(request);
-         formSendedEvent(request, response);
-      }
+         // Comprueba si el usuario puede ver la página
+         PageSecurity psec = new PageSecurity();
+         psec.checkPageSecurity(this, workspace, request, response);
+         
+         // Lanza el evento initPageEvent sólo si es la primera vez que se accede a la página
+         if (!init)
+         {
+            initPageEvent(request, response);
+            init = true;
+         }
+         
+         // Lanza el evento formSendedEvent
+         if (isPostback(request))
+         {
+            formRefreshData(request);
+            formSendedEvent(request, response);
+         }
 
-      // Lanza el evento loadPageEvent
-      loadPageEvent(request, response);
+         // Lanza el evento loadPageEvent
+         loadPageEvent(request, response);
+      }
+      catch (NotAuthorizedException ex)
+      {
+         this.
+      }
       
       // Renderiza la página
       render();
