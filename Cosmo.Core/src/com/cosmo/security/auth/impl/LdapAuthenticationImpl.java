@@ -42,8 +42,8 @@ public class LdapAuthenticationImpl implements Authentication
    private static String PARAM_ATTR_MAIL = "ldap-attrib-mail";
    private static String PARAM_ATTR_NAME = "ldap-attrib-name";
    private static String PARAM_ATTR_SURNAME = "ldap-attrib-surname";
-   
-   
+
+
    //==============================================
    // Constructors
    //==============================================

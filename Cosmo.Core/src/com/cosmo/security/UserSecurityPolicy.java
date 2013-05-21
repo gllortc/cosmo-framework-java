@@ -10,17 +10,42 @@ import java.util.HashMap;
  */
 public class UserSecurityPolicy 
 {
+   private boolean superUser;
    private HashMap<String, Role> roles;
    private HashMap<String, Permission> permissions;
+
+
+   //==============================================
+   // Constructors
+   //==============================================
    
    /**
     * Constructor de la clase.
     */
    public UserSecurityPolicy()
    {
+      this.superUser = false;
       this.roles = new HashMap<String, Role>();
       this.permissions = new HashMap<String, Permission>();
    }
+
+
+   //==============================================
+   // Properties
+   //==============================================
+   
+   /**
+    * Indica si el usuario, según la información de los roles, tiene rango de Super Usuario (tiene accesoa  todo).
+    */
+   public boolean isSuperUser()
+   {
+      return this.superUser;
+   }
+   
+   
+   //==============================================
+   // Methods
+   //==============================================
    
    /**
     * Devuelve un vector con todos los roles assignados al usuario.
@@ -37,7 +62,11 @@ public class UserSecurityPolicy
     */
    public void addRole(Role role)
    {
+      // Añade el rol
       this.roles.put(role.getId(), role);
+      
+      // Refresca el indicador de Super Usuario
+      this.superUser = this.superUser || role.isSuperUser();
    }
 
    /**
@@ -109,8 +138,12 @@ public class UserSecurityPolicy
     */
    public boolean isInRole(String roleId)
    {
+      if (this.superUser)
+      {
+         return true;
+      }
+      
       Role role = this.roles.get(roleId);
-
       return (role != null);
    }
    
@@ -124,8 +157,12 @@ public class UserSecurityPolicy
     */
    public boolean isInRole(ArrayList<String> roleList)
    {
-      Role role;
+      if (this.superUser)
+      {
+         return true;
+      }
       
+      Role role;
       for (String roleId : roleList)
       {
          role = this.roles.get(roleId);
@@ -148,8 +185,12 @@ public class UserSecurityPolicy
     */
    public boolean isActivityGranted(String activityId)
    {
+      if (this.superUser)
+      {
+         return true;
+      }
+      
       Permission permission = this.permissions.get(activityId);
-
       return permission.isGranted();
    }
    
@@ -163,8 +204,12 @@ public class UserSecurityPolicy
     */
    public boolean isActivityGranted(ArrayList<String> activityList)
    {
+      if (this.superUser)
+      {
+         return true;
+      }
+
       Permission permission;
-      
       for (String activityId : activityList)
       {
          permission = this.permissions.get(activityId);

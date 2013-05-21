@@ -114,6 +114,14 @@ public class UserSession
    }
    
    /**
+    * Indica si el usuario, según la información de los roles, tiene rango de Super Usuario (tiene accesoa  todo).
+    */
+   public boolean isSuperUser()
+   {
+      return this.securityInfo.isSuperUser();      
+   }
+   
+   /**
     * Devuelve una instancia de {@link User} que representa el usuario propietario de la sesión.
     */
    public User getCurrentUser() 
