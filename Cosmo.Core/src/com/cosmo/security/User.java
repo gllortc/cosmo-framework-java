@@ -11,41 +11,13 @@ public class User implements java.security.Principal
 {
    private int id;
    private String login;
-   private String pwd;
+   // private String pwd;
    private String mail;
    private String name;
-   // private String city;
-   // private UserStates status;
    private Date created;
    private Date lastLogon;
    private int logonCount;
-   
-   /*public enum UserStates 
-   {
-      Disabled(0), 
-      Active(1),
-      NotConfirmed(2), 
-      Bloqued(3);
 
-      @SuppressWarnings("unused")
-      private int value;
-
-      private UserStates(int value) 
-      {
-         this.value = value;
-      }
-      
-      public static UserStates valueOf(int value)
-      {
-         switch (value)
-         {
-            case 1:  return UserStates.Active;
-            case 2:  return UserStates.NotConfirmed;
-            case 3:  return UserStates.Bloqued;
-            default: return UserStates.Disabled;
-         }
-      }
-   };*/
    
    //==============================================
    // Constructors
@@ -63,14 +35,16 @@ public class User implements java.security.Principal
     * Constructor de la clase.
     * 
     * @param login Login del usuario.
-    * @param pwd ContraseÃ±a del usuario.
+    * @param mail Cuenta de correo electrónico del usuario.
+    * @param name Nombre completo del usuario.
     */
-   public User(String login, String pwd)
+   public User(String login, String mail, String name)
    {
       initialize();
       
       this.login = login;
-      this.pwd = pwd;
+      this.mail = mail;
+      this.name = name;
    }
    
    //==============================================
@@ -97,16 +71,6 @@ public class User implements java.security.Principal
       this.login = login;
    }
 
-   public String getPwd() 
-   {
-      return pwd;
-   }
-
-   public void setPwd(String pwd) 
-   {
-      this.pwd = pwd;
-   }
-
    public String getMail() 
    {
       return mail;
@@ -126,16 +90,6 @@ public class User implements java.security.Principal
    {
       this.name = name;
    }
-
-   /*public String getCity() 
-   {
-      return city;
-   }
-
-   public void setCity(String city)
-   {
-      this.city = city;
-   }*/
 
    public Date getCreated() 
    {
@@ -167,15 +121,6 @@ public class User implements java.security.Principal
       this.logonCount = logonCount;
    }
 
-   /*public UserStates getStatus() 
-   {
-      return status;
-   }
-
-   public void setStatus(UserStates status) 
-   {
-      this.status = status;
-   }*/
 
    //==============================================
    // Private members
@@ -188,13 +133,10 @@ public class User implements java.security.Principal
    {
       this.id = -1;
       this.login = "";
-      this.pwd = "";
       this.mail = "";
       this.name = "";
-      // this.city = "";
       this.created = new Date();
       this.lastLogon = null;
       this.logonCount = 0;
-      // this.status = UserStates.Disabled;
    }
 }

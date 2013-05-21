@@ -104,10 +104,8 @@ public class PostgreSqlAuthenticationImpl implements Authentication
             user = new User();
             user.setId(rs.getInt("usrid"));
             user.setLogin(rs.getString("usrlogin"));
-            user.setPwd(password);
             user.setMail(rs.getString("usrmail"));
             user.setName(rs.getString("usrname"));
-            // user.setStatus(UserStates.valueOf(rs.getInt("usrstatus")));
             user.setCreated(rs.getDate("usrcreated"));
             user.setLastLogin(rs.getDate("usrlastlogin"));
             user.setLogonCount(rs.getInt("usrlogoncount"));
@@ -225,7 +223,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
     * @throws UserAlreadyExistsException
     * @throws AuthenticationException
     */
-   public void add(User user) throws UserAlreadyExistsException, AuthenticationException
+   public void add(User user, String password) throws UserAlreadyExistsException, AuthenticationException
    {
       String sSQL;
       ResultSet rs;
@@ -253,7 +251,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
                "VALUES " +
                "('" + user.getLogin() + "', " +
                " '" + user.getMail() + "', " +
-               " '" + CryptoUtils.encrypt(user.getPwd()) + "', " +
+               " '" + CryptoUtils.encrypt(password) + "', " +
                " '" + user.getName() + "', " +
                "  " + 0 + ", " +
                "  current_timestamp, " +
