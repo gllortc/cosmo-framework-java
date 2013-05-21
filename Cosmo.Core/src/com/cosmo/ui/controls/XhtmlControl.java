@@ -1,5 +1,7 @@
 package com.cosmo.ui.controls;
 
+import java.util.ArrayList;
+
 import com.cosmo.Workspace;
 
 /**
@@ -110,6 +112,40 @@ public class XhtmlControl extends Control
    public void appendHeadder(String title, int headderLevel)
    {
       append("<h" + headderLevel + ">" + title + "</h" + headderLevel + ">\n");
+   }
+   
+   /**
+    * Agrega una lista no ordenada (UL).
+    * 
+    * @param list Lista de objetos que forman la lista.
+    */
+   public void appendUnorderedList(ArrayList<?> list)
+   {
+      appendUnorderedList(list, null);
+   }
+   
+   /**
+    * Agrega una lista no ordenada (UL).
+    * 
+    * @param list Lista de objetos que forman la lista.
+    * @param cssClass Clase CSS a aplicar a la lista (se desaconseja su uso).
+    */
+   public void appendUnorderedList(ArrayList<?> list, String cssClass)
+   {
+      append("<ul" + (cssClass != null && !cssClass.isEmpty() ? " class=\"" + cssClass + "\"" : "") + ">\n");
+      for (Object item : list)
+      {
+         append("  <li>" + item.toString() + "</li>\n");
+      }
+      append("</ul>\n");
+   }
+   
+   /**
+    * Limpia el contenido del control.
+    */
+   public void clear()
+   {
+      this.xhtml = new StringBuilder();
    }
    
    /**

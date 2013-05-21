@@ -17,6 +17,7 @@ import com.cosmo.WorkspaceLoadException;
 import com.cosmo.WorkspaceFactory;
 import com.cosmo.security.NotAuthorizedException;
 import com.cosmo.security.UserNotFoundException;
+import com.cosmo.security.UserSession;
 import com.cosmo.security.auth.AuthenticationException;
 import com.cosmo.security.auth.AuthorizationException;
 import com.cosmo.ui.controls.Control;
@@ -161,7 +162,7 @@ public abstract class Page extends HttpServlet implements PageInterface
    }
 
    /**
-    * establece el juego de carácteres de la página.
+    * Establece el juego de carácteres de la página.
     */
    public void setCharset(String charset) 
    {
@@ -176,6 +177,19 @@ public abstract class Page extends HttpServlet implements PageInterface
       return workspace;
    }
    
+   /**
+    * Devuelve la instancia de {@link UserSession} que representa la sessión autenticada actual.
+    */
+   public UserSession getUserSession()
+   {
+      return workspace.getUserSession();
+   }
+   
+   /**
+    * Devuelve un iterador sobre el contenido de la página.
+    * 
+    * @param column Un valor de {@link ContentColumns} que indica la columna para la que se desea obtener el contenido.
+    */
    public Iterator<Control> getPageContent(ContentColumns column)
    {
       switch (column)

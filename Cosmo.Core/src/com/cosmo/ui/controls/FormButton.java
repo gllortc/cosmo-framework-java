@@ -143,7 +143,7 @@ public class FormButton  extends FormField
          {
             case Submit:   btnType = "submit";  break;
             case Reset:    btnType = "reset";   break;
-            case JsAction: btnType = "button";  break;
+            default:       btnType = "button";  break;
          }
          
          sb.append("<input type=\"").append(btnType).append("\" id=\"").append(this.name).append("\" name=\"").append(this.name).append("\" value=\"").append(this.label).append("\" />");
