@@ -10,15 +10,17 @@ public class Role
    private String id;
    private String description;
    private String applicationId;
+   private boolean superUser;
    
    /**
     * Constructor de la clase.
     */
    public Role() 
    {
-      id = "";
-      description = "";
-      applicationId = "";
+      this.id = "";
+      this.description = "";
+      this.applicationId = "";
+      this.superUser = false;
    }
    
    /**
@@ -73,5 +75,30 @@ public class Role
    public void setApplicationId(String applicationId) 
    {
       this.applicationId = applicationId;
+   }
+   
+   /**
+    * Indica si el rol es de super usuario (tiene permiso sobre todo).
+    */
+   public boolean isSuperUser() 
+   {
+      return superUser;
+   }
+
+   /**
+    * Establece el indicador de super usuario (tiene permiso sobre todo).
+    */
+   public void setSuperUser(boolean superUser) 
+   {
+      this.superUser = superUser;
+   }
+
+   /**
+    * Transforma la información de la instancia en una cadena con información comprensible. 
+    */
+   @Override
+   public String toString()
+   {
+      return this.id + " (" + this.description + ")" + (this.superUser ? " Super User" : "");
    }
 }

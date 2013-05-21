@@ -182,6 +182,14 @@ public class UserSession
    }
    
    /**
+    * Devuelve un vector con todos los roles assignados al usuario.
+    */
+   public ArrayList<Role> getRoles()
+   {
+      return this.securityInfo.getRoles();
+   }
+   
+   /**
     * Determina si el usuario propietario de la sesión tiene asignado un determinado rol.
     * 
     * @param roleId Una cadena que contiene el identificador (nombre) del rol.
@@ -204,6 +212,14 @@ public class UserSession
    public boolean isInRole(ArrayList<String> roleList)
    {
       return this.securityInfo.isInRole(roleList);
+   }
+   
+   /**
+    * Devuelve un vector con todos los permisos sobre actividades del usuario.
+    */
+   public ArrayList<Permission> getPermissions()
+   {
+      return this.securityInfo.getPermissions();
    }
    
    /**

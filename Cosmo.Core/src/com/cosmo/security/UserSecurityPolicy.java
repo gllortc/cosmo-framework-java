@@ -23,6 +23,14 @@ public class UserSecurityPolicy
    }
    
    /**
+    * Devuelve un vector con todos los roles assignados al usuario.
+    */
+   public ArrayList<Role> getRoles()
+   {
+      return new ArrayList<Role>(this.roles.values());
+   }
+   
+   /**
     * Agrega un rol a la información de seguridad de una sesión de usuario.
     * 
     * @param role Una instancia de {@link Role} que representa el rol a agregar.
@@ -45,6 +53,14 @@ public class UserSecurityPolicy
       {
          addRole(role);
       }
+   }
+   
+   /**
+    * Devuelve un vector con todos los roles assignados al usuario.
+    */
+   public ArrayList<Permission> getPermissions()
+   {
+      return new ArrayList<Permission>(this.permissions.values());
    }
    
    /**
