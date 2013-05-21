@@ -42,8 +42,9 @@ public class SecretPage extends Page
       this.addContent(header, ContentColumns.MAIN);
 
       XhtmlControl xhtml = new XhtmlControl(getWorkspace(), "content");
-      xhtml.appendParagraph("Aquesta pàgina serveix de test per provar totes les funcionalitats de seguretat de " + XhtmlControl.formatBold("Cosmo Framework") + ". " +
-                            "Depenent de l'usuari autenticat s'activen les funcionalitats per les quals té permís.");
+      xhtml.appendParagraph("Aquesta pàgina serveix de test per provar totes les funcionalitats de seguretat de ").
+            appendBold("Cosmo Framework").
+            append("Depenent de l'usuari autenticat s'activen les funcionalitats per les quals té permís.");
       this.addContent(xhtml, ContentColumns.MAIN);
       
       DynamicMessageControl msg = new DynamicMessageControl(getWorkspace(), "msg");
@@ -82,8 +83,8 @@ public class SecretPage extends Page
          // Muestra los roles del usuario
          XhtmlControl xhtmlRoles = (XhtmlControl) this.getControl("content-roles");
          xhtmlRoles.clear();
-         xhtmlRoles.appendHeadder("Rols d'usuari", 5);
-         xhtmlRoles.appendParagraph("La següent llista conté els rols que té l'usuari:");
+         xhtmlRoles.appendHeadder("Rols d'usuari", 5).
+                    appendParagraph("La següent llista conté els rols que té l'usuari:");
          if (!getUserSession().getRoles().isEmpty())
          {
             xhtmlRoles.appendUnorderedList(getUserSession().getRoles(), "alt");
@@ -98,8 +99,8 @@ public class SecretPage extends Page
          // Muestra los permisos del usuario
          XhtmlControl xhtmlAct = (XhtmlControl) this.getControl("content-act");
          xhtmlAct.clear();
-         xhtmlAct.appendHeadder("Permisos de l'usuari", 5);
-         xhtmlAct.appendParagraph("La següent llista conté les activitats sobre les que l'usuari té permisos especificats:");
+         xhtmlAct.appendHeadder("Permisos de l'usuari", 5).
+                  appendParagraph("La següent llista conté les activitats sobre les que l'usuari té permisos especificats:");
          if (!getUserSession().getPermissions().isEmpty())
          {
             xhtmlAct.appendUnorderedList(getUserSession().getPermissions(), "alt");

@@ -142,13 +142,12 @@ public class UserRegisterPage extends Page
          // Recopilación de datos
          User user = new User();
          user.setLogin(HttpRequestUtils.getValue(request, FIELD_LOGIN));
-         user.setPwd(HttpRequestUtils.getValue(request, FIELD_PASSWORD));
          user.setMail(HttpRequestUtils.getValue(request, FIELD_MAIL));
          user.setName(HttpRequestUtils.getValue(request, FIELD_NAME));
 
          // Acciones
          PostgreSqlAuthenticationImpl up = (PostgreSqlAuthenticationImpl) AuthenticationFactory.getInstance(this.getWorkspace());
-         up.add(user);
+         up.add(user, HttpRequestUtils.getValue(request, FIELD_PASSWORD));
 
          response.sendRedirect("UserManagerPage");
          return;
