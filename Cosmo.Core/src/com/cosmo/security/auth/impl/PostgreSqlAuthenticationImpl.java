@@ -3,6 +3,7 @@ package com.cosmo.security.auth.impl;
 import java.security.GeneralSecurityException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -36,6 +37,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    private static String TABLE_NAME = "cosmo_users";
    private static String TABLE_LOCKS = "cosmo_auth_locks";
    
+   
    //==============================================
    // Constructors
    //==============================================
@@ -53,7 +55,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    
    
    //==============================================
-   // Methods
+   // Methods (interface Authentication)
    //==============================================
    
    /**
@@ -215,6 +217,11 @@ public class PostgreSqlAuthenticationImpl implements Authentication
       return null;
    }
    
+   
+   //==============================================
+   // Methods
+   //==============================================
+   
    /**
     * Crea una nueva cuenta de usuario.
     * 
@@ -247,33 +254,262 @@ public class PostgreSqlAuthenticationImpl implements Authentication
             throw new UserAlreadyExistsException();
          }
          
-         sSQL = "INSERT INTO " + TABLE_NAME + " (usrlogin, usrmail, usrpwd, usrname, usroptions, usrcreated, usrlastlogin, usrlogoncount) " +
-               "VALUES " +
-               "('" + user.getLogin() + "', " +
-               " '" + user.getMail() + "', " +
-               " '" + CryptoUtils.encrypt(password) + "', " +
-               " '" + user.getName() + "', " +
-               "  " + 0 + ", " +
-               "  current_timestamp, " +
-               "  null, " +
-               "  " + 0 + ")";
+         sSQL = "INSERT INTO " + TABLE_NAME + " (usrlogin, usrmail, usrpwd, usrname, usrcreated, usrlastlogin, usrlogoncount) " +
+                "VALUES ('" + user.getLogin() + "', " +
+                "        '" + user.getMail() + "', " +
+                "        '" + CryptoUtils.encrypt(password) + "', " +
+                "        '" + user.getName() + "', " +
+                "             current_timestamp, " +
+                "             null, " +
+                "         " + 0 + ")";
+
+         conn.execute(sSQL);
+         
+         // Confirma los cambios en la bbdd
+         if (!conn.isAutoCommit()) conn.commit();
+      } 
+      catch (Exception ex)
+      {
+         throw new AuthenticationException(ex.getMessage(), ex);
+      }
+      finally
+      {
+         conn.disconnect();
+      }
+   }
+   
+   /**
+    * Actualiza los datos de un usuario (el login no se puede modificar y la contraseña no se actualiza mediante este método).
+    * 
+    * @param user Una instancia de {@link User} que representa el nuevo usuario.
+    *     
+    * @throws UserAlreadyExistsException
+    * @throws AuthenticationException
+    */
+   public void update(User user) throws UserNotFoundException, AuthenticationException
+   {
+      String sSQL;
+      DataSource ds;
+      DataConnection conn = null;
+      
+      try 
+      {
+      // Comprueba si existe el usuario
+         sSQL = "SELECT Count(*) " +
+                "FROM " + TABLE_NAME + " " +
+                "WHERE Lower(usrlogin) = '" + user.getLogin().trim().toLowerCase() + "'";
+         
+         ds = this.workspace.getProperties().getServerDataSource();
+         conn = new DataConnection(ds);
+         conn.connect();
+         if (conn.executeScalar(sSQL) <= 0)
+         {
+            throw new UserNotFoundException();
+         }
+         
+         sSQL = "UPDATE " + TABLE_NAME + " " +
+                "SET   usrmail = '" + DataConnection.sqlFormatTextValue(user.getMail()) + "', " +
+                "      usrname = '" + DataConnection.sqlFormatTextValue(user.getName()) + "' " +
+                "WHERE Lower(usrlogin) = '" + user.getLogin().trim().toLowerCase() + "'";
          
          conn.execute(sSQL);
          
          // Confirma los cambios en la bbdd
          if (!conn.isAutoCommit()) conn.commit();
       } 
-      catch (SQLException ex) 
+      catch (Exception ex)
       {
          throw new AuthenticationException(ex.getMessage(), ex);
       }
-      catch (GeneralSecurityException ex)
+      finally
+      {
+         conn.disconnect();
+      }
+   }
+   
+   /**
+    * Elimina una cuenta de usuario.
+    * 
+    * @param login Una cadena que representa el login del usuario.
+    *     
+    * @throws UserNotFoundException
+    * @throws AuthenticationException
+    */
+   public void delete(String login) throws UserNotFoundException, AuthenticationException
+   {
+      String sSQL;
+      DataSource ds;
+      DataConnection conn = null;
+      
+      try 
+      {
+         // Comprueba si existe el usuario
+         sSQL = "SELECT Count(*) " +
+                "FROM " + TABLE_NAME + " " +
+                "WHERE Lower(usrlogin) = '" + login.trim().toLowerCase() + "'";
+         
+         ds = this.workspace.getProperties().getServerDataSource();
+         conn = new DataConnection(ds);
+         conn.connect();
+         if (conn.executeScalar(sSQL) <= 0)
+         {
+            throw new UserNotFoundException();
+         }
+         
+         // Elimina el usuario
+         sSQL = "DELETE FROM " + TABLE_NAME + " " +
+                "WHERE Lower(usrlogin) = '" + login.trim().toLowerCase() + "'";
+
+         conn.execute(sSQL);
+         
+         // Confirma los cambios en la bbdd
+         if (!conn.isAutoCommit()) conn.commit();
+      } 
+      catch (Exception ex)
       {
          throw new AuthenticationException(ex.getMessage(), ex);
       }
-      catch (UserAlreadyExistsException ex)
+      finally
       {
-         throw ex;
+         conn.disconnect();
+      }
+   }
+   
+   /**
+    * Actualiza el password de un determinado usuario.
+    * 
+    * @param login Login del usuario.
+    * @param oldPassword Contraseña actual.
+    * @param newPassword Nueva contraseña.
+    * 
+    * @throws UserNotFoundException
+    * @throws AuthenticationException
+    */
+   public void setUserPassword(String login, String oldPassword, String newPassword) throws UserNotFoundException, AuthenticationException
+   {
+      String sSQL;
+      DataSource ds;
+      DataConnection conn = null;
+      
+      try 
+      {
+         // Comprueba que exista el usuario y que el password actual sea el correcto
+         sSQL = "SELECT Count(*) " +
+                "FROM  " + TABLE_NAME + " " +
+                "WHERE Lower(usrlogin) = '" + login.trim().toLowerCase() + "' And " +
+                "      usrpwd = '" + CryptoUtils.encrypt(oldPassword) + "'";
+
+         ds = this.workspace.getProperties().getServerDataSource();
+         conn = new DataConnection(ds);
+         conn.connect();
+         if (conn.executeScalar(sSQL) <= 0)
+         {
+            throw new UserNotFoundException();
+         }
+         
+         // Actualiza la contraseña del usuario
+         sSQL = "UPDATE " + TABLE_NAME + " " +
+                "SET   usrpwd = '" + CryptoUtils.encrypt(newPassword) + "' " +
+                "WHERE Lower(usrlogin) = '" + login.trim().toLowerCase() + "'";
+         
+         conn.execute(sSQL);
+         
+         // Confirma los cambios en la bbdd
+         if (!conn.isAutoCommit()) conn.commit();
+      } 
+      catch (Exception ex)
+      {
+         throw new AuthenticationException(ex.getMessage(), ex);
+      }
+      finally
+      {
+         conn.disconnect();
+      }
+   }
+   
+   /**
+    * Obtiene un listado con todos los usuarios.
+    * 
+    * @return Una instancia de {@link ResultSet} que contiene los datos del listado.
+    * 
+    * @throws AuthenticationException
+    */
+   public ArrayList<User> getUsers() throws AuthenticationException
+   {
+      String sSQL;
+      DataSource ds;
+      DataConnection conn = null;
+      ResultSet rs;
+
+      ArrayList<User> users = new ArrayList<User>();
+      
+      try 
+      {
+         sSQL = "SELECT   * " +
+                "FROM     " + TABLE_NAME + " " +
+                "ORDER BY usrlogin Asc";
+         
+         ds = this.workspace.getProperties().getServerDataSource();
+         conn = new DataConnection(ds);
+         conn.connect();
+
+         rs = conn.executeSql(sSQL);
+         while (rs.next())
+         {
+            users.add(readUser(rs));
+         }
+         
+         return users;
+      }
+      catch (Exception ex)
+      {
+         throw new AuthenticationException(ex.getMessage(), ex);
+      }
+      finally
+      {
+         conn.disconnect();
+      }
+   }
+   
+   /**
+    * Obtiene una lista de usuario cuyo perfil contiene determinado texto.<br />
+    * Los campos dónde se efectúa la búsqueda son: {@code usrlogin}, {@code usrmail} y {@code usrname}.
+    * 
+    * @param filter La cadena que debe contener al menos uno de los campos (como fragmento o cadena completa). 
+    * 
+    * @return Una lista de instancias {@link User} que coinciden con la búsqueda.
+    * 
+    * @throws AuthenticationException
+    */
+   public ArrayList<User> findUsers(String filter) throws AuthenticationException
+   {
+      String sSQL;
+      DataSource ds;
+      DataConnection conn = null;
+      ResultSet rs;
+
+      ArrayList<User> users = new ArrayList<User>();
+      
+      try 
+      {
+         sSQL = "SELECT   * " +
+                "FROM     " + TABLE_NAME + " " +
+                "WHERE usrlogin LIKE '%" + DataConnection.sqlFormatTextValue(filter) + "%' Or " +
+                "      usrname  LIKE '%" + DataConnection.sqlFormatTextValue(filter) + "%' Or " +
+                "      usrmail  LIKE '%" + DataConnection.sqlFormatTextValue(filter) + "%' " +
+                "ORDER BY usrlogin Asc";
+         
+         ds = this.workspace.getProperties().getServerDataSource();
+         conn = new DataConnection(ds);
+         conn.connect();
+
+         rs = conn.executeSql(sSQL);
+         while (rs.next())
+         {
+            users.add(readUser(rs));
+         }
+         
+         return users;
       }
       catch (Exception ex)
       {
@@ -290,9 +526,9 @@ public class PostgreSqlAuthenticationImpl implements Authentication
     * 
     * @return Una instancia de {@link ResultSet} que contiene los datos del listado.
     * 
-    * @throws Exception
+    * @throws AuthenticationException
     */
-   public ResultSet getUsersList() throws Exception
+   public ResultSet getUsersList() throws AuthenticationException
    {
       String sSQL;
       DataSource ds;
@@ -315,7 +551,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
       }
       catch (Exception ex)
       {
-         throw ex;
+         throw new AuthenticationException(ex.getMessage(), ex);
       }
       finally
       {
@@ -327,6 +563,28 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    //==============================================
    // Private members
    //==============================================
+   
+   /**
+    * Lee un usuario de un registro en una instancia de {@link ResultSet}.
+    * 
+    * @param rs La instancia de {@link ResultSet} con el cursor debidamente posicionado.
+    * 
+    * @return Una instancia de {@link User} que representa al usuari leido.
+    * 
+    * @throws SQLException
+    */
+   private User readUser(ResultSet rs) throws SQLException
+   {
+      User user = new User();
+      user.setLogin(rs.getString("usrlogin"));
+      user.setMail(rs.getString("usrmail"));
+      user.setName(rs.getString("usrname"));
+      user.setCreated(rs.getDate("usrcreated"));
+      user.setLastLogin(rs.getDate("usrlastlogin"));
+      user.setLogonCount(rs.getInt("usrlogoncount"));
+      
+      return user;
+   }
    
    /**
     * Determina si la cuenta de usuario se encuentra bloqueada (por exceso de intentos fallidos de login).
