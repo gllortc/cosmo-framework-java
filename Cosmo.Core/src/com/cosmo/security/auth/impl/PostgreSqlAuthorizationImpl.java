@@ -361,6 +361,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
          role.setId(rs.getString("roleid"));
          role.setDescription(rs.getString("roledescription"));
          role.setApplicationId(rs.getString("roleappid"));
+         role.setSuperUser(rs.getBoolean("rolesu"));
       }
       catch (Exception ex) 
       {
