@@ -427,7 +427,7 @@ public class FormControl extends Control
       this.hidden = new ArrayList<FormFieldHidden>();
       this.buttons = new ArrayList<FormButton>();
       
-      // Agrega el control de envios
+      // Agrega un campo oculto con el indicador de envío de formulario (para detectar POSTs)
       this.hidden.add(new FormFieldHidden(Cosmo.KEY_UI_FORM_ACTION, Cosmo.TOKEN_UI_FORM_POSTBACK));
    }
    
