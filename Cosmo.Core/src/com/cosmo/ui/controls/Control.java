@@ -178,7 +178,7 @@ public abstract class Control
       
       // No existe condicional (el contenido se reemplaza tanto si lo hay como si no)
       idx = sb.indexOf(cTag);
-      if (idx < 0)
+      if (idx >= 0)
       {
          sb.replace(idx, idx + cTag.length(), text);
       }

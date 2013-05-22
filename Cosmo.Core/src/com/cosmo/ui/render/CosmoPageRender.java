@@ -22,6 +22,8 @@ import com.cosmo.ui.widgets.providers.MenuProviderException;
  */
 public class CosmoPageRender extends PageRenderProvider
 {
+   private static final String TAG_SITE_NAME = "SITE.NAME";
+   
    //==============================================
    // Constructors
    //==============================================
@@ -80,6 +82,7 @@ public class CosmoPageRender extends PageRenderProvider
 
          // Obtiene la estructura
          xhtml.append(template.getLayout(page.getLayout()));
+         Control.replaceTag(xhtml, TAG_SITE_NAME, page.getWorkspace().getName());
 
          // Widgets
          renderMenus(xhtml, page);
