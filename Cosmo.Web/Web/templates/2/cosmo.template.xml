@@ -19,10 +19,12 @@
       <page-layouts>
       
          <layout id="home-page">
-&lt;div id="page" class="grid"&gt;
-   &lt;div id="banner"&gt;&amp;nbsp;&lt;/div&gt;
-   &lt;a name="top"&gt;&lt;/a&gt;
-   &lt;div id="container"&gt;
+&lt;div class="grid"&gt;
+  &lt;h3 style="color:#FFFFFF;"&gt;[@SITE.NAME]&lt;/h3&gt;
+  &lt;div id="wrap"&gt;
+    &lt;div id="banner"&gt;&amp;nbsp;&lt;/div&gt;
+    &lt;a name="top"&gt;&lt;/a&gt;
+    &lt;div id="container"&gt;
       &lt;div class="top"&gt;&amp;nbsp;&lt;/div&gt;
       &lt;div id="barleft"&gt;
 [@MENU]
@@ -30,140 +32,148 @@
       &lt;/div&gt; 
       &lt;div id="content" style="width: 630px; margin-right: 10px; margin-bottom: 0;"&gt;
 [@NAVBAR]
-         &lt;div id="barright"&gt;
+        &lt;div id="barright"&gt;
 [@CONTENT-RIGHT]
 [@BANNERS-RIGHT]
-         &lt;/div&gt;
-         &lt;div id="pageContents" class="page-cols"&gt;
+        &lt;/div&gt;
+        &lt;div id="pageContents" class="page-cols"&gt;
 [@BANNERS-CENTER-TOP]
 [@CONTENT]
 [@BANNERS-CENTER-BOTTOM]
-            &lt;/div&gt;
+        &lt;/div&gt;
       &lt;/div&gt;
       &lt;div id="footer"&gt;[@FOOTER]&lt;br /&gt;MetaObjects 4.0 powered by &lt;em&gt;Cosmo Framework&lt;/em&gt;&lt;/div&gt;
       &lt;div class="bottom"&gt;&amp;nbsp;&lt;/div&gt;
-   &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
          </layout>
          
          <layout id="one-col">
-&lt;div id="wrap" class="clearfix"&gt;
-	&lt;div class="col_12"&gt;
+&lt;div class="grid"&gt;
+  &lt;h3 style="color:#FFFFFF;"&gt;[@SITE.NAME]&lt;/h3&gt;
+  &lt;div id="wrap"&gt;
+    &lt;div class="col_12"&gt;
 [@BANNERS-CENTER-TOP]
 [@CONTENT]
 [@BANNERS-CENTER-BOTTOM]
-		&lt;hr /&gt;
-		&lt;div class="col_3"&gt;
-			&lt;h4&gt;Column&lt;/h4&gt;
-			&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
-			magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
-		&lt;/div&gt;
-		&lt;div class="col_3"&gt;
-			&lt;h4&gt;Column&lt;/h4&gt;
-			&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
-			magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
-		&lt;/div&gt;
-		&lt;div class="col_3"&gt;
-			&lt;h4&gt;Column&lt;/h4&gt;
-			&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
-			magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
-		&lt;/div&gt;
-		&lt;div class="col_3"&gt;
-			&lt;h4&gt;Column&lt;/h4&gt;
-			&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
-			magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
-		&lt;/div&gt;
-	&lt;/div&gt;
-	&lt;div class="clear"&gt;&lt;/div&gt;
-	&lt;div id="footer"&gt;
-		&amp;copy; Copyright 2011–2012 All Rights Reserved. This website was built with &lt;a href="http://www.99lime.com">HTML KickStart&lt;/a&gt;
-		&lt;a id="link-top" href="#top-of-page"&gt;Top&lt;/a&gt;
-	&lt;/div&gt;
+      &lt;hr /&gt;
+      &lt;div class="col_3"&gt;
+        &lt;h4&gt;Column&lt;/h4&gt;
+        &lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
+        magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="col_3"&gt;
+        &lt;h4&gt;Column&lt;/h4&gt;
+        &lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
+        magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="col_3"&gt;
+        &lt;h4&gt;Column&lt;/h4&gt;
+        &lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
+        magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="col_3"&gt;
+        &lt;h4&gt;Column&lt;/h4&gt;
+        &lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
+        magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;div class="clear"&gt;&lt;/div&gt;
+  &lt;div id="footer"&gt;
+    &amp;copy; Copyright 2011–2012 All Rights Reserved. This website was built with &lt;a href="http://www.99lime.com">HTML KickStart&lt;/a&gt;
+    &lt;a id="link-top" href="#top-of-page"&gt;Top&lt;/a&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
          </layout>
 
          <layout id="two-cols-left">
-&lt;div id="wrap" class="grid"&gt;
-	&lt;div class="col_12"&gt;
-		&lt;div class="col_3"&gt;
+&lt;div class="grid"&gt;
+  &lt;h3 style="color:#FFFFFF;"&gt;[@SITE.NAME]&lt;/h3&gt;
+  &lt;div id="wrap"&gt;
+    &lt;div class="col_12"&gt;
+      &lt;div class="col_3"&gt;
 [@MENU]
 [@BANNERS-LEFT]
-		&lt;/div&gt;
-		&lt;div class="col_9"&gt;
+      &lt;/div&gt;
+      &lt;div class="col_9"&gt;
 [@BANNERS-CENTER-TOP]
 [@CONTENT]
 [@BANNERS-CENTER-BOTTOM]
-		&lt;/div&gt;
-		&lt;hr /&gt;
-		&lt;div class="col_3"&gt;
-			&lt;h4&gt;Column&lt;/h4&gt;
-			&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
-			magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
-		&lt;/div&gt;
-		&lt;div class="col_3"&gt;
-			&lt;h4&gt;Column&lt;/h4&gt;
-			&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
-			magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
-		&lt;/div&gt;
-		&lt;div class="col_3"&gt;
-			&lt;h4&gt;Column&lt;/h4&gt;
-			&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
-			magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
-		&lt;/div&gt;
-		&lt;div class="col_3"&gt;
-			&lt;h4&gt;Column&lt;/h4&gt;
-			&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
-			magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
-		&lt;/div&gt;
-	&lt;/div&gt;
-	&lt;div class="clear"&gt;&lt;/div&gt;
-	&lt;div id="footer"&gt;
-		&amp;copy; Copyright 2011–2012 All Rights Reserved. This website was built with &lt;a href="http://www.99lime.com"&gt;HTML KickStart&lt;/a&gt;
-		&lt;a id="link-top" href="#top-of-page"&gt;Top&lt;/a&gt;
-	&lt;/div>
-&lt;/div>
+      &lt;/div&gt;
+      &lt;hr /&gt;
+      &lt;div class="col_3"&gt;
+        &lt;h4&gt;Column&lt;/h4&gt;
+        &lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
+        magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="col_3"&gt;
+        &lt;h4&gt;Column&lt;/h4&gt;
+        &lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
+        magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="col_3"&gt;
+        &lt;h4&gt;Column&lt;/h4&gt;
+        &lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
+        magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="col_3"&gt;
+        &lt;h4&gt;Column&lt;/h4&gt;
+        &lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
+        magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="clear"&gt;&lt;/div&gt;
+    &lt;div id="footer"&gt;
+      &amp;copy; Copyright 2011–2012 All Rights Reserved. This website was built with &lt;a href="http://www.99lime.com"&gt;HTML KickStart&lt;/a&gt;
+      &lt;a id="link-top" href="#top-of-page"&gt;Top&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
          </layout>
 
          <layout id="two-cols-right">
-&lt;div id="wrap" class="clearfix"&gt;
-	&lt;div class="col_12"&gt;
-		&lt;div class="col_9"&gt;
+&lt;div class="grid"&gt;
+  &lt;h3 style="color:#FFFFFF;"&gt;[@SITE.NAME]&lt;/h3&gt;
+  &lt;div id="wrap"&gt;
+    &lt;div class="col_12"&gt;
+      &lt;div class="col_9"&gt;
 [@BANNERS-CENTER-TOP]
 [@CONTENT]
 [@BANNERS-CENTER-BOTTOM]
-		&lt;/div&gt;
-		&lt;div class="col_3"&gt;
+      &lt;/div&gt;
+      &lt;div class="col_3"&gt;
 [@MENU]
 [@BANNERS-LEFT]
-		&lt;/div&gt;
-		&lt;hr /&gt;
-		&lt;div class="col_3"&gt;
-			&lt;h4&gt;Column&lt;/h4&gt;
-			&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
-			magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
-		&lt;/div&gt;
-		&lt;div class="col_3"&gt;
-			&lt;h4&gt;Column&lt;/h4&gt;
-			&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
-			magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
-		&lt;/div&gt;
-		&lt;div class="col_3"&gt;
-			&lt;h4&gt;Column&lt;/h4&gt;
-			&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
-			magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
-		&lt;/div&gt;
-		&lt;div class="col_3"&gt;
-			&lt;h4&gt;Column&lt;/h4&gt;
-			&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
-			magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
-		&lt;/div&gt;
-	&lt;/div&gt;
-	&lt;div class="clear"&gt;&lt;/div&gt;
-	&lt;div id="footer"&gt;
-		&amp;copy; Copyright 2011–2012 All Rights Reserved. This website was built with &lt;a href="http://www.99lime.com"&gt;HTML KickStart&lt;/a&gt;
-		&lt;a id="link-top" href="#top-of-page"&gt;Top&lt;/a&gt;
-	&lt;/div>
-&lt;/div>
+    &lt;/div&gt;
+    &lt;hr /&gt;
+    &lt;div class="col_3"&gt;
+      &lt;h4&gt;Column&lt;/h4&gt;
+      &lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
+      magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="col_3"&gt;
+      &lt;h4&gt;Column&lt;/h4&gt;
+      &lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
+      magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="col_3"&gt;
+      &lt;h4&gt;Column&lt;/h4&gt;
+      &lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
+      magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="col_3"&gt;
+      &lt;h4&gt;Column&lt;/h4&gt;
+      &lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
+      magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="clear"&gt;&lt;/div&gt;
+  &lt;div id="footer"&gt;
+    &amp;copy; Copyright 2011–2012 All Rights Reserved. This website was built with &lt;a href="http://www.99lime.com"&gt;HTML KickStart&lt;/a&gt;
+    &lt;a id="link-top" href="#top-of-page"&gt;Top&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
          </layout>
 
          <layout id="three-cols">
@@ -208,8 +218,8 @@
 	&lt;div id="footer"&gt;
 		&amp;copy; Copyright 2011–2012 All Rights Reserved. This website was built with &lt;a href="http://www.99lime.com"&gt;HTML KickStart&lt;/a&gt;
 		&lt;a id="link-top" href="#top-of-page"&gt;Top&lt;/a&gt;
-	&lt;/div>
-&lt;/div>
+	&lt;/div&gt;
+&lt;/div&gt;
          </layout>
 
       </page-layouts>
@@ -319,21 +329,26 @@
          <!-- LISTADO DE OBJETOS -->
          <pcontrol id="CosmoUiCtrlObjectLst" lat-equiv="object-list-lateral">
             <celement id="object-list-title">
-[#IF TITLE]&lt;h5&gt;[@TITLE]&lt;/h5&gt;[#ENDIF TITLE]
+[#IF TITLE]&lt;h4&gt;[@TITLE]&lt;/h4&gt;[#ENDIF TITLE]
 [#IF DESCRIPTION]&lt;p&gt;[@DESCRIPTION]&lt;/p&gt;[#ENDIF DESCRIPTION]
             </celement>
             <celement id="object-list-header">
 &lt;div&gt;
             </celement>
             <celement id="object-list-item">
-   &lt;div class="col_2"&gt;&lt;a href="[@HREF]"&gt;&lt;img class="style1" src="[@THUMB]" alt="[@CAPTION]" width="[@WIDTH]" height="[@HEIGHT]" /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;h5&gt;&lt;a href="[@HREF]"&gt;[@CAPTION]&lt;/a&gt;&lt;/h5&gt;
+&lt;a href="[@HREF]"&gt;&lt;img class="align-left" src="[@THUMB]" width="50" height="50"&gt;&lt;/a&gt;
+&lt;p&gt;[@DESCRIPTION]&lt;/p&gt;
+&lt;hr /&gt;
+            
+<!-- &lt;div class="col_2"&gt;&lt;a href="[@HREF]"&gt;&lt;img class="style1" src="[@THUMB]" alt="[@CAPTION]" width="[@WIDTH]" height="[@HEIGHT]" /&gt;&lt;/a&gt;&lt;/div&gt;
       &lt;div class="col_10"&gt;
          &lt;h5 style="margin-top:0px;"&gt;&lt;a href="[@HREF]"&gt;[@CAPTION]&lt;/a&gt;&lt;/h5&gt;
          &lt;p&gt;[@DESCRIPTION]&lt;/p&gt;
          &lt;blockquote class="small" style="margin-bottom:0;"&gt;&lt;span&gt;&lt;span class="icon medium gray" data-icon="i"&gt;&lt;/span&gt; [#IF DATE]Publicado el [@DATE][#IF AUTHOR] por [@AUTHOR][#ENDIF AUTHOR][#ENDIF DATE]&lt;/span&gt;&lt;/blockquote&gt;
       &lt;/div&gt;
    &lt;/div&gt;
-   &lt;hr class="alt2" style="margin:5px 0;" /&gt;
+   &lt;hr class="alt2" style="margin:5px 0;" /&gt; -->
             </celement>
             <celement id="object-list-footer">
 &lt;/div&gt;
