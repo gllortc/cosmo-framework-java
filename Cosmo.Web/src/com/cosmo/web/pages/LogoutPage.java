@@ -18,13 +18,7 @@ public class LogoutPage extends Page
    private static final long serialVersionUID = -104852712419784967L;
 
    @Override
-   public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
-   {
-   // TODO Auto-generated method stub
-   }
-
-   @Override
-   public void formSendedEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void loadPageEvent(HttpServletRequest request, HttpServletResponse response) 
    {
       if (getWorkspace().isValidUserSession())
       {
@@ -44,11 +38,16 @@ public class LogoutPage extends Page
          showException(ex);
       }
    }
-
+   
    @Override
-   public void loadPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
    {
       // TODO Auto-generated method stub
    }
-   
+
+   @Override
+   public void formSendedEvent(HttpServletRequest request, HttpServletResponse response) 
+   {
+      // TODO Auto-generated method stub      
+   }
 }
