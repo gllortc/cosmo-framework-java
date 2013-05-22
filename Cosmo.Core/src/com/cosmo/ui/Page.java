@@ -327,6 +327,19 @@ public abstract class Page extends HttpServlet implements PageInterface
    }
    
    /**
+    * Representa un error (excepción).
+    * 
+    * @param ex Una instancia de {@link Exception} que contiene los detalles del error.
+    */
+   public void showException(Exception ex)
+   {
+      // Representa un error
+      this.layout = PageLayout.TwoColumnsLeft;
+      this.centerContents.clear();
+      this.centerContents.add(new ErrorMessageControl(getWorkspace(), ex));
+   }
+   
+   /**
     * Atiende la petición de la página por GET y POST.
     * 
     * @param request Servlet request.
@@ -447,83 +460,6 @@ public abstract class Page extends HttpServlet implements PageInterface
    }
    
    /**
-    * Comprueba si la página dispone de seguridad y si existe sesión autenticada.<br />
-    * En caso de requerir autenticación y no existir autenticación, redirige a la página de login.
-    * 
-    * @param response Una instancia de {@link HttpServletResponse} que corresponde a la respuesta actual del contexto.
-    * 
-    * @throws IOException 
-    */
-   /*private boolean checkSecurity(HttpServletRequest request, HttpServletResponse response) throws IOException
-   {
-      String toUrl;
-      
-      if (!this.isSessionRequired())
-      {
-         return false;
-      }
-      
-      if (!getWorkspace().isValidUserSession())
-      {
-         try
-         {
-            AuthenticationProvider auth = AuthenticationProvider.getInstance(workspace);
-            
-            if (auth.isLoginGatewayRequired()) // && auth.isLoginGatewayValidated(request))
-            {
-               if (auth.isLoginGatewayResponse(request))
-               {
-                  User user = auth.getLoginGatewayUser(request);
-                  workspace.createSession(user);
-
-                  return true;
-               }
-               else
-               {
-                  toUrl = auth.getLoginGatewayUrl();
-               }
-            }
-            / *else if (auth.isLoginGatewayRequired())
-            {
-               toUrl = auth.getLoginGatewayUrl();
-            }* /
-            else
-            {
-               URL url = new URL(getWorkspace().getProperties().getLoginPage());
-               
-               // Determina si existe una dirección de origen
-               try
-               {
-                  // HttpServletRequest request = getWorkspace().getServerRequest();
-                  String urlSource = request.getRequestURL().toString();
-                  url.addParameter(Cosmo.URL_PARAM_TOURL, urlSource);
-               }
-               catch (Exception ex)
-               {
-                  // No lo tiene en cuenta
-               }
-   
-               // Redirecciona la página al servlet de LOGIN.
-               String charSet = getWorkspace().getProperties().getString(Cosmo.PROPERTY_WORKSPACE_UI_CHARSET);
-               charSet = (StringUtils.isNullOrEmptyTrim(charSet) ? Cosmo.CHARSET_UTF_8 : charSet);
-               toUrl = url.toString(charSet);
-            }
-            
-            response.sendRedirect(toUrl);
-            return true;
-         } 
-         catch (Exception e) 
-         {
-            // TODO: Aquí se debe generar una excepción ya que de lo contrario se puede acceder al recurso
-            
-            // throw new Exception(e.getMessage());
-         }
-      }
-      
-      return false;
-   } */
-   
-   /**
     * Crea la página.<br />
     * El guión de llamadas a eventos es el siguiente:<br /><ul>
     * <li>- {@code initPageEvent()}: Sólo si es la primera vez que se accede a la página.</li>
@@ -578,10 +514,7 @@ public abstract class Page extends HttpServlet implements PageInterface
       }
       catch (NotAuthorizedException ex)
       {
-         // Representa un error
-         this.layout = PageLayout.TwoColumnsLeft;
-         this.centerContents.clear();
-         this.centerContents.add(new ErrorMessageControl(getWorkspace(), ex));
+         showException(ex);
       }
       
       // Renderiza la página
@@ -593,14 +526,4 @@ public abstract class Page extends HttpServlet implements PageInterface
       out.println(xhtml.toString());
       out.print("<!-- Page generated in " + (System.currentTimeMillis() - startTime) + " mSec using " + Cosmo.COSMO_NAME + " -->\n");
    }
-   
-   /**
-    * Indica si la página requiere sesión de usuario para ser accedida. 
-    */
-   /*private boolean isSessionRequired()
-   {
-      return this.getClass().isAnnotationPresent(SessionRequired.class);
-   }*/
-   
-   
 }
