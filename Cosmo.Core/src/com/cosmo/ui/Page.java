@@ -20,6 +20,7 @@ import com.cosmo.security.UserSession;
 import com.cosmo.security.auth.AuthenticationException;
 import com.cosmo.security.auth.AuthorizationException;
 import com.cosmo.ui.controls.Control;
+import com.cosmo.ui.controls.ErrorMessageWidget;
 import com.cosmo.ui.controls.FormControl;
 import com.cosmo.ui.render.LoadPageRenderException;
 import com.cosmo.ui.render.PageRenderException;
@@ -578,7 +579,9 @@ public abstract class Page extends HttpServlet implements PageInterface
       catch (NotAuthorizedException ex)
       {
          // Representa un error
-         this.
+         this.layout = PageLayout.TwoColumnsLeft;
+         this.centerContents.clear();
+         this.centerContents.add(new ErrorMessageWidget(getWorkspace(), ex));
       }
       
       // Renderiza la página
