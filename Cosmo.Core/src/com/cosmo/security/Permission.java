@@ -62,11 +62,6 @@ public class Permission extends Activity
    @Override
    public String toString()
    {
-      return "[Cosmo Security Activity Permision]\n" +
-             " ID                    = " + this.getId() + "\n" +
-             " Description           = " + this.getDescription() + "\n" +
-             " Is granted by default = " + (this.isGrantedByDefault() ? "yes" : "no") + "\n" +
-             " Is enabled            = " + (this.isEnabled() ? "yes" : "no") + "\n" +
-             " Is granted            = " + (this.isGranted() ? "yes" : "no") + "\n";
+      return this.getId() + " (" + this.getDescription() + ") Granted? " + (this.isGranted() ? "yes" : "no");
    }
 }

@@ -120,9 +120,9 @@ public abstract class Control
     * 
     * @param sb Una instancia de {@link StringBuilder} que contiene el texto a evaluar.
     * @param tag Una cadena que contiene el TAG a reemplazar. El TAG se especifica sólo con carácteres alfanuméricos, sin formato final.
-    * @param text Texto que debe reemplazar el TAG.
+    * @param replaceWith Texto que debe reemplazar el TAG.
     */
-   public static void replaceTag(StringBuilder sb, String tag, String text)
+   public static void replaceTag(StringBuilder sb, String tag, String replaceWith)
    {
       int idx;
       String cTag = getTag(tag);
@@ -132,13 +132,13 @@ public abstract class Control
       idx = sb.indexOf(cTagBegin);
       
       // Evita contenido nulo
-      if (text == null)
+      if (replaceWith == null)
       {
-         text = "";
+         replaceWith = "";
       }
       
       // Existe condicional y hay contenido
-      if (idx >= 0 && !StringUtils.isNullOrEmpty(text))
+      if (idx >= 0 && !StringUtils.isNullOrEmpty(replaceWith))
       {
          sb.delete(idx, idx + cTagBegin.length());
          
@@ -150,14 +150,14 @@ public abstract class Control
          
          idx = sb.indexOf(cTag);
          {
-            sb.replace(idx, idx + cTag.length(), text);
+            sb.replace(idx, idx + cTag.length(), replaceWith);
          }
          
          return;
       }
       
       // Existe condicional y NO hay contenido
-      if (idx >= 0 && StringUtils.isNullOrEmpty(text))
+      if (idx >= 0 && StringUtils.isNullOrEmpty(replaceWith))
       {
          sb.delete(idx, idx + cTagBegin.length());
          
@@ -180,7 +180,7 @@ public abstract class Control
       idx = sb.indexOf(cTag);
       if (idx >= 0)
       {
-         sb.replace(idx, idx + cTag.length(), text);
+         sb.replace(idx, idx + cTag.length(), replaceWith);
       }
    }
    
@@ -190,9 +190,9 @@ public abstract class Control
     * 
     * @param xhtml Una instancia de {@link StringBuilder} que contiene el texto a evaluar.
     * @param tag Una cadena que contiene el TAG a reemplazar. El TAG se especifica sólo con carácteres alfanuméricos, sin formato final.
-    * @param text Texto que debe reemplazar el TAG.
+    * @param replaceWith Texto que debe reemplazar el TAG.
     */
-   public static String replaceTag(String xhtml, String tag, String text)
+   public static String replaceTag(String xhtml, String tag, String replaceWith)
    {
       int idx;
       String cTag = Control.getTag(tag);
@@ -202,7 +202,7 @@ public abstract class Control
       StringBuilder sb = new StringBuilder(xhtml);
       
       // Existe condicional y hay contenido
-      if (xhtml.contains(cTagBegin) && !StringUtils.isNullOrEmpty(text))
+      if (xhtml.contains(cTagBegin) && !StringUtils.isNullOrEmpty(replaceWith))
       {
          idx = sb.indexOf(cTagBegin);
          if (idx >= 0)
@@ -219,14 +219,14 @@ public abstract class Control
          idx = sb.indexOf(cTag);
          if (idx >= 0)
          {
-            sb.replace(idx, idx + cTag.length(), text);
+            sb.replace(idx, idx + cTag.length(), replaceWith);
          }
 
          return sb.toString();
       }
       
       // Existe condicional y NO hay contenido
-      if (xhtml.contains(cTagBegin) && StringUtils.isNullOrEmpty(text))
+      if (xhtml.contains(cTagBegin) && StringUtils.isNullOrEmpty(replaceWith))
       {
          sb.delete(sb.indexOf(cTagBegin), sb.indexOf(cTagEnd) + cTagEnd.length());
          return sb.toString();
@@ -235,7 +235,7 @@ public abstract class Control
       // No existe condicional (el contenido se reemplaza tanto si lo hay como si no)
       if (xhtml.contains(cTag))
       {
-         xhtml = xhtml.replace(cTag, text);
+         xhtml = xhtml.replace(cTag, replaceWith);
          
          return xhtml;
       }

@@ -60,7 +60,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
     * @throws AuthorizationException 
     */
    @Override
-   public UserSecurityPolicy loadAuthorizationData(String login) throws AuthorizationException
+   public UserSecurityPolicy getAuthorizationData(String login) throws AuthorizationException
    {
       UserSecurityPolicy usp = new UserSecurityPolicy();
 
@@ -72,72 +72,6 @@ public class PostgreSqlAuthorizationImpl implements Authorization
 
       return usp;
    }
-   
-   /**
-    * Determina si un usuario tiene un rol especifico.
-    * 
-    * @param login Una cadena que contiene el <em>login</em> del usuario.
-    * @param role Una cadena que contiene el nombre (ID) del rol.
-    * 
-    * @return {@code true} si el usuario tiene asignado el rol o {@code false} en cualquier otro caso.
-    */
-   /*@Override
-   public boolean isUserInRole(String login, String role) throws AuthorizationException
-   {
-      ArrayList<String> roles = new ArrayList<String>();
-      roles.add(role);
-      
-      return isUserInRole(login, roles);
-   }*/
-   
-   /**
-    * Determina si un usuario tiene un rol especifico entre una lista de roles.
-    * 
-    * @param login Una cadena que contiene el <em>login</em> del usuario.
-    * @param roles Un array con los identificadores de rol.
-    * 
-    * @return {@code true} si el usuario tiene asignado al menos un rol de los contenidos en la lista o {@code false} en cualquier otro caso.
-    * 
-    * @throws AuthorizationException
-    */
-   /*@Override
-   public boolean isUserInRole(String login, ArrayList<String> roles) throws AuthorizationException
-   {
-      ArrayList<Role> roleList = null;
-      
-      // Obtiene los roles del usuario
-      roleList = getRolesByUser(login);
-      
-      // Para cada rol del usuario comprueba la lista proporcionada 
-      for (String roleId : roles)
-      {
-         for (Role role : roleList)
-         {
-            // Si los IDs coinciden, el usuario tiene uno de los roles
-            if (role.getId().equals(roleId))
-            {
-               return true;
-            }
-         }
-      }
-      
-      // No de ha hallado ninguna coincidnecia
-      return false;
-   }*/
-
-   /**
-    * Determina si un usuario tiene permiso para ejecutar determinada actividad.
-    * 
-    * @param login Una cadena que contiene el <em>login</em> del usuario.
-    * @param activityId Una cadena que contiene el nombre (ID) de la actividad.
-    * 
-    * @return @return {@code true} si el usuario tiene permiso para ejecutar la actividad o {@code false} en cualquier otro caso.
-    */
-   /*@Override
-   public boolean isActivityGranted(String login, String activityId) 
-   {
-      return false;
-   }*/
    
    
    //==============================================

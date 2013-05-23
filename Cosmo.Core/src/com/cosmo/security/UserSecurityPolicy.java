@@ -191,7 +191,14 @@ public class UserSecurityPolicy
       }
       
       Permission permission = this.permissions.get(activityId);
-      return permission.isGranted();
+      if (permission == null)
+      {
+         return false;
+      }
+      else
+      {      
+         return permission.isGranted();
+      }
    }
    
    /**
@@ -214,7 +221,7 @@ public class UserSecurityPolicy
       {
          permission = this.permissions.get(activityId);
          
-         if (permission != null)
+         if (permission != null && permission.isGranted())
          {
             return true;
          }

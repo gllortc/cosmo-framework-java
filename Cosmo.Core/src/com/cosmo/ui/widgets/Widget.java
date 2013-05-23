@@ -64,7 +64,9 @@ public abstract class Widget
    /**
     * Renderiza el widget y genera el código XHTML de representación.
     *
-    * @return Devuelve una cadena en formato XHTML que representa el widget. 
+    * @return Devuelve una cadena en formato XHTML que representa el widget.
+    * 
+    * @throws TemplateUnavailableException
     */
    public abstract String render() throws TemplateUnavailableException;
    

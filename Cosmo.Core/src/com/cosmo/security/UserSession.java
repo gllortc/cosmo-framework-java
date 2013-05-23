@@ -58,7 +58,7 @@ public class UserSession
          if (authorizator != null)
          {
          // Obtiene las políticas de autorización para el usuario autenticado
-            this.securityInfo = authorizator.loadAuthorizationData(login);
+            this.securityInfo = authorizator.getAuthorizationData(login);
          }
       }
    }
@@ -86,7 +86,7 @@ public class UserSession
       if (authorizator != null)
       {
          // Obtiene las políticas de autorización para el usuario autenticado
-         this.securityInfo = authorizator.loadAuthorizationData(user.getLogin());
+         this.securityInfo = authorizator.getAuthorizationData(user.getLogin());
       }
    }
    

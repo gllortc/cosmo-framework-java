@@ -115,7 +115,7 @@ public class Icon
 	public static final String ICON_IMAGE_CHEVRON_RIGHT = "icon-chevron-right";       
 	public static final String ICON_IMAGE_PLUS_SIGN = "icon-plus-sign";           
 	public static final String ICON_IMAGE_MINUS_SIGN = "icon-minus-sign";           
-	public static final String ICON_IMAGE_REMOVE_DIGN = "icon-remove-sign";          
+	public static final String ICON_IMAGE_REMOVE_SIGN = "icon-remove-sign";          
 	public static final String ICON_IMAGE_OK_SIGN = "icon-ok-sign";              
 	public static final String ICON_IMAGE_QUESTION_SIGN = "icon-question-sign";        
 	public static final String ICON_IMAGE_INFO_SIGN = "icon-info-sign";            
@@ -312,7 +312,7 @@ public class Icon
       }
       else
       {
-         return "<i class=\"" + image + " " + size + "\"></i>";
+         return "<i class=\"" + image + " " + size + " " + color +  "\"></i>";
       }
    }
    

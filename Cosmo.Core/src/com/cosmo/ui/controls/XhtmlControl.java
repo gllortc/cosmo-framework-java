@@ -96,6 +96,15 @@ public class XhtmlControl extends Control
    }
    
    /**
+    * Agrega una línea separadora.
+    */
+   public XhtmlControl appendHorizontalLine()
+   {
+      this.xhtml.append("<hr />");
+      return this;
+   }
+   
+   /**
     * Agrega un párrafo al contenido.
     * 
     * @param text Texto que contiene el párrafo.

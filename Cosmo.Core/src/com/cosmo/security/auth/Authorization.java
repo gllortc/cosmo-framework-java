@@ -11,7 +11,7 @@ public interface Authorization
     * 
     * @throws AuthorizationException
     */
-   public UserSecurityPolicy loadAuthorizationData(String login) throws AuthorizationException;
+   public UserSecurityPolicy getAuthorizationData(String login) throws AuthorizationException;
    
    /**
     * Determina si un usuario tiene un rol especifico.
