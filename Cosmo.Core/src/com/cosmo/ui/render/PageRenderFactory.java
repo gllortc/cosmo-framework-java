@@ -3,8 +3,6 @@ package com.cosmo.ui.render;
 import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
 import com.cosmo.security.auth.AuthenticationException;
-import com.cosmo.ui.Page;
-import com.cosmo.ui.templates.TemplateUnavailableException;
 
 /**
  * Singleton que proporciona la instancia del renderizador de paginas Cosmo.
@@ -14,11 +12,12 @@ import com.cosmo.ui.templates.TemplateUnavailableException;
 public abstract class PageRenderFactory 
 {
    // Instancia singleton del renderizador
-   private static PageRenderFactory instance = null;
+   private static PageRender instance = null;
    
    //==============================================
    // Methods
    //==============================================
+   
    
    /**
     * Renderiza la página convirtiendo la lógica de clases en código XHTML.
@@ -29,23 +28,23 @@ public abstract class PageRenderFactory
     * @throws TemplateUnavailableException
     * @throws PageRenderException 
     */
-   public abstract String render(Page page) throws TemplateUnavailableException, PageRenderException;
+   // public abstract String render(Page page) throws TemplateUnavailableException, PageRenderException;
    
    //==============================================
    // Static members
    //==============================================
    
    /**
-    * Devuelve una instancia de {@link PageRenderFactory} convenientemente instanciada y con
+    * Devuelve una instancia de {@link PageRender} convenientemente instanciada y con
     * el proveedor de renderizado cargado.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     * 
-    * @return Una instancia única de {@link PageRenderFactory} (sigleton).
+    * @return Una instancia única de {@link PageRender} (sigleton).
     * 
     * @throws LoadPageRenderException 
     */
-   public static PageRenderFactory getInstance(Workspace workspace) throws LoadPageRenderException 
+   public static PageRender getInstance(Workspace workspace) throws LoadPageRenderException 
    {
       if (instance == null) 
       {
@@ -64,10 +63,10 @@ public abstract class PageRenderFactory
     * 
     * @throws AuthenticationException 
     */
-   private static PageRenderFactory loadProvider(Workspace workspace) throws LoadPageRenderException
+   private static PageRender loadProvider(Workspace workspace) throws LoadPageRenderException
    {
       String className = "-- no render provider defined in proprties --";
-      PageRenderFactory provider;
+      PageRender provider;
       
       try 
 		{
@@ -76,7 +75,7 @@ public abstract class PageRenderFactory
          
          // Genera una instancia de la clase
          Class<?> cls = Class.forName(className);
-         provider = (PageRenderFactory) cls.newInstance();
+         provider = (PageRender) cls.newInstance();
          
          return provider;
 		} 

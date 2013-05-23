@@ -23,6 +23,7 @@ import com.cosmo.ui.controls.Control;
 import com.cosmo.ui.controls.ErrorMessageControl;
 import com.cosmo.ui.controls.FormControl;
 import com.cosmo.ui.render.LoadPageRenderException;
+import com.cosmo.ui.render.PageRender;
 import com.cosmo.ui.render.PageRenderException;
 import com.cosmo.ui.render.PageRenderFactory;
 import com.cosmo.ui.templates.RulesLoadException;
@@ -49,7 +50,7 @@ public abstract class Page extends HttpServlet implements PageInterface
    private ArrayList<Control> centerContents;
    private ArrayList<Control> rightContents;
    private StringBuilder xhtml;
-   private PageRenderFactory renderProvider;
+   private PageRender renderProvider;
 
    /**
     * Enumera las distintas regiones dónde se pueden agregar controles en la página.
