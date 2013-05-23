@@ -1,10 +1,13 @@
-package com.cosmo.ui.render;
+package com.cosmo.ui.render.impl;
 
 import java.util.Iterator;
 
 import com.cosmo.Cosmo;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.controls.Control;
+import com.cosmo.ui.render.PageRender;
+import com.cosmo.ui.render.PageRenderException;
+import com.cosmo.ui.render.PageRenderFactory;
 import com.cosmo.ui.templates.Template;
 import com.cosmo.ui.templates.TemplateControlException;
 import com.cosmo.ui.templates.TemplateLink;
@@ -20,7 +23,7 @@ import com.cosmo.ui.widgets.providers.MenuProviderException;
  *  
  * @author Gerard Llort
  */
-public class CosmoPageRender implements PageRender
+public class CosmoPageRenderImpl implements PageRender
 {
    private static final String TAG_SITE_NAME = "SITE.NAME";
    
