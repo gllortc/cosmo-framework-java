@@ -20,7 +20,7 @@ import com.cosmo.ui.widgets.providers.MenuProviderException;
  *  
  * @author Gerard Llort
  */
-public class CosmoPageRender extends PageRenderProvider
+public class CosmoPageRender implements PageRender
 {
    private static final String TAG_SITE_NAME = "SITE.NAME";
    
@@ -122,8 +122,8 @@ public class CosmoPageRender extends PageRenderProvider
          ctrl.append(control.render()).append("\n");
       }
 
-      int index = xhtml.indexOf(PageRenderProvider.TAG_CONTENT);
-      xhtml.replace(index, index + PageRenderProvider.TAG_CONTENT.length(), ctrl.toString());
+      int index = xhtml.indexOf(PageRenderFactory.TAG_CONTENT);
+      xhtml.replace(index, index + PageRenderFactory.TAG_CONTENT.length(), ctrl.toString());
    }
    
    /**
@@ -134,12 +134,12 @@ public class CosmoPageRender extends PageRenderProvider
     */
    private void renderMenus(StringBuilder xhtml, Page page) throws MenuProviderException, TemplateUnavailableException
    {
-      int index = xhtml.indexOf(PageRenderProvider.TAG_MENU);
+      int index = xhtml.indexOf(PageRenderFactory.TAG_MENU);
       
       if (index >= 0)
       {
          MenuWidget menu = new MenuWidget(page.getWorkspace(), MenuWidget.MenuTypes.Lateral);
-         xhtml.replace(index, index + PageRenderProvider.TAG_MENU.length(), menu.render());
+         xhtml.replace(index, index + PageRenderFactory.TAG_MENU.length(), menu.render());
       }
    }
    
@@ -154,32 +154,32 @@ public class CosmoPageRender extends PageRenderProvider
       int index;
       BannerAreaWidget baw;
       
-      index = xhtml.indexOf(PageRenderProvider.TAG_BANNERS_LEFT);
+      index = xhtml.indexOf(PageRenderFactory.TAG_BANNERS_LEFT);
       if (index >= 0)
       {
          baw = new BannerAreaWidget(page.getWorkspace(), BannerAreaWidget.BannerAreas.Left);
-         xhtml.replace(index, index + PageRenderProvider.TAG_BANNERS_LEFT.length(), baw.render());
+         xhtml.replace(index, index + PageRenderFactory.TAG_BANNERS_LEFT.length(), baw.render());
       }
       
-      index = xhtml.indexOf(PageRenderProvider.TAG_BANNERS_RIGHT);
+      index = xhtml.indexOf(PageRenderFactory.TAG_BANNERS_RIGHT);
       if (index >= 0)
       {
          baw = new BannerAreaWidget(page.getWorkspace(), BannerAreaWidget.BannerAreas.Left);
-         xhtml.replace(index, index + PageRenderProvider.TAG_BANNERS_RIGHT.length(), baw.render());
+         xhtml.replace(index, index + PageRenderFactory.TAG_BANNERS_RIGHT.length(), baw.render());
       }
       
-      index = xhtml.indexOf(PageRenderProvider.TAG_BANNERS_CENTER_TOP);
+      index = xhtml.indexOf(PageRenderFactory.TAG_BANNERS_CENTER_TOP);
       if (index >= 0)
       {
          baw = new BannerAreaWidget(page.getWorkspace(), BannerAreaWidget.BannerAreas.Left);
-         xhtml.replace(index, index + PageRenderProvider.TAG_BANNERS_CENTER_TOP.length(), baw.render());
+         xhtml.replace(index, index + PageRenderFactory.TAG_BANNERS_CENTER_TOP.length(), baw.render());
       }
       
-      index = xhtml.indexOf(PageRenderProvider.TAG_BANNERS_CENTER_BOTTOM);
+      index = xhtml.indexOf(PageRenderFactory.TAG_BANNERS_CENTER_BOTTOM);
       if (index >= 0)
       {
          baw = new BannerAreaWidget(page.getWorkspace(), BannerAreaWidget.BannerAreas.Left);
-         xhtml.replace(index, index + PageRenderProvider.TAG_BANNERS_CENTER_BOTTOM.length(), baw.render());
+         xhtml.replace(index, index + PageRenderFactory.TAG_BANNERS_CENTER_BOTTOM.length(), baw.render());
       }
    }
 }

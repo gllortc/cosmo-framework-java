@@ -11,8 +11,9 @@ import com.cosmo.ui.templates.TemplateUnavailableException;
  * 
  * @author Gerard Llort
  */
-public abstract class PageRenderProvider 
+public abstract class PageRenderFactory 
 {
+   public static final String TAG_LOGIN = "[@LOGIN]";
    public static final String TAG_MENU = "[@MENU]";
    public static final String TAG_NAVIGATIONBAR = "[@NAVBAR]";
    public static final String TAG_CONTENT = "[@CONTENT]";
@@ -23,17 +24,17 @@ public abstract class PageRenderProvider
    public static final String TAG_BANNERS_CENTER_BOTTOM = "[@BANNERS-CENTER-BOTTOM]";
    public static final String TAG_STATS = "[@STATS]";
    
-   private static PageRenderProvider instance = null;
+   private static PageRenderFactory instance = null;
    
    //==============================================
    // Methods
    //==============================================
    
    /**
-    * Renderiza la pÃ¡gina convirtiendo la lÃ³gica de clases en cÃ³digo XHTML.
+    * Renderiza la página convirtiendo la lógica de clases en código XHTML.
     * 
-    * @param page Una instancia de {@link Page} que representa la pÃ¡gina a renderizar.
-    * @return Una cadena que contiene el cÃ³digo XHTML.
+    * @param page Una instancia de {@link Page} que representa la página a renderizar.
+    * @return Una cadena que contiene el código XHTML.
     * 
     * @throws TemplateUnavailableException
     * @throws PageRenderException 
@@ -45,15 +46,16 @@ public abstract class PageRenderProvider
    //==============================================
    
    /**
-    * Devuelve una instancia de {@link PageRenderProvider} convenientemente instanciada y con
+    * Devuelve una instancia de {@link PageRenderFactory} convenientemente instanciada y con
     * el proveedor de renderizado cargado.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
-    * @return Una instancia Ãºnica de {@link PageRenderProvider} (sigleton).
+    * 
+    * @return Una instancia única de {@link PageRenderFactory} (sigleton).
     * 
     * @throws LoadPageRenderException 
     */
-   public static PageRenderProvider getInstance(Workspace workspace) throws LoadPageRenderException 
+   public static PageRenderFactory getInstance(Workspace workspace) throws LoadPageRenderException 
    {
       if (instance == null) 
       {
@@ -72,10 +74,10 @@ public abstract class PageRenderProvider
     * 
     * @throws AuthenticationException 
     */
-   private static PageRenderProvider loadProvider(Workspace workspace) throws LoadPageRenderException
+   private static PageRenderFactory loadProvider(Workspace workspace) throws LoadPageRenderException
    {
       String className = "-- no render provider defined in proprties --";
-      PageRenderProvider provider;
+      PageRenderFactory provider;
       
       try 
 		{
@@ -84,7 +86,7 @@ public abstract class PageRenderProvider
          
          // Genera una instancia de la clase
          Class<?> cls = Class.forName(className);
-         provider = (PageRenderProvider) cls.newInstance();
+         provider = (PageRenderFactory) cls.newInstance();
          
          return provider;
 		} 

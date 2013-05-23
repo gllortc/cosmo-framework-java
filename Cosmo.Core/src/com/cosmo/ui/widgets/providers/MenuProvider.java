@@ -34,11 +34,11 @@ public abstract class MenuProvider
    //==============================================
    
    /**
-    * Devuelve una instancia de {@link PageRenderProvider} convenientemente instanciada y con
+    * Devuelve una instancia de {@link PageRenderFactory} convenientemente instanciada y con
     * el proveedor de renderizado cargado.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
-    * @return Una instancia única de {@link PageRenderProvider} (sigleton).
+    * @return Una instancia única de {@link PageRenderFactory} (sigleton).
     * 
     * @throws LoadPageRenderException 
     */
