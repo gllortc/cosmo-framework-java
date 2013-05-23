@@ -1,10 +1,16 @@
 package com.cosmo.web.pages;
 
+import java.util.ArrayList;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.cosmo.security.Activity;
 import com.cosmo.security.annotations.SessionRequired;
+import com.cosmo.security.auth.AuthorizationException;
+import com.cosmo.security.auth.AuthorizationFactory;
+import com.cosmo.security.auth.impl.PostgreSqlAuthorizationImpl;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.controls.BreadcrumbsControl;
 import com.cosmo.ui.controls.BreadcrumbsItem;
@@ -68,6 +74,11 @@ public class SecretPage extends Page
       DynamicMessageControl msgAct = new DynamicMessageControl(getWorkspace(), "msg-act");
       msgAct.setType(MessageTypes.Warning);
       this.addContent(msgAct, ContentColumns.MAIN);
+      
+      // Permisos efectivos
+      
+      XhtmlControl xhtmlActLst = new XhtmlControl(getWorkspace(), "act-list");
+      this.addContent(xhtmlActLst, ContentColumns.MAIN);
    }
    
    @Override
@@ -83,7 +94,8 @@ public class SecretPage extends Page
          // Muestra los roles del usuario
          XhtmlControl xhtmlRoles = (XhtmlControl) this.getControl("content-roles");
          xhtmlRoles.clear();
-         xhtmlRoles.appendHeadder("Rols d'usuari", 5).
+         xhtmlRoles.appendHorizontalLine().
+                    appendHeadder("Rols d'usuari", 4).
                     appendParagraph("La següent llista conté els rols que té l'usuari:");
          if (!getUserSession().getRoles().isEmpty())
          {
@@ -99,7 +111,8 @@ public class SecretPage extends Page
          // Muestra los permisos del usuario
          XhtmlControl xhtmlAct = (XhtmlControl) this.getControl("content-act");
          xhtmlAct.clear();
-         xhtmlAct.appendHeadder("Permisos de l'usuari", 5).
+         xhtmlAct.appendHorizontalLine().
+                  appendHeadder("Permisos de l'usuari", 4).
                   appendParagraph("La següent llista conté les activitats sobre les que l'usuari té permisos especificats:");
          if (!getUserSession().getPermissions().isEmpty())
          {
@@ -118,6 +131,32 @@ public class SecretPage extends Page
             {
                msgAct.setMessage("L'usuari " + XhtmlControl.formatBold(getUserSession().getCurrentUser().getLogin()) + " té permís d'execució per totes les activitats (SuperUser).");
             }
+         }
+         
+         // Muestra los permisos efectivos del usuario
+         try 
+         {
+            // Se instancia sólo para disponer de la lista completa de permisos
+            PostgreSqlAuthorizationImpl auth = (PostgreSqlAuthorizationImpl) AuthorizationFactory.getInstance(getWorkspace());
+            
+            // Se recorre la lista completa de actividades y se comprueba si el usuario dispone o no de permiso sobre cada una de ellas
+            ArrayList<String> lst = new ArrayList<String>();
+            for (Activity activity : auth.getActivities())
+            {
+               // Comprueba si el usuario dispone de permisos para la actividad
+               lst.add((getUserSession().isActivityAllowed(activity.getId()) ? Icon.render(Icon.ICON_IMAGE_OK_SIGN, Icon.ICON_SIZE_SMALL, Icon.ICON_COLOR_GREEN) : Icon.render(Icon.ICON_IMAGE_REMOVE_SIGN, Icon.ICON_SIZE_SMALL, Icon.ICON_COLOR_RED)) + " " +
+                        activity.getId() + " (" + activity.getDescription() + ")");
+            }
+            
+            XhtmlControl xhtmlActLst = (XhtmlControl) this.getControl("act-list");
+            xhtmlActLst.appendHorizontalLine().
+                        appendHeadder("Permisos efectius d'usuari", 4).
+                        appendParagraph("La següent llista mostra els permisos efectius de l'usuari. S'agafa la llista complerta d'activitats i una per una es comprova per l'usuari a través la API de seguretat.").
+                        appendUnorderedList(lst, "alt");
+         } 
+         catch (AuthorizationException ex) 
+         {
+            showException(ex);
          }
       }
    }
