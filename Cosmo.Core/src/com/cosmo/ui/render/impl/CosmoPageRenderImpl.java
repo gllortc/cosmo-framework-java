@@ -7,19 +7,19 @@ import com.cosmo.ui.Page;
 import com.cosmo.ui.controls.Control;
 import com.cosmo.ui.render.PageRender;
 import com.cosmo.ui.render.PageRenderException;
-import com.cosmo.ui.render.PageRenderFactory;
 import com.cosmo.ui.templates.Template;
 import com.cosmo.ui.templates.TemplateControlException;
 import com.cosmo.ui.templates.TemplateLink;
 import com.cosmo.ui.templates.TemplateScript;
 import com.cosmo.ui.templates.TemplateUnavailableException;
 import com.cosmo.ui.widgets.BannerAreaWidget;
+import com.cosmo.ui.widgets.LoginWidget;
 import com.cosmo.ui.widgets.MenuWidget;
 import com.cosmo.ui.widgets.providers.MenuProviderException;
 
 /**
  * Convierte una página en código XHTML para enviar al cliente.<br />
- * Renderizador de páginas nativo de Cosmo.
+ * Esta implementación de {@link PageRender} corresponde al renderizador de páginas nativo de Cosmo Framework.
  *  
  * @author Gerard Llort
  */
@@ -88,6 +88,7 @@ public class CosmoPageRenderImpl implements PageRender
          Control.replaceTag(xhtml, TAG_SITE_NAME, page.getWorkspace().getName());
 
          // Widgets
+         renderLogin(xhtml, page);
          renderMenus(xhtml, page);
          renderBanners(xhtml, page);
 
@@ -125,8 +126,25 @@ public class CosmoPageRenderImpl implements PageRender
          ctrl.append(control.render()).append("\n");
       }
 
-      int index = xhtml.indexOf(PageRenderFactory.TAG_CONTENT);
-      xhtml.replace(index, index + PageRenderFactory.TAG_CONTENT.length(), ctrl.toString());
+      int index = xhtml.indexOf(PageRender.TAG_WIDGET_CONTENT);
+      xhtml.replace(index, index + PageRender.TAG_WIDGET_CONTENT.length(), ctrl.toString());
+   }
+   
+   /**
+    * Renderiza el widget de Login.
+    * 
+    * @param xhtml Una instancia de {@link StringBuilder} que se actualizará con el contenido del elemento renderizado.
+    * @param page Una instancia de {@link Page} que representa la página a renderizar.
+    */
+   private void renderLogin(StringBuilder xhtml, Page page) throws MenuProviderException, TemplateUnavailableException
+   {
+      int index = xhtml.indexOf(PageRender.TAG_WIDGET_LOGIN);
+      
+      if (index >= 0)
+      {
+         LoginWidget login = new LoginWidget(page.getWorkspace());
+         xhtml.replace(index, index + PageRender.TAG_WIDGET_LOGIN.length(), login.render());
+      }
    }
    
    /**
@@ -137,12 +155,12 @@ public class CosmoPageRenderImpl implements PageRender
     */
    private void renderMenus(StringBuilder xhtml, Page page) throws MenuProviderException, TemplateUnavailableException
    {
-      int index = xhtml.indexOf(PageRenderFactory.TAG_MENU);
+      int index = xhtml.indexOf(PageRender.TAG_WIDGET_MENU);
       
       if (index >= 0)
       {
          MenuWidget menu = new MenuWidget(page.getWorkspace(), MenuWidget.MenuTypes.Lateral);
-         xhtml.replace(index, index + PageRenderFactory.TAG_MENU.length(), menu.render());
+         xhtml.replace(index, index + PageRender.TAG_WIDGET_MENU.length(), menu.render());
       }
    }
    
@@ -157,32 +175,32 @@ public class CosmoPageRenderImpl implements PageRender
       int index;
       BannerAreaWidget baw;
       
-      index = xhtml.indexOf(PageRenderFactory.TAG_BANNERS_LEFT);
+      index = xhtml.indexOf(PageRender.TAG_WIDGET_BANNERS_LEFT);
       if (index >= 0)
       {
          baw = new BannerAreaWidget(page.getWorkspace(), BannerAreaWidget.BannerAreas.Left);
-         xhtml.replace(index, index + PageRenderFactory.TAG_BANNERS_LEFT.length(), baw.render());
+         xhtml.replace(index, index + PageRender.TAG_WIDGET_BANNERS_LEFT.length(), baw.render());
       }
       
-      index = xhtml.indexOf(PageRenderFactory.TAG_BANNERS_RIGHT);
+      index = xhtml.indexOf(PageRender.TAG_WIDGET_BANNERS_RIGHT);
       if (index >= 0)
       {
          baw = new BannerAreaWidget(page.getWorkspace(), BannerAreaWidget.BannerAreas.Left);
-         xhtml.replace(index, index + PageRenderFactory.TAG_BANNERS_RIGHT.length(), baw.render());
+         xhtml.replace(index, index + PageRender.TAG_WIDGET_BANNERS_RIGHT.length(), baw.render());
       }
       
-      index = xhtml.indexOf(PageRenderFactory.TAG_BANNERS_CENTER_TOP);
+      index = xhtml.indexOf(PageRender.TAG_WIDGET_BANNERS_CENTER_TOP);
       if (index >= 0)
       {
          baw = new BannerAreaWidget(page.getWorkspace(), BannerAreaWidget.BannerAreas.Left);
-         xhtml.replace(index, index + PageRenderFactory.TAG_BANNERS_CENTER_TOP.length(), baw.render());
+         xhtml.replace(index, index + PageRender.TAG_WIDGET_BANNERS_CENTER_TOP.length(), baw.render());
       }
       
-      index = xhtml.indexOf(PageRenderFactory.TAG_BANNERS_CENTER_BOTTOM);
+      index = xhtml.indexOf(PageRender.TAG_WIDGET_BANNERS_CENTER_BOTTOM);
       if (index >= 0)
       {
          baw = new BannerAreaWidget(page.getWorkspace(), BannerAreaWidget.BannerAreas.Left);
-         xhtml.replace(index, index + PageRenderFactory.TAG_BANNERS_CENTER_BOTTOM.length(), baw.render());
+         xhtml.replace(index, index + PageRender.TAG_WIDGET_BANNERS_CENTER_BOTTOM.length(), baw.render());
       }
    }
 }

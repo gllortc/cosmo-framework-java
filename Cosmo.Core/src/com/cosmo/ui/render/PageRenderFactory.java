@@ -13,17 +13,7 @@ import com.cosmo.ui.templates.TemplateUnavailableException;
  */
 public abstract class PageRenderFactory 
 {
-   public static final String TAG_LOGIN = "[@LOGIN]";
-   public static final String TAG_MENU = "[@MENU]";
-   public static final String TAG_NAVIGATIONBAR = "[@NAVBAR]";
-   public static final String TAG_CONTENT = "[@CONTENT]";
-   public static final String TAG_CONTENT_RIGHT = "[@CONTENT-RIGHT]";
-   public static final String TAG_BANNERS_LEFT = "[@BANNERS-LEFT]";
-   public static final String TAG_BANNERS_RIGHT = "[@BANNERS-RIGHT]";
-   public static final String TAG_BANNERS_CENTER_TOP = "[@BANNERS-CENTER-TOP]";
-   public static final String TAG_BANNERS_CENTER_BOTTOM = "[@BANNERS-CENTER-BOTTOM]";
-   public static final String TAG_STATS = "[@STATS]";
-   
+   // Instancia singleton del renderizador
    private static PageRenderFactory instance = null;
    
    //==============================================

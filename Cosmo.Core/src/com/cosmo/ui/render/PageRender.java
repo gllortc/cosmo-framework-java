@@ -10,6 +10,17 @@ import com.cosmo.ui.templates.TemplateUnavailableException;
  */
 public interface PageRender
 {
+   public static final String TAG_WIDGET_LOGIN = "[@LOGIN]";
+   public static final String TAG_WIDGET_MENU = "[@MENU]";
+   public static final String TAG_WIDGET_NAVIGATIONBAR = "[@NAVBAR]";
+   public static final String TAG_WIDGET_CONTENT = "[@CONTENT]";
+   public static final String TAG_WIDGET_CONTENT_RIGHT = "[@CONTENT-RIGHT]";
+   public static final String TAG_WIDGET_BANNERS_LEFT = "[@BANNERS-LEFT]";
+   public static final String TAG_WIDGET_BANNERS_RIGHT = "[@BANNERS-RIGHT]";
+   public static final String TAG_WIDGET_BANNERS_CENTER_TOP = "[@BANNERS-CENTER-TOP]";
+   public static final String TAG_WIDGET_BANNERS_CENTER_BOTTOM = "[@BANNERS-CENTER-BOTTOM]";
+   public static final String TAG_WIDGET_STATS = "[@STATS]";
+   
    /**
     * Renderiza la página convirtiendo la lógica de clases en código XHTML.
     * 
