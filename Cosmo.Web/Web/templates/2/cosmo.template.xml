@@ -33,6 +33,7 @@
       &lt;div id="content" style="width: 630px; margin-right: 10px; margin-bottom: 0;"&gt;
 [@NAVBAR]
         &lt;div id="barright"&gt;
+[@LOGIN]
 [@CONTENT-RIGHT]
 [@BANNERS-RIGHT]
         &lt;/div&gt;
@@ -93,6 +94,7 @@
   &lt;div id="wrap"&gt;
     &lt;div class="col_12"&gt;
       &lt;div class="col_3"&gt;
+[@LOGIN]
 [@MENU]
 [@BANNERS-LEFT]
       &lt;/div&gt;
@@ -143,6 +145,7 @@
 [@BANNERS-CENTER-BOTTOM]
       &lt;/div&gt;
       &lt;div class="col_3"&gt;
+[@LOGIN]
 [@MENU]
 [@BANNERS-LEFT]
     &lt;/div&gt;
@@ -189,6 +192,7 @@
 [@BANNERS-CENTER-BOTTOM]
 		&lt;/div&gt;
 		&lt;div class="col_3"&gt;
+[@LOGIN]
 [@CONTENT-RIGHT]
 [@BANNERS-RIGHT]
 		&lt;/div&gt;
@@ -260,23 +264,6 @@
 &lt;/ul&gt;
             </celement>
 			</pcontrol>
-			
-			<!-- BARRA DE BOTONES -->
-         <pcontrol id="CosmoUiCtrlButtonBar">
-            <celement id="buttonbar-header">
-&lt;ul class="button-bar" style="margin-bottom:10px;"&gt;
-            </celement>
-            <celement id="buttonbar-item">
-&lt;li&gt;
-   &lt;a href="[@HREF]"&gt;
-      [#IF ICON]&lt;i class="[@ICON]"&gt;&lt;/i&gt; [#ENDIF ICON][@FTITLE]
-   &lt;/a&gt;
-&lt;/li&gt;
-            </celement>
-            <celement id="buttonbar-footer">
-&lt;/ul&gt;
-            </celement>
-         </pcontrol>
 
          <!-- ZONA DE BANNERS -->
          <pcontrol id="CosmoUiWdgtBannerArea">
@@ -288,6 +275,16 @@
             </celement>
             <celement id="banners-footer">
 &lt;/div&gt;
+            </celement>
+         </pcontrol>
+
+         <!-- LOGIN/LOGOUT -->
+         <pcontrol id="CosmoUiWdgtLogin">
+            <celement id="log-in">
+&lt;i class="icon-lock"&gt;&lt;/i&gt; &lt;a href="[@HREF]"&gt;Iniciar sessió&lt;/a&gt;
+            </celement>
+            <celement id="log-out">
+&lt;i class="icon-unlock"&gt;&lt;/i&gt; [@USER] (&lt;a href="[@HREF]"&gt;Tancar sessió&lt;/a&gt;)
             </celement>
          </pcontrol>
 
@@ -306,6 +303,23 @@
             </celement>
             <celement id="page-utilities" />
 			</pcontrol>
+
+         <!-- BARRA DE BOTONES -->
+         <pcontrol id="CosmoUiCtrlButtonBar">
+            <celement id="buttonbar-header">
+&lt;ul class="button-bar" style="margin-bottom:10px;"&gt;
+            </celement>
+            <celement id="buttonbar-item">
+&lt;li&gt;
+   &lt;a href="[@HREF]"&gt;
+      [#IF ICON]&lt;i class="[@ICON]"&gt;&lt;/i&gt; [#ENDIF ICON][@FTITLE]
+   &lt;/a&gt;
+&lt;/li&gt;
+            </celement>
+            <celement id="buttonbar-footer">
+&lt;/ul&gt;
+            </celement>
+         </pcontrol>
 
          <!-- CUADRO DE MENSAJE -->
          <pcontrol id="CosmoUiCtrlDynamicMsg" center="true" lateral="false">
