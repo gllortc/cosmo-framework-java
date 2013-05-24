@@ -26,8 +26,8 @@ import com.cosmo.ui.controls.XhtmlControl;
  * @author Gerard Llort
  */
 @SessionRequired
-@WebServlet( description = "Exemple de pàgina privada que requereix sessió d'usuari per accedir-hi", urlPatterns = { "/SecretPage" } )
-public class SecretPage extends Page 
+@WebServlet( description = "Tests de seguretat", urlPatterns = { "/SecurityTestPage" } )
+public class SecurityTestPage extends Page 
 {
    /** Serial Version UID */
    private static final long serialVersionUID = -1863993648152701220L;

@@ -27,7 +27,7 @@ public class HomePage extends Page
    @Override
    public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
    {
-      logger = LogManager.getLogger(getWorkspace(), SecretPage.class);
+      logger = LogManager.getLogger(getWorkspace(), SecurityTestPage.class);
       
       logger.info("Iniciant pàgina...");
       
@@ -35,15 +35,14 @@ public class HomePage extends Page
       this.setTitle("Cosmo - Inici");
 
       HeaderControl header = new HeaderControl(getWorkspace());
-      header.setTitle("Benvingut!");
+      header.setTitle("Benvingut a Cosmo Framework!");
       header.setDescription("Benvingut al site de demostració de " + XhtmlControl.formatBold("Cosmo Framework") + ".");
       this.addContent(header, ContentColumns.MAIN);
       
       XhtmlControl xhtml = new XhtmlControl(getWorkspace());
-      xhtml.appendParagraph("Aquest site presenta les diferents funcionalitats de " + XhtmlControl.formatBold("Cosmo Framework") + ". " +
-            "Aquest site de prova permet comprovar les funcionalitats de " + XhtmlControl.formatBold("Cosmo") + " " +
-            "d'una forma entenedora i simple.");
-      
+      xhtml.appendParagraph("Aquest site presenta les diferents funcionalitats de ").appendBold("Cosmo Framework").append(". " +
+                            "Aquest site de prova permet comprovar les funcionalitats de ").appendBold("Cosmo").append(" " +
+                            "d'una forma entenedora i simple.");
       this.addContent(xhtml, ContentColumns.MAIN);
    }
    
