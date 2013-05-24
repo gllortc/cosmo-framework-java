@@ -40,9 +40,11 @@ public class HomePage extends Page
       this.addContent(header, ContentColumns.MAIN);
       
       XhtmlControl xhtml = new XhtmlControl(getWorkspace());
-      xhtml.appendParagraph("Aquest site presenta les diferents funcionalitats de ").appendBold("Cosmo Framework").append(". " +
-                            "Aquest site de prova permet comprovar les funcionalitats de ").appendBold("Cosmo").append(" " +
-                            "d'una forma entenedora i simple.");
+      xhtml.appendParagraph("Aquest site presenta les diferents funcionalitats de ").
+            appendBold("Cosmo Framework").
+            append(" i permet executar . Aquest site de prova permet comprovar les funcionalitats de ").
+            appendBold("Cosmo").
+            append(" d'una forma entenedora i simple.");
       this.addContent(xhtml, ContentColumns.MAIN);
    }
    
