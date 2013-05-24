@@ -281,10 +281,16 @@
          <!-- LOGIN/LOGOUT -->
          <pcontrol id="CosmoUiWdgtLogin">
             <celement id="log-in">
-&lt;i class="icon-lock"&gt;&lt;/i&gt; &lt;a href="[@HREF]"&gt;Iniciar sessió&lt;/a&gt;
+&lt;ul class="button-bar" style="padding-bottom:10px;"&gt;
+   &lt;li class="first" style="background:none;"&gt;&lt;a href&gt;&lt;i class="icon-user"&gt;&lt;/i&gt; Convidat&lt;/a&gt;&lt;/li&gt;
+   &lt;li class="last"&gt;&lt;a href="[@HREF]"&gt;&lt;i class="icon-lock"&gt;&lt;/i&gt; Iniciar sessió&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
             </celement>
             <celement id="log-out">
-&lt;i class="icon-unlock"&gt;&lt;/i&gt; [@USER] (&lt;a href="[@HREF]"&gt;Tancar sessió&lt;/a&gt;)
+&lt;ul class="button-bar" style="padding-bottom:10px;"&gt;
+   &lt;li class="first" style="background:none;"&gt;&lt;a href&gt;&lt;i class="icon-user"&gt;&lt;/i&gt; [@USER]&lt;/a&gt;&lt;/li&gt;
+   &lt;li class="last"&gt;&lt;a href="[@HREF]"&gt;&lt;i class="icon-unlock"&gt;&lt;/i&gt; Tancar sessió&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
             </celement>
          </pcontrol>
 
