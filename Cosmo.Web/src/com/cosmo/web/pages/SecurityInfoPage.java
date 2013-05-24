@@ -73,7 +73,7 @@ public class SecurityInfoPage extends Page
             
             XhtmlControl xAuthent = (XhtmlControl) this.getControl("xAuthent");
             xAuthent.clear();
-            xAuthent.appendHeadder("Agent d'autenticació", 4).
+            xAuthent.appendHeadder(Icon.render(Icon.ICON_IMAGE_COG) + " Agent d'autenticació", 4).
                      appendParagraph("La següent informació fa referència a l'agent d'autenticació configurat actualment:").
                      appendUnorderedList(lst, "alt");
             
@@ -88,7 +88,7 @@ public class SecurityInfoPage extends Page
             
             XhtmlControl xAutho = (XhtmlControl) this.getControl("xAutho");
             xAutho.clear();
-            xAutho.appendHeadder("Agent d'autorització", 4).
+            xAutho.appendHeadder(Icon.render(Icon.ICON_IMAGE_COG) + " Agent d'autorització", 4).
                    appendParagraph("La següent informació fa referència a l'agent d'autorització configurat actualment:").
                    appendUnorderedList(lst, "alt");
          }

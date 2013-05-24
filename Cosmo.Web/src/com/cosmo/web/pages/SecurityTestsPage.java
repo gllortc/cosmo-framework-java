@@ -48,14 +48,13 @@ public class SecurityTestsPage extends Page
       this.addContent(header, ContentColumns.MAIN);
 
       XhtmlControl xhtml = new XhtmlControl(getWorkspace(), "content");
-      xhtml.appendParagraph("Aquesta pàgina serveix de test per provar totes les funcionalitats de seguretat de ").
-            appendBold("Cosmo Framework").
-            append("Depenent de l'usuari autenticat s'activen les funcionalitats per les quals té permís.");
+      xhtml.appendParagraph("Aquesta pàgina conté els tests per verificar que el mòdul de seguretat de de '''Cosmo Framework''' està funcionant correctament.");
       this.addContent(xhtml, ContentColumns.MAIN);
       
-      DynamicMessageControl msg = new DynamicMessageControl(getWorkspace(), "msg");
-      msg.setType(MessageTypes.Information);
-      this.addContent(msg, ContentColumns.MAIN);
+      // Informació de l'usuari autenticat
+      
+      XhtmlControl xUser = new XhtmlControl(getWorkspace(), "xUser");
+      this.addContent(xUser, ContentColumns.MAIN);
       
       // Información sobre roles
       
@@ -84,18 +83,26 @@ public class SecurityTestsPage extends Page
    @Override
    public void loadPageEvent(HttpServletRequest request, HttpServletResponse response) 
    {
+      ArrayList<String> list;
+      
       if (getWorkspace().isValidUserSession())
       {
-         DynamicMessageControl msg = (DynamicMessageControl) this.getControl("msg");
-         msg.setMessage("Usuari autenticat: " + XhtmlControl.formatBold(getUserSession().getCurrentUser().getLogin()) + " (" + 
-                                                XhtmlControl.formatBold(getUserSession().getCurrentUser().getName()) + ")");
-         msg.setVisible(true);
+         // Muestra los detalles del usuario actual
+         list = new ArrayList<String>();
+         list.add("Login: " + getUserSession().getCurrentUser().getLogin());
+         list.add("Mail: " + getUserSession().getCurrentUser().getMail());
+         list.add("Nom: " + getUserSession().getCurrentUser().getName());
+
+         XhtmlControl xUser = (XhtmlControl) this.getControl("xUser");
+         xUser.clear();
+         xUser.appendHeadder(Icon.render(Icon.ICON_IMAGE_USER) + " usuari autenticat", 4).
+               appendParagraph("A continuació es mostren les dades de l'usuari autenticat actualment.").
+               appendUnorderedList(list, "alt");
          
          // Muestra los roles del usuario
          XhtmlControl xhtmlRoles = (XhtmlControl) this.getControl("content-roles");
          xhtmlRoles.clear();
-         xhtmlRoles.appendHorizontalLine().
-                    appendHeadder("Rols d'usuari", 4).
+         xhtmlRoles.appendHeadder(Icon.render(Icon.ICON_IMAGE_GROUP) + " Rols d'usuari", 4).
                     appendParagraph("La següent llista conté els rols que té l'usuari:");
          if (!getUserSession().getRoles().isEmpty())
          {
@@ -111,8 +118,7 @@ public class SecurityTestsPage extends Page
          // Muestra los permisos del usuario
          XhtmlControl xhtmlAct = (XhtmlControl) this.getControl("content-act");
          xhtmlAct.clear();
-         xhtmlAct.appendHorizontalLine().
-                  appendHeadder("Permisos de l'usuari", 4).
+         xhtmlAct.appendHeadder(Icon.render(Icon.ICON_IMAGE_SHARE) + " Permisos de l'usuari", 4).
                   appendParagraph("La següent llista conté les activitats sobre les que l'usuari té permisos especificats:");
          if (!getUserSession().getPermissions().isEmpty())
          {
@@ -150,8 +156,7 @@ public class SecurityTestsPage extends Page
             
             XhtmlControl xhtmlActLst = (XhtmlControl) this.getControl("act-list");
             xhtmlActLst.clear();
-            xhtmlActLst.appendHorizontalLine().
-                        appendHeadder("Permisos efectius d'usuari", 4).
+            xhtmlActLst.appendHeadder(Icon.render(Icon.ICON_IMAGE_CHECK) + " Permisos efectius d'usuari", 4).
                         appendParagraph("La següent llista mostra els permisos efectius de l'usuari. S'agafa la llista complerta d'activitats i una per una es comprova per l'usuari a través la API de seguretat.").
                         appendUnorderedList(lst, "alt");
          } 
