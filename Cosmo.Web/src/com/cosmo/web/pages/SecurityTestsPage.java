@@ -149,6 +149,7 @@ public class SecurityTestsPage extends Page
             }
             
             XhtmlControl xhtmlActLst = (XhtmlControl) this.getControl("act-list");
+            xhtmlActLst.clear();
             xhtmlActLst.appendHorizontalLine().
                         appendHeadder("Permisos efectius d'usuari", 4).
                         appendParagraph("La següent llista mostra els permisos efectius de l'usuari. S'agafa la llista complerta d'activitats i una per una es comprova per l'usuari a través la API de seguretat.").

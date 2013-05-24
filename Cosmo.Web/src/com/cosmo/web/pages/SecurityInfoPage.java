@@ -87,7 +87,7 @@ public class SecurityInfoPage extends Page
             }
             
             XhtmlControl xAutho = (XhtmlControl) this.getControl("xAutho");
-            xAuthent.clear();
+            xAutho.clear();
             xAutho.appendHeadder("Agent d'autorització", 4).
                    appendParagraph("La següent informació fa referència a l'agent d'autorització configurat actualment:").
                    appendUnorderedList(lst, "alt");
