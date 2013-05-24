@@ -46,6 +46,10 @@ public class SecurityInfoPage extends Page
       header.setTitle("Informació de seguretat");
       this.addContent(header, ContentColumns.MAIN);
 
+      XhtmlControl xInfo = new XhtmlControl(getWorkspace(), "info");
+      xInfo.appendParagraph("La següent pàgina mostra les configuracions actuals dels agents de seguretat que s'han llegit a l'arxiu //cosmo.config.xml//, que conté la configuració de '''Cosmo Framnework'''.");
+      this.addContent(xInfo, ContentColumns.MAIN);
+      
       XhtmlControl xAuthent = new XhtmlControl(getWorkspace(), "xAuthent");
       this.addContent(xAuthent, ContentColumns.MAIN);
       
