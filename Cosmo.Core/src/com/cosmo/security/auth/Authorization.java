@@ -1,9 +1,30 @@
 package com.cosmo.security.auth;
 
+import java.util.HashMap;
+
 import com.cosmo.security.UserSecurityPolicy;
 
+/**
+ * Interface que deben implementar los agentes de autorización.
+ * 
+ * @author Gerard Llort
+ */
 public interface Authorization 
 {
+   //------------------------------------------
+   // Properties
+   //------------------------------------------
+   
+   /**
+    * Devuelve un {@code hash} que contiene los parámetros de configuración del agente de seguridad.
+    */
+   public HashMap<String, String> getParameters();
+   
+   
+   //------------------------------------------
+   // Methods
+   //------------------------------------------
+   
    /**
     * Carga la información de autorización de un usuario determinado.
     * 
@@ -12,45 +33,5 @@ public interface Authorization
     * @throws AuthorizationException
     */
    public UserSecurityPolicy getAuthorizationData(String login) throws AuthorizationException;
-   
-   /**
-    * Determina si un usuario tiene un rol especifico.
-    * 
-    * @param login Una cadena que contiene el <em>login</em> del usuario.
-    * @param role Una cadena que contiene el nombre (ID) del rol.
-    * 
-    * @return {@code true} si el usuario tiene asignado el rol o {@code false} en cualquier otro caso.
-    */
-   // public boolean isUserInRole(String login, String role, UserSecurityPolicy si) throws AuthorizationException;
-   
-   /**
-    * Determina si un usuario tiene un rol especifico entre una lista de roles.
-    * 
-    * @param login Una cadena que contiene el <em>login</em> del usuario.
-    * @param roles Un array con los identificadores de rol.
-    * 
-    * @return {@code true} si el usuario tiene asignado al menos un rol de los contenidos en la lista o {@code false} en cualquier otro caso.
-    * 
-    * @throws AuthorizationException
-    */
-   // public boolean isUserInRole(String login, ArrayList<String> roles, UserSecurityPolicy si) throws AuthorizationException;
 
-   /**
-    * Determina si un usuario tiene permiso para ejecutar determinada actividad.
-    * 
-    * @param login Una cadena que contiene el <em>login</em> del usuario.
-    * @param activityId Una cadena que contiene el nombre (ID) de la actividad.
-    * 
-    * @return @return {@code true} si el usuario tiene permiso para ejecutar la actividad o {@code false} en cualquier otro caso.
-    */
-   // public boolean isActivityGranted(String login, String activityId, UserSecurityPolicy si);
-
-   /**
-    * Obtiene la lista de roles asignados al usuario.
-    * 
-    * @param login Una cadena que contiene el <em>login</em> del usuario.
-    * 
-    * @return Un array con los nombres (IDs) de los roles asignados al usuario.
-    */
-   // public ArrayList<Role> getRolesByUser(String login, UserSecurityPolicy si) throws AuthorizationException;
 }

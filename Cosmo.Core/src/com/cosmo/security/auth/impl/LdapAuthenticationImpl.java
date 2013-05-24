@@ -2,6 +2,7 @@ package com.cosmo.security.auth.impl;
 
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Hashtable;
 
 import javax.naming.Context;
@@ -60,6 +61,19 @@ public class LdapAuthenticationImpl implements Authentication
 
       agent.getParamString(PARAM_SEARCHBASE);
       this.loginPattern = agent.getParamString(PARAM_LOGINPATTERN);
+   }
+   
+   
+   //==============================================
+   // Properties
+   //==============================================
+   
+   /**
+    * Devuelve un {@code hash} que contiene los parámetros de configuración del agente de seguridad.
+    */
+   public HashMap<String, String> getParameters()
+   {
+      return agent.getParams();
    }
    
    

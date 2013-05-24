@@ -1,13 +1,31 @@
 package com.cosmo.security.auth;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.cosmo.security.User;
 import com.cosmo.security.UserNotFoundException;
 
+/**
+ * Interface que deben implementar los agentes de autenticación.
+ * 
+ * @author Gerard Llort
+ */
 public interface Authentication 
 {
    public static String TOKEN_LOGIN_VALIDATED = "cosmo.authentication.logingateway.success";
+
+   
+   //------------------------------------------
+   // Properties
+   //------------------------------------------
+   
+   /**
+    * Devuelve un {@code hash} que contiene los parámetros de configuración del agente de seguridad.
+    */
+   public HashMap<String, String> getParameters();
+   
    
    //------------------------------------------
    // Standard authentication methods

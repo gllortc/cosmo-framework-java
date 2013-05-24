@@ -2,6 +2,7 @@ package com.cosmo.security.auth.impl;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.cosmo.Workspace;
 import com.cosmo.data.DataConnection;
@@ -12,6 +13,7 @@ import com.cosmo.security.Role;
 import com.cosmo.security.UserSecurityPolicy;
 import com.cosmo.security.auth.Authorization;
 import com.cosmo.security.auth.AuthorizationException;
+import com.cosmo.structures.PluginProperties;
 
 /**
  * Implementa el proveedor de autorización nativo de Cosmo.<br />
@@ -24,12 +26,14 @@ import com.cosmo.security.auth.AuthorizationException;
  */
 public class PostgreSqlAuthorizationImpl implements Authorization
 {
-   private Workspace workspace;
-   
    private static String TABLE_ROLES = "cosmo_auth_roles";
    private static String TABLE_ACTIVITIES = "cosmo_auth_activity";
    private static String TABLE_ROLE_ACTIVITIES = "cosmo_auth_role_activity";
    private static String TABLE_USER_ROLES = "cosmo_auth_user_role";
+   
+   private Workspace workspace;
+   private PluginProperties agent;
+   
    
    //==============================================
    // Constructors
@@ -43,6 +47,20 @@ public class PostgreSqlAuthorizationImpl implements Authorization
    public PostgreSqlAuthorizationImpl(Workspace workspace)
    {
       this.workspace = workspace;
+      this.agent = this.workspace.getProperties().getAuthorizationAgent();
+   }
+   
+   
+   //================================================================
+   // Properties
+   //================================================================
+   
+   /**
+    * Devuelve un {@code hash} que contiene los parámetros de configuración del agente de seguridad.
+    */
+   public HashMap<String, String> getParameters()
+   {
+      return agent.getParams();
    }
    
    

@@ -2,6 +2,7 @@ package com.cosmo.security.auth.impl;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.HashMap;
 import java.util.AbstractMap.SimpleEntry;
 
 import javax.servlet.http.HttpServletRequest;
@@ -94,6 +95,14 @@ public class CasAuthenticationImpl implements Authentication
    public String getGrantingTicket()
    {
       return this.serviceTicket;
+   }
+   
+   /**
+    * Devuelve un {@code hash} que contiene los parámetros de configuración del agente de seguridad.
+    */
+   public HashMap<String, String> getParameters()
+   {
+      return agent.getParams();
    }
    
    

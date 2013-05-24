@@ -4,6 +4,7 @@ import java.security.GeneralSecurityException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,15 +28,15 @@ import com.cosmo.util.CryptoUtils;
  */
 public class PostgreSqlAuthenticationImpl implements Authentication
 {
-   private Workspace workspace;
-   private PluginProperties agent;
-   
    private static String PARAM_LOCKCONTROL = "lockControl";
    private static String PARAM_ATTEMPTS = "lockAttempts";
    private static String PARAM_TIMEOUT = "lockTimeout";
    
    private static String TABLE_NAME = "cosmo_users";
    private static String TABLE_LOCKS = "cosmo_auth_locks";
+
+   private Workspace workspace;
+   private PluginProperties agent;
    
    
    //==============================================
@@ -51,6 +52,19 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    {
       this.workspace = workspace;
       this.agent = this.workspace.getProperties().getAuthenticationAgent();
+   }
+   
+   
+   //==============================================
+   // Properties
+   //==============================================
+   
+   /**
+    * Devuelve un {@code hash} que contiene los parámetros de configuración del agente de seguridad.
+    */
+   public HashMap<String, String> getParameters()
+   {
+      return agent.getParams();
    }
    
    

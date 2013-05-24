@@ -12,6 +12,11 @@ import com.cosmo.Workspace;
 public class XhtmlControl extends Control
 {
    private static final String CONTROL_ID = "CosmoUiCtrlXhtml";
+
+   private final String WIKI_REGEX_BOLD = "([']{3})(.*?)([']{3})";
+   private final String WIKI_REGEX_ITALIC = "([']{2})(.*?)([']{2})";
+   private final String WIKI_REGEX_STRIKE = "([-]{2})(.*?)([-]{2})";
+   private final String WIKI_REGEX_CODE = "([/]{2})(.*?)([/]{2})";
    
    private StringBuilder xhtml;
    
@@ -72,15 +77,30 @@ public class XhtmlControl extends Control
    //==============================================
    // Methods
    //==============================================
-
+   
    /**
-    * Concatena una cadena de texto al contenido actual del control.
+    * Concatena una cadena de texto al contenido actual del control.<br />
+    * El texto admite los formatos inline soportados por Cosmo:
+    * <ul>
+    * <li>'''bold'''</li>
+    * <li>''emphatized''</li>
+    * <li>--strike--</li>
+    * <li>//code//</li>
+    * </ul>
     * 
     * @param xhtml Código XHTML a concatenar.
     */
    public XhtmlControl append(String xhtml)
    {
+      // Convierte los estilos inline mediante regular expressions
+      xhtml = xhtml.replaceAll(WIKI_REGEX_BOLD, "<strong>$2</strong>");
+      xhtml = xhtml.replaceAll(WIKI_REGEX_ITALIC, "<em>$2</em>");
+      xhtml = xhtml.replaceAll(WIKI_REGEX_STRIKE, "<strike>$2</strike>");
+      xhtml = xhtml.replaceAll(WIKI_REGEX_CODE, "<code>$2</code>");
+      
+      // Añade el fragmento al código principal
       this.xhtml.append(xhtml);
+
       return this;
    }
    
