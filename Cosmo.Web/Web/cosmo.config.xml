@@ -12,9 +12,6 @@
       <param key="ws.ui.charset" value="ISO-8859-1" />
       <param key="ws.ui.lang" value="es" />
       <param key="ws.ui.render.provider" value="com.cosmo.ui.render.impl.CosmoPageRenderImpl" />
-
-      <!-- <param key="ws.security.provider" value="com.cosmo.security.providers.PostgreSqlUserProvider" />
-      <param key="ws.security.loginPage" value="LoginPage" /> -->
       
       <param key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoStaticMenuProvider" />
       <!-- value key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoDynamicMenuProvider" / -->
@@ -57,7 +54,7 @@
 
    </connections>
    
-   <security authentication-agent="rdbms" authorization-agent="rdbms" login-page="LoginPage">
+   <security authentication-agent="cas" authorization-agent="rdbms" login-page="LoginPage">
       
       <authentication-agent id="rdbms" driver="com.cosmo.security.auth.impl.PostgreSqlAuthenticationImpl">
          <param key="connection" value="cosmo.server" />
@@ -78,7 +75,7 @@
       </authentication-agent>
       
       <authentication-agent id="cas" driver="com.cosmo.security.auth.impl.CasAuthenticationImpl">
-         <param key="service-url" value="http://localhost:8080/Cosmo.Web/SecretPage" />
+         <param key="service-url" value="http://localhost:8080/Cosmo.Web/" />
          <param key="cas-service" value="https://developsc.intranet.dtgna:8443/cas-dipta/" />
          <param key="cas-attrib-mail" value="mail" />
          <param key="cas-attrib-cname" value="nomComplet" />
@@ -97,9 +94,8 @@
       <menuitem id="mnuListView" name="Llistes" href="ListViewPage" parent="" />
       <menuitem id="mnuSlider" name="Slider" href="SliderPage" parent="" />
       <menuitem id="mnuForm" name="Grid / Formularis" href="GridPage" parent="" />
-      <!-- <menuitem id="mnuFormOrm" name="Formularios ORM" href="OrmFormPage" parent="" />
-      <menuitem id="mnuGrid" name="Grids" href="GridPage" parent="" /> -->
-      <menuitem id="mnuSecret" name="Tests de seguretat" href="SecretPage" icon="icon-lock" parent="" />
+      <menuitem id="mnuDrivers" name="Informació de seguretat" href="SecurityInfoPage" icon="icon-lock" parent="" />
+      <menuitem id="mnuTests" name="Tests de seguretat" href="SecurityTestsPage" icon="icon-lock" parent="" />
       <menuitem id="mnuUsrMngr" name="Gestió d'usuaris" href="UserManagerPage" icon="icon-lock" parent="" />
    </menu>
    
