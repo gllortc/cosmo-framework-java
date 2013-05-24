@@ -25,8 +25,8 @@ import com.cosmo.ui.controls.XhtmlControl;
  * @author Gerard Llort
  */
 @SessionRequired
-@WebServlet( description = "Informació de seguretat", urlPatterns = { "/SecurityInfoPage" } )
-public class SecurityInfoPage extends Page 
+@WebServlet( description = "Informació de seguretat", urlPatterns = { "/SecurityTestPage" } )
+public class SecurityTestPage extends Page 
 {
    /** Serial Version UID */
    private static final long serialVersionUID = -1863993648152701220L;
@@ -72,7 +72,6 @@ public class SecurityInfoPage extends Page
             }
             
             XhtmlControl xAuthent = (XhtmlControl) this.getControl("xAuthent");
-            xAuthent.clear();
             xAuthent.appendHeadder("Agent d'autenticació", 4).
                      appendParagraph("La següent informació fa referència a l'agent d'autenticació configurat actualment:").
                      appendUnorderedList(lst, "alt");
@@ -87,7 +86,6 @@ public class SecurityInfoPage extends Page
             }
             
             XhtmlControl xAutho = (XhtmlControl) this.getControl("xAutho");
-            xAuthent.clear();
             xAutho.appendHeadder("Agent d'autorització", 4).
                    appendParagraph("La següent informació fa referència a l'agent d'autorització configurat actualment:").
                    appendUnorderedList(lst, "alt");
