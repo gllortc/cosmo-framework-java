@@ -43,18 +43,9 @@
 	               user="postgres" 
 	               pwd="esfacil" />
 	
-	   <connection id="fons-social-pre" 
-	               corm.driver="com.cosmo.data.orm.OrmDriverOracle"
-	               jdbc.driver="oracle.jdbc.driver.OracleDriver" 
-	               server="bdo1vip.intranet.dtgna" 
-	               port="1525" 
-	               schema="pextra" 
-	               user="guest" 
-	               pwd="xxxxx" />
-
    </connections>
    
-   <security authentication-agent="cas" authorization-agent="rdbms" login-page="LoginPage">
+   <security authentication-agent="rdbms" authorization-agent="rdbms" login-page="LoginPage">
       
       <authentication-agent id="rdbms" driver="com.cosmo.security.auth.impl.PostgreSqlAuthenticationImpl">
          <param key="connection" value="cosmo.server" />
