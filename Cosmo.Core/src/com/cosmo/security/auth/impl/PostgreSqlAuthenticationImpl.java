@@ -118,7 +118,6 @@ public class PostgreSqlAuthenticationImpl implements Authentication
          if (rs.next())
          {
             user = new User();
-            user.setId(rs.getInt("usrid"));
             user.setLogin(rs.getString("usrlogin"));
             user.setMail(rs.getString("usrmail"));
             user.setName(rs.getString("usrname"));
@@ -139,9 +138,9 @@ public class PostgreSqlAuthenticationImpl implements Authentication
          
          // Actualiza los datos estadísticos y de control del usuario
          sql = "UPDATE " + TABLE_NAME + " " +
-               "SET usrlastlogin = current_timestamp, " +
+               "SET usrlastlogin  = current_timestamp, " +
                "    usrlogoncount = usrlogoncount + 1 " +
-               "WHERE usrid = " + user.getId();
+               "WHERE Lower(usrlogin) = '" + login.trim().toLowerCase() + "'";
          conn.execute(sql);
          
          // Confirma los cambios en la bbdd

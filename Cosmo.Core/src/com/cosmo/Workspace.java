@@ -170,16 +170,26 @@ public class Workspace
    
    /**
     * Indica si existe una sesión de usuario Cosmo válida iniciada.
+    * 
     * @return {@code true} si existe una sesión de usuario válida o {@code false} en cualquier otro caso.
     */
    public boolean isValidUserSession()
    {
-      if (this.usrSession == null)
+      if (this.usrSession != null)
+      {
+         if (this.usrSession.isValidSession())
+         {
+            return true;
+         }
+         else
+         {
+            return false;
+         }
+      }
+      else
       {
          return false;
       }
-      
-      return true;
    }
    
    /**

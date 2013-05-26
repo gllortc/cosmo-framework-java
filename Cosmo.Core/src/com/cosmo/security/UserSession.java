@@ -169,7 +169,9 @@ public class UserSession
       finally
       {
          // Elimina los datos de la instáncia
-         initialize();
+         this.currentUser = null;
+         this.created = new Date();
+         this.securityInfo = null;
       }
    }
    

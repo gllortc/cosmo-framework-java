@@ -9,7 +9,7 @@ import java.util.Date;
  */
 public class User implements java.security.Principal
 {
-   private int id;
+   // private int id;
    private String login;
    // private String pwd;
    private String mail;
@@ -51,7 +51,7 @@ public class User implements java.security.Principal
    // Properties
    //==============================================
    
-   public int getId() 
+   /*public int getId() 
    {
       return id;
    }
@@ -59,7 +59,7 @@ public class User implements java.security.Principal
    public void setId(int id) 
    {
       this.id = id;
-   }
+   }*/
 
    public String getLogin() 
    {
@@ -131,7 +131,7 @@ public class User implements java.security.Principal
     */
    private void initialize()
    {
-      this.id = -1;
+      // this.id = -1;
       this.login = "";
       this.mail = "";
       this.name = "";
