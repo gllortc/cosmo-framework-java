@@ -1,9 +1,6 @@
 package com.cosmo.ui.controls;
 
-import javax.servlet.http.HttpSession;
-
 import com.cosmo.Workspace;
-import com.cosmo.ui.templates.Template;
 import com.cosmo.ui.templates.TemplateControl;
 
 /** 

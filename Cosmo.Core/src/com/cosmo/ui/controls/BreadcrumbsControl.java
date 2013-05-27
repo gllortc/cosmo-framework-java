@@ -1,11 +1,9 @@
 package com.cosmo.ui.controls;
 
-import com.cosmo.Workspace;
-import com.cosmo.ui.templates.Template;
-import com.cosmo.ui.templates.TemplateControl;
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpSession;
+import com.cosmo.Workspace;
+import com.cosmo.ui.templates.TemplateControl;
 
 /**
  * Implementa una barra de navegación.
