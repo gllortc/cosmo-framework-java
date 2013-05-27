@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cosmo.security.Activity;
+import com.cosmo.security.Role;
 import com.cosmo.security.annotations.SessionRequired;
 import com.cosmo.security.auth.AuthorizationException;
 import com.cosmo.security.auth.AuthorizationFactory;
@@ -65,6 +66,11 @@ public class SecurityTestsPage extends Page
       msgRoles.setType(MessageTypes.Warning);
       this.addContent(msgRoles, ContentColumns.MAIN);
       
+      // Roles efectivos
+      
+      XhtmlControl xRolList = new XhtmlControl(getWorkspace(), "xRolList");
+      this.addContent(xRolList, ContentColumns.MAIN);
+      
       // Información sobre actividades
       
       XhtmlControl xhtmlAct = new XhtmlControl(getWorkspace(), "content-act");
@@ -113,6 +119,32 @@ public class SecurityTestsPage extends Page
             DynamicMessageControl msgRoles = (DynamicMessageControl) this.getControl("msg-roles");
             msgRoles.setMessage("L'usuari " + XhtmlControl.formatBold(getUserSession().getCurrentUser().getLogin()) + " no té cap rol associat.");
             msgRoles.setVisible(true);
+         }
+         
+         // Muestra los roles efectivos del usuario
+         try 
+         {
+            // Se instancia sólo para disponer de la lista completa de roles
+            PostgreSqlAuthorizationImpl auth = (PostgreSqlAuthorizationImpl) AuthorizationFactory.getInstance(getWorkspace());
+            
+            // Se recorre la lista completa de actividades y se comprueba si el usuario dispone o no de permiso sobre cada una de ellas
+            ArrayList<String> lst = new ArrayList<String>();
+            for (Role role : auth.getRoles())
+            {
+               // Comprueba si el usuario dispone de permisos para la actividad
+               lst.add((getUserSession().isInRole(role.getId()) ? Icon.render(Icon.ICON_IMAGE_OK_SIGN, Icon.ICON_SIZE_SMALL, Icon.ICON_COLOR_GREEN) : Icon.render(Icon.ICON_IMAGE_REMOVE_SIGN, Icon.ICON_SIZE_SMALL, Icon.ICON_COLOR_RED)) + " " +
+                        role.getId() + " (" + role.getDescription() + ")");
+            }
+            
+            XhtmlControl xRolList = (XhtmlControl) this.getControl("xRolList");
+            xRolList.clear();
+            xRolList.appendHeadder(Icon.render(Icon.ICON_IMAGE_CHECK) + " Rols efectius d'usuari", 4).
+                     appendParagraph("La següent llista mostra els rols efectius de l'usuari. S'agafa la llista complerta de rols i un per un es comprova per l'usuari a través la API de seguretat.").
+                     appendUnorderedList(lst, "alt");
+         } 
+         catch (AuthorizationException ex) 
+         {
+            showException(ex);
          }
          
          // Muestra los permisos del usuario
