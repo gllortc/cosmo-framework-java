@@ -243,6 +243,14 @@ public class Workspace
    {
       this.usrSession = new UserSession(this, login, password);
    }
+   
+   /**
+    * Cierra la sesión de usuario abierta.
+    */
+   public void closeSession()
+   {
+      this.usrSession = null;
+   }
 
 
    //==============================================

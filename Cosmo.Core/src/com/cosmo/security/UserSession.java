@@ -154,7 +154,7 @@ public class UserSession
     * Destruye la sesión de usuario, eliminando cualquir dato que contenga.<br />
     * Este método equivale a realizar la acción de <em>logout</em> en el agente activo.
     */
-   public void destroy()
+   /*public void destroy()
    {
       try
       {
@@ -173,7 +173,7 @@ public class UserSession
          this.created = new Date();
          this.securityInfo = null;
       }
-   }
+   }*/
    
    /**
     * Obtiene el número de minutos desde que se creó la sesión de usuario.
