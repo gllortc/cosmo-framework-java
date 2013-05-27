@@ -7,7 +7,7 @@ import com.cosmo.ui.widgets.MenuItem;
 import java.util.ArrayList;
 
 /**
- * Singleton que proporciona la instancia del generador de menÃºs de Cosmo.
+ * Singleton que proporciona la instancia del generador de menús de Cosmo.
  * 
  * @author Gerard Llort
  */
@@ -20,10 +20,10 @@ public abstract class MenuProvider
    //==============================================
    
    /**
-    * Obtiene los elementos de menÃº del workspace.
+    * Obtiene los elementos de menú del workspace.
     * 
-    * @param workspace Una instancia de {@link Workspace} que representa el workspace para el que se desea obtener el menÃº.
-    * @return Una lista de instancias de {@link MenuItem} que representan los elementos de menÃº.
+    * @param workspace Una instancia de {@link Workspace} que representa el workspace para el que se desea obtener el menú.
+    * @return Una lista de instancias de {@link MenuItem} que representan los elementos de menú.
     * 
     * @throws MenuProviderException 
     */
@@ -34,11 +34,12 @@ public abstract class MenuProvider
    //==============================================
    
    /**
-    * Devuelve una instancia de {@link PageRenderFactory} convenientemente instanciada y con
+    * Devuelve una instancia de {@link MenuProvider} convenientemente instanciada y con
     * el proveedor de renderizado cargado.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
-    * @return Una instancia Ãºnica de {@link PageRenderFactory} (sigleton).
+    * 
+    * @return Una instancia única de {@link MenuProvider}.
     * 
     * @throws LoadPageRenderException 
     */

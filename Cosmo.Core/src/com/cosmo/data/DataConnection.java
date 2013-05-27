@@ -256,7 +256,7 @@ public class DataConnection
     * @param rs Una instancia de {@link ResultSet} que la cadena a estreure d'un camp de la fila actual.
     * @param column Índex de la columna (1 per la primera).
     * 
-    * @return 
+    * @return Una cadena que contiene el valor de la columna indicada por {@code column} en la fila actual.
     */
    public static String getNotNullString(ResultSet rs, int column) throws SQLException
    {
@@ -268,6 +268,7 @@ public class DataConnection
     * Formatea una cadena de texto pera ser usada en una senténcia SQL.
     * 
     * @param text Cadena de texto a formatear.
+    * 
     * @return Una cadena de texto que se puede usar en cualquier senténcia SQL.
     */
    public static String sqlFormatTextValue(String text)

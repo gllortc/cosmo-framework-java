@@ -28,7 +28,8 @@ public class OrmProvider
    /**
     * Constructor de la clase.
     * 
-    * @param connection Un objeto de conexión a datos.
+    * @param dataSourceId Una cadena que contiene el identificador del DataSource definido en la configuración.
+    * @param workspace Una instancia de {@link Workspace} que representa el contexto actual de la aplicación.
     */
    public OrmProvider(String dataSourceId, Workspace workspace) throws OrmDriverException
    {

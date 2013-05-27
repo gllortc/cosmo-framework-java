@@ -61,6 +61,10 @@ public class UserSession
             this.securityInfo = authorizator.getAuthorizationData(login);
          }
       }
+      else
+      {
+         throw new AuthenticationException("La seguridad no está habilitada para este workspace.");
+      }
    }
    
    /**
@@ -78,11 +82,19 @@ public class UserSession
       initialize();
       
       this.workspace = workspace;
+      
+      // Verifica que la seguridad se encuentre habilitada
+      Authentication authenticator = AuthenticationFactory.getInstance(workspace);
+      if (authenticator == null)
+      {
+         throw new AuthenticationException("La seguridad no está habilitada para este workspace.");
+      }
+      
+      // Establece el usuario actual
       this.currentUser = user;
          
-      // Instancia el proveedor de seguridad
+      // Obtiene la información sobre autorización del usuario
       Authorization authorizator = AuthorizationFactory.getInstance(workspace);
-         
       if (authorizator != null)
       {
          // Obtiene las políticas de autorización para el usuario autenticado

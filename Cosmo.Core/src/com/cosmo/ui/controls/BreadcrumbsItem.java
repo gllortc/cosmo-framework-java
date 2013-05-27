@@ -37,7 +37,6 @@ public class BreadcrumbsItem
     * Constructor de la clase.
     * 
     * @param title Título del elemento.
-    * @param href URL del enlace.
     */
    public BreadcrumbsItem(String title)
    {

@@ -73,7 +73,7 @@ public interface Authentication
     * 
     * @param request Una instancia de {@link HttpServletRequest} que cotniene el contexto de la llamada.
     * 
-    * @return {@code true} si la petición corresponde al retorno de la pantalla de login o {@coe false} en cualquier otro caso.
+    * @return {@code true} si la petición corresponde al retorno de la pantalla de login o {@code false} en cualquier otro caso.
     */
    public boolean isLoginGatewayResponse(HttpServletRequest request);
    

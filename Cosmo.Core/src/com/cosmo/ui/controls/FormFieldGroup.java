@@ -24,8 +24,7 @@ public class FormFieldGroup extends FormField
    /**
     * Constructor de la clase.
     * 
-    * @param title TÃ­tulo visible del grupo de controles.
-    * @param control La instancia de {@link FormControl} al que pertenece.
+    * @param title Título visible del grupo de controles.
     */
    public FormFieldGroup(String title)
    {
@@ -39,8 +38,8 @@ public class FormFieldGroup extends FormField
    /**
     * Constructor de la clase.
     * 
-    * @param title TÃ­tulo visible del grupo de controles.
-    * @param description DescripciÃ³n del contenido del grupo.
+    * @param title Título visible del grupo de controles.
+    * @param description Descripción del contenido del grupo.
     * @param control La instancia de {@link FormControl} al que pertenece.
     */
    public FormFieldGroup(String title, String description, FormControl control)

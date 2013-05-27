@@ -93,7 +93,7 @@ public class PluginProperties
     * 
     * @param key Clave de configuración.
     * 
-    * @return Una cadena que representa el valor asociado a la clave definida por {@value key}.
+    * @return Una cadena que representa el valor asociado a la clave definida por {@code key}.
     */
    public String getParamString(String key)
    {
@@ -106,7 +106,7 @@ public class PluginProperties
     * @param key Clave de configuración.
     * @param defaultValue Valor que se devolverá en caso de no encontrar el valor en los parámetros.
     * 
-    * @return Una cadena que representa el valor asociado a la clave definida por {@value key}.
+    * @return Una cadena que representa el valor asociado a la clave definida por {@code key}.
     */
    public int getParamInteger(String key, int defaultValue)
    {
@@ -129,7 +129,7 @@ public class PluginProperties
     * @param key Clave de configuración.
     * @param defaultValue Valor que se devolverá en caso de no encontrar el valor en los parámetros.
     * 
-    * @return Un valor booleano que representa el valor asociado a la clave definida por {@value key} o el valor de {@value defaultValue} en caso de no encontrarse.
+    * @return Un valor booleano que representa el valor asociado a la clave definida por {@code key} o el valor de {@code defaultValue} en caso de no encontrarse.
     */
    public boolean getParamBoolean(String key, boolean defaultValue)
    {
@@ -170,7 +170,7 @@ public class PluginProperties
     * 
     * @param key Clave de configuración.
     * 
-    * @return Una cadena que representa el valor asociado a la clave definida por {@value key}.
+    * @return Una cadena que representa el valor asociado a la clave definida por {@code key}.
     */
    public int getParamInteger(String key)
    {

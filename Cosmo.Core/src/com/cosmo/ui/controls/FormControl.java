@@ -132,7 +132,7 @@ public class FormControl extends Control
    /**
     * Agrega un nuevo grupo de campos al formulario.
     * 
-    * @param field Una instancia de {@link FormFieldGroup} que representa el grupo y que contiene los campos.
+    * @param group Una instancia de {@link FormFieldGroup} que representa el grupo y que contiene los campos.
     */
    public void addGroup(FormFieldGroup group)
    {
@@ -270,8 +270,8 @@ public class FormControl extends Control
    /**
     * Almacena los valores del formulario en la sesión del usuario.
     * 
-    * @param name Nombre (único) del campo.
-    * @param value Valor a establecer.
+    * @param request Una instancia de {@link HttpServletRequest} que contiene el contexto de la llamada.
+    * 
     * @return Una instancia de {@link FormData} que contiene los datos del formulario.
     */
    public FormData setFormValues(HttpServletRequest request)

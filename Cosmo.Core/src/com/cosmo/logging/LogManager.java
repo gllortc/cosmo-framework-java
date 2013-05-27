@@ -126,7 +126,7 @@ public class LogManager
    /**
     * Sets the ClassLoader of the LogFactory implementation
     * 
-    * @param ClassLoader fcl
+    * @param fcl Una instancia de {@link ClassLoader}.
     */
    public static void setFactoryClassLoader(ClassLoader fcl)
    {
@@ -134,9 +134,9 @@ public class LogManager
    }
 
    /**
-    * Sets the default LogFactory implementation
+    * Sets the default LogFactory implementation.
     * 
-    * @param LogFactory newFactory
+    * @param newFactory Una instancia de {@link LogFactory}.
     */
    public static void setFactory(LogFactory newFactory) 
    {
@@ -144,9 +144,9 @@ public class LogManager
    }
 
    /**
-    * Returns the Logger instance
+    * Returns the Logger instance.
     * 
-    * @param Class sourceClass
+    * @param sourceClass Una instancia de {@link Class} que contiene la clase.
     * 
     * @return Logger
     */

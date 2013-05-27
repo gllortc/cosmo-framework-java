@@ -2,8 +2,8 @@ package com.cosmo.ui.controls;
 
 /**
  * Proporciona herramientas para representar iconos.
- * 
- * @see http://fontawesome.io/icons/ 
+ * <br /><br />
+ * Más información en: http://fontawesome.io/icons/ 
  *
  * @author Gerard Llort
  */

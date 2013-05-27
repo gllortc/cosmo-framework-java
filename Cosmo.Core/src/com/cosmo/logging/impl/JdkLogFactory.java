@@ -15,8 +15,8 @@ import com.cosmo.logging.Logger;
 /**
  * Implementació del logger pel sistema de LOG del JDK de Java.<br />
  * Implementació basada en el projecte <strong>esl4j</strong>.
- * 
- * @see https://code.google.com/p/esl4j/
+ * <br /><br />
+ * Més informació: https://code.google.com/p/esl4j/
  * 
  * @author Gerard Llort
  */

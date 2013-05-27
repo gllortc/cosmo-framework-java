@@ -132,8 +132,8 @@ public class GridControl extends Control
    /**
     * Establece los datos del grid.
     * 
-    * @param session
-    * @param data
+    * @param request Una instancia de {@link HttpServletRequest} que contiene el contexto de la llamada.
+    * @param data Una instancia de {@link GridData} que contiene los datos del grid.
     */
    public void setData(HttpServletRequest request, GridData data)
    {
@@ -143,7 +143,8 @@ public class GridControl extends Control
    /**
     * Obtiene los datos de la tabla en función del usuario/caché.
     * 
-    * @param session Una instancia de {@link HttpSession}.
+    * @param request Una instancia de {@link HttpServletRequest} que contiene el contexto de la llamada.
+    * 
     * @return Una instancia de {@link GridData}.
     */
    public GridData getData(HttpServletRequest request)

@@ -73,7 +73,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
     * 
     * @param login Una cadena que contiene el <em>login</em> del usuario.
     * 
-    * @return 
+    * @return Una instancia de {@link UserSecurityPolicy} que contiene las políticas de autorización del usuario.
     * 
     * @throws AuthorizationException 
     */
