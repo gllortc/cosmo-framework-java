@@ -31,7 +31,7 @@ public class OrmFormPage extends Page
    private static final String ID_MSG = "msg";
 
    @Override
-   public void initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       pc.setLayout(PageLayout.TwoColumnsLeft);
       pc.setTitle("Cosmo - Samples - Form Control");
@@ -67,10 +67,12 @@ public class OrmFormPage extends Page
          msg.setType(DynamicMessageControl.MessageTypes.Error);
          msg.setMessage("ERROR: " + ex.getMessage());
       }
+      
+      return pc;
    }
 
    @Override
-   public void formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response)
+   public PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response)
    {
       OrmProvider ormp;
       
@@ -88,17 +90,21 @@ public class OrmFormPage extends Page
          msg.setType(DynamicMessageControl.MessageTypes.Error);
          msg.setMessage("ERROR: " + ex.getMessage());
       }
+      
+      return pc;
    }
 
    @Override
-   public void loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
-      // TODO Auto-generated method stub
+      return pc;
    }
 
    @Override
-   public void pageException(PageContext pc, Exception exception) 
+   public PageContext pageException(PageContext pc, Exception exception) 
    {
       pc.showException(getWorkspace(), exception);
+      
+      return pc;
    }
 }

@@ -35,7 +35,7 @@ public class SecurityInfoPage extends Page
    private static final long serialVersionUID = -1863993648152701220L;
    
    @Override
-   public void initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       pc.setLayout(PageLayout.TwoColumnsLeft);
       pc.setTitle("Cosmo - Informació de seguretat");
@@ -58,10 +58,12 @@ public class SecurityInfoPage extends Page
       
       XhtmlControl xAutho = new XhtmlControl(getWorkspace(), "xAutho");
       pc.addContent(xAutho, ContentColumns.MAIN);
+      
+      return pc;
    }
    
    @Override
-   public void loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       ArrayList<String> lst;
       
@@ -104,17 +106,21 @@ public class SecurityInfoPage extends Page
       {
          pc.showException(getWorkspace(), ex);
       }
+      
+      return pc;
    }
    
    @Override
-   public void formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
-      throw new UnsupportedOperationException();
+      return pc;
    }
 
    @Override
-   public void pageException(PageContext pc, Exception exception)
+   public PageContext pageException(PageContext pc, Exception exception)
    {
       pc.showException(getWorkspace(), exception);
+      
+      return pc;
    }
 }

@@ -19,7 +19,7 @@ public class LogoutPage extends Page
    private static final long serialVersionUID = -104852712419784967L;
 
    @Override
-   public void loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       if (getWorkspace().isValidUserSession())
       {
@@ -32,29 +32,33 @@ public class LogoutPage extends Page
          // Redirige a la página de inicio
          response.sendRedirect("HomePage");
 
-         return;
+         return pc;
       } 
       catch (IOException ex) 
       {
          pc.showException(getWorkspace(), ex);
       }
+      
+      return pc;
    }
    
    @Override
-   public void initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
-      // TODO Auto-generated method stub
+      return pc;
    }
 
    @Override
-   public void formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
-      // TODO Auto-generated method stub      
+      return pc;
    }
    
    @Override
-   public void pageException(PageContext pc, Exception exception) 
+   public PageContext pageException(PageContext pc, Exception exception) 
    {
       pc.showException(getWorkspace(), exception);
+      
+      return pc;
    }
 }

@@ -29,7 +29,7 @@ public class HomePage extends Page
    Logger logger; 
    
    @Override
-   public void initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       ArrayList<String> ul;
       
@@ -70,23 +70,27 @@ public class HomePage extends Page
             appendParagraph("Tingueu en compte que '''Cosmo''' és un framework encara en construcció i té actualment bastantes mancances i BUGs no resolts:").
             appendUnorderedList(ul);
       pc.addContent(xBugs, PageContext.ContentColumns.MAIN);
+      
+      return pc;
    }
    
    @Override
-   public void loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
-      // Nothing to do
+      return pc;
    }
    
    @Override
-   public void formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   public void pageException(PageContext pc, Exception exception) 
+   public PageContext pageException(PageContext pc, Exception exception) 
    {
       pc.showException(getWorkspace(), exception);
+      
+      return pc;
    }
 }

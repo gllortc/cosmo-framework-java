@@ -37,7 +37,7 @@ public class SecurityTestsPage extends Page
    private static final long serialVersionUID = -1863993648152701220L;
    
    @Override
-   public void initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       pc.setLayout(PageLayout.TwoColumnsLeft);
       pc.setTitle("Cosmo - Tests de seguretat");
@@ -95,10 +95,12 @@ public class SecurityTestsPage extends Page
       DynamicMessageControl xActMsg = new DynamicMessageControl(getWorkspace(), "xActMsg");
       xActMsg.setType(MessageTypes.Warning);
       pc.addContent(xActMsg, ContentColumns.MAIN);
+      
+      return pc;
    }
    
    @Override
-   public void loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       ArrayList<String> list;
       
@@ -212,17 +214,21 @@ public class SecurityTestsPage extends Page
             xActMsg.setVisible(true);
          }
       }
+      
+      return pc;
    }
    
    @Override
-   public void formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
-      throw new UnsupportedOperationException();
+      return pc;
    }
    
    @Override
-   public void pageException(PageContext pc, Exception exception) 
+   public PageContext pageException(PageContext pc, Exception exception) 
    {
       pc.showException(getWorkspace(), exception);
+      
+      return pc;
    }
 }

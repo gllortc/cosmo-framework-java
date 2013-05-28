@@ -35,7 +35,7 @@ public class GridPage extends Page
    private static final String ID_MSG = "msg";
    
    @Override
-   public void initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       pc.setLayout(PageLayout.TwoColumnsLeft);
       pc.setTitle("Cosmo - Grid / Formularis");
@@ -61,10 +61,12 @@ public class GridPage extends Page
       
       GridControl grid = new GridControl(getWorkspace(), ID_GRID);
       pc.addContent(grid, ContentColumns.MAIN);
+      
+      return pc;
    }
    
    @Override
-   public void loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       DataConnection conn;
       WeatherManager wm;
@@ -87,17 +89,21 @@ public class GridPage extends Page
          msg.setType(DynamicMessageControl.MessageTypes.Error);
          msg.setMessage("ERROR: " + ex.getMessage());
       }
+      
+      return pc;
    }
    
    @Override
-   public void formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       throw new UnsupportedOperationException();
    }
    
    @Override
-   public void pageException(PageContext pc, Exception exception) 
+   public PageContext pageException(PageContext pc, Exception exception) 
    {
       pc.showException(getWorkspace(), exception);
+      
+      return pc;
    }
 }

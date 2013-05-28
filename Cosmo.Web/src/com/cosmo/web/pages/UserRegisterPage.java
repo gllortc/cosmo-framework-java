@@ -45,7 +45,7 @@ public class UserRegisterPage extends Page
    String dataReceived = "";
    
    @Override
-   public void initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       pc.setLayout(PageLayout.TwoColumnsLeft);
       pc.setTitle("Crear compte d'usuari - " + getWorkspace().getName());
@@ -98,10 +98,12 @@ public class UserRegisterPage extends Page
          // TODO Auto-generated catch block
          e.printStackTrace();
       }
+      
+      return pc;
    }
    
    @Override
-   public void loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       /*if (HttpRequestUtils.getValue(request, "mode", "").equals("edit"))
       {
@@ -124,11 +126,11 @@ public class UserRegisterPage extends Page
          }
       }*/
       
-      // Nothing to do
+      return pc;
    }
    
    @Override
-   public void formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       // Comprobación de datos
               
@@ -137,7 +139,7 @@ public class UserRegisterPage extends Page
          DynamicMessageControl msg = (DynamicMessageControl) pc.getControl("msg");
          msg.setMessage("La contrassenya i la verificación han de ser exactament iguals.");
          msg.setVisible(true);
-         return;
+         return pc;
       }
       
       try 
@@ -153,7 +155,7 @@ public class UserRegisterPage extends Page
          up.add(user, HttpRequestUtils.getValue(request, FIELD_PASSWORD));
 
          response.sendRedirect("UserManagerPage");
-         return;
+         return pc;
       }
       catch (UserAlreadyExistsException ex)
       {
@@ -167,11 +169,15 @@ public class UserRegisterPage extends Page
          msg.setVisible(true);
          msg.setMessage("S'ha produït un error: " + ex.getMessage());
       }
+      
+      return pc;
    }
 
    @Override
-   public void pageException(PageContext pc, Exception exception) 
+   public PageContext pageException(PageContext pc, Exception exception) 
    {
       pc.showException(getWorkspace(), exception);
+      
+      return pc;
    }
 }

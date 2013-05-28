@@ -38,7 +38,7 @@ public class UserManagerPage extends Page
    private static final String ID_MSG = "msg";
    
    @Override
-   public void initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       pc.setLayout(PageLayout.TwoColumnsLeft);
       pc.setTitle("Cosmo - Gestió d'usuaris");
@@ -65,10 +65,12 @@ public class UserManagerPage extends Page
       grid.addRowAction(new GridRowAction("", "UserRegisterPage?mode=edit&id=" + GridRowAction.TOKEN_ROW_ID, "icon-pencil"));
       grid.addRowAction(new GridRowAction("", "UserManagerPage?action=delete&id=" + GridRowAction.TOKEN_ROW_ID, "icon-remove-circle"));
       pc.addContent(grid, ContentColumns.MAIN);
+      
+      return pc;
    }
    
    @Override
-   public void loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       try 
       {
@@ -87,17 +89,21 @@ public class UserManagerPage extends Page
          msg.setType(DynamicMessageControl.MessageTypes.Error);
          msg.setMessage("ERROR: " + ex.getMessage());
       }
+      
+      return pc;
    }
    
    @Override
-   public void formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
-      throw new UnsupportedOperationException();
+      return pc;
    }
    
    @Override
-   public void pageException(PageContext pc, Exception exception) 
+   public PageContext pageException(PageContext pc, Exception exception) 
    {
       pc.showException(getWorkspace(), exception);
+      
+      return pc;
    }
 }
