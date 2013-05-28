@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cosmo.ui.Page;
+import com.cosmo.ui.PageContext;
 
 /**
  * Servlet implementation class FormPage
@@ -18,7 +19,7 @@ public class LogoutPage extends Page
    private static final long serialVersionUID = -104852712419784967L;
 
    @Override
-   public void loadPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       if (getWorkspace().isValidUserSession())
       {
@@ -35,25 +36,25 @@ public class LogoutPage extends Page
       } 
       catch (IOException ex) 
       {
-         showException(ex);
+         pc.showException(getWorkspace(), ex);
       }
    }
    
    @Override
-   public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       // TODO Auto-generated method stub
    }
 
    @Override
-   public void formSendedEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       // TODO Auto-generated method stub      
    }
    
    @Override
-   public void pageException(Exception exception) 
+   public void pageException(PageContext pc, Exception exception) 
    {
-      showException(exception);
+      pc.showException(getWorkspace(), exception);
    }
 }

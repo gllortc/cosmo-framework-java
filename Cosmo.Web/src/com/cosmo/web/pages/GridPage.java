@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.cosmo.data.DataConnection;
 import com.cosmo.structures.GridData;
 import com.cosmo.ui.Page;
+import com.cosmo.ui.PageContext;
+import com.cosmo.ui.PageContext.ContentColumns;
+import com.cosmo.ui.PageContext.PageLayout;
 import com.cosmo.ui.controls.BreadcrumbsControl;
 import com.cosmo.ui.controls.BreadcrumbsItem;
 import com.cosmo.ui.controls.ButtonBarControl;
@@ -32,36 +35,36 @@ public class GridPage extends Page
    private static final String ID_MSG = "msg";
    
    @Override
-   public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
-      this.setLayout(PageLayout.TwoColumnsLeft);
-      this.setTitle("Cosmo - Grid / Formularis");
+      pc.setLayout(PageLayout.TwoColumnsLeft);
+      pc.setTitle("Cosmo - Grid / Formularis");
       
       BreadcrumbsControl navbar = new BreadcrumbsControl(getWorkspace());
       navbar.addItem(new BreadcrumbsItem("Home", "HomePage", Icon.ICON_IMAGE_HOME));
       navbar.addItem(new BreadcrumbsItem("Grid / Formularis", ""));
-      this.addContent(navbar, ContentColumns.MAIN);
+      pc.addContent(navbar, ContentColumns.MAIN);
       
       HeaderControl header = new HeaderControl(getWorkspace());
       header.setTitle("Grid / Formularis");
       header.setDescription("Exemple d'utilització combinada del control GridControl i FormControl.");
-      this.addContent(header, ContentColumns.MAIN);
+      pc.addContent(header, ContentColumns.MAIN);
       
       DynamicMessageControl msg = new DynamicMessageControl(getWorkspace(), ID_MSG);
       msg.setVisible(false);
-      this.addContent(msg, ContentColumns.MAIN);
+      pc.addContent(msg, ContentColumns.MAIN);
       
       ButtonBarControl btnBar = new ButtonBarControl(getWorkspace());
       btnBar.addButton(new ButtonBarItem("Nou registre", "FormPage", Icon.ICON_IMAGE_PLUS));
       btnBar.addButton(new ButtonBarItem("Refrescar", "GridPage", Icon.ICON_IMAGE_REFRESH));
-      this.addContent(btnBar, ContentColumns.MAIN);
+      pc.addContent(btnBar, ContentColumns.MAIN);
       
       GridControl grid = new GridControl(getWorkspace(), ID_GRID);
-      this.addContent(grid, ContentColumns.MAIN);
+      pc.addContent(grid, ContentColumns.MAIN);
    }
    
    @Override
-   public void loadPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       DataConnection conn;
       WeatherManager wm;
@@ -74,12 +77,12 @@ public class GridPage extends Page
          GridData gd = new GridData();
          gd.setCells(wm.getAll(), true);
          
-         GridControl grid = (GridControl) this.getControl(ID_GRID);
+         GridControl grid = (GridControl) pc.getControl(ID_GRID);
          grid.setData(request, gd);
       } 
       catch (Exception ex) 
       {
-         DynamicMessageControl msg = (DynamicMessageControl) this.getControl(ID_MSG);
+         DynamicMessageControl msg = (DynamicMessageControl) pc.getControl(ID_MSG);
          msg.setVisible(true);
          msg.setType(DynamicMessageControl.MessageTypes.Error);
          msg.setMessage("ERROR: " + ex.getMessage());
@@ -87,14 +90,14 @@ public class GridPage extends Page
    }
    
    @Override
-   public void formSendedEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       throw new UnsupportedOperationException();
    }
    
    @Override
-   public void pageException(Exception exception) 
+   public void pageException(PageContext pc, Exception exception) 
    {
-      showException(exception);
+      pc.showException(getWorkspace(), exception);
    }
 }

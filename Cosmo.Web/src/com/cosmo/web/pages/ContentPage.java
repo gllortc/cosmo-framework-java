@@ -1,6 +1,9 @@
 package com.cosmo.web.pages;
 
 import com.cosmo.ui.Page;
+import com.cosmo.ui.PageContext;
+import com.cosmo.ui.PageContext.ContentColumns;
+import com.cosmo.ui.PageContext.PageLayout;
 import com.cosmo.ui.controls.BreadcrumbsControl;
 import com.cosmo.ui.controls.BreadcrumbsItem;
 import com.cosmo.ui.controls.HeaderControl;
@@ -23,20 +26,20 @@ public class ContentPage extends Page
    private static final long serialVersionUID = -1863993648152701220L;
 
    @Override
-   public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
-      this.setLayout(PageLayout.TwoColumnsLeft);
-      this.setTitle("Cosmo - Contingut");
+      pc.setLayout(PageLayout.TwoColumnsLeft);
+      pc.setTitle("Cosmo - Contingut");
       
       BreadcrumbsControl navbar = new BreadcrumbsControl(getWorkspace());
       navbar.addItem(new BreadcrumbsItem("Inici", "HomePage", Icon.ICON_IMAGE_HOME));
       navbar.addItem(new BreadcrumbsItem("Contingut", ""));
-      this.addContent(navbar, ContentColumns.MAIN);
+      pc.addContent(navbar, ContentColumns.MAIN);
       
       HeaderControl header = new HeaderControl(getWorkspace());
       header.setTitle("XHTML Control");
       header.setDescription("Exemple d'ús del control " + XhtmlControl.formatBold("XhtmlControl") + " per generar contingut estàtic");
-      this.addContent(header, ContentColumns.MAIN);
+      pc.addContent(header, ContentColumns.MAIN);
       
       XhtmlControl xhtml = new XhtmlControl(getWorkspace());
       xhtml.append("<h3>Headings</h3>");
@@ -92,24 +95,24 @@ public class ContentPage extends Page
       xhtml.append("<li>suscipit lobortis nisl ut aliquip ex</li>");
       xhtml.append("</ul>");
       
-      this.addContent(xhtml, ContentColumns.MAIN);
+      pc.addContent(xhtml, ContentColumns.MAIN);
    }
    
    @Override
-   public void loadPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       // Nothing to do
    }
    
    @Override
-   public void formSendedEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   public void pageException(Exception exception) 
+   public void pageException(PageContext pc, Exception exception) 
    {
-      showException(exception);
+      pc.showException(getWorkspace(), exception);
    }
 }

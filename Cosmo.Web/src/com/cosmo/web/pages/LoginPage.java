@@ -9,6 +9,9 @@ import com.cosmo.net.HttpRequestUtils;
 import com.cosmo.security.UserNotFoundException;
 import com.cosmo.security.annotations.AuthenticationForm;
 import com.cosmo.ui.Page;
+import com.cosmo.ui.PageContext;
+import com.cosmo.ui.PageContext.ContentColumns;
+import com.cosmo.ui.PageContext.PageLayout;
 import com.cosmo.ui.controls.BreadcrumbsControl;
 import com.cosmo.ui.controls.BreadcrumbsItem;
 import com.cosmo.ui.controls.DynamicMessageControl;
@@ -38,23 +41,23 @@ public class LoginPage extends Page
    // private static final String FIELD_TOURL = "toUrl";
 
    @Override
-   public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
-      this.setLayout(PageLayout.TwoColumnsLeft);
-      this.setTitle(this.getWorkspace().getProperties().getString(Cosmo.PROPERTY_WORKSPACE_TITLE) + " - Login");
+      pc.setLayout(PageLayout.TwoColumnsLeft);
+      pc.setTitle(this.getWorkspace().getProperties().getString(Cosmo.PROPERTY_WORKSPACE_TITLE) + " - Login");
       
       BreadcrumbsControl navbar = new BreadcrumbsControl(getWorkspace(), "bc");
       navbar.addItem(new BreadcrumbsItem("Home", "HomePage", Icon.ICON_IMAGE_HOME));
       navbar.addItem(new BreadcrumbsItem("Login", ""));
-      this.addContent(navbar, ContentColumns.MAIN);
+      pc.addContent(navbar, ContentColumns.MAIN);
 
       HeaderControl header = new HeaderControl(getWorkspace(), "hc");
       header.setTitle("Login");
       header.setDescription("Para acceder a este contenido debe proporcionar sus credenciales de usuario.");
-      this.addContent(header, ContentColumns.MAIN);
+      pc.addContent(header, ContentColumns.MAIN);
       
       DynamicMessageControl message = new DynamicMessageControl(getWorkspace(), ID_MSG);
-      this.addContent(message, ContentColumns.MAIN);
+      pc.addContent(message, ContentColumns.MAIN);
       
       FormControl form = new FormControl(getWorkspace(), "LoginForm");
       form.addHiddenValue(new FormFieldHidden(Cosmo.URL_PARAM_TOURL, HttpRequestUtils.getValue(request, Cosmo.URL_PARAM_TOURL)));
@@ -63,11 +66,11 @@ public class LoginPage extends Page
       group.addField(new FormFieldText(LoginPage.FIELD_PASSWORD, "Password", true));
       form.addGroup(group);
       form.addButton(new FormButton("cmdAcceopt", "Enviar", ButtonType.Submit));
-      this.addContent(form, ContentColumns.MAIN);
+      pc.addContent(form, ContentColumns.MAIN);
    }
 
    @Override
-   public void formSendedEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       try 
       {
@@ -78,14 +81,14 @@ public class LoginPage extends Page
       } 
       catch (UserNotFoundException ex)
       {
-         DynamicMessageControl msg = (DynamicMessageControl) this.getControl(ID_MSG);
+         DynamicMessageControl msg = (DynamicMessageControl) pc.getControl(ID_MSG);
          msg.setVisible(true);
          msg.setType(DynamicMessageControl.MessageTypes.Error);
          msg.setMessage("Les credencials proporcionades no corresponen a cap usuari. És possible que l'usuari no existeixi o bé que la contrassenya proporcionada sigui incorrecte.");
       }
       catch (Exception ex) 
       {
-         DynamicMessageControl msg = (DynamicMessageControl) this.getControl(ID_MSG);
+         DynamicMessageControl msg = (DynamicMessageControl) pc.getControl(ID_MSG);
          msg.setVisible(true);
          msg.setType(DynamicMessageControl.MessageTypes.Error);
          msg.setMessage("ERROR: " + ex.getMessage());
@@ -93,14 +96,14 @@ public class LoginPage extends Page
    }
 
    @Override
-   public void loadPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       // Nothing to do
    }
 
    @Override
-   public void pageException(Exception exception) 
+   public void pageException(PageContext pc, Exception exception) 
    {
-      showException(exception);
+      pc.showException(getWorkspace(), exception);
    }
 }

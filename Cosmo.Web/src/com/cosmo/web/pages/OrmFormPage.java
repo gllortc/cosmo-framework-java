@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.cosmo.data.orm.InvalidMappingException;
 import com.cosmo.data.orm.OrmProvider;
 import com.cosmo.ui.Page;
+import com.cosmo.ui.PageContext;
+import com.cosmo.ui.PageContext.ContentColumns;
+import com.cosmo.ui.PageContext.PageLayout;
 import com.cosmo.ui.controls.BreadcrumbsControl;
 import com.cosmo.ui.controls.BreadcrumbsItem;
 import com.cosmo.ui.controls.DynamicMessageControl;
@@ -28,38 +31,38 @@ public class OrmFormPage extends Page
    private static final String ID_MSG = "msg";
 
    @Override
-   public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
-      this.setLayout(PageLayout.TwoColumnsLeft);
-      this.setTitle("Cosmo - Samples - Form Control");
+      pc.setLayout(PageLayout.TwoColumnsLeft);
+      pc.setTitle("Cosmo - Samples - Form Control");
       
       BreadcrumbsControl navbar = new BreadcrumbsControl(getWorkspace());
       navbar.addItem(new BreadcrumbsItem("Home", "HomePage", Icon.ICON_IMAGE_HOME));
       navbar.addItem(new BreadcrumbsItem("Samples", "SamplesPage"));
       navbar.addItem(new BreadcrumbsItem("ORM Form sample", ""));
-      this.addContent(navbar, ContentColumns.MAIN);
+      pc.addContent(navbar, ContentColumns.MAIN);
 
       HeaderControl header = new HeaderControl(getWorkspace());
       header.setTitle("ORM Form Control");
       header.setDescription("Exemple de formulari que fa us de CORM (Cormo ORM).");
-      this.addContent(header, ContentColumns.MAIN);
+      pc.addContent(header, ContentColumns.MAIN);
 
       XhtmlControl xhtml = new XhtmlControl(getWorkspace());
       xhtml.append("Per consultar el contingut de les dades que s'introdueixen en aquest formulari, consultar l'exemple de Grid Control.");
-      this.addContent(xhtml, ContentColumns.MAIN);
+      pc.addContent(xhtml, ContentColumns.MAIN);
 
       DynamicMessageControl message = new DynamicMessageControl(getWorkspace(), ID_MSG);
-      this.addContent(message, ContentColumns.MAIN);
+      pc.addContent(message, ContentColumns.MAIN);
       
       try 
       {
          FormControl form = new FormControl(getWorkspace(), "OrmWeatherForm");
          form.addGroup(Weather.class);
-         this.addContent(form, ContentColumns.MAIN);
+         pc.addContent(form, ContentColumns.MAIN);
       } 
       catch (InvalidMappingException ex) 
       {
-         DynamicMessageControl msg = (DynamicMessageControl) this.getControl(ID_MSG);
+         DynamicMessageControl msg = (DynamicMessageControl) pc.getControl(ID_MSG);
          msg.setVisible(true);
          msg.setType(DynamicMessageControl.MessageTypes.Error);
          msg.setMessage("ERROR: " + ex.getMessage());
@@ -67,7 +70,7 @@ public class OrmFormPage extends Page
    }
 
    @Override
-   public void formSendedEvent(HttpServletRequest request, HttpServletResponse response)
+   public void formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response)
    {
       OrmProvider ormp;
       
@@ -80,7 +83,7 @@ public class OrmFormPage extends Page
       } 
       catch (Exception ex) 
       {
-         DynamicMessageControl msg = (DynamicMessageControl) this.getControl(ID_MSG);
+         DynamicMessageControl msg = (DynamicMessageControl) pc.getControl(ID_MSG);
          msg.setVisible(true);
          msg.setType(DynamicMessageControl.MessageTypes.Error);
          msg.setMessage("ERROR: " + ex.getMessage());
@@ -88,14 +91,14 @@ public class OrmFormPage extends Page
    }
 
    @Override
-   public void loadPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       // TODO Auto-generated method stub
    }
 
    @Override
-   public void pageException(Exception exception) 
+   public void pageException(PageContext pc, Exception exception) 
    {
-      showException(exception);
+      pc.showException(getWorkspace(), exception);
    }
 }

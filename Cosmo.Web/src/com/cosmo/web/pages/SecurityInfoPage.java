@@ -13,6 +13,9 @@ import com.cosmo.security.auth.AuthenticationFactory;
 import com.cosmo.security.auth.Authorization;
 import com.cosmo.security.auth.AuthorizationFactory;
 import com.cosmo.ui.Page;
+import com.cosmo.ui.PageContext;
+import com.cosmo.ui.PageContext.ContentColumns;
+import com.cosmo.ui.PageContext.PageLayout;
 import com.cosmo.ui.controls.BreadcrumbsControl;
 import com.cosmo.ui.controls.BreadcrumbsItem;
 import com.cosmo.ui.controls.HeaderControl;
@@ -32,33 +35,33 @@ public class SecurityInfoPage extends Page
    private static final long serialVersionUID = -1863993648152701220L;
    
    @Override
-   public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
-      this.setLayout(PageLayout.TwoColumnsLeft);
-      this.setTitle("Cosmo - Informació de seguretat");
+      pc.setLayout(PageLayout.TwoColumnsLeft);
+      pc.setTitle("Cosmo - Informació de seguretat");
       
       BreadcrumbsControl navbar = new BreadcrumbsControl(getWorkspace());
       navbar.addItem(new BreadcrumbsItem("Inici", "HomePage", Icon.ICON_IMAGE_HOME));
       navbar.addItem(new BreadcrumbsItem("Informació de seguretat"));
-      this.addContent(navbar, ContentColumns.MAIN);
+      pc.addContent(navbar, ContentColumns.MAIN);
       
       HeaderControl header = new HeaderControl(getWorkspace(), "head");
       header.setTitle("Informació de seguretat");
-      this.addContent(header, ContentColumns.MAIN);
+      pc.addContent(header, ContentColumns.MAIN);
 
       XhtmlControl xInfo = new XhtmlControl(getWorkspace(), "info");
       xInfo.appendParagraph("La següent pàgina mostra les configuracions actuals dels agents de seguretat que s'han llegit a l'arxiu //cosmo.config.xml//, que conté la configuració de '''Cosmo Framnework'''.");
-      this.addContent(xInfo, ContentColumns.MAIN);
+      pc.addContent(xInfo, ContentColumns.MAIN);
       
       XhtmlControl xAuthent = new XhtmlControl(getWorkspace(), "xAuthent");
-      this.addContent(xAuthent, ContentColumns.MAIN);
+      pc.addContent(xAuthent, ContentColumns.MAIN);
       
       XhtmlControl xAutho = new XhtmlControl(getWorkspace(), "xAutho");
-      this.addContent(xAutho, ContentColumns.MAIN);
+      pc.addContent(xAutho, ContentColumns.MAIN);
    }
    
    @Override
-   public void loadPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       ArrayList<String> lst;
       
@@ -75,7 +78,7 @@ public class SecurityInfoPage extends Page
                lst.add(entry.getKey() + ": '''" + entry.getValue() + "'''");
             }
             
-            XhtmlControl xAuthent = (XhtmlControl) this.getControl("xAuthent");
+            XhtmlControl xAuthent = (XhtmlControl) pc.getControl("xAuthent");
             xAuthent.clear();
             xAuthent.appendHeadder(Icon.render(Icon.ICON_IMAGE_COG) + " Agent d'autenticació", 4).
                      appendParagraph("La següent informació fa referència a l'agent d'autenticació configurat actualment:").
@@ -90,7 +93,7 @@ public class SecurityInfoPage extends Page
                lst.add(entry.getKey() + ": '''" + entry.getValue() + "'''");
             }
             
-            XhtmlControl xAutho = (XhtmlControl) this.getControl("xAutho");
+            XhtmlControl xAutho = (XhtmlControl) pc.getControl("xAutho");
             xAutho.clear();
             xAutho.appendHeadder(Icon.render(Icon.ICON_IMAGE_COG) + " Agent d'autorització", 4).
                    appendParagraph("La següent informació fa referència a l'agent d'autorització configurat actualment:").
@@ -99,19 +102,19 @@ public class SecurityInfoPage extends Page
       }
       catch (Exception ex)
       {
-         showException(ex);
+         pc.showException(getWorkspace(), ex);
       }
    }
    
    @Override
-   public void formSendedEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   public void pageException(Exception exception)
+   public void pageException(PageContext pc, Exception exception)
    {
-      showException(exception);      
+      pc.showException(getWorkspace(), exception);
    }
 }
