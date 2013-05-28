@@ -249,6 +249,7 @@ public class Workspace
     */
    public void closeSession()
    {
+      this.usrSession.destroy();
       this.usrSession = null;
    }
 
