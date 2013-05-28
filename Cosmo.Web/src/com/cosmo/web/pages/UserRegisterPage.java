@@ -13,6 +13,9 @@ import com.cosmo.security.auth.AuthenticationException;
 import com.cosmo.security.auth.AuthenticationFactory;
 import com.cosmo.security.auth.impl.PostgreSqlAuthenticationImpl;
 import com.cosmo.ui.Page;
+import com.cosmo.ui.PageContext;
+import com.cosmo.ui.PageContext.ContentColumns;
+import com.cosmo.ui.PageContext.PageLayout;
 import com.cosmo.ui.controls.DynamicMessageControl;
 import com.cosmo.ui.controls.DynamicMessageControl.MessageTypes;
 import com.cosmo.ui.controls.FormButton;
@@ -42,33 +45,33 @@ public class UserRegisterPage extends Page
    String dataReceived = "";
    
    @Override
-   public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
-      this.setLayout(PageLayout.TwoColumnsLeft);
-      this.setTitle("Crear compte d'usuari - " + this.getWorkspace().getName());
+      pc.setLayout(PageLayout.TwoColumnsLeft);
+      pc.setTitle("Crear compte d'usuari - " + getWorkspace().getName());
       
       try 
       {
          // Comprueba si el agente es el adecuado
-         Authentication ap = AuthenticationFactory.getInstance(this.getWorkspace());
+         Authentication ap = AuthenticationFactory.getInstance(getWorkspace());
          if (!(ap instanceof PostgreSqlAuthenticationImpl))
          {
             DynamicMessageControl msg = new DynamicMessageControl(getWorkspace(), "msg");
             msg.setType(MessageTypes.Error);
             msg.setMessage("Només es poden gestionar els comptes d'usuari amb el proveïdor natiu de Cosmo (PostgreSqlAuthenticationProvider).");
             msg.setVisible(true);
-            this.addContent(msg, Page.ContentColumns.MAIN);
+            pc.addContent(msg, ContentColumns.MAIN);
          }
          else
          {
             HeaderControl header = new HeaderControl(getWorkspace(), "hc");
             header.setTitle("Crear compte d'usuari");
             header.setDescription("Ompleni el formulari per crear un nou compte d'usuari.");
-            this.addContent(header, Page.ContentColumns.MAIN);
+            pc.addContent(header, ContentColumns.MAIN);
             
             DynamicMessageControl msg = new DynamicMessageControl(getWorkspace(), "msg");
             msg.setVisible(false);
-            this.addContent(msg, Page.ContentColumns.MAIN);
+            pc.addContent(msg, ContentColumns.MAIN);
 
             FormControl form = new FormControl(getWorkspace(), "UserRegisterForm");
             form.setName("frmUserAdd");
@@ -87,7 +90,7 @@ public class UserRegisterPage extends Page
             
             form.addButton(new FormButton("cmdSend", "Aceptar", FormButton.ButtonType.Submit));
             form.addButton(new FormButton("cmdCancel", "Cancel·lar", "UserManagerPage"));
-            this.addContent(form, Page.ContentColumns.MAIN);
+            pc.addContent(form, ContentColumns.MAIN);
          }
       } 
       catch (AuthenticationException e) 
@@ -98,20 +101,20 @@ public class UserRegisterPage extends Page
    }
    
    @Override
-   public void loadPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       /*if (HttpRequestUtils.getValue(request, "mode", "").equals("edit"))
       {
          try 
          {
             // Obtiene el usuario
-            PostgreSqlAuthenticationImpl auth = (PostgreSqlAuthenticationImpl) AuthenticationFactory.getInstance(this.getWorkspace());
+            PostgreSqlAuthenticationImpl auth = (PostgreSqlAuthenticationImpl) AuthenticationFactory.getInstance(pc.getWorkspace());
             User user = auth.add(HttpRequestUtils.getValue(request, "id", ""));
             
-            HeaderControl header = (HeaderControl) this.getControl("hc");
+            HeaderControl header = (HeaderControl) pc.getControl("hc");
             header.setTitle("Editar compte d'usuari"); 
             
-            FormControl form = (FormControl) this.getControl("UserRegisterForm");
+            FormControl form = (FormControl) pc.getControl("UserRegisterForm");
             form.setFieldValue(request, FIELD_LOGIN, user.getLogin());
             
          }
@@ -125,13 +128,13 @@ public class UserRegisterPage extends Page
    }
    
    @Override
-   public void formSendedEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       // Comprobación de datos
               
       if (HttpRequestUtils.isNullOrEmpty(request, FIELD_PASSWORD) || !HttpRequestUtils.equals(request, FIELD_PASSWORD, FIELD_PASSWORDVER))
       {
-         DynamicMessageControl msg = (DynamicMessageControl) this.getControl("msg");
+         DynamicMessageControl msg = (DynamicMessageControl) pc.getControl("msg");
          msg.setMessage("La contrassenya i la verificación han de ser exactament iguals.");
          msg.setVisible(true);
          return;
@@ -146,7 +149,7 @@ public class UserRegisterPage extends Page
          user.setName(HttpRequestUtils.getValue(request, FIELD_NAME));
 
          // Acciones
-         PostgreSqlAuthenticationImpl up = (PostgreSqlAuthenticationImpl) AuthenticationFactory.getInstance(this.getWorkspace());
+         PostgreSqlAuthenticationImpl up = (PostgreSqlAuthenticationImpl) AuthenticationFactory.getInstance(getWorkspace());
          up.add(user, HttpRequestUtils.getValue(request, FIELD_PASSWORD));
 
          response.sendRedirect("UserManagerPage");
@@ -154,21 +157,21 @@ public class UserRegisterPage extends Page
       }
       catch (UserAlreadyExistsException ex)
       {
-         DynamicMessageControl msg = (DynamicMessageControl) this.getControl("msg");
+         DynamicMessageControl msg = (DynamicMessageControl) pc.getControl("msg");
          msg.setVisible(true);
          msg.setMessage("Ja s'ha trobat un usuari amb el mateix LOGIN o MAIL. Si us plau, verifiqui les dades proporcionades.");
       }
       catch (Exception ex) 
       {
-         DynamicMessageControl msg = (DynamicMessageControl) this.getControl("msg");
+         DynamicMessageControl msg = (DynamicMessageControl) pc.getControl("msg");
          msg.setVisible(true);
          msg.setMessage("S'ha produït un error: " + ex.getMessage());
       }
    }
 
    @Override
-   public void pageException(Exception exception) 
+   public void pageException(PageContext pc, Exception exception) 
    {
-      showException(exception);
+      pc.showException(getWorkspace(), exception);
    }
 }

@@ -13,6 +13,9 @@ import com.cosmo.security.auth.AuthorizationException;
 import com.cosmo.security.auth.AuthorizationFactory;
 import com.cosmo.security.auth.impl.PostgreSqlAuthorizationImpl;
 import com.cosmo.ui.Page;
+import com.cosmo.ui.PageContext;
+import com.cosmo.ui.PageContext.ContentColumns;
+import com.cosmo.ui.PageContext.PageLayout;
 import com.cosmo.ui.controls.BreadcrumbsControl;
 import com.cosmo.ui.controls.BreadcrumbsItem;
 import com.cosmo.ui.controls.DynamicMessageControl;
@@ -34,68 +37,68 @@ public class SecurityTestsPage extends Page
    private static final long serialVersionUID = -1863993648152701220L;
    
    @Override
-   public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
-      this.setLayout(PageLayout.TwoColumnsLeft);
-      this.setTitle("Cosmo - Tests de seguretat");
+      pc.setLayout(PageLayout.TwoColumnsLeft);
+      pc.setTitle("Cosmo - Tests de seguretat");
       
       BreadcrumbsControl navbar = new BreadcrumbsControl(getWorkspace());
       navbar.addItem(new BreadcrumbsItem("Inici", "HomePage", Icon.ICON_IMAGE_HOME));
       navbar.addItem(new BreadcrumbsItem("Tests de seguretat"));
-      this.addContent(navbar, ContentColumns.MAIN);
+      pc.addContent(navbar, ContentColumns.MAIN);
       
       HeaderControl header = new HeaderControl(getWorkspace(), "head");
       header.setTitle("Tests de seguretat");
-      this.addContent(header, ContentColumns.MAIN);
+      pc.addContent(header, ContentColumns.MAIN);
 
       XhtmlControl xhtml = new XhtmlControl(getWorkspace(), "content");
       xhtml.appendParagraph("Aquesta pàgina conté els tests per verificar que el mòdul de seguretat de de '''Cosmo Framework''' està funcionant correctament.");
-      this.addContent(xhtml, ContentColumns.MAIN);
+      pc.addContent(xhtml, ContentColumns.MAIN);
       
       // Informació de l'usuari autenticat
       
       XhtmlControl xUser = new XhtmlControl(getWorkspace(), "xUser");
-      this.addContent(xUser, ContentColumns.MAIN);
+      pc.addContent(xUser, ContentColumns.MAIN);
       
       // Información sobre roles
       
       XhtmlControl xhtmlRoles = new XhtmlControl(getWorkspace(), "content-roles");
-      this.addContent(xhtmlRoles, ContentColumns.MAIN);
+      pc.addContent(xhtmlRoles, ContentColumns.MAIN);
       
       DynamicMessageControl msgRoles = new DynamicMessageControl(getWorkspace(), "msg-roles");
       msgRoles.setType(MessageTypes.Warning);
-      this.addContent(msgRoles, ContentColumns.MAIN);
+      pc.addContent(msgRoles, ContentColumns.MAIN);
       
       // Roles efectivos
       
       XhtmlControl xRolList = new XhtmlControl(getWorkspace(), "xRolList");
-      this.addContent(xRolList, ContentColumns.MAIN);
+      pc.addContent(xRolList, ContentColumns.MAIN);
       
       DynamicMessageControl xRolMsg = new DynamicMessageControl(getWorkspace(), "xRolMsg");
       xRolMsg.setType(MessageTypes.Warning);
-      this.addContent(xRolMsg, ContentColumns.MAIN);
+      pc.addContent(xRolMsg, ContentColumns.MAIN);
       
       // Información sobre actividades
       
       XhtmlControl xhtmlAct = new XhtmlControl(getWorkspace(), "content-act");
-      this.addContent(xhtmlAct, ContentColumns.MAIN);
+      pc.addContent(xhtmlAct, ContentColumns.MAIN);
       
       DynamicMessageControl msgAct = new DynamicMessageControl(getWorkspace(), "msg-act");
       msgAct.setType(MessageTypes.Warning);
-      this.addContent(msgAct, ContentColumns.MAIN);
+      pc.addContent(msgAct, ContentColumns.MAIN);
       
       // Permisos efectivos
       
       XhtmlControl xhtmlActLst = new XhtmlControl(getWorkspace(), "act-list");
-      this.addContent(xhtmlActLst, ContentColumns.MAIN);
+      pc.addContent(xhtmlActLst, ContentColumns.MAIN);
       
       DynamicMessageControl xActMsg = new DynamicMessageControl(getWorkspace(), "xActMsg");
       xActMsg.setType(MessageTypes.Warning);
-      this.addContent(xActMsg, ContentColumns.MAIN);
+      pc.addContent(xActMsg, ContentColumns.MAIN);
    }
    
    @Override
-   public void loadPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       ArrayList<String> list;
       
@@ -107,14 +110,14 @@ public class SecurityTestsPage extends Page
          list.add("Mail: " + getUserSession().getCurrentUser().getMail());
          list.add("Nom: " + getUserSession().getCurrentUser().getName());
 
-         XhtmlControl xUser = (XhtmlControl) this.getControl("xUser");
+         XhtmlControl xUser = (XhtmlControl) pc.getControl("xUser");
          xUser.clear();
          xUser.appendHeadder(Icon.render(Icon.ICON_IMAGE_USER) + " usuari autenticat", 4).
                appendParagraph("A continuació es mostren les dades de l'usuari autenticat actualment.").
                appendUnorderedList(list, "alt");
          
          // Muestra los roles del usuario
-         XhtmlControl xhtmlRoles = (XhtmlControl) this.getControl("content-roles");
+         XhtmlControl xhtmlRoles = (XhtmlControl) pc.getControl("content-roles");
          xhtmlRoles.clear();
          xhtmlRoles.appendHeadder(Icon.render(Icon.ICON_IMAGE_GROUP) + " Rols d'usuari", 4).
                     appendParagraph("La següent llista conté els rols que té l'usuari:");
@@ -124,7 +127,7 @@ public class SecurityTestsPage extends Page
          }
          else
          {
-            DynamicMessageControl msgRoles = (DynamicMessageControl) this.getControl("msg-roles");
+            DynamicMessageControl msgRoles = (DynamicMessageControl) pc.getControl("msg-roles");
             msgRoles.setMessage("L'usuari " + XhtmlControl.formatBold(getUserSession().getCurrentUser().getLogin()) + " no té cap rol associat.");
             msgRoles.setVisible(true);
          }
@@ -144,7 +147,7 @@ public class SecurityTestsPage extends Page
                         role.getId() + " (" + role.getDescription() + ")");
             }
             
-            XhtmlControl xRolList = (XhtmlControl) this.getControl("xRolList");
+            XhtmlControl xRolList = (XhtmlControl) pc.getControl("xRolList");
             xRolList.clear();
             xRolList.appendHeadder(Icon.render(Icon.ICON_IMAGE_CHECK) + " Rols efectius d'usuari", 4).
                      appendParagraph("La següent llista mostra els rols efectius de l'usuari. S'agafa la llista complerta de rols i un per un es comprova per l'usuari a través la API de seguretat.").
@@ -152,13 +155,13 @@ public class SecurityTestsPage extends Page
          } 
          catch (AuthorizationException ex) 
          {
-            DynamicMessageControl xRolMsg = (DynamicMessageControl) this.getControl("xRolMsg");
+            DynamicMessageControl xRolMsg = (DynamicMessageControl) pc.getControl("xRolMsg");
             xRolMsg.setMessage(ex.getMessage());
             xRolMsg.setVisible(true);
          }
          
          // Muestra los permisos del usuario
-         XhtmlControl xhtmlAct = (XhtmlControl) this.getControl("content-act");
+         XhtmlControl xhtmlAct = (XhtmlControl) pc.getControl("content-act");
          xhtmlAct.clear();
          xhtmlAct.appendHeadder(Icon.render(Icon.ICON_IMAGE_SHARE) + " Permisos de l'usuari", 4).
                   appendParagraph("La següent llista conté les activitats sobre les que l'usuari té permisos especificats:");
@@ -168,7 +171,7 @@ public class SecurityTestsPage extends Page
          }
          else
          {
-            DynamicMessageControl msgAct = (DynamicMessageControl) this.getControl("msg-act");
+            DynamicMessageControl msgAct = (DynamicMessageControl) pc.getControl("msg-act");
             msgAct.setVisible(true);
             
             if (!getUserSession().isSuperUser())
@@ -196,7 +199,7 @@ public class SecurityTestsPage extends Page
                         activity.getId() + " (" + activity.getDescription() + ")");
             }
             
-            XhtmlControl xhtmlActLst = (XhtmlControl) this.getControl("act-list");
+            XhtmlControl xhtmlActLst = (XhtmlControl) pc.getControl("act-list");
             xhtmlActLst.clear();
             xhtmlActLst.appendHeadder(Icon.render(Icon.ICON_IMAGE_CHECK) + " Permisos efectius d'usuari", 4).
                         appendParagraph("La següent llista mostra els permisos efectius de l'usuari. S'agafa la llista complerta d'activitats i una per una es comprova per l'usuari a través la API de seguretat.").
@@ -204,7 +207,7 @@ public class SecurityTestsPage extends Page
          } 
          catch (AuthorizationException ex) 
          {
-            DynamicMessageControl xActMsg = (DynamicMessageControl) this.getControl("xActMsg");
+            DynamicMessageControl xActMsg = (DynamicMessageControl) pc.getControl("xActMsg");
             xActMsg.setMessage(ex.getMessage());
             xActMsg.setVisible(true);
          }
@@ -212,14 +215,14 @@ public class SecurityTestsPage extends Page
    }
    
    @Override
-   public void formSendedEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       throw new UnsupportedOperationException();
    }
    
    @Override
-   public void pageException(Exception exception) 
+   public void pageException(PageContext pc, Exception exception) 
    {
-      showException(exception);
+      pc.showException(getWorkspace(), exception);
    }
 }

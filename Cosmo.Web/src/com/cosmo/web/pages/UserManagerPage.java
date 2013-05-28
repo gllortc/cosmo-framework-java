@@ -9,6 +9,9 @@ import com.cosmo.security.auth.AuthenticationFactory;
 import com.cosmo.security.auth.impl.PostgreSqlAuthenticationImpl;
 import com.cosmo.structures.GridData;
 import com.cosmo.ui.Page;
+import com.cosmo.ui.PageContext;
+import com.cosmo.ui.PageContext.ContentColumns;
+import com.cosmo.ui.PageContext.PageLayout;
 import com.cosmo.ui.controls.BreadcrumbsControl;
 import com.cosmo.ui.controls.BreadcrumbsItem;
 import com.cosmo.ui.controls.ButtonBarControl;
@@ -24,8 +27,6 @@ import com.cosmo.ui.controls.Icon;
  * 
  * @author Gerard Llort
  */
-// @SessionScoped() --> Investigar!
-
 @ActivitiesAllowed( "admin.users.manage" )
 @WebServlet( description = "UserManagerPage", urlPatterns = { "/UserManagerPage" } )
 public class UserManagerPage extends Page 
@@ -37,37 +38,37 @@ public class UserManagerPage extends Page
    private static final String ID_MSG = "msg";
    
    @Override
-   public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
-      this.setLayout(PageLayout.TwoColumnsLeft);
-      this.setTitle("Cosmo - Gestió d'usuaris");
+      pc.setLayout(PageLayout.TwoColumnsLeft);
+      pc.setTitle("Cosmo - Gestió d'usuaris");
       
       BreadcrumbsControl navbar = new BreadcrumbsControl(getWorkspace());
       navbar.addItem(new BreadcrumbsItem("Home", "HomePage", Icon.ICON_IMAGE_HOME));
       navbar.addItem(new BreadcrumbsItem("Gestió d'usuaris"));
-      this.addContent(navbar, ContentColumns.MAIN);
+      pc.addContent(navbar, ContentColumns.MAIN);
       
       HeaderControl header = new HeaderControl(getWorkspace());
       header.setTitle("Gestió d'usuaris");
-      this.addContent(header, ContentColumns.MAIN);
+      pc.addContent(header, ContentColumns.MAIN);
       
       DynamicMessageControl msg = new DynamicMessageControl(getWorkspace(), ID_MSG);
       msg.setVisible(false);
-      this.addContent(msg, ContentColumns.MAIN);
+      pc.addContent(msg, ContentColumns.MAIN);
       
       ButtonBarControl btnBar = new ButtonBarControl(getWorkspace());
       btnBar.addButton(new ButtonBarItem("Nou compte", "UserRegisterPage", Icon.ICON_IMAGE_PLUS));
       btnBar.addButton(new ButtonBarItem("Refrescar", "UserManagerPage", Icon.ICON_IMAGE_REFRESH));
-      this.addContent(btnBar, ContentColumns.MAIN);
+      pc.addContent(btnBar, ContentColumns.MAIN);
       
       GridControl grid = new GridControl(getWorkspace(), ID_GRID);
       grid.addRowAction(new GridRowAction("", "UserRegisterPage?mode=edit&id=" + GridRowAction.TOKEN_ROW_ID, "icon-pencil"));
       grid.addRowAction(new GridRowAction("", "UserManagerPage?action=delete&id=" + GridRowAction.TOKEN_ROW_ID, "icon-remove-circle"));
-      this.addContent(grid, ContentColumns.MAIN);
+      pc.addContent(grid, ContentColumns.MAIN);
    }
    
    @Override
-   public void loadPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       try 
       {
@@ -76,12 +77,12 @@ public class UserManagerPage extends Page
          GridData gd = new GridData();
          gd.setCells(auth.getUsersList(), true);
          
-         GridControl grid = (GridControl) this.getControl(ID_GRID);
+         GridControl grid = (GridControl) pc.getControl(ID_GRID);
          grid.setData(request, gd);
       } 
       catch (Exception ex) 
       {
-         DynamicMessageControl msg = (DynamicMessageControl) this.getControl(ID_MSG);
+         DynamicMessageControl msg = (DynamicMessageControl) pc.getControl(ID_MSG);
          msg.setVisible(true);
          msg.setType(DynamicMessageControl.MessageTypes.Error);
          msg.setMessage("ERROR: " + ex.getMessage());
@@ -89,14 +90,14 @@ public class UserManagerPage extends Page
    }
    
    @Override
-   public void formSendedEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       throw new UnsupportedOperationException();
    }
    
    @Override
-   public void pageException(Exception exception) 
+   public void pageException(PageContext pc, Exception exception) 
    {
-      showException(exception);
+      pc.showException(getWorkspace(), exception);
    }
 }

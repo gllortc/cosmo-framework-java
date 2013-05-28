@@ -5,6 +5,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cosmo.ui.Page;
+import com.cosmo.ui.PageContext;
+import com.cosmo.ui.PageContext.ContentColumns;
+import com.cosmo.ui.PageContext.PageLayout;
 import com.cosmo.ui.controls.BreadcrumbsControl;
 import com.cosmo.ui.controls.BreadcrumbsItem;
 import com.cosmo.ui.controls.HeaderControl;
@@ -25,20 +28,20 @@ public class SliderPage extends Page
    private static final long serialVersionUID = 6834195523514376992L;
 
    @Override
-   public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
-      this.setLayout(PageLayout.TwoColumnsLeft);
-      this.setTitle("Cosmo - Slider");
+      pc.setLayout(PageLayout.TwoColumnsLeft);
+      pc.setTitle("Cosmo - Slider");
       
       BreadcrumbsControl navbar = new BreadcrumbsControl(getWorkspace());
       navbar.addItem(new BreadcrumbsItem("Inici", "HomePage", Icon.ICON_IMAGE_HOME));
       navbar.addItem(new BreadcrumbsItem("Slider", ""));
-      this.addContent(navbar, ContentColumns.MAIN);
+      pc.addContent(navbar, ContentColumns.MAIN);
       
       HeaderControl header = new HeaderControl(getWorkspace());
       header.setTitle("Slider Control");
       header.setDescription("Exemple d'ús del control " + XhtmlControl.formatBold("SliderControl") + " per generar presentacions d'imatges i/o contingut XHTML.");
-      this.addContent(header, ContentColumns.MAIN);
+      pc.addContent(header, ContentColumns.MAIN);
       
       SliderControl slider = new SliderControl(getWorkspace());
       slider.setWidth(550);
@@ -48,24 +51,24 @@ public class SliderPage extends Page
       slider.addItem(new SliderItem("img/Cosmos_03.jpg", 550, 413, SliderItem.SlideType.Image));
       slider.addItem(new SliderItem("img/Cosmos_04.jpg", 550, 413, SliderItem.SlideType.Image));
       slider.addItem(new SliderItem("img/Cosmos_05.jpg", 550, 413, SliderItem.SlideType.Image));
-      this.addContent(slider, ContentColumns.MAIN);
+      pc.addContent(slider, ContentColumns.MAIN);
    }
    
    @Override
-   public void loadPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       // Nothing to do
    }
    
    @Override
-   public void formSendedEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   public void pageException(Exception exception) 
+   public void pageException(PageContext pc, Exception exception) 
    {
-      showException(exception);
+      pc.showException(getWorkspace(), exception);
    }
 }
