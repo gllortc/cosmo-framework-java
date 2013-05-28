@@ -28,48 +28,24 @@ import com.cosmo.ui.templates.TemplateLoadException;
 import com.cosmo.ui.templates.TemplateUnavailableException;
 import com.cosmo.ui.widgets.providers.MenuProviderException;
 
+// Possibles modificacions:
+//
+// Per simplificar els mètodes abstractes:
+// http://stackoverflow.com/questions/1068760/can-i-pass-parameters-by-reference-in-java
+
 /**
  * Implementa una página de Cosmo.
  * 
  * @author Gerard Llort
  */
-public abstract class Page extends HttpServlet // implements PageInterface 
+public abstract class Page extends HttpServlet
 {
    /** Serial Version UID */
    private static final long serialVersionUID = -2313025410371254322L;
 
-   // private boolean init = false;
-   // private String charset;
-   // private String title;
-   // private PageLayout layout;
    private Workspace workspace;
-   // private ArrayList<Control> leftContents;
-   // private ArrayList<Control> centerContents;
-   // private ArrayList<Control> rightContents;
-   // private StringBuilder xhtml;
    private PageRender renderProvider;
 
-   /**
-    * Enumera las distintas regiones dónde se pueden agregar controles en la página.
-    */
-   /*public enum ContentColumns
-   {
-      LEFT,
-      MAIN,
-      RIGHT
-   }*/
-   
-   /**
-    * Enumera los distintos formatos de página.
-    */
-   /*public enum PageLayout
-   {
-      HomePage,
-      OneColumn,
-      TwoColumnsLeft,
-      TwoColumnsRight,
-      ThreeColumns
-   }*/
    
    //==============================================
    // Constructors
@@ -84,88 +60,10 @@ public abstract class Page extends HttpServlet // implements PageInterface
       initPage();
    }
    
-   /**
-    * Constructor de la clase.
-    * 
-    * @param title Título de la página.
-    */
-   /*public Page(String title)
-   {
-      // Inicialización de la instancia
-      super();
-      initPage();
-      
-      // Inicializaciones por parámetro
-      this.title = title;
-   }*/
-   
-   /**
-    * Constructor de la clase.
-    * 
-    * @param title Título de la página.
-    * @param layout Formato de la página.
-    */
-   /*public Page(String title, PageLayout layout)
-   {
-      super();
-      initPage();
-      
-      this.title = title;
-      this.layout = layout;
-   }*/
-   
    
    //==============================================
    // Properties
    //==============================================
-
-   /**
-    * Devuelve el título de la página.
-    */
-   /*public String getTitle() 
-   {
-      return title;
-   }*/
-
-   /**
-    * Establece el título de la página.
-    */
-   /*public void setTitle(String title) 
-   {
-      this.title = title;
-   }*/
-
-   /**
-    * Devuelve el <em>layout</em> de la página.
-    */
-   /*public PageLayout getLayout() 
-   {
-      return layout;
-   }*/
-
-   /**
-    * Establece el <em>layout</em> de la página.
-    */
-   /*public void setLayout(PageLayout layout) 
-   {
-      this.layout = layout;
-   }*/
-
-   /**
-    * Devuelve el juego de carácteres de la página.
-    */
-   /*public String getCharset() 
-   {
-      return charset;
-   }*/
-
-   /**
-    * Establece el juego de carácteres de la página.
-    */
-   /*public void setCharset(String charset) 
-   {
-      this.charset = charset;
-   }*/
 
    /**
     * Devuelve la instancia de {@link Workspace} que representa el workspace actual.
@@ -183,94 +81,57 @@ public abstract class Page extends HttpServlet // implements PageInterface
       return workspace.getUserSession();
    }
    
-   /**
-    * Devuelve un iterador sobre el contenido de la página.
-    * 
-    * @param column Un valor de {@link ContentColumns} que indica la columna para la que se desea obtener el contenido.
-    */
-   /*public Iterator<Control> getPageContent(ContentColumns column)
-   {
-      switch (column)
-      {
-         case LEFT:
-            return this.leftContents.iterator();
-         case RIGHT:
-            return this.rightContents.iterator();
-         default:
-            return this.centerContents.iterator();
-      }
-   }*/
    
+   //==============================================
+   // Abstract members
+   //==============================================
+   
+   /**
+    * Método que es llamado al inicializar la página.
+    * 
+    * @param pc Una instancia de {@link PageContext} que representa el contenido de la página.
+    * @param request Una instancia de {@link HttpServletRequest} que representa el contexto de la llamada.
+    * @param response Una instancia de {@link HttpServletResponse} que representa el contexto de la respuesta.
+    */
+   public abstract PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response);
+   
+   /**
+    * Método que es llamado cuando la página recibe los datos de un formulario.
+    * 
+    * @param pc Una instancia de {@link PageContext} que representa el contenido de la página.
+    * @param request Una instancia de {@link HttpServletRequest} que representa el contexto de la llamada.
+    * @param response Una instancia de {@link HttpServletResponse} que representa el contexto de la respuesta.
+    */
+   public abstract PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response);
+   
+   /**
+    * Método que es llamado al cargar la página.
+    * 
+    * @param pc Una instancia de {@link PageContext} que representa el contenido de la página.
+    * @param request Una instancia de {@link HttpServletRequest} que representa el contexto de la llamada.
+    * @param response Una instancia de {@link HttpServletResponse} que representa el contexto de la respuesta.
+    */
+   public abstract PageContext loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response);
+   
+   /**
+    * Método que es llamado si se produce un error interno durante la carga (antes del renderizado).
+    * 
+    * @param pc Una instancia de {@link PageContext} que representa el contenido de la página.
+    * @param exception Una instancia de {@link Exception} que representa la excepción capturada durante la construcción de la página.
+    */
+   public abstract PageContext pageException(PageContext pc, Exception exception);
+   
+
    //==============================================
    // Methods
    //==============================================
    
    /**
-    * Método que es llamado al inicializar la página.
-    */
-   public abstract void initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response);
-   
-   /**
-    * Método que es llamado cuando la página recibe los datos de un formulario.
-    */
-   public abstract void formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response);
-   
-   /**
-    * Método que es llamado al cargar la página.
-    */
-   public abstract void loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response);
-   
-   /**
-    * Método que es llamado si se produce un error interno durante la carga (antes del renderizado).
-    */
-   public abstract void pageException(PageContext pc, Exception exception);
-   
-   /**
-    * Agrega un control a la página.
-    * 
-    * @param control Una instancia de {@link Control} que representa el control a añadir.
-    * @param situation Posición en la que se debe agregar el control.
-    */
-   /*public void addContent(Control control, ContentColumns situation)
-   {
-      switch (situation)
-      {
-         case LEFT:  
-            leftContents.add(control);
-            break;
-         case MAIN:  
-            centerContents.add(control);  
-            break;
-         case RIGHT: 
-            rightContents.add(control);   
-            break;
-      }
-   }*/
-   
-   /**
-    * Permite obtener un determinado control para poder modificar alguna de sus propiedades.
-    * 
-    * @param id Identificador del control.
-    * @return Una instancia de {@link Control} que representa el control solicitado.
-    */
-   /*public Control getControl(String id)
-   {
-      for (Control control : this.centerContents)
-      {
-         if (control instanceof Control)
-         {
-            if (id.equals(((Control) control).getId()))
-            {
-               return control;
-            }
-         }
-      }
-      
-      return null;
-   }*/
-   
-   /**
     * Renderiza la página actual.
+    * 
+    * @param pc Una instancia de {@link PageContext} que representa el contenido de la página.
+    * 
+    * @return Una instancia de {@link StringBuilder} que contiene el código XHTML de la página renderizada.
     * 
     * @throws PageRenderException 
     */
@@ -313,6 +174,7 @@ public abstract class Page extends HttpServlet // implements PageInterface
     * Indica si la llamada es un envio de un formulario.
     * 
     * @param request Servlet request.
+    * 
     * @return {@code true} si el contexto actual corresponde a un envío de formulario o {@code false} en cualquier otro caso.
     */
    public boolean isPostback(HttpServletRequest request)
@@ -332,19 +194,6 @@ public abstract class Page extends HttpServlet // implements PageInterface
          return false;
       }
    }
-   
-   /**
-    * Representa un error (excepción).
-    * 
-    * @param ex Una instancia de {@link Exception} que contiene los detalles del error.
-    */
-   /*public void showException(Exception ex)
-   {
-      // Representa un error
-      this.layout = PageLayout.TwoColumnsLeft;
-      this.centerContents.clear();
-      this.centerContents.add(new ErrorMessageControl(getWorkspace(), ex));
-   }*/
    
    /**
     * Atiende la petición de la página por GET.
@@ -444,16 +293,8 @@ public abstract class Page extends HttpServlet // implements PageInterface
     */
    private void initPage()
    {
-      // this.leftContents = new ArrayList<Control>();
-   // this.centerContents = new ArrayList<Control>();
-   // this.rightContents = new ArrayList<Control>();
-
-   // this.xhtml = new StringBuilder();
       this.workspace = null;
       this.renderProvider = null;
-   // this.title = "";
-   // this.charset = Cosmo.CHARSET_ISO_8859_1;
-   // this.layout = PageLayout.OneColumn;
    }
    
    /**
@@ -495,7 +336,7 @@ public abstract class Page extends HttpServlet // implements PageInterface
     */
    private void createPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, WorkspaceLoadException, RulesLoadException, TemplateUnavailableException, TemplateLoadException, MenuProviderException, NotAuthorizedException, AuthenticationException, UserNotFoundException, AuthorizationException
    {
-      boolean init = true;
+      boolean init = false;
       long startTime = 0;
       long totalTime = 0;
       StringBuilder xhtml = null;
@@ -516,7 +357,7 @@ public abstract class Page extends HttpServlet // implements PageInterface
          // Lanza el evento initPageEvent sólo si es la primera vez que se accede a la página
          if (!init)
          {
-            initPageEvent(pc, request, response);
+            pc = initPageEvent(pc, request, response);
             init = true;
          }
          
@@ -524,15 +365,15 @@ public abstract class Page extends HttpServlet // implements PageInterface
          if (isPostback(request))
          {
             formRefreshData(pc, request);
-            formSendedEvent(pc, request, response);
+            pc = formSendedEvent(pc, request, response);
          }
 
          // Lanza el evento loadPageEvent
-         loadPageEvent(pc, request, response);
+         pc = loadPageEvent(pc, request, response);
       }
       catch (Exception ex)
       {
-         pageException(pc, ex);
+         pc = pageException(pc, ex);
       }
 
       // Renderiza la página
