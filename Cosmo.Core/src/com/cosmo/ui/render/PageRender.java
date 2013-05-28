@@ -1,6 +1,8 @@
 package com.cosmo.ui.render;
 
+import com.cosmo.Workspace;
 import com.cosmo.ui.Page;
+import com.cosmo.ui.PageContext;
 import com.cosmo.ui.templates.TemplateUnavailableException;
 
 /**
@@ -30,5 +32,5 @@ public interface PageRender
     * @throws TemplateUnavailableException
     * @throws PageRenderException 
     */
-   public abstract String render(Page page) throws TemplateUnavailableException, PageRenderException;
+   public abstract String render(Workspace workspace, PageContext page) throws TemplateUnavailableException, PageRenderException;
 }

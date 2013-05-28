@@ -3,7 +3,8 @@ package com.cosmo.ui.render.impl;
 import java.util.Iterator;
 
 import com.cosmo.Cosmo;
-import com.cosmo.ui.Page;
+import com.cosmo.Workspace;
+import com.cosmo.ui.PageContext;
 import com.cosmo.ui.controls.Control;
 import com.cosmo.ui.render.PageRender;
 import com.cosmo.ui.render.PageRenderException;
@@ -40,20 +41,20 @@ public class CosmoPageRenderImpl implements PageRender
    /**
     * Renderiza la página convirtiendo la lógica de clases en código XHTML.
     * 
-    * @param page Una instancia de {@link Page} que representa la página a renderizar.
+    * @param page Una instancia de {@link PageContext} que representa la página a renderizar.
     * @return Una cadena que contiene el código XHTML.
     * 
     * @throws TemplateUnavailableException
     * @throws PageRenderException 
     */
    @Override
-   public String render(Page page) throws TemplateUnavailableException, PageRenderException
+   public String render(Workspace workspace, PageContext page) throws TemplateUnavailableException, PageRenderException
    {
       TemplateScript script;
       TemplateLink link;
       StringBuilder xhtml = new StringBuilder();
       
-      Template template = page.getWorkspace().getTemplate();
+      Template template = workspace.getTemplate();
 
       try
       {      
@@ -85,12 +86,12 @@ public class CosmoPageRenderImpl implements PageRender
 
          // Obtiene la estructura
          xhtml.append(template.getLayout(page.getLayout()));
-         Control.replaceTag(xhtml, TAG_SITE_NAME, page.getWorkspace().getName());
+         Control.replaceTag(xhtml, TAG_SITE_NAME, workspace.getName());
 
          // Widgets
-         renderLogin(xhtml, page);
-         renderMenus(xhtml, page);
-         renderBanners(xhtml, page);
+         renderLogin(workspace, xhtml, page);
+         renderMenus(workspace, xhtml, page);
+         renderBanners(workspace, xhtml, page);
 
          // Contenido
          renderContents(xhtml, page);
@@ -114,10 +115,10 @@ public class CosmoPageRenderImpl implements PageRender
    /**
     * Renderiza el contenido proncipal (columna central)
     */
-   private void renderContents(StringBuilder xhtml, Page page) throws TemplateUnavailableException
+   private void renderContents(StringBuilder xhtml, PageContext page) throws TemplateUnavailableException
    {
       Control control;
-      Iterator<Control> it = page.getPageContent(Page.ContentColumns.MAIN);
+      Iterator<Control> it = page.getPageContent(PageContext.ContentColumns.MAIN);
       StringBuilder ctrl = new StringBuilder();
       
       while (it.hasNext())
@@ -134,15 +135,15 @@ public class CosmoPageRenderImpl implements PageRender
     * Renderiza el widget de Login.
     * 
     * @param xhtml Una instancia de {@link StringBuilder} que se actualizará con el contenido del elemento renderizado.
-    * @param page Una instancia de {@link Page} que representa la página a renderizar.
+    * @param page Una instancia de {@link PageContext} que representa la página a renderizar.
     */
-   private void renderLogin(StringBuilder xhtml, Page page) throws MenuProviderException, TemplateUnavailableException
+   private void renderLogin(Workspace workspace, StringBuilder xhtml, PageContext page) throws MenuProviderException, TemplateUnavailableException
    {
       int index = xhtml.indexOf(PageRender.TAG_WIDGET_LOGIN);
       
       if (index >= 0)
       {
-         LoginWidget login = new LoginWidget(page.getWorkspace());
+         LoginWidget login = new LoginWidget(workspace);
          xhtml.replace(index, index + PageRender.TAG_WIDGET_LOGIN.length(), login.render());
       }
    }
@@ -151,15 +152,15 @@ public class CosmoPageRenderImpl implements PageRender
     * Renderiza el menú.
     * 
     * @param xhtml Una instancia de {@link StringBuilder} que se actualizará con el contenido del elemento renderizado.
-    * @param page Una instancia de {@link Page} que representa la página a renderizar.
+    * @param page Una instancia de {@link PageContext} que representa la página a renderizar.
     */
-   private void renderMenus(StringBuilder xhtml, Page page) throws MenuProviderException, TemplateUnavailableException
+   private void renderMenus(Workspace workspace, StringBuilder xhtml, PageContext page) throws MenuProviderException, TemplateUnavailableException
    {
       int index = xhtml.indexOf(PageRender.TAG_WIDGET_MENU);
       
       if (index >= 0)
       {
-         MenuWidget menu = new MenuWidget(page.getWorkspace(), MenuWidget.MenuTypes.Lateral);
+         MenuWidget menu = new MenuWidget(workspace, MenuWidget.MenuTypes.Lateral);
          xhtml.replace(index, index + PageRender.TAG_WIDGET_MENU.length(), menu.render());
       }
    }
@@ -168,9 +169,9 @@ public class CosmoPageRenderImpl implements PageRender
     * Renderiza el menú.
     * 
     * @param xhtml Una instancia de {@link StringBuilder} que se actualizará con el contenido del elemento renderizado.
-    * @param page Una instancia de {@link Page} que representa la página a renderizar.
+    * @param page Una instancia de {@link PageContext} que representa la página a renderizar.
     */
-   private void renderBanners(StringBuilder xhtml, Page page) throws TemplateUnavailableException
+   private void renderBanners(Workspace workspace, StringBuilder xhtml, PageContext page) throws TemplateUnavailableException
    {
       int index;
       BannerAreaWidget baw;
@@ -178,28 +179,28 @@ public class CosmoPageRenderImpl implements PageRender
       index = xhtml.indexOf(PageRender.TAG_WIDGET_BANNERS_LEFT);
       if (index >= 0)
       {
-         baw = new BannerAreaWidget(page.getWorkspace(), BannerAreaWidget.BannerAreas.Left);
+         baw = new BannerAreaWidget(workspace, BannerAreaWidget.BannerAreas.Left);
          xhtml.replace(index, index + PageRender.TAG_WIDGET_BANNERS_LEFT.length(), baw.render());
       }
       
       index = xhtml.indexOf(PageRender.TAG_WIDGET_BANNERS_RIGHT);
       if (index >= 0)
       {
-         baw = new BannerAreaWidget(page.getWorkspace(), BannerAreaWidget.BannerAreas.Left);
+         baw = new BannerAreaWidget(workspace, BannerAreaWidget.BannerAreas.Left);
          xhtml.replace(index, index + PageRender.TAG_WIDGET_BANNERS_RIGHT.length(), baw.render());
       }
       
       index = xhtml.indexOf(PageRender.TAG_WIDGET_BANNERS_CENTER_TOP);
       if (index >= 0)
       {
-         baw = new BannerAreaWidget(page.getWorkspace(), BannerAreaWidget.BannerAreas.Left);
+         baw = new BannerAreaWidget(workspace, BannerAreaWidget.BannerAreas.Left);
          xhtml.replace(index, index + PageRender.TAG_WIDGET_BANNERS_CENTER_TOP.length(), baw.render());
       }
       
       index = xhtml.indexOf(PageRender.TAG_WIDGET_BANNERS_CENTER_BOTTOM);
       if (index >= 0)
       {
-         baw = new BannerAreaWidget(page.getWorkspace(), BannerAreaWidget.BannerAreas.Left);
+         baw = new BannerAreaWidget(workspace, BannerAreaWidget.BannerAreas.Left);
          xhtml.replace(index, index + PageRender.TAG_WIDGET_BANNERS_CENTER_BOTTOM.length(), baw.render());
       }
    }

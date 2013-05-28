@@ -1,6 +1,6 @@
 package com.cosmo.ui.templates;
 
-import com.cosmo.ui.Page.PageLayout;
+import com.cosmo.ui.PageContext.PageLayout;
 import com.cosmo.ui.templates.TemplateScript.ScriptType;
 import com.cosmo.util.IOUtils;
 import java.io.FileInputStream;
@@ -138,7 +138,7 @@ public class Template
    //==============================================
 
    /**
-    * Obtiene el código XHTML correspondiente al esqueleto básico de una estructura.
+    * Obtiene el c�digo XHTML correspondiente al esqueleto básico de una estructura.
     * 
     * @param layout Tipo de estructura a recuperar.
     * @return Una cadena XHTML que representa el esqueleto de la estructura seleccionada.
@@ -188,7 +188,7 @@ public class Template
    //==============================================
    
    /**
-    * Carga una plantilla a partir del archivo de definición.
+    * Carga una plantilla a partir del archivo de definici�n.
     * 
     * @param context Contexto de la llamada al workspace.
     * @param templateId Identificador de la plantilla.
@@ -216,7 +216,7 @@ public class Template
          Document doc = dBuilder.parse(is);
          doc.getDocumentElement().normalize();
 
-         // Comprueba que el archivo sea el correcto y la versión compatible
+         // Comprueba que el archivo sea el correcto y la versi�n compatible
          nList = doc.getElementsByTagName(Template.XML_NODE_TEMPLATE);
          nNode = nList.item(0);
          if (nNode.getNodeType() == Node.ELEMENT_NODE && nNode.getNodeName().equals(Template.XML_NODE_TEMPLATE))

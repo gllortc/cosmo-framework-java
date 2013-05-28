@@ -11,5 +11,5 @@ public interface PageInterface
     * 
     * @throws PageRenderException 
     */
-   public void render();
+   public void render(PageContext pc);
 }
