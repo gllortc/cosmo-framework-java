@@ -135,7 +135,6 @@ public abstract class Page extends HttpServlet
     * 
     * @throws PageRenderException 
     */
-   // @Override
    public StringBuilder render(PageContext pc)
    {
       StringBuilder xhtml = null;
@@ -289,7 +288,6 @@ public abstract class Page extends HttpServlet
    
    /**
     * Inicializa la instancia.
-    * TODO: Valores por defecto de la configuración.
     */
    private void initPage()
    {
