@@ -76,7 +76,7 @@ public class DynamicMessageControl extends Control
 
    public void setMessage(String message) 
    {
-      this.message = message;
+      this.message = (message == null ? "no message specified" : message);
    }
 
    public MessageTypes getType() 

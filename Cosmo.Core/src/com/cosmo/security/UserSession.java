@@ -40,25 +40,33 @@ public class UserSession
     */
    public UserSession(Workspace workspace, String login, String pwd) throws UserNotFoundException, AuthenticationException, AuthorizationException
    {
+      Authentication authenticator = null;
+      Authorization authorizator = null;
+      
       initialize();
       
       this.workspace = workspace;
       
       // Instancia el proveedor de autenticación
-      Authentication authenticator = AuthenticationFactory.getInstance(workspace);
+      authenticator = AuthenticationFactory.getInstance(workspace);
       
       if (authenticator != null)
       {
          // Autenticación
          this.currentUser = authenticator.login(login, pwd);
          
-         // Instancia el proveedor de seguridad
-         Authorization authorizator = AuthorizationFactory.getInstance(workspace);
-         
-         if (authorizator != null)
-         {
-         // Obtiene las políticas de autorización para el usuario autenticado
+         try
+         {         
+            // Instancia el proveedor de seguridad
+            authorizator = AuthorizationFactory.getInstance(workspace);
+            
+            // Obtiene las políticas de autorización para el usuario autenticado
             this.securityInfo = authorizator.getAuthorizationData(login);
+         }
+         catch (AuthorizationException ex)
+         {
+            // Crea una política de autorizaciones vacía
+            this.securityInfo = new UserSecurityPolicy();
          }
       }
       else

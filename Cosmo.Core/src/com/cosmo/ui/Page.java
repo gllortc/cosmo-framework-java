@@ -224,6 +224,11 @@ public abstract class Page extends HttpServlet implements PageInterface
    public abstract void loadPageEvent(HttpServletRequest request, HttpServletResponse response);
    
    /**
+    * Método que es llamado si se produce un error interno durante la carga (antes del renderizado).
+    */
+   public abstract void pageException(Exception exception);
+   
+   /**
     * Agrega un control a la página.
     * 
     * @param control Una instancia de {@link Control} que representa el control a añadir.
@@ -357,8 +362,10 @@ public abstract class Page extends HttpServlet implements PageInterface
       } 
       catch (Exception ex) 
       {
+         pageException(ex);
+      
          // Mostrar error sin formato o con formato dependiendo de la excepción
-         throw new ServletException(ex.getMessage(), ex);
+         // throw new ServletException(ex.getMessage(), ex);
       }
    }
    
@@ -513,11 +520,11 @@ public abstract class Page extends HttpServlet implements PageInterface
          // Lanza el evento loadPageEvent
          loadPageEvent(request, response);
       }
-      catch (NotAuthorizedException ex)
+      catch (Exception ex)
       {
-         showException(ex);
+         pageException(ex);
       }
-      
+
       // Renderiza la página
       render();
       

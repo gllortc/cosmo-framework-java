@@ -12,8 +12,9 @@ import com.cosmo.security.NotAuthorizedException;
 import com.cosmo.security.User;
 import com.cosmo.security.UserNotFoundException;
 import com.cosmo.security.annotations.ActivitiesAllowed;
+import com.cosmo.security.annotations.AuthenticationForm;
 import com.cosmo.security.annotations.RolesAllowed;
-import com.cosmo.security.annotations.SessionRequired;
+import com.cosmo.security.annotations.AuthenticationRequired;
 import com.cosmo.security.auth.Authentication;
 import com.cosmo.security.auth.AuthenticationException;
 import com.cosmo.security.auth.AuthenticationFactory;
@@ -51,7 +52,16 @@ public class PageSecurity
       //----------------------
       
       // Si no requiere sesión de usuario termina la comprobación si hacer nada
-      if (!isSessionRequired(page))
+      if (!isSessionRequired(page) && !isAuthenticationForm(page))
+      {
+         return;
+      }
+      
+      // Obtiene el agente de autenticación
+      Authentication auth = AuthenticationFactory.getInstance(workspace);
+      
+      // Si es la página de login termina la comprobación
+      if (isAuthenticationForm(page))
       {
          return;
       }
@@ -59,7 +69,8 @@ public class PageSecurity
       // Comprueba si existe autenticación (obligatorio)
       if (!workspace.isValidUserSession())
       {
-         Authentication auth = AuthenticationFactory.getInstance(workspace);
+         // Authentication auth = AuthenticationFactory.getInstance(workspace);
+         
          if (auth.isLoginGatewayRequired()) 
          {
             // Comprueba si la llamada es una respuesta de autenticación (retorno de login)
@@ -94,7 +105,7 @@ public class PageSecurity
       // Anotaciones
       //----------------------
       
-      // NOTA: No se comprueba la anotación SessionRequired debido a que ya va implícita 
+      // NOTA: No se comprueba la anotación AuthenticationRequired debido a que ya va implícita 
       // a la llamada al método isSessionRequired(page)-
       
       // Comprueba si existe la anotación RolesAllowed y efectúa las comporbaciones de seguridad
@@ -151,7 +162,7 @@ public class PageSecurity
    }
    
    /**
-    * Indica si la página requiere sesión de usuario para ser accedida.
+    * Indica si la página requiere sesión de usuario (contiene alguna anotación de seguridad) para ser accedida.
     * 
     *  @param page Una instancia de {@link Page} que representa la página a comprobar.
     *  
@@ -161,11 +172,23 @@ public class PageSecurity
    {
       boolean sessionRequired = false;
       
-      sessionRequired = sessionRequired || (page.getClass().isAnnotationPresent(SessionRequired.class));
+      sessionRequired = sessionRequired || (page.getClass().isAnnotationPresent(AuthenticationRequired.class));
       sessionRequired = sessionRequired || (page.getClass().isAnnotationPresent(RolesAllowed.class));
       sessionRequired = sessionRequired || (page.getClass().isAnnotationPresent(ActivitiesAllowed.class));
       
       return sessionRequired;
+   }
+   
+   /**
+    * Indica si la página contiene un formulario de autenticación.
+    * 
+    *  @param page Una instancia de {@link Page} que representa la página a comprobar.
+    *  
+    *  @return {@code true} si la página contiene un formulario de autenticación o {@code false} en cualquier otro caso.
+    */
+   private boolean isAuthenticationForm(Page page)
+   {
+      return page.getClass().isAnnotationPresent(AuthenticationForm.class);
    }
    
    /**

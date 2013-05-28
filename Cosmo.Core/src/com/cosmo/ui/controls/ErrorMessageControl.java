@@ -2,6 +2,8 @@ package com.cosmo.ui.controls;
 
 import com.cosmo.Workspace;
 import com.cosmo.security.NotAuthorizedException;
+import com.cosmo.security.auth.AuthenticationException;
+import com.cosmo.security.auth.AuthorizationException;
 import com.cosmo.ui.templates.TemplateControl;
 
 /**
@@ -79,9 +81,11 @@ public class ErrorMessageControl extends Control
       TemplateControl ctrl;
       
       // Determina el título y el icono a mostrar
-      if (this.getException() instanceof NotAuthorizedException)
+      if (this.getException() instanceof NotAuthorizedException ||
+          this.getException() instanceof AuthorizationException ||
+          this.getException() instanceof AuthenticationException)
       {
-         title = "Avís de seguretat (NotAuthorizedException)";
+         title = "Avís de seguretat (" + this.getException().getClass().getSimpleName() + ")";
          icon = "icon-lock";
       }
       else
