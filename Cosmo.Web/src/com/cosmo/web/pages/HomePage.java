@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.cosmo.logging.LogManager;
 import com.cosmo.logging.Logger;
 import com.cosmo.ui.Page;
+import com.cosmo.ui.PageContext;
 import com.cosmo.ui.controls.HeaderControl;
 import com.cosmo.ui.controls.Icon;
 import com.cosmo.ui.controls.XhtmlControl;
@@ -28,7 +29,7 @@ public class HomePage extends Page
    Logger logger; 
    
    @Override
-   public void initPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       ArrayList<String> ul;
       
@@ -36,12 +37,12 @@ public class HomePage extends Page
       
       logger.info("Iniciant pàgina...");
       
-      this.setLayout(PageLayout.TwoColumnsLeft);
-      this.setTitle("Cosmo - Inici");
+      pc.setLayout(PageContext.PageLayout.TwoColumnsLeft);
+      pc.setTitle("Cosmo - Inici");
 
       HeaderControl header = new HeaderControl(getWorkspace());
       header.setTitle("Benvingut a Cosmo Framework!");
-      this.addContent(header, ContentColumns.MAIN);
+      pc.addContent(header, PageContext.ContentColumns.MAIN);
       
       ul = new ArrayList<String>();
       ul.add("'''Contingut''': Exemple de pàgina de contingut (text)");
@@ -57,7 +58,7 @@ public class HomePage extends Page
             appendParagraph("Aquesta aplicació ''demo'' presenta les diferents funcionalitats de '''Cosmo Framework'''.").
             appendUnorderedList(ul).
             appendParagraph("Les pàgines que contenen la icona " + Icon.render(Icon.ICON_IMAGE_LOCK) + " indiquen que només són accessibles per usuaris autenticats i opcionalment amb un rol o permis determinat.");
-      this.addContent(xhtml, ContentColumns.MAIN);
+      pc.addContent(xhtml, PageContext.ContentColumns.MAIN);
       
       ul = new ArrayList<String>();
       ul.add("[BUG] S'ha de refer el model de dades en controls amb dades de sessió (formularis, grids). Això provoca que no es mostrin algunes dades en controls quan hi ha dos o més usuaris concurrents.");
@@ -68,24 +69,24 @@ public class HomePage extends Page
       xBugs.appendHeadder(Icon.render(Icon.ICON_IMAGE_TAG) + " Situació actual de Cosmo", 4).
             appendParagraph("Tingueu en compte que '''Cosmo''' és un framework encara en construcció i té actualment bastantes mancances i BUGs no resolts:").
             appendUnorderedList(ul);
-      this.addContent(xBugs, ContentColumns.MAIN);
+      pc.addContent(xBugs, PageContext.ContentColumns.MAIN);
    }
    
    @Override
-   public void loadPageEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       // Nothing to do
    }
    
    @Override
-   public void formSendedEvent(HttpServletRequest request, HttpServletResponse response) 
+   public void formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   public void pageException(Exception exception) 
+   public void pageException(PageContext pc, Exception exception) 
    {
-      showException(exception);
+      pc.showException(getWorkspace(), exception);
    }
 }
