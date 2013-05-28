@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.cosmo.security.Activity;
 import com.cosmo.security.Role;
-import com.cosmo.security.annotations.SessionRequired;
+import com.cosmo.security.annotations.AuthenticationRequired;
 import com.cosmo.security.auth.AuthorizationException;
 import com.cosmo.security.auth.AuthorizationFactory;
 import com.cosmo.security.auth.impl.PostgreSqlAuthorizationImpl;
@@ -26,7 +26,7 @@ import com.cosmo.ui.controls.XhtmlControl;
  * 
  * @author Gerard Llort
  */
-@SessionRequired
+@AuthenticationRequired
 @WebServlet( description = "Tests de seguretat", urlPatterns = { "/SecurityTestsPage" } )
 public class SecurityTestsPage extends Page 
 {
@@ -71,6 +71,10 @@ public class SecurityTestsPage extends Page
       XhtmlControl xRolList = new XhtmlControl(getWorkspace(), "xRolList");
       this.addContent(xRolList, ContentColumns.MAIN);
       
+      DynamicMessageControl xRolMsg = new DynamicMessageControl(getWorkspace(), "xRolMsg");
+      xRolMsg.setType(MessageTypes.Warning);
+      this.addContent(xRolMsg, ContentColumns.MAIN);
+      
       // Información sobre actividades
       
       XhtmlControl xhtmlAct = new XhtmlControl(getWorkspace(), "content-act");
@@ -84,6 +88,10 @@ public class SecurityTestsPage extends Page
       
       XhtmlControl xhtmlActLst = new XhtmlControl(getWorkspace(), "act-list");
       this.addContent(xhtmlActLst, ContentColumns.MAIN);
+      
+      DynamicMessageControl xActMsg = new DynamicMessageControl(getWorkspace(), "xActMsg");
+      xActMsg.setType(MessageTypes.Warning);
+      this.addContent(xActMsg, ContentColumns.MAIN);
    }
    
    @Override
@@ -144,7 +152,9 @@ public class SecurityTestsPage extends Page
          } 
          catch (AuthorizationException ex) 
          {
-            showException(ex);
+            DynamicMessageControl xRolMsg = (DynamicMessageControl) this.getControl("xRolMsg");
+            xRolMsg.setMessage(ex.getMessage());
+            xRolMsg.setVisible(true);
          }
          
          // Muestra los permisos del usuario
@@ -194,7 +204,9 @@ public class SecurityTestsPage extends Page
          } 
          catch (AuthorizationException ex) 
          {
-            showException(ex);
+            DynamicMessageControl xActMsg = (DynamicMessageControl) this.getControl("xActMsg");
+            xActMsg.setMessage(ex.getMessage());
+            xActMsg.setVisible(true);
          }
       }
    }
@@ -203,5 +215,11 @@ public class SecurityTestsPage extends Page
    public void formSendedEvent(HttpServletRequest request, HttpServletResponse response) 
    {
       throw new UnsupportedOperationException();
+   }
+   
+   @Override
+   public void pageException(Exception exception) 
+   {
+      showException(exception);
    }
 }

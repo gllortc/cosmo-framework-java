@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cosmo.security.annotations.SessionRequired;
+import com.cosmo.security.annotations.AuthenticationRequired;
 import com.cosmo.security.auth.Authentication;
 import com.cosmo.security.auth.AuthenticationFactory;
 import com.cosmo.security.auth.Authorization;
@@ -24,7 +24,7 @@ import com.cosmo.ui.controls.XhtmlControl;
  * 
  * @author Gerard Llort
  */
-@SessionRequired
+@AuthenticationRequired
 @WebServlet( description = "Informació de seguretat", urlPatterns = { "/SecurityInfoPage" } )
 public class SecurityInfoPage extends Page 
 {
@@ -62,9 +62,9 @@ public class SecurityInfoPage extends Page
    {
       ArrayList<String> lst;
       
-      if (getWorkspace().isValidUserSession())
+      try
       {
-         try
+         if (getWorkspace().isValidUserSession())
          {
             // Obtiene el agente de autenticación
             Authentication authent = AuthenticationFactory.getInstance(getWorkspace());
@@ -96,10 +96,10 @@ public class SecurityInfoPage extends Page
                    appendParagraph("La següent informació fa referència a l'agent d'autorització configurat actualment:").
                    appendUnorderedList(lst, "alt");
          }
-         catch (Exception ex)
-         {
-            showException(ex);
-         }
+      }
+      catch (Exception ex)
+      {
+         showException(ex);
       }
    }
    
@@ -108,5 +108,10 @@ public class SecurityInfoPage extends Page
    {
       throw new UnsupportedOperationException();
    }
-   
+
+   @Override
+   public void pageException(Exception exception)
+   {
+      showException(exception);      
+   }
 }

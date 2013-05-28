@@ -62,5 +62,10 @@ public class SliderPage extends Page
    {
       throw new UnsupportedOperationException();
    }
-   
+
+   @Override
+   public void pageException(Exception exception) 
+   {
+      showException(exception);
+   }
 }

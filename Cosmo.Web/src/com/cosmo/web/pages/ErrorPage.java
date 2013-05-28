@@ -51,5 +51,10 @@ public class ErrorPage extends Page
    {
       // Nothing to do here
    }
-   
+
+   @Override
+   public void pageException(Exception exception) 
+   {
+      showException(exception);
+   }
 }

@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cosmo.security.annotations.SessionRequired;
+import com.cosmo.security.annotations.AuthenticationRequired;
 import com.cosmo.security.auth.Authentication;
 import com.cosmo.security.auth.AuthenticationFactory;
 import com.cosmo.security.auth.Authorization;
@@ -24,7 +24,7 @@ import com.cosmo.ui.controls.XhtmlControl;
  * 
  * @author Gerard Llort
  */
-@SessionRequired
+@AuthenticationRequired
 @WebServlet( description = "Informació de seguretat", urlPatterns = { "/SecurityTestPage" } )
 public class SecurityTestPage extends Page 
 {
@@ -102,5 +102,10 @@ public class SecurityTestPage extends Page
    {
       throw new UnsupportedOperationException();
    }
-   
+
+   @Override
+   public void pageException(Exception exception) 
+   {
+      showException(exception);
+   }
 }

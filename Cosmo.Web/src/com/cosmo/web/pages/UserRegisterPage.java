@@ -166,4 +166,9 @@ public class UserRegisterPage extends Page
       }
    }
 
+   @Override
+   public void pageException(Exception exception) 
+   {
+      showException(exception);
+   }
 }

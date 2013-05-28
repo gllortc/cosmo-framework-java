@@ -96,5 +96,10 @@ public class FormPage extends Page
    {
       // TODO Auto-generated method stub
    }
-   
+
+   @Override
+   public void pageException(Exception exception) 
+   {
+      showException(exception);
+   }
 }

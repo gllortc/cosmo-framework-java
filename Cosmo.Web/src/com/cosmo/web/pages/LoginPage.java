@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.cosmo.Cosmo;
 import com.cosmo.net.HttpRequestUtils;
 import com.cosmo.security.UserNotFoundException;
+import com.cosmo.security.annotations.AuthenticationForm;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.controls.BreadcrumbsControl;
 import com.cosmo.ui.controls.BreadcrumbsItem;
@@ -23,7 +24,8 @@ import com.cosmo.ui.controls.Icon;
 /**
  * Servlet implementation class FormPage
  */
-@WebServlet( description = "Login", urlPatterns = { "/LoginPage" } )
+@AuthenticationForm
+@WebServlet( description = "Formulari d'autenticació (login)", urlPatterns = { "/LoginPage" } )
 public class LoginPage extends Page 
 {
    /** Serial Version UID */
@@ -93,7 +95,12 @@ public class LoginPage extends Page
    @Override
    public void loadPageEvent(HttpServletRequest request, HttpServletResponse response) 
    {
-      // TODO Auto-generated method stub
+      // Nothing to do
    }
-   
+
+   @Override
+   public void pageException(Exception exception) 
+   {
+      showException(exception);
+   }
 }
