@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.cosmo.logging.LogManager;
 import com.cosmo.logging.Logger;
 import com.cosmo.ui.Page;
-import com.cosmo.ui.controls.DynamicMessageControl;
-import com.cosmo.ui.controls.DynamicMessageControl.MessageTypes;
 import com.cosmo.ui.controls.HeaderControl;
 import com.cosmo.ui.controls.Icon;
 import com.cosmo.ui.controls.XhtmlControl;
