@@ -52,24 +52,24 @@ public abstract class Page extends HttpServlet // implements PageInterface
    /**
     * Enumera las distintas regiones dónde se pueden agregar controles en la página.
     */
-   public enum ContentColumns
+   /*public enum ContentColumns
    {
       LEFT,
       MAIN,
       RIGHT
-   }
+   }*/
    
    /**
     * Enumera los distintos formatos de página.
     */
-   public enum PageLayout
+   /*public enum PageLayout
    {
       HomePage,
       OneColumn,
       TwoColumnsLeft,
       TwoColumnsRight,
       ThreeColumns
-   }
+   }*/
    
    //==============================================
    // Constructors
