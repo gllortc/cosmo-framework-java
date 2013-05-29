@@ -249,8 +249,10 @@ public class CasAuthenticationImpl implements Authentication
             throw new AuthenticationException("El servidor de CAS no ha respondido correctamente a la llamada de validación de la autenticación (CAS ticket=" + serviceTicket + ").");
          } 
          else
-         {   
-            user = getUserDataFromValidation(new String(method.getResponseBody()));
+         {  
+            String resp = new String(method.getResponseBody());            
+            user = getUserDataFromValidation(resp);
+
             // result = extractUser(new String(method.getResponseBody()));
          }
       }
@@ -419,50 +421,9 @@ public class CasAuthenticationImpl implements Authentication
       }
    }
    
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
 /*   
    
-   
-   
    // public static Logger LOG = Logger.getLogger( CasClient.class  );
-
    
    public static final String TICKET_BEGIN = "ticket=";
    private static final String LT_BEGIN = "name=\"lt\" value=\"";
@@ -473,23 +434,6 @@ public class CasAuthenticationImpl implements Authentication
    private String fCasUrl;
   
    // public String 
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
   
    / **
     * Authenticate the specified username with the specified password.

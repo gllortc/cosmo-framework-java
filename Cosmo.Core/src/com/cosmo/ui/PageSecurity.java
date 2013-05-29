@@ -47,9 +47,22 @@ public class PageSecurity
     */
    public void checkPageSecurity(Page page, Workspace workspace, HttpServletRequest request, HttpServletResponse response) throws IOException, NotAuthorizedException, AuthenticationException, UserNotFoundException, AuthorizationException
    {
-      //----------------------
-      // Autenticación
-      //----------------------
+      // Obtiene el agente de autenticación
+      Authentication auth = AuthenticationFactory.getInstance(workspace);
+      
+      // Comprueba si la llamada es una respuesta de autenticación (retorno de login)
+      if (auth.isLoginGatewayResponse(request))
+      {
+         // Obtiene el usuario y genera una nueva sesión
+         User user = auth.getLoginGatewayUser(request);
+         
+         if (user == null)
+         {
+            throw new AuthenticationException("El proveedor de seguridad no pudo obtener las credenciales del usuario autenticado. La autenticación ha fallado.");
+         }
+         
+         workspace.createSession(user);
+      }
       
       // Si no requiere sesión de usuario termina la comprobación si hacer nada
       if (!isSessionRequired(page) && !isAuthenticationForm(page))
@@ -57,20 +70,36 @@ public class PageSecurity
          return;
       }
       
-      // Obtiene el agente de autenticación
-      Authentication auth = AuthenticationFactory.getInstance(workspace);
-      
       // Si es la página de login termina la comprobación
       if (isAuthenticationForm(page))
       {
+         /*
+         // Comprueba si la llamada es una respuesta de autenticación (retorno de login)
+         if (auth.isLoginGatewayResponse(request))
+         {
+            // Obtiene el usuario y genera una nueva sesión
+            User user = auth.getLoginGatewayUser(request);
+            
+            if (user == null)
+            {
+               throw new AuthenticationException("El proveedor de seguridad no pudo obtener las credenciales del usuario autenticado. La autenticación ha fallado.");
+            }
+            
+            workspace.createSession(user);
+         }
+         else
+         {
+            // Redirige hacia el mecanismo de login
+            sendLoginGatewayRedirect(workspace, auth, response);
+         }
+         */
+
          return;
       }
       
       // Comprueba si existe autenticación (obligatorio)
       if (!workspace.isValidUserSession())
       {
-         // Authentication auth = AuthenticationFactory.getInstance(workspace);
-         
          if (auth.isLoginGatewayRequired()) 
          {
             // Comprueba si la llamada es una respuesta de autenticación (retorno de login)

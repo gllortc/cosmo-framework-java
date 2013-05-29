@@ -25,6 +25,12 @@ import com.cosmo.structures.PluginProperties;
 
 /**
  * Proveedor de autenticación LDAP para Cosmo.
+ * <br /><br />
+ * Se puede provar con el servicio siguiente:
+ * <ul>
+ * <li><a href="http://blog.stuartlewis.com/2008/07/07/test-ldap-service/">http://blog.stuartlewis.com/2008/07/07/test-ldap-service/</a></li>
+ * <li><a href="http://blog.stuartlewis.com/2008/08/18/test-ldap-service-upgraded-now-with-branches/">http://blog.stuartlewis.com/2008/08/18/test-ldap-service-upgraded-now-with-branches/</a></li>
+ * </ul>
  * 
  * @author Gerard Llort
  */

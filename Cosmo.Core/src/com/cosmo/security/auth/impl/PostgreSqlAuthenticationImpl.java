@@ -236,6 +236,44 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    //==============================================
    
    /**
+    * Comprueba si un determinado login existe.
+    * 
+    * @param login Una cadena que contiene el login a comprobar.
+    * 
+    * @return {@code true} si el login corresponde a una cuenta de usuario o {@code false} en cualquier otro caso.
+    * 
+    * @throws AuthenticationException
+    */
+   public boolean loginExist(String login) throws AuthenticationException
+   {
+      String sSQL;
+      DataSource ds;
+      DataConnection conn = null;
+      
+      try 
+      {
+         // Comprueba si existe el usuario
+         sSQL = "SELECT Count(*) " +
+                "FROM " + TABLE_NAME + " " +
+                "WHERE Lower(usrlogin) = '" + login.trim().toLowerCase() + "'";
+         
+         ds = this.workspace.getProperties().getServerDataSource();
+         conn = new DataConnection(ds);
+         conn.connect();
+         
+         return (conn.executeScalar(sSQL) > 0);
+      }
+      catch (Exception ex)
+      {
+         throw new AuthenticationException(ex.getMessage(), ex);
+      }
+      finally
+      {
+         conn.disconnect();
+      }
+   }
+   
+   /**
     * Crea una nueva cuenta de usuario.
     * 
     * @param user Una instancia de {@link User} que representa el nuevo usuario.
@@ -305,28 +343,24 @@ public class PostgreSqlAuthenticationImpl implements Authentication
       DataSource ds;
       DataConnection conn = null;
       
+      // Comprueba si existe el usuario especificado
+      if (!loginExist(user.getLogin()))
+      {
+         throw new UserNotFoundException();
+      }
+      
       try 
       {
-      // Comprueba si existe el usuario
-         sSQL = "SELECT Count(*) " +
-                "FROM " + TABLE_NAME + " " +
-                "WHERE Lower(usrlogin) = '" + user.getLogin().trim().toLowerCase() + "'";
-         
-         ds = this.workspace.getProperties().getServerDataSource();
-         conn = new DataConnection(ds);
-         conn.connect();
-         if (conn.executeScalar(sSQL) <= 0)
-         {
-            throw new UserNotFoundException();
-         }
-         
          sSQL = "UPDATE " + TABLE_NAME + " " +
                 "SET   usrmail = '" + DataConnection.sqlFormatTextValue(user.getMail()) + "', " +
                 "      usrname = '" + DataConnection.sqlFormatTextValue(user.getName()) + "' " +
                 "WHERE Lower(usrlogin) = '" + user.getLogin().trim().toLowerCase() + "'";
-         
+
+         ds = this.workspace.getProperties().getServerDataSource();
+         conn = new DataConnection(ds);
+         conn.connect();
          conn.execute(sSQL);
-         
+
          // Confirma los cambios en la bbdd
          if (!conn.isAutoCommit()) conn.commit();
       } 
@@ -354,27 +388,23 @@ public class PostgreSqlAuthenticationImpl implements Authentication
       DataSource ds;
       DataConnection conn = null;
       
+      // Comprueba si existe el usuario especificado
+      if (!loginExist(login))
+      {
+         throw new UserNotFoundException();
+      }
+      
       try 
       {
-         // Comprueba si existe el usuario
-         sSQL = "SELECT Count(*) " +
-                "FROM " + TABLE_NAME + " " +
-                "WHERE Lower(usrlogin) = '" + login.trim().toLowerCase() + "'";
-         
-         ds = this.workspace.getProperties().getServerDataSource();
-         conn = new DataConnection(ds);
-         conn.connect();
-         if (conn.executeScalar(sSQL) <= 0)
-         {
-            throw new UserNotFoundException();
-         }
-         
          // Elimina el usuario
          sSQL = "DELETE FROM " + TABLE_NAME + " " +
                 "WHERE Lower(usrlogin) = '" + login.trim().toLowerCase() + "'";
 
+         ds = this.workspace.getProperties().getServerDataSource();
+         conn = new DataConnection(ds);
+         conn.connect();
          conn.execute(sSQL);
-         
+
          // Confirma los cambios en la bbdd
          if (!conn.isAutoCommit()) conn.commit();
       } 
@@ -626,13 +656,11 @@ public class PostgreSqlAuthenticationImpl implements Authentication
          conn = new DataConnection(ds);
          conn.connect();
          
-         // Limpia bloqueos caducados
+         // Limpia bloqueos caducados (de más de [timeout] minutos)
          sql = "DELETE FROM " + TABLE_LOCKS + " " +
                "WHERE ((DATE_PART('day', CURRENT_TIMESTAMP - lastattempt) * 24 + " +
                "        DATE_PART('hour', CURRENT_TIMESTAMP - lastattempt)) * 60 + " +
-               "        DATE_PART('minute', CURRENT_TIMESTAMP - lastattempt) >= " + timeout + ") And " +
-               "        lower(login) = '" + DataConnection.sqlFormatTextValue(login) + "' And " +
-               "        fails >= " + attempts;
+               "        DATE_PART('minute', CURRENT_TIMESTAMP - lastattempt) >= " + timeout + ")";
          conn.execute(sql);
          
          // Consulta si el usuario dispone de un registro bloqueado:
@@ -701,9 +729,12 @@ public class PostgreSqlAuthenticationImpl implements Authentication
          }
          else if (nregs <= 0)
          {
-            sql = "INSERT INTO " + TABLE_LOCKS + " (login, fails, lastattempt, ipaddress) " +
-                  "VALUES ('" + DataConnection.sqlFormatTextValue(login) + "', 1, CURRENT_TIMESTAMP, '" + workspace.getServerRequest().getRemoteAddr() + "')";
-            conn.execute(sql);
+            if (loginExist(login))
+            {
+               sql = "INSERT INTO " + TABLE_LOCKS + " (login, fails, lastattempt, ipaddress) " +
+                     "VALUES ('" + DataConnection.sqlFormatTextValue(login) + "', 1, CURRENT_TIMESTAMP, '" + workspace.getServerRequest().getRemoteAddr() + "')";
+               conn.execute(sql);
+            }
          }
          
          // Confirma los cambios en la bbdd
