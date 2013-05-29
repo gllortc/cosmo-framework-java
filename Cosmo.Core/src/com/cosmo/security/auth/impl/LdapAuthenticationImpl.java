@@ -209,7 +209,6 @@ public class LdapAuthenticationImpl implements Authentication
          {
             user = new User();
             user.setLogin(login);
-            // user.setStatus(UserStates.Active);
             user.setLogonCount(1);
             user.setLastLogin(new Date());
             

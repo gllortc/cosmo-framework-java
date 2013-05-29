@@ -177,6 +177,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    public void logout()
    {
       // Este driver no informa al SGBD de la salida del usuario
+      return;
    }
    
    /**
@@ -185,6 +186,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    @Override
    public void validate() 
    {
+   // Este driver no revalida la sesión
       return;   
    };
    
