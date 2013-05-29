@@ -18,12 +18,14 @@ import com.cosmo.ui.PageContext.ContentColumns;
 import com.cosmo.ui.PageContext.PageLayout;
 import com.cosmo.ui.controls.BreadcrumbsControl;
 import com.cosmo.ui.controls.BreadcrumbsItem;
+import com.cosmo.ui.controls.DynamicMessageControl;
+import com.cosmo.ui.controls.DynamicMessageControl.MessageTypes;
 import com.cosmo.ui.controls.HeaderControl;
 import com.cosmo.ui.controls.Icon;
 import com.cosmo.ui.controls.XhtmlControl;
 
 /**
- * Página de prova.
+ * Página que muestra la información referente a la configuración de los agentes de seguridad.
  * 
  * @author Gerard Llort
  */
@@ -48,7 +50,7 @@ public class SecurityInfoPage extends Page
       HeaderControl header = new HeaderControl(getWorkspace(), "head");
       header.setTitle("Informació de seguretat");
       pc.addContent(header, ContentColumns.MAIN);
-
+      
       XhtmlControl xInfo = new XhtmlControl(getWorkspace(), "info");
       xInfo.appendParagraph("La següent pàgina mostra les configuracions actuals dels agents de seguretat que s'han llegit a l'arxiu //cosmo.config.xml//, que conté la configuració de '''Cosmo Framnework'''.");
       pc.addContent(xInfo, ContentColumns.MAIN);
@@ -56,8 +58,14 @@ public class SecurityInfoPage extends Page
       XhtmlControl xAuthent = new XhtmlControl(getWorkspace(), "xAuthent");
       pc.addContent(xAuthent, ContentColumns.MAIN);
       
+      DynamicMessageControl xMsgAuthent = new DynamicMessageControl(getWorkspace(), "xMsgAuthent");
+      pc.addContent(xMsgAuthent, ContentColumns.MAIN);
+      
       XhtmlControl xAutho = new XhtmlControl(getWorkspace(), "xAutho");
       pc.addContent(xAutho, ContentColumns.MAIN);
+
+      DynamicMessageControl xMsgAutho = new DynamicMessageControl(getWorkspace(), "xMsgAutho");
+      pc.addContent(xMsgAutho, ContentColumns.MAIN);
       
       return pc;
    }
@@ -73,6 +81,7 @@ public class SecurityInfoPage extends Page
          {
             // Obtiene el agente de autenticación
             Authentication authent = AuthenticationFactory.getInstance(getWorkspace());
+            
             lst = new ArrayList<String>();
             lst.add("Classe: //" + authent.getClass().getName() + "//");
             for (Entry<String, String> entry : authent.getParameters().entrySet())
@@ -85,9 +94,23 @@ public class SecurityInfoPage extends Page
             xAuthent.appendHeadder(Icon.render(Icon.ICON_IMAGE_COG) + " Agent d'autenticació", 4).
                      appendParagraph("La següent informació fa referència a l'agent d'autenticació configurat actualment:").
                      appendUnorderedList(lst, "alt");
-            
+         }
+      }
+      catch (Exception ex)
+      {
+         DynamicMessageControl xMsgAuthent = (DynamicMessageControl) pc.getControl("xMsgAuthent");
+         xMsgAuthent.setMessage(ex.getMessage());
+         xMsgAuthent.setType(MessageTypes.Error);
+         xMsgAuthent.setVisible(true);
+      }
+      
+      try
+      {
+         if (getWorkspace().isValidUserSession())
+         {
             // Obtiene el agente de autenticación
             Authorization autho = AuthorizationFactory.getInstance(getWorkspace());
+            
             lst = new ArrayList<String>();
             lst.add("Classe: //" + autho.getClass().getName() + "//");
             for (Entry<String, String> entry : autho.getParameters().entrySet())
@@ -104,7 +127,10 @@ public class SecurityInfoPage extends Page
       }
       catch (Exception ex)
       {
-         pc.showException(getWorkspace(), ex);
+         DynamicMessageControl xMsgAutho = (DynamicMessageControl) pc.getControl("xMsgAutho");
+         xMsgAutho.setMessage(ex.getMessage());
+         xMsgAutho.setType(MessageTypes.Error);
+         xMsgAutho.setVisible(true);
       }
       
       return pc;

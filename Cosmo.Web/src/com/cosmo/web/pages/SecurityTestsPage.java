@@ -25,7 +25,7 @@ import com.cosmo.ui.controls.Icon;
 import com.cosmo.ui.controls.XhtmlControl;
 
 /**
- * Página de prova.
+ * Página ejecuta todos los tests de seguridad para comprobar el correcto funcionamiento del módulo de seguridad de Cosmo.
  * 
  * @author Gerard Llort
  */
