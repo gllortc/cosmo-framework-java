@@ -1,5 +1,8 @@
 package com.cosmo.ui.controls;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import com.cosmo.Workspace;
 import com.cosmo.security.NotAuthorizedException;
 import com.cosmo.security.auth.AuthenticationException;
@@ -93,20 +96,17 @@ public class ErrorMessageControl extends Control
          title = "Error de servidor";
          icon = " icon-remove-circle";
       }
-      
+
       // Determina la traza del error
-      if (this.getException().getStackTrace().length > 0)
-      {
-         trace = this.getException().getStackTrace().toString();
-      }
-      else
-      {
-         trace = "";
-      }
-      
+      StringWriter writer = new StringWriter();
+      PrintWriter printWriter = new PrintWriter(writer);
+      exception.printStackTrace(printWriter);
+      printWriter.flush();
+      trace = writer.toString();
+
       // Obtiene la plantilla y la parte del control
       ctrl = getWorkspace().getTemplate().getControl(ErrorMessageControl.CONTROL_ID);
-      
+
       // Obtiene el cuerpo del mensaje
       xhtml = ctrl.getElement(CPART_BODY);
       xhtml = Control.replaceTag(xhtml, TAG_TITLE, title);
