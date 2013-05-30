@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import com.cosmo.Workspace;
+import com.cosmo.security.annotations.LoginGatewayAgent;
 import com.cosmo.structures.PluginProperties;
 import com.cosmo.util.StringUtils;
 
@@ -54,7 +55,7 @@ public abstract class AuthenticationFactory
     */
    public static boolean isLoginGatewayAgent(Object agent)
    {
-      return (agent instanceof LoginGatewayAgent);
+      return (agent.getClass().isAnnotationPresent(LoginGatewayAgent.class));
    }
 
    

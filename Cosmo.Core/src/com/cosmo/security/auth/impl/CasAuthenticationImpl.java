@@ -2,8 +2,8 @@ package com.cosmo.security.auth.impl;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.HashMap;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilder;
@@ -24,9 +24,9 @@ import com.cosmo.Workspace;
 import com.cosmo.net.HttpRequestUtils;
 import com.cosmo.security.User;
 import com.cosmo.security.UserNotFoundException;
+import com.cosmo.security.annotations.LoginGatewayAgent;
 import com.cosmo.security.auth.Authentication;
 import com.cosmo.security.auth.AuthenticationException;
-import com.cosmo.security.auth.LoginGatewayAgent;
 import com.cosmo.structures.PluginProperties;
 import com.cosmo.util.StringUtils;
 import com.cosmo.util.URL;
@@ -37,7 +37,8 @@ import com.cosmo.util.URL;
  * @version 1.0.0
  * @author Gerard Llort
  */
-public class CasAuthenticationImpl implements Authentication, LoginGatewayAgent
+@LoginGatewayAgent
+public class CasAuthenticationImpl implements Authentication
 {
    // Parámetros URL
    private static String URL_PARAM_TICKET = "ticket";

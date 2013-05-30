@@ -7,6 +7,8 @@ import java.lang.annotation.Target;
 
 /**
  * Anotación que sirve para indicar los roles requeridos para ejecutar la página.
+ * 
+ * @author Gerard Llort
  */
 @Retention( value = RetentionPolicy.RUNTIME )
 @Target( value = ElementType.TYPE )

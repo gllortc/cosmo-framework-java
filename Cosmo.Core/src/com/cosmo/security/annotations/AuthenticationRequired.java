@@ -7,6 +7,8 @@ import java.lang.annotation.Target;
 
 /**
  * Anotación que sirve para indicar a las páginas que se precisa ser usuario autenticado.
+ * 
+ * @author Gerard Llort
  */
 @Retention( value = RetentionPolicy.RUNTIME )
 @Target( value = ElementType.TYPE )
