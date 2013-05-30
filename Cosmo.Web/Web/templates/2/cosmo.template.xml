@@ -282,13 +282,13 @@
          <pcontrol id="CosmoUiWdgtLogin">
             <celement id="log-in">
 &lt;ul class="button-bar" style="padding-bottom:10px;width:100%;"&gt;
-   &lt;li class="first" style="background:none;width:65%;"&gt;&lt;a href&gt;&lt;i class="icon-user"&gt;&lt;/i&gt; Convidat&lt;/a&gt;&lt;/li&gt;
+   &lt;li class="first" style="background:none;background-color:#FFD5D5;width:65%;"&gt;&lt;a href&gt;&lt;i class="icon-lock"&gt;&lt;/i&gt; Convidat&lt;/a&gt;&lt;/li&gt;
    &lt;li class="last" style="width:35%;"&gt;&lt;a href="[@HREF]"&gt;Login&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
             </celement>
             <celement id="log-out">
 &lt;ul class="button-bar" style="padding-bottom:10px;width:100%;"&gt;
-   &lt;li class="first" style="background:none;width:65%;"&gt;&lt;a href&gt;&lt;i class="icon-user"&gt;&lt;/i&gt; [@USER]&lt;/a&gt;&lt;/li&gt;
+   &lt;li class="first" style="background:none;background-color:#C6FFAA;width:65%;"&gt;&lt;a href&gt;&lt;i class="icon-user"&gt;&lt;/i&gt; [@USER]&lt;/a&gt;&lt;/li&gt;
    &lt;li class="last" style="width:35%;"&gt;&lt;a href="[@HREF]"&gt;Logout&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
             </celement>
