@@ -21,9 +21,11 @@ import com.cosmo.structures.PluginProperties;
 import com.cosmo.util.CryptoUtils;
 
 /**
- * Proveedor de seguridad nativo de Cosmo.<br />
- * Este proveedor requiere conexión a BBDD y tener las tablas de usuarios de Cosmo.
+ * Implementa el proveedor de autenticación nativo de Cosmo (versión para JDBC/PostgreSQL).
+ * <br /><br />
+ * Esta implementación incorpora adicionalmente la API de administración de autenticación RDBMS.
  * 
+ * @version 1.0.0
  * @author Gerard Llort
  */
 public class PostgreSqlAuthenticationImpl implements Authentication

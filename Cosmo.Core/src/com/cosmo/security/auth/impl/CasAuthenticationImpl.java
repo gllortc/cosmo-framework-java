@@ -31,9 +31,9 @@ import com.cosmo.util.StringUtils;
 import com.cosmo.util.URL;
 
 /**
- * Proveedor de seguridad nativo de Cosmo.<br />
- * Este proveedor requiere conexión a BBDD y tener las tablas de usuarios de Cosmo.
+ * Implementación del agente de autenticación para CAS 2.0.
  * 
+ * @version 1.0.0
  * @author Gerard Llort
  */
 public class CasAuthenticationImpl implements Authentication

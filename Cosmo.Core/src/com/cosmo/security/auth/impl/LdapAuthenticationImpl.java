@@ -24,7 +24,7 @@ import com.cosmo.security.auth.AuthenticationException;
 import com.cosmo.structures.PluginProperties;
 
 /**
- * Proveedor de autenticación LDAP para Cosmo.
+ * Implementación del agente de autenticación para LDAP.
  * <br /><br />
  * Se puede provar con el servicio siguiente:
  * <ul>
@@ -32,6 +32,7 @@ import com.cosmo.structures.PluginProperties;
  * <li><a href="http://blog.stuartlewis.com/2008/08/18/test-ldap-service-upgraded-now-with-branches/">http://blog.stuartlewis.com/2008/08/18/test-ldap-service-upgraded-now-with-branches/</a></li>
  * </ul>
  * 
+ * @version 1.0.0
  * @author Gerard Llort
  */
 public class LdapAuthenticationImpl implements Authentication
@@ -90,8 +91,9 @@ public class LdapAuthenticationImpl implements Authentication
    /**
     * Verifica las credenciales de un usuario.
     * 
-    * @param login Una cadena que contiene el login del usuario.
-    * @param password Contraseña (sin encriptar) del usuario.
+    * @param login      Una cadena que contiene el login del usuario.
+    * @param password   Contraseña (sin encriptar) del usuario.
+    * 
     * @return Una instancia de {@link User} que representa el usuario al que corresponden las credenciales proporcionadas.
     * 
     * @throws UserNotFoundException
@@ -171,8 +173,8 @@ public class LdapAuthenticationImpl implements Authentication
    /**
     * Autentica un usuario y obtiene sus propiedades.
     * 
-    * @param login Una cadena que contiene el login del usuario.
-    * @param password Una cadena que contiene la contraseña del usuario.
+    * @param login      Una cadena que contiene el login del usuario.
+    * @param password   Una cadena que contiene la contraseña del usuario.
     * 
     * @return Una instancia de {@link User} que contiene la información del usuario autenticado o {@code null} si la autenticación a fallado.
     * 

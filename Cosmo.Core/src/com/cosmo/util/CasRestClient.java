@@ -1,4 +1,4 @@
-package com.cosmo.security.auth.impl;
+package com.cosmo.util;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
