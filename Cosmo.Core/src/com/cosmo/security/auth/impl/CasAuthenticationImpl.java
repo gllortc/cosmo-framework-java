@@ -148,14 +148,6 @@ public class CasAuthenticationImpl implements Authentication
    };
    
    /**
-    * Indica si el servicio usa un gateway para la autenticación de usuarios.
-    */
-   /*public boolean isLoginGatewayRequired()
-   {
-      return true;
-   }*/
-   
-   /**
     * Indica si una respuesta corresponde al retorno de la acción de login.
     * 
     * @param request Una instancia de {@link HttpServletRequest} que cotniene el contexto de la llamada.

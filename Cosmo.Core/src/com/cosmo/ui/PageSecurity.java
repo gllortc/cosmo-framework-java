@@ -71,29 +71,8 @@ public class PageSecurity
       }
       
       // Si es la página de login termina la comprobación
-      if (isAuthenticationForm(page))
+      if (isAuthenticationForm(page) && !AuthenticationFactory.isLoginGatewayAgent(auth))
       {
-         /*
-         // Comprueba si la llamada es una respuesta de autenticación (retorno de login)
-         if (auth.isLoginGatewayResponse(request))
-         {
-            // Obtiene el usuario y genera una nueva sesión
-            User user = auth.getLoginGatewayUser(request);
-            
-            if (user == null)
-            {
-               throw new AuthenticationException("El proveedor de seguridad no pudo obtener las credenciales del usuario autenticado. La autenticación ha fallado.");
-            }
-            
-            workspace.createSession(user);
-         }
-         else
-         {
-            // Redirige hacia el mecanismo de login
-            sendLoginGatewayRedirect(workspace, auth, response);
-         }
-         */
-
          return;
       }
       
