@@ -26,6 +26,7 @@ import com.cosmo.security.User;
 import com.cosmo.security.UserNotFoundException;
 import com.cosmo.security.auth.Authentication;
 import com.cosmo.security.auth.AuthenticationException;
+import com.cosmo.security.auth.LoginGatewayAgent;
 import com.cosmo.structures.PluginProperties;
 import com.cosmo.util.StringUtils;
 import com.cosmo.util.URL;
@@ -36,7 +37,7 @@ import com.cosmo.util.URL;
  * @version 1.0.0
  * @author Gerard Llort
  */
-public class CasAuthenticationImpl implements Authentication
+public class CasAuthenticationImpl implements Authentication, LoginGatewayAgent
 {
    // Parámetros URL
    private static String URL_PARAM_TICKET = "ticket";
@@ -148,10 +149,10 @@ public class CasAuthenticationImpl implements Authentication
    /**
     * Indica si el servicio usa un gateway para la autenticación de usuarios.
     */
-   public boolean isLoginGatewayRequired()
+   /*public boolean isLoginGatewayRequired()
    {
       return true;
-   }
+   }*/
    
    /**
     * Indica si una respuesta corresponde al retorno de la acción de login.

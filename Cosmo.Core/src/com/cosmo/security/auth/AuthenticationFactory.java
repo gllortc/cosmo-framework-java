@@ -44,6 +44,18 @@ public abstract class AuthenticationFactory
 
       return instance;
    }
+   
+   /**
+    * Indica si una determinada instancia de un objeto corresponde a un agente con el mecanismo <em>Login Gateway</em>.
+    * 
+    * @param agent Instancia a comprobar.
+    * 
+    * @return {@code true} si la instancia pertenece a un agente que usa <em>Login Gateway</em> o {@code false} en cualquier otro caso. 
+    */
+   public static boolean isLoginGatewayAgent(Object agent)
+   {
+      return (agent instanceof LoginGatewayAgent);
+   }
 
    
    //==============================================

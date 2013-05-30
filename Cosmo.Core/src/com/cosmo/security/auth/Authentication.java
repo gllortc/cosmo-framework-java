@@ -61,7 +61,7 @@ public interface Authentication
    /**
     * Indica si el servicio usa un gateway para la autenticación de usuarios.
     */
-   public boolean isLoginGatewayRequired();
+   // public boolean isLoginGatewayRequired();
    
    /**
     * Devuelve la URL usada para la autenticación de usuarios.

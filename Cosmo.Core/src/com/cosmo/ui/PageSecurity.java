@@ -13,8 +13,8 @@ import com.cosmo.security.User;
 import com.cosmo.security.UserNotFoundException;
 import com.cosmo.security.annotations.ActivitiesAllowed;
 import com.cosmo.security.annotations.AuthenticationForm;
-import com.cosmo.security.annotations.RolesAllowed;
 import com.cosmo.security.annotations.AuthenticationRequired;
+import com.cosmo.security.annotations.RolesAllowed;
 import com.cosmo.security.auth.Authentication;
 import com.cosmo.security.auth.AuthenticationException;
 import com.cosmo.security.auth.AuthenticationFactory;
@@ -100,7 +100,7 @@ public class PageSecurity
       // Comprueba si existe autenticación (obligatorio)
       if (!workspace.isValidUserSession())
       {
-         if (auth.isLoginGatewayRequired()) 
+         if (AuthenticationFactory.isLoginGatewayAgent(auth))
          {
             // Comprueba si la llamada es una respuesta de autenticación (retorno de login)
             if (auth.isLoginGatewayResponse(request))
