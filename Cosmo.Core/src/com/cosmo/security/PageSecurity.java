@@ -214,18 +214,19 @@ public class PageSecurity
          }
          
          workspace.createSession(user);
+         
+         if (isAuthenticationForm(page))
+         {
+            // PATCH: Cuando el usuario se autentica mediante <em>Login Widget</em>, para evitar que se muestre el formualrio de login 
+            //        en el modo <em>Login Gateway</em> (dicho widget redirige a la página de login de la aplicación) se redirige a la
+            //        página inicial.
+            response.sendRedirect(workspace.getUrl());
+         }
       }
-      else if (isSessionRequired(page))
+      else if (isSessionRequired(page) || isAuthenticationForm(page))
       {
          // Redirige hacia el mecanismo de login
          sendLoginGatewayRedirect(workspace, auth, response);
-      }
-      else if (isAuthenticationForm(page))
-      {
-         // PATCH: Cuando el usuario se autentica mediante <em>Login Widget</em>, para evitar que se muestre el formualrio de login 
-         //        en el modo <em>Login Gateway</em> (dicho widget redirige a la página de login de la aplicación) se redirige a la
-         //        página inicial.
-         response.sendRedirect(workspace.getUrl());
       }
    }
    
