@@ -177,13 +177,18 @@ public class PageSecurity
    }
    
    /**
-    * Comprueba la autenticación (no autorización) para una determinada página usando el mecanismo de <em>Login Gateway</em>.
-    * El guión del chequeo es el siguiente:
+    * <p>Comprueba la autenticación (no autorización) para una determinada página usando el mecanismo de <em>Login Gateway</em>.
+    * El guión del chequeo es el siguiente:</p>
+    * 
     * <ul>
     * <li>Si el usuario tiene sesión válida, termina.</li>
     * <li>Si es una respuesta del servicio de autenticación externo, recupera el usuario, genera la nueva sesión y termina.</li>
     * <li>Si la página requiere sesión de usuario, redirige al mecanismo de login externo.</li>
     * </ul>
+    * 
+    * <p>PATCH: Cuando el usuario se autentica mediante <em>Login Widget</em>, para evitar que se muestre el formualrio de login 
+    * en el modo <em>Login Gateway</em> (dicho widget redirige a la página de login de la aplicación) se redirige a la
+    * página inicial.</p>
     * 
     * @throws AuthenticationException 
     * @throws AuthorizationException 
@@ -214,6 +219,13 @@ public class PageSecurity
       {
          // Redirige hacia el mecanismo de login
          sendLoginGatewayRedirect(workspace, auth, response);
+      }
+      else if (isAuthenticationForm(page))
+      {
+         // PATCH: Cuando el usuario se autentica mediante <em>Login Widget</em>, para evitar que se muestre el formualrio de login 
+         //        en el modo <em>Login Gateway</em> (dicho widget redirige a la página de login de la aplicación) se redirige a la
+         //        página inicial.
+         response.sendRedirect(workspace.getUrl());
       }
    }
    
@@ -268,7 +280,7 @@ public class PageSecurity
    }
    
    /**
-    * Indica si la página contiene un formulario de autenticación.
+    * Indica si la página implementa el formulario de autenticación (<em>login</em>).
     * 
     *  @param page Una instancia de {@link Page} que representa la página a comprobar.
     *  

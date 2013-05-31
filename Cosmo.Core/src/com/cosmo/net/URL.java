@@ -1,14 +1,17 @@
 package com.cosmo.net;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import com.cosmo.Cosmo;
 
 /**
- * Representa una URL con parámetros.
- * <br /><br />
- * Esta clase permite construir URLs con parámetros estrayendo la problemática de la codificación de los parámetros.
+ * <p>Representa una URL con parámetros.</p>
+ * 
+ * <p>Esta clase permite construir URLs con parámetros estrayendo la problemática de la codificación de los parámetros.</p>
+ * 
+ * <p>{@code http://www.mycompany.com/?para1=aaa&param2=bbb#myanchor}</p>
  * 
  * @author Gerard Llort
  */
@@ -16,8 +19,10 @@ public class URL
 {
    private static final String TOKEN_PARAM_INIT = "?";
    private static final String TOKEN_PARAM_SEPARATOR = "&";
+   private static final String TOKEN_ANCHOR = "#";
    
    private String url;
+   private String anchor;
    private ArrayList<UrlParameter> params;
    
    //==============================================
@@ -32,6 +37,7 @@ public class URL
    public URL(String url)
    {
       this.url = url;
+      this.anchor = "";
       this.params = new ArrayList<URL.UrlParameter>();
    }
 
@@ -54,6 +60,24 @@ public class URL
    {
       this.url = url;
    }
+   
+   /**
+    * Devuelve el nombre del enlace interno (<em>anchor</em>).
+    */
+   public String getAnchor() 
+   {
+      return anchor;
+   }
+
+   /**
+    * Establece el nombre del enlace interno (<em>anchor</em>).
+    * 
+    * @param anchor Una cadena que representa el nombre del enlace (<em>anchor</em>).
+    */
+   public void setAnchor(String anchor)
+   {
+      this.anchor = anchor;
+   }   
    
    //==============================================
    // Methods
@@ -200,6 +224,20 @@ public class URL
             url += (first ? "" : URL.TOKEN_PARAM_SEPARATOR) + param.name + "=" + encodedValue;
             first = false;
          }
+      }
+      
+      if (!this.anchor.isEmpty())
+      {
+         try 
+         {
+            encodedValue = URL.TOKEN_ANCHOR + URLEncoder.encode(anchor, enc);
+         } 
+         catch (UnsupportedEncodingException e) 
+         {
+            encodedValue =  anchor;
+         }
+         
+         url += URL.TOKEN_ANCHOR + encodedValue;
       }
       
       return url;
