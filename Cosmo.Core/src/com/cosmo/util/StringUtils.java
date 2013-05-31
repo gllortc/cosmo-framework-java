@@ -8,6 +8,11 @@ package com.cosmo.util;
 public class StringUtils 
 {
    /**
+    * Separador de línea específico del SO, por ejemplo {@code "\n"} o {@code "\r\n"}.
+    */
+   public static final String LINE_SEPARATOR = System.getProperty("line.separator");
+   
+   /**
 	 * Permet esbrinar si una cadena está vacía o nula. 
 	 * 
 	 * @param text Cadena de carácteres a evaluar.

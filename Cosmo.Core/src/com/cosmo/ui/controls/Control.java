@@ -198,6 +198,19 @@ public abstract class Control
       String cTagBegin = Control.getConditionalTagBegin(tag);
       String cTagEnd = Control.getConditionalTagEnd(tag);
 
+      if (xhtml == null)
+      {
+         return "";
+      }
+      if (tag == null)
+      {
+         return xhtml;
+      }
+      if (replaceWith == null)
+      {
+         replaceWith = "";
+      }
+      
       StringBuilder sb = new StringBuilder(xhtml);
       
       // Existe condicional y hay contenido

@@ -1,4 +1,4 @@
-package com.cosmo.util;
+package com.cosmo.net;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -7,6 +7,8 @@ import com.cosmo.Cosmo;
 
 /**
  * Representa una URL con parámetros.
+ * <br /><br />
+ * Esta clase permite construir URLs con parámetros estrayendo la problemática de la codificación de los parámetros.
  * 
  * @author Gerard Llort
  */
@@ -93,6 +95,7 @@ public class URL
     * Obtiene el valor de un parámetro de tipo {@link String}.
     * 
     * @param name Nombre del parámetro.
+    * 
     * @return Una cadena que corresponde al valor asociado al parámetro especificado.
     */
    public String getParameterString(String name)
@@ -105,6 +108,7 @@ public class URL
     * 
     * @param name Nombre del parámetro.
     * @param defaultValue En caso de no encontrar el parámetro, valor por defecto que se devolverá.
+    * 
     * @return Una cadena que corresponde al valor asociado al parámetro especificado.
     */
    public String getParameterString(String name, String defaultValue)
@@ -126,6 +130,7 @@ public class URL
     * Obtiene el valor de un parámetro de tipo {@link Integer}.
     * 
     * @param name Nombre del parámetro.
+    * 
     * @return Una valor entero que corresponde al valor asociado al parámetro especificado.
     */
    public Integer getParameterInt(String name)
@@ -138,6 +143,7 @@ public class URL
     * 
     * @param name Nombre del parámetro.
     * @param defaultValue En caso de no encontrar el parámetro, valor por defecto que se devolverá.
+    * 
     * @return Una valor entero que corresponde al valor asociado al parámetro especificado.
     */
    public Integer getParameterInt(String name, Integer defaultValue)
@@ -166,9 +172,10 @@ public class URL
     * Convierte la URL en una cadena de texto para usar.
     * 
     * @param enc Tipo de codificación a usar para la codificación. Puede usar una de las constantes declaradas en {@link Cosmo} {@code CHARSET_XXXX}.
-    * @return Devuelve la URL válida y lista para usar en WWW.
+    * 
+    * @return Devuelve la dirección URL válida.
     */
-   public String toString(String enc) 
+   public String build(String enc) 
    {
       boolean first = true;
       String url = "";
@@ -203,10 +210,20 @@ public class URL
     * 
     * @return Devuelve la URL válida y lista para usar en WWW.
     */
+   public String build()
+   {
+      return build(Cosmo.CHARSET_UTF_8);
+   }
+   
+   /**
+    * Convierte la URL en una cadena de texto para usar.
+    * 
+    * @return Devuelve la URL válida y lista para usar en WWW.
+    */
    @Override
    public String toString()
    {
-      return toString(Cosmo.CHARSET_UTF_8);
+      return build(Cosmo.CHARSET_UTF_8);
    }
    
    //==============================================

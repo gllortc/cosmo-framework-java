@@ -22,6 +22,7 @@ import org.xml.sax.SAXException;
 
 import com.cosmo.Workspace;
 import com.cosmo.net.HttpRequestUtils;
+import com.cosmo.net.URL;
 import com.cosmo.security.User;
 import com.cosmo.security.UserNotFoundException;
 import com.cosmo.security.annotations.LoginGatewayAgent;
@@ -29,7 +30,6 @@ import com.cosmo.security.auth.Authentication;
 import com.cosmo.security.auth.AuthenticationException;
 import com.cosmo.structures.PluginProperties;
 import com.cosmo.util.StringUtils;
-import com.cosmo.util.URL;
 
 /**
  * Implementación del agente de autenticación para CAS 2.0.

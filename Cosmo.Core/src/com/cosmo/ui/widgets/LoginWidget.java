@@ -1,11 +1,11 @@
 package com.cosmo.ui.widgets;
 
 import com.cosmo.Workspace;
+import com.cosmo.net.URL;
 import com.cosmo.ui.controls.Control;
 import com.cosmo.ui.templates.Template;
 import com.cosmo.ui.templates.TemplateControl;
 import com.cosmo.ui.templates.TemplateUnavailableException;
-import com.cosmo.util.URL;
 
 /**
  * Un <em>widget</em> que implementa el mecanismo de log-in / log-out.
@@ -77,7 +77,7 @@ public class LoginWidget extends Widget
          
          // Genera el XHTML del widget
          xhtml += ctrl.getElement(WPART_LOGIN);
-         xhtml = Control.replaceTag(xhtml, TAG_HREF, url.toString(getWorkspace().getCharset()));
+         xhtml = Control.replaceTag(xhtml, TAG_HREF, url.build(getWorkspace().getCharset()));
       }
       else
       {
@@ -87,7 +87,7 @@ public class LoginWidget extends Widget
          
          // Genera el XHTML del widget
          xhtml += ctrl.getElement(WPART_LOGOUT);
-         xhtml = Control.replaceTag(xhtml, TAG_HREF, url.toString(getWorkspace().getCharset()));
+         xhtml = Control.replaceTag(xhtml, TAG_HREF, url.build(getWorkspace().getCharset()));
          xhtml = Control.replaceTag(xhtml, TAG_USER, getWorkspace().getUserSession().getCurrentUser().getLogin());
       }
 

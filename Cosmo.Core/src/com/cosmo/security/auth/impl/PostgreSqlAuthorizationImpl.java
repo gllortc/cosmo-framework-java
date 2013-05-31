@@ -401,23 +401,23 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       String sql;
       DataSource ds;
       DataConnection conn = null;
-      
       ArrayList<Permission> permissions = new ArrayList<Permission>();
-      
+
       try
       {
          // Obtiene la conexión
          ds = this.workspace.getProperties().getServerDataSource();
          conn = new DataConnection(ds);
          conn.connect();
-         
+
          // Obtiene la lista de actividades del usuario
          sql = "SELECT   " + TABLE_ACTIVITIES + ".*, " + TABLE_ROLE_ACTIVITIES + ".isgranted " +
-               "FROM     " + TABLE_USER_ROLES + " Inner Join " + TABLE_USER_ROLES + "      On (" + TABLE_USER_ROLES + ".roleid = " + TABLE_USER_ROLES + ".roleid) " +
-               "                                  Inner Join " + TABLE_ROLE_ACTIVITIES + " On (" + TABLE_USER_ROLES + ".roleid = " + TABLE_ROLE_ACTIVITIES + ".roleid) " +
+               "FROM     " + TABLE_USER_ROLES + " Inner Join " + TABLE_ROLES + "           On (" + TABLE_ROLES + ".roleid = " + TABLE_USER_ROLES + ".roleid) " +
+               "                                  Inner Join " + TABLE_ROLE_ACTIVITIES + " On (" + TABLE_ROLES + ".roleid = " + TABLE_ROLE_ACTIVITIES + ".roleid) " +
                "                                  Inner Join " + TABLE_ACTIVITIES + "      On (" + TABLE_ROLE_ACTIVITIES + ".actid = " + TABLE_ACTIVITIES + ".actid) " +
                "WHERE    " + TABLE_USER_ROLES + ".usrlogin = '" + DataConnection.sqlFormatTextValue(login) + "' " +
                "ORDER BY " + TABLE_ROLE_ACTIVITIES + ".actid";
+         
          ResultSet rs = conn.executeSql(sql);
          while (rs.next())
          {
@@ -428,10 +428,10 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       {
          throw new AuthorizationException(ex.getMessage(), ex);
       }
-      
+
       return permissions;
    }
-   
+
    /**
     * Agrega una nueva actividad.
     * 
@@ -444,14 +444,14 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       String sql;
       DataSource ds;
       DataConnection conn = null;
-      
+
       try
       {
          // Obtiene la conexión
          ds = this.workspace.getProperties().getServerDataSource();
          conn = new DataConnection(ds);
          conn.connect();
-         
+
          // Agrega la nueva actividad
          sql = "INSERT INTO " + TABLE_ACTIVITIES + " (actid, actdescription, actdefaultgrant, actenabled) " +
                "VALUES ('" + DataConnection.sqlFormatTextValue(activity.getId()) + "', " +
@@ -469,7 +469,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
          conn.disconnect();
       }
    }
-   
+
    /**
     * Elimina una actividad.
     * 
@@ -482,19 +482,19 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       String sql;
       DataSource ds;
       DataConnection conn = null;
-      
+
       try
       {
          // Obtiene la conexión
          ds = this.workspace.getProperties().getServerDataSource();
          conn = new DataConnection(ds);
          conn.connect();
-         
+
          // Elimina las asociaciones con roles
          sql = "DELETE FROM " + TABLE_ROLE_ACTIVITIES + " " +
                "WHERE actid='" + DataConnection.sqlFormatTextValue(activityId) + "'";
          conn.execute(sql);
-         
+
          // Elimina el rol
          sql = "DELETE FROM " + TABLE_ACTIVITIES + " " +
                "WHERE actid='" + DataConnection.sqlFormatTextValue(activityId) + "'";
@@ -509,7 +509,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
          conn.disconnect();
       }
    }
-   
+
    /**
     * Actualiza los datos de un rol.<br />
     * La modificación del identificador no está permitido.
