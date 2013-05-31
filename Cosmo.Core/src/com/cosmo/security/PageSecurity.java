@@ -1,4 +1,4 @@
-package com.cosmo.ui;
+package com.cosmo.security;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,9 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
 import com.cosmo.net.URL;
-import com.cosmo.security.NotAuthorizedException;
-import com.cosmo.security.User;
-import com.cosmo.security.UserNotFoundException;
 import com.cosmo.security.annotations.ActivitiesAllowed;
 import com.cosmo.security.annotations.AuthenticationForm;
 import com.cosmo.security.annotations.AuthenticationRequired;
@@ -20,6 +17,7 @@ import com.cosmo.security.auth.Authentication;
 import com.cosmo.security.auth.AuthenticationException;
 import com.cosmo.security.auth.AuthenticationFactory;
 import com.cosmo.security.auth.AuthorizationException;
+import com.cosmo.ui.Page;
 
 /**
  * Implementa los mecanismos de seguridad de las páginas de Cosmo.

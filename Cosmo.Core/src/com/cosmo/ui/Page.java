@@ -13,6 +13,7 @@ import com.cosmo.Workspace;
 import com.cosmo.WorkspaceFactory;
 import com.cosmo.WorkspaceLoadException;
 import com.cosmo.security.NotAuthorizedException;
+import com.cosmo.security.PageSecurity;
 import com.cosmo.security.UserNotFoundException;
 import com.cosmo.security.UserSession;
 import com.cosmo.security.auth.AuthenticationException;
