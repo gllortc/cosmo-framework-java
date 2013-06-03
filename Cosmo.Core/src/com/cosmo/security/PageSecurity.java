@@ -213,7 +213,7 @@ public class PageSecurity
             throw new AuthenticationException("El proveedor de seguridad no pudo obtener las credenciales del usuario autenticado. La autenticación ha fallado.");
          }
          
-         workspace.createSession(user);
+         workspace.createUserSession(user);
          
          if (isAuthenticationForm(page))
          {

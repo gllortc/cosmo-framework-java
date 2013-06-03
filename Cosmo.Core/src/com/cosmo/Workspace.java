@@ -169,6 +169,16 @@ public class Workspace
    }
    
    /**
+    * Devuelve la URL pedida.
+    * 
+    * @return Una cadena con la URL correspondiente a la llamada.
+    */
+   public String getRequestedUrl()
+   {
+      return this.requestedUrl;
+   }
+   
+   /**
     * Indica si existe una sesión de usuario Cosmo válida iniciada.
     * 
     * @return {@code true} si existe una sesión de usuario válida o {@code false} en cualquier otro caso.
@@ -200,16 +210,7 @@ public class Workspace
    {
       return this.usrSession;
    }   
-   
-   /**
-    * Devuelve la URL pedida.
-    * 
-    * @return Una cadena con la URL correspondiente a la llamada.
-    */
-   public String getRequestedUrl()
-   {
-      return this.requestedUrl;
-   }
+
    
    //==============================================
    // Methods
@@ -224,7 +225,7 @@ public class Workspace
     * @throws AuthenticationException 
     * @throws AuthorizationException 
     */
-   public void createSession(User user) throws UserNotFoundException, AuthenticationException, AuthorizationException
+   public void createUserSession(User user) throws UserNotFoundException, AuthenticationException, AuthorizationException
    {
       this.usrSession = new UserSession(this, user);
    }
@@ -239,7 +240,7 @@ public class Workspace
     * @throws AuthenticationException 
     * @throws AuthorizationException 
     */
-   public void createSession(String login, String password) throws UserNotFoundException, AuthenticationException, AuthorizationException
+   public void createUserSession(String login, String password) throws UserNotFoundException, AuthenticationException, AuthorizationException
    {
       this.usrSession = new UserSession(this, login, password);
    }
@@ -247,7 +248,7 @@ public class Workspace
    /**
     * Cierra la sesión de usuario abierta.
     */
-   public void closeSession()
+   public void closeUserSession()
    {
       this.usrSession.destroy();
       this.usrSession = null;
