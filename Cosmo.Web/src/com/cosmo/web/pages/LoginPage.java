@@ -76,7 +76,7 @@ public class LoginPage extends Page
    {
       try 
       {
-         getWorkspace().createSession(HttpRequestUtils.getValue(request, LoginPage.FIELD_LOGIN), 
+         getWorkspace().createUserSession(HttpRequestUtils.getValue(request, LoginPage.FIELD_LOGIN), 
                                       HttpRequestUtils.getValue(request, LoginPage.FIELD_PASSWORD));
 
          response.sendRedirect(HttpRequestUtils.getValue(request, Cosmo.URL_PARAM_TOURL));

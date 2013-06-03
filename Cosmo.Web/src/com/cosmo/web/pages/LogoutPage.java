@@ -24,7 +24,7 @@ public class LogoutPage extends Page
       if (getWorkspace().isValidUserSession())
       {
          // Realiza la acción de logout
-         getWorkspace().closeSession();
+         getWorkspace().closeUserSession();
       }
       
       try 
