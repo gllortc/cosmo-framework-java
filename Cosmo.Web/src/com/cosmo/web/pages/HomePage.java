@@ -60,17 +60,6 @@ public class HomePage extends Page
             appendParagraph("Les pàgines que contenen la icona " + Icon.render(Icon.ICON_IMAGE_LOCK) + " indiquen que només són accessibles per usuaris autenticats i opcionalment amb un rol o permis determinat.");
       pc.addContent(xhtml, PageContext.ContentColumns.MAIN);
       
-      ul = new ArrayList<String>();
-      ul.add("[BUG] S'ha de refer el model de dades en controls amb dades de sessió (formularis, grids). Això provoca que no es mostrin algunes dades en controls quan hi ha dos o més usuaris concurrents.");
-      ul.add("[TASK] S'ha de refer el model de tractament de formularis ja que precisen encara de massa codi Java per controlar els modes (crear/editar/eliminar).");
-      ul.add("[TASK] S'ha de crear una segona plantilla basada en Bootstrap (Twitter) per poder avaluar les funcionalitats de presentació de forma correcte.");
-      
-      XhtmlControl xBugs = new XhtmlControl(getWorkspace());
-      xBugs.appendHeadder(Icon.render(Icon.ICON_IMAGE_TAG) + " Situació actual de Cosmo", 4).
-            appendParagraph("Tingueu en compte que '''Cosmo''' és un framework encara en construcció i té actualment bastantes mancances i BUGs no resolts:").
-            appendUnorderedList(ul);
-      pc.addContent(xBugs, PageContext.ContentColumns.MAIN);
-      
       return pc;
    }
    
