@@ -587,8 +587,8 @@ public class PostgreSqlAuthenticationImpl implements Authentication
                 "         usrname    As Nom, " +
                 "         usrmail    As Mail, " +
                 "         usrcreated As Creat " +
-                "FROM     cosmo_users " +
-                "ORDER BY cosmo_users";
+                "FROM " + TABLE_NAME + " " +
+                "ORDER BY usrlogin Asc";
          
          ds = this.workspace.getProperties().getServerDataSource();
          conn = new DataConnection(ds);
