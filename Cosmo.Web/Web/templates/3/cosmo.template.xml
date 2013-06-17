@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template cdt-ver="1.0">
+   <name>Bootstrap</name>
+   <author>Gerard Llort</author>
+   <version>1.0</version>
+   <copyright>InforGEST</copyright>
+   <first-cssclass>first</first-cssclass>
+   <head>
+      <hscript type="text/javascript" src="http://code.jquery.com/jquery.js" />
+      <hscript type="text/javascript" src="js/bootstrap.min.js" />
+      <hlink rel="icon" type="image/x-icon" href="favicon.ico" />
+      <hlink rel="stylesheet" type="text/css" href="css/bootstrap.min.css" media="all" />
+      <hlink rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css" media="all" />
+      <hlink rel="stylesheet" type="text/css" href="css/docs.css" media="all" />
+   </head>
+   <dom>
+
+      <!-- Estructura de las páginas -->
+      <page-layouts>
+      
+         <layout id="home-page">
+&lt;div class="grid"&gt;
+  &lt;h3 style="color:#FFFFFF;"&gt;[@SITE.NAME]&lt;/h3&gt;
+  &lt;div id="wrap"&gt;
+    &lt;div id="banner"&gt;&amp;nbsp;&lt;/div&gt;
+    &lt;a name="top"&gt;&lt;/a&gt;
+    &lt;div id="container"&gt;
+      &lt;div class="top"&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;div id="barleft"&gt;
+[@MENU]
+[@BANNERS-LEFT]
+      &lt;/div&gt; 
+      &lt;div id="content" style="width: 630px; margin-right: 10px; margin-bottom: 0;"&gt;
+[@NAVBAR]
+        &lt;div id="barright"&gt;
+[@LOGIN]
+[@CONTENT-RIGHT]
+[@BANNERS-RIGHT]
+        &lt;/div&gt;
+        &lt;div id="pageContents" class="page-cols"&gt;
+[@BANNERS-CENTER-TOP]
+[@CONTENT]
+[@BANNERS-CENTER-BOTTOM]
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div id="footer"&gt;[@FOOTER]&lt;br /&gt;MetaObjects 4.0 powered by &lt;em&gt;Cosmo Framework&lt;/em&gt;&lt;/div&gt;
+      &lt;div class="bottom"&gt;&amp;nbsp;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+         </layout>
+         
+         <layout id="one-col">
+&lt;header class="jumbotron subhead" id="overview"&gt;
+  &lt;div class="container"&gt;
+    &lt;h1&gt;[@SITE.NAME]&lt;/h1&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+&lt;div class="container"&gt;
+   &lt;div class="row"&gt;
+     &lt;div class="span12 bs-docs-sidebar"&gt;
+[@LOGIN]
+[@MENU]
+[@BANNERS-LEFT]
+[@BANNERS-CENTER-TOP]
+[@CONTENT]
+[@BANNERS-CENTER-BOTTOM]
+      &lt;/div&gt;
+   &lt;/div&gt;
+&lt;/div&gt;
+&lt;footer class="footer"&gt;
+   &lt;div class="container"&gt;
+      &lt;p&gt;Designed and built with all the love in the world by &lt;a href="http://twitter.com/mdo" target="_blank"&gt;@mdo&lt;/a&gt; and &lt;a href="http://twitter.com/fat" target="_blank"&gt;@fat&lt;/a&gt;.&lt;/p&gt;
+      &lt;p&gt;Code licensed under &lt;a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank"&gt;Apache License v2.0&lt;/a&gt;, documentation under &lt;a href="http://creativecommons.org/licenses/by/3.0/"&gt;CC BY 3.0&lt;/a&gt;.&lt;/p&gt;
+      &lt;p&gt;&lt;a href="http://glyphicons.com"&gt;Glyphicons Free&lt;/a&gt; licensed under &lt;a href="http://creativecommons.org/licenses/by/3.0/"&gt;CC BY 3.0&lt;/a&gt;.&lt;/p&gt;
+      &lt;ul class="footer-links"&gt;
+         &lt;li&gt;&lt;a href="http://blog.getbootstrap.com"&gt;Blog&lt;/a&gt;&lt;/li&gt;
+         &lt;li class="muted"&gt;&amp;middot;&lt;/li&gt;
+         &lt;li&gt;&lt;a href="https://github.com/twitter/bootstrap/issues?state=open"&gt;Issues&lt;/a&gt;&lt;/li&gt;
+         &lt;li class="muted"&gt;&amp;middot;&lt;/li&gt;
+         &lt;li&gt;&lt;a href="https://github.com/twitter/bootstrap/blob/master/CHANGELOG.md"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+   &lt;/div&gt;
+&lt;/footer&gt;
+         </layout>
+
+         <layout id="two-cols-left">
+&lt;header class="jumbotron subhead" id="overview" style="margin-bottom: 20px;"&gt;
+  &lt;div class="container"&gt;
+    &lt;h1&gt;[@SITE.NAME]&lt;/h1&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+&lt;div class="container"&gt;
+	&lt;div class="row"&gt;
+	  &lt;div class="span3 bs-docs-sidebar"&gt;
+[@LOGIN]
+[@MENU]
+[@BANNERS-LEFT]
+      &lt;/div&gt;
+      &lt;div class="span9"&gt;
+[@BANNERS-CENTER-TOP]
+[@CONTENT]
+[@BANNERS-CENTER-BOTTOM]
+      &lt;/div&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+&lt;footer class="footer"&gt;
+   &lt;div class="container"&gt;
+      &lt;p&gt;Designed and built with all the love in the world by &lt;a href="http://twitter.com/mdo" target="_blank"&gt;@mdo&lt;/a&gt; and &lt;a href="http://twitter.com/fat" target="_blank"&gt;@fat&lt;/a&gt;.&lt;/p&gt;
+      &lt;p&gt;Code licensed under &lt;a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank"&gt;Apache License v2.0&lt;/a&gt;, documentation under &lt;a href="http://creativecommons.org/licenses/by/3.0/"&gt;CC BY 3.0&lt;/a&gt;.&lt;/p&gt;
+      &lt;p&gt;&lt;a href="http://glyphicons.com"&gt;Glyphicons Free&lt;/a&gt; licensed under &lt;a href="http://creativecommons.org/licenses/by/3.0/"&gt;CC BY 3.0&lt;/a&gt;.&lt;/p&gt;
+      &lt;ul class="footer-links"&gt;
+         &lt;li&gt;&lt;a href="http://blog.getbootstrap.com"&gt;Blog&lt;/a&gt;&lt;/li&gt;
+         &lt;li class="muted"&gt;&amp;middot;&lt;/li&gt;
+         &lt;li&gt;&lt;a href="https://github.com/twitter/bootstrap/issues?state=open"&gt;Issues&lt;/a&gt;&lt;/li&gt;
+         &lt;li class="muted"&gt;&amp;middot;&lt;/li&gt;
+         &lt;li&gt;&lt;a href="https://github.com/twitter/bootstrap/blob/master/CHANGELOG.md"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+   &lt;/div&gt;
+&lt;/footer&gt;
+         </layout>
+
+         <layout id="two-cols-right">
+&lt;header class="jumbotron subhead" id="overview" style="margin-bottom: 20px;"&gt;
+  &lt;div class="container"&gt;
+    &lt;h1&gt;[@SITE.NAME]&lt;/h1&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+&lt;div class="container"&gt;
+   &lt;div class="row"&gt;
+      &lt;div class="span9"&gt;
+[@BANNERS-CENTER-TOP]
+[@CONTENT]
+[@BANNERS-CENTER-BOTTOM]
+      &lt;/div&gt;
+      &lt;div class="span3 bs-docs-sidebar"&gt;
+[@LOGIN]
+[@MENU]
+[@BANNERS-LEFT]
+      &lt;/div&gt;
+   &lt;/div&gt;
+&lt;/div&gt;
+&lt;footer class="footer"&gt;
+   &lt;div class="container"&gt;
+      &lt;p&gt;Designed and built with all the love in the world by &lt;a href="http://twitter.com/mdo" target="_blank"&gt;@mdo&lt;/a&gt; and &lt;a href="http://twitter.com/fat" target="_blank"&gt;@fat&lt;/a&gt;.&lt;/p&gt;
+      &lt;p&gt;Code licensed under &lt;a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank"&gt;Apache License v2.0&lt;/a&gt;, documentation under &lt;a href="http://creativecommons.org/licenses/by/3.0/"&gt;CC BY 3.0&lt;/a&gt;.&lt;/p&gt;
+      &lt;p&gt;&lt;a href="http://glyphicons.com"&gt;Glyphicons Free&lt;/a&gt; licensed under &lt;a href="http://creativecommons.org/licenses/by/3.0/"&gt;CC BY 3.0&lt;/a&gt;.&lt;/p&gt;
+      &lt;ul class="footer-links"&gt;
+         &lt;li&gt;&lt;a href="http://blog.getbootstrap.com"&gt;Blog&lt;/a&gt;&lt;/li&gt;
+         &lt;li class="muted"&gt;&amp;middot;&lt;/li&gt;
+         &lt;li&gt;&lt;a href="https://github.com/twitter/bootstrap/issues?state=open"&gt;Issues&lt;/a&gt;&lt;/li&gt;
+         &lt;li class="muted"&gt;&amp;middot;&lt;/li&gt;
+         &lt;li&gt;&lt;a href="https://github.com/twitter/bootstrap/blob/master/CHANGELOG.md"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+   &lt;/div&gt;
+&lt;/footer&gt;
+         </layout>
+
+         <layout id="three-cols">
+&lt;div id="wrap" class="clearfix"&gt;
+	&lt;div class="col_12"&gt;
+      &lt;div class="col_3"&gt;
+[@MENU]
+[@BANNERS-LEFT]
+		&lt;/div&gt;
+		&lt;div class="col_6"&gt;
+[@BANNERS-CENTER-TOP]
+[@CONTENT]
+[@BANNERS-CENTER-BOTTOM]
+		&lt;/div&gt;
+		&lt;div class="col_3"&gt;
+[@LOGIN]
+[@CONTENT-RIGHT]
+[@BANNERS-RIGHT]
+		&lt;/div&gt;
+		&lt;hr /&gt;
+		&lt;div class="col_3"&gt;
+			&lt;h4&gt;Column&lt;/h4&gt;
+			&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
+			magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
+		&lt;/div&gt;
+		&lt;div class="col_3"&gt;
+			&lt;h4&gt;Column&lt;/h4&gt;
+			&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
+			magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
+		&lt;/div&gt;
+		&lt;div class="col_3"&gt;
+			&lt;h4&gt;Column&lt;/h4&gt;
+			&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
+			magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
+		&lt;/div&gt;
+		&lt;div class="col_3"&gt;
+			&lt;h4&gt;Column&lt;/h4&gt;
+			&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
+			magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis&lt;/p&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;div class="clear"&gt;&lt;/div&gt;
+	&lt;div id="footer"&gt;
+		&amp;copy; Copyright 2011–2012 All Rights Reserved. This website was built with &lt;a href="http://www.99lime.com"&gt;HTML KickStart&lt;/a&gt;
+		&lt;a id="link-top" href="#top-of-page"&gt;Top&lt;/a&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+         </layout>
+
+      </page-layouts>
+
+      <widgets>
+
+         <!-- MENÚ PRINCIPAL -->
+         <pcontrol id="CosmoUiWdgtMenu" currentItemClass="current">
+            <celement id="menu-header">
+&lt;ul class="nav nav-list bs-docs-sidenav"&gt;
+            </celement>
+            <celement id="menu-grp-header">
+&lt;ul&gt;
+            </celement>
+            <celement id="menu-item">
+&lt;li&gt;&lt;a href="[@IHREF]"&gt;[#IF ICON]&lt;i class="[@ICON]"&gt;&lt;/i&gt; [#ENDIF ICON] [@ICAPTION]&lt;/a&gt;&lt;/li&gt;
+            </celement>
+            <celement id="menu-subitem">
+&lt;li&gt;&lt;a href="[@IHREF]"&gt;[#IF ICON]&lt;i class="[@ICON]"&gt;&lt;/i&gt; [#ENDIF ICON] [@ICAPTION]&lt;/a&gt;&lt;/li&gt;
+            </celement>
+            <celement id="menu-grp-footer">
+&lt;/ul&gt;
+            </celement>
+            <celement id="menu-footer">
+&lt;/ul&gt;
+            </celement>
+         </pcontrol>
+
+         <!-- BARRA DE NAVEGACIÓN -->
+         <pcontrol id="CosmoUiCtrlBreadcrumbs">
+            <celement id="navbar-top-header">
+&lt;ul class="breadcrumb"&gt;
+            </celement>
+            <celement id="navbar-top-item">
+&lt;li&gt;&lt;a href="[@HREF]"&gt;[#IF ICON][@ICON] [#ENDIF ICON][@FTITLE]&lt;/a&gt; &lt;span class="divider"&gt;/&lt;/span&gt;&lt;/li&gt;
+            </celement>
+            <celement id="navbar-top-footer">
+&lt;/ul&gt;
+            </celement>
+			</pcontrol>
+
+         <!-- ZONA DE BANNERS -->
+         <pcontrol id="CosmoUiWdgtBannerArea">
+            <celement id="banners-header">
+&lt;div id="[@BANNER-ID]"&gt;
+            </celement>
+            <celement id="banner-item">
+&lt;p&gt;[@BANNER-OBJECT]&lt;/p&gt;
+            </celement>
+            <celement id="banners-footer">
+&lt;/div&gt;
+            </celement>
+         </pcontrol>
+
+         <!-- LOGIN/LOGOUT -->
+         <pcontrol id="CosmoUiWdgtLogin">
+            <celement id="log-in">
+&lt;div class="navbar"&gt;
+   &lt;div class="navbar-inner"&gt;
+      &lt;div class="container"&gt;
+         &lt;a class="brand"&gt;&lt;i class="icon-lock"&gt;&lt;/i&gt; Convidat&lt;/a&gt;
+         &lt;ul class="nav pull-right"&gt;
+            &lt;li class="divider-vertical"&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="[@HREF]"&gt;Login&lt;/a&gt;&lt;/li&gt;
+         &lt;/ul&gt;
+      &lt;/div&gt;
+   &lt;/div&gt;
+&lt;/div&gt;
+            </celement>
+            <celement id="log-out">
+&lt;div class="navbar"&gt;
+   &lt;div class="navbar-inner"&gt;
+      &lt;div class="container"&gt;
+         &lt;a class="brand"&gt;&lt;i class="icon-user"&gt;&lt;/i&gt; [@USER]&lt;/a&gt;
+         &lt;ul class="nav pull-right"&gt;
+            &lt;li class="divider-vertical"&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="[@HREF]"&gt;Logout&lt;/a&gt;&lt;/li&gt;
+         &lt;/ul&gt;
+      &lt;/div&gt;
+   &lt;/div&gt;
+&lt;/div&gt;
+            </celement>
+         </pcontrol>
+
+      </widgets>
+
+      <controls>
+
+         <!-- CABECERA DE DOCUMENTO -->
+         <pcontrol id="CosmoUiCtrlHeader" center="true" lateral="false">
+            <!--<cscript type="external" src="http://static.addtoany.com/menu/page.js" />-->
+            <celement id="page-title">
+&lt;h3&gt;[@TITLE]&lt;/h3&gt;
+[#IF DESCRIPTION]&lt;blockquote class="small"&gt;
+   &lt;p&gt;[@DESCRIPTION][#IF AUTHOR]&lt;span&gt;por [@AUTHOR]&lt;/span&gt;[#ENDIF AUTHOR]&lt;/p&gt;
+&lt;/blockquote&gt;[#ENDIF DESCRIPTION]
+            </celement>
+            <celement id="page-utilities" />
+			</pcontrol>
+
+         <!-- BARRA DE BOTONES -->
+         <pcontrol id="CosmoUiCtrlButtonBar">
+            <celement id="buttonbar-header">
+&lt;div class="navbar"&gt;
+  &lt;div class="navbar-inner"&gt;
+    &lt;div class="container"&gt;
+      &lt;ul class="nav"&gt;
+            </celement>
+            <celement id="buttonbar-item">
+        &lt;li&gt;&lt;a href="[@HREF]"&gt;[#IF ICON]&lt;i class="[@ICON]"&gt;&lt;/i&gt; [#ENDIF ICON][@FTITLE]&lt;/a&gt;&lt;/li&gt;
+        &lt;li class="divider-vertical"&gt;&lt;/li&gt;
+            </celement>
+            <celement id="buttonbar-footer">
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+            </celement>
+         </pcontrol>
+
+         <!-- CUADRO DE MENSAJE -->
+         <pcontrol id="CosmoUiCtrlDynamicMsg" center="true" lateral="false">
+            <celement id="info-box-info">
+&lt;div class="alert alert-info"&gt;
+  &lt;button type="button" class="close" data-dismiss="alert"&gt;&amp;times;&lt;/button&gt;
+  &lt;h4&gt;Informació:&lt;/h4&gt;
+  [@TEXT]
+&lt;/div&gt;
+            </celement>
+            <celement id="info-box-warning">
+&lt;div class="alert alert-block"&gt;
+  &lt;button type="button" class="close" data-dismiss="alert"&gt;&amp;times;&lt;/button&gt;
+  &lt;h4&gt;Atenció:&lt;/h4&gt;
+  [@TEXT]
+&lt;/div&gt;
+            </celement>
+            <celement id="info-box-error">
+&lt;div class="alert alert-error"&gt;
+  &lt;button type="button" class="close" data-dismiss="alert"&gt;&amp;times;&lt;/button&gt;
+  &lt;h4&gt;Atenció:&lt;/h4&gt;
+  [@TEXT]
+&lt;/div&gt;
+            </celement>
+		   </pcontrol>
+
+         <!-- LISTADO DE OBJETOS -->
+         <pcontrol id="CosmoUiCtrlObjectLst" lat-equiv="object-list-lateral">
+            <celement id="object-list-title">
+[#IF TITLE]&lt;h4&gt;[@TITLE]&lt;/h4&gt;[#ENDIF TITLE]
+[#IF DESCRIPTION]&lt;p&gt;[@DESCRIPTION]&lt;/p&gt;[#ENDIF DESCRIPTION]
+            </celement>
+            <celement id="object-list-header">
+&lt;div&gt;
+            </celement>
+            <celement id="object-list-item">
+&lt;div class="media"&gt;
+   &lt;a class="pull-left" href="[@HREF]"&gt;
+      &lt;img src="[@THUMB]" class="media-object" data-src="holder.js/64x64" /&gt;
+   &lt;/a&gt;
+   &lt;div class="media-body"&gt;
+      &lt;h4 class="media-heading"&gt;[@CAPTION]&lt;/h4&gt;
+      [@DESCRIPTION]
+   &lt;/div&gt;
+&lt;/div&gt;
+            </celement>
+            <celement id="object-list-footer">
+&lt;/div&gt;
+            </celement>
+		   </pcontrol>
+
+         <!-- LISTADO DE OBJETOS (BARRAS LATERALES) -->
+         <pcontrol id="object-list-lateral">
+            <celement id="object-list-title">
+[#IF TITLE]&lt;h2&gt;[@TITLE]&lt;/h2&gt;[#ENDIF TITLE]
+[#IF DESCRIPTION]&lt;p&gt;[@DESCRIPTION]&lt;/p&gt;[#ENDIF DESCRIPTION]
+            </celement>
+            <celement id="object-list-header">
+&lt;div id="[@OBJID]"&gt;
+            </celement>
+            <celement id="object-list-item">
+   &lt;div class="hlbox"&gt;
+      &lt;span class="title"&gt;[@CAPTION]&lt;/span&gt;&lt;br /&gt;
+      &lt;a href="[@HREF]"&gt;&lt;img class="thumb" src="[@THUMB]" alt="[@CAPTION]" /&gt;&lt;/a&gt;&lt;br /&gt;
+      [@DESCRIPTION]&amp;nbsp;&lt;a href="[@HREF]">Leer&lt;/a&gt;
+   &lt;/div&gt;
+            </celement>
+            <celement id="object-list-footer">
+&lt;/div&gt;
+            </celement>
+         </pcontrol>
+
+         <!-- LISTADO DE CARPETAS -->
+         <pcontrol id="folder-list" lat-equiv="folder-list-lateral">
+            <celement id="folder-list-title">
+&lt;h2&gt;[@TITLE]&lt;/h2&gt;
+[#IF DESCRIPTION]&lt;p&gt;[@DESCRIPTION]&lt;/p&gt;[#ENDIF DESCRIPTION]
+            </celement>
+            <celement id="folder-list-header">
+&lt;ul class="folder_list"&gt;              
+				</celement>
+            <celement id="folder-list-item">
+  &lt;li [@CLASS]&gt;&lt;a href="[@HREF]"&gt;[@CAPTION]&lt;/a&gt;&lt;br /&gt;&lt;span class="alt"&gt;[@DESCRIPTION]&lt;/span&gt;&lt;/li&gt;
+				</celement>
+            <celement id="folder-list-footer">
+&lt;/ul&gt;
+				</celement>
+			</pcontrol>
+
+         <!-- LISTADO DE CARPETAS (BARRAS LATERALES) -->
+         <pcontrol id="folder-list-lateral">
+            <celement id="folder-list-title">
+[#IF TITLE]&lt;h3&gt;[@TITLE]&lt;/h3&gt;[#ENDIF TITLE]
+[#IF DESCRIPTION]&lt;p&gt;[@DESCRIPTION]&lt;/p&gt;[#ENDIF DESCRIPTION]
+            </celement>
+            <celement id="folder-list-header">
+&lt;ul class="folder_list"&gt;
+            </celement>
+            <celement id="folder-list-item">
+   &lt;li [@CLASS]&gt;&lt;a href="[@HREF]"&gt;[@CAPTION]&lt;/a&gt;&lt;br /&gt;&lt;span class="alt"&gt;[@DESCRIPTION]&lt;/span&gt;&lt;/li&gt;
+            </celement>
+            <celement id="folder-list-footer">
+&lt;/ul&gt;
+            </celement>
+         </pcontrol>
+
+         <!-- TABLA/LISTADO DE DATOS -->
+         <pcontrol id="CosmoUiCtrlGrid">
+            <celement id="grid-title">
+[#IF FTITLE]&lt;h2&gt;[@FTITLE]&lt;/h2&gt;[#ENDIF FTITLE]
+[#IF FDESC]&lt;p&gt;[@FDESC]&lt;/p&gt;[#ENDIF FDESC]
+            </celement>
+            <celement id="grid-body">
+&lt;table class="table table-bordered table-hover"&gt;
+   &lt;thead&gt;
+[@TITLEROW]
+   &lt;/thead&gt;
+   &lt;tbody&gt;
+[@DATAROWS]
+   &lt;/tbody&gt;
+&lt;/table&gt;
+            </celement>
+            <celement id="grid-rowtitle-body">&lt;tr&gt;[@CELLS]&lt;/tr&gt;</celement>
+            <celement id="grid-rowtitle-cell">&lt;th&gt;[@VALUE]&lt;/th&gt;</celement>
+            <celement id="grid-row-body">&lt;tr&gt;[@CELLS]&lt;/tr&gt;</celement>
+            <celement id="grid-row-cell">&lt;td&gt;[@VALUE]&lt;/td&gt;</celement>
+            <celement id="grid-row-action-item">&lt;a href="[@IHREF]"&gt;[#IF ICON]&lt;i class="[@ICON]"&gt;&lt;/i&gt;[#ENDIF ICON][#IF FTITLE] [@FTITLE][#ENDIF FTITLE]&lt;/a&gt; </celement>
+         </pcontrol>
+
+         <!-- FORMULARIO -->
+         <pcontrol id="CosmoUiCtrlForm" separator="&amp;nbsp;&amp;nbsp;" css-class-active="std-button-active" css-class="std-button">
+            <cscript type="external" src="include/plugins/jquery/jquery.validate.min.js" />
+            <celement id="form-head">
+[#IF FTITLE]&lt;h4&gt;[@FTITLE]&lt;/h4&gt;[#ENDIF FTITLE]
+[#IF FDESC]&lt;p&gt;[@FDESC]&lt;/p&gt;[#ENDIF FDESC]
+[@FTAG]
+            </celement>
+            <celement id="form-fieldset-head">
+&lt;fieldset&gt;
+[#IF FTITLE]&lt;legend&gt;[@FTITLE]&lt;/legend&gt;[#ENDIF FTITLE]
+[#IF FDESC]&lt;p&gt;[@FDESC]&lt;/p&gt;[#ENDIF FDESC]
+            </celement>
+            <celement id="form-fieldset-footer">
+&lt;/fieldset&gt;
+            </celement>
+            <celement id="form-control">
+&lt;p&gt;&lt;label&gt;[@FLABEL]&lt;br /&gt;[@FCONTROL][#IF FDESC]&lt;br /&gt;&lt;span class="comment"&gt;[@FDESC]&lt;/span&gt;[#ENDIF FDESC]&lt;/label&gt;&lt;/p&gt;
+            </celement>
+            <celement id="form-option">
+&lt;p&gt;
+   &lt;label&gt;
+[@FCONTROL] [@FLABEL]
+[#IF DESC]&lt;br /&gt;&lt;span class="comment"&gt;[@DESC]&lt;/span&gt;[#ENDIF DESC]
+   &lt;/label&gt;
+&lt;/p&gt;
+            </celement>
+            <celement id="form-textarea">
+&lt;p&gt;
+   &lt;label&gt;
+[@FLABEL]&lt;br /&gt;
+[@FCONTROL]
+[#IF DESC]&lt;br /&gt;&lt;span class="comment"&gt;[@DESC]&lt;/span&gt;[#ENDIF DESC]
+   &lt;/label&gt;
+&lt;/p&gt;
+            </celement>
+            <celement id="form-captcha">
+&lt;p&gt;
+   [@FCAPTCHAIMG]&amp;nbsp;&amp;nbsp;
+   [@FCONTROL]
+&lt;/p&gt;
+            </celement>
+            <celement id="form-upload" />
+            <celement id="form-buttons">
+[#IF FBUTTONS]&lt;div class="controls"&gt;
+[@FBUTTONS]
+&lt;/div&gt;[#ENDIF FBUTTONS]
+            </celement>
+            <celement id="form-footer">
+[@FENDTAG]
+            </celement>
+         </pcontrol>
+
+         <!-- SLIDER -->
+         <pcontrol id="CosmoUiCtrlSlider">
+            <celement id="slider-header">
+&lt;ul class="slideshow" width="[@WIDTH]" height="[@HEIGHT]"&gt;
+            </celement>
+            <celement id="slider-item">
+&lt;li&gt;[@CONTENTS]&lt;/li&gt;
+            </celement>
+            <celement id="slider-footer">
+&lt;/ul&gt;
+            </celement>
+			</pcontrol>
+
+         <!-- CAJA DE BÚSQUEDA (GOOGLE CUSTOM ENGINE) -->
+         <pcontrol id="google-cse-search-box" show="true">
+            <celement id="gcsesb-box">
+&lt;div class="form-box"&gt;
+   [#IF TITLE]&lt;p class="title"&gt;[@TITLE]&lt;/p&gt;[#ENDIF TITLE]
+   [#IF DESC]&lt;p&gt;[@DESC]&lt;/p&gt;[#ENDIF DESC]
+   &lt;form action="[@RESULTS]" id="cse-search-box"&gt;
+      &lt;div&gt;
+         &lt;input name="cx" value="[@CSEKEY]" type="hidden" /&gt;
+            &lt;input name="cof" value="FORID:9" type="hidden" /&gt;
+            &lt;input name="ie" value="UTF-8" type="hidden" /&gt;
+            &lt;p&gt;
+               &lt;label&gt;
+               [#IF QLABEL][@QLABEL]:&amp;nbsp;&amp;nbsp;[#ENDIF QLABEL]&lt;input type="text" name="q" size="31" /&gt;
+               &lt;/label&gt;
+               &lt;input name="sa" value="Buscar" type="submit" /&gt;
+            &lt;/p&gt;
+         &lt;/div&gt;
+      &lt;input value="[@SITEURL]" name="siteurl" type="hidden" /&gt;
+   &lt;/form&gt;
+&lt;/div&gt;
+&lt;script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;amp;lang=es"&gt;&lt;/script&gt;
+            </celement>
+         </pcontrol>
+
+         <!-- ERROR MESSAGE -->
+         <pcontrol id="CosmoUiCtrlErrMsg">
+            <celement id="errmsg-body">
+&lt;div class="col_12"&gt;
+  &lt;ul class="tabs"&gt;
+    &lt;li class="current first last"&gt;&lt;a href="#instructions"&gt;&lt;i class="icon-exclamation-sign"&gt;&lt;/i&gt; Missatge del servidor&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;div id="instructions" class="tab-content clearfix" style=""&gt;
+    &lt;h4&gt;&lt;i class="[@ICON]"&gt;&lt;/i&gt; [@TITLE]&lt;/h4&gt;
+    &lt;p&gt;El servidor ha detectat un problema i no ha generat la pàgina sol·licitada. Els detalls d'aquest problema es mostren a continuació.&lt;/p&gt;
+    &lt;hr /&gt;
+    &lt;h6&gt;[@MSG]&lt;/h6&gt;
+    [#IF TRACE]&lt;br /&gt;&lt;p&gt;La traça que ha produït l'error és la que es mostra a continuació:&lt;/p&gt;
+    &lt;pre class="prettyprint"&gt;[@TRACE]&lt;/pre&gt;[#ENDIF TRACE]
+  &lt;/div&gt;
+&lt;/div&gt;
+            </celement>
+         </pcontrol>
+
+      </controls>
+
+   </dom>
+</template>
