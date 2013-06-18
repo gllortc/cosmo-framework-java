@@ -176,27 +176,27 @@ public class FormControl extends Control
             if (cf.fieldClass() == FormFieldText.class)
             {
                group.addField(new FormFieldText(cf.name(), cf.label()));
-               break;
+               // break;
             }
             else if (cf.fieldClass() == FormFieldInteger.class)
             {
                group.addField(new FormFieldInteger(cf.name(), cf.label()));
-               break;
+               // break;
             }
             else if (cf.fieldClass() == FormFieldNumber.class)
             {
                group.addField(new FormFieldNumber(cf.name(), cf.label()));
-               break;
+               // break;
             }
             else if (cf.fieldClass() == FormFieldDate.class)
             {
                group.addField(new FormFieldDate(cf.name(), cf.label()));
-               break;
+               // break;
             }
             else if (cf.fieldClass() == FormFieldCaptcha.class)
             {
                group.addField(new FormFieldCaptcha(cf.name(), cf.label()));
-               break;
+               // break;
             }
          }
       }
@@ -240,7 +240,7 @@ public class FormControl extends Control
       FormData data = null;
       
       // Obtiene el contenedor de valores
-      data = (FormData) request.getSession().getAttribute(this.getSessionControlData());
+      data = (FormData) request.getSession().getAttribute(this.getSessionControlDataKey());
       
       // Si no estaba definido, lo crea
       if (data == null)
@@ -290,7 +290,7 @@ public class FormControl extends Control
       }
 
       // Almacena los valores en la sessión
-      request.getSession().setAttribute(this.getSessionControlData(), data);
+      request.getSession().setAttribute(this.getSessionControlDataKey(), data);
 
       return data;
    }
@@ -350,6 +350,14 @@ public class FormControl extends Control
                xitem = Control.replaceTag(xitem, TAG_CONTROL, field.render(getWorkspace().getServerSession()));
                xitem = Control.replaceTag(xitem, TAG_LABEL, ((FormFieldText) field).getLabel());
                xitem = Control.replaceTag(xitem, TAG_DESCRIPTION, ((FormFieldText) field).getDescription());
+               xhtml += xitem;
+            }
+            else if (field instanceof FormFieldInteger)
+            {
+               xitem = ctrl.getElement(CPART_FIELD_CONTROL);
+               xitem = Control.replaceTag(xitem, TAG_CONTROL, field.render(getWorkspace().getServerSession()));
+               xitem = Control.replaceTag(xitem, TAG_LABEL, ((FormFieldInteger) field).getLabel());
+               xitem = Control.replaceTag(xitem, TAG_DESCRIPTION, ((FormFieldInteger) field).getDescription());
                xhtml += xitem;
             }
          }
