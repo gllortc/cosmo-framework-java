@@ -4,6 +4,7 @@
    <author>Gerard Llort</author>
    <version>1.0</version>
    <copyright>InforGEST</copyright>
+   <description>Based on Twitter Bootstrap toolkit (http://twitter.github.io/bootstrap/index.html)</description>
    <first-cssclass>first</first-cssclass>
    <head>
       <hscript type="text/javascript" src="http://code.jquery.com/jquery.js" />
@@ -70,15 +71,15 @@
 &lt;/div&gt;
 &lt;footer class="footer"&gt;
    &lt;div class="container"&gt;
-      &lt;p&gt;Designed and built with all the love in the world by &lt;a href="http://twitter.com/mdo" target="_blank"&gt;@mdo&lt;/a&gt; and &lt;a href="http://twitter.com/fat" target="_blank"&gt;@fat&lt;/a&gt;.&lt;/p&gt;
+      &lt;p&gt;Designed and built by &lt;code&gt;@gllort&lt;/code&gt; using &lt;a href="http://twitter.github.io/bootstrap" target="_blank"&gt;Twitter Bootstrap&lt;/a&gt;.&lt;/p&gt;
       &lt;p&gt;Code licensed under &lt;a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank"&gt;Apache License v2.0&lt;/a&gt;, documentation under &lt;a href="http://creativecommons.org/licenses/by/3.0/"&gt;CC BY 3.0&lt;/a&gt;.&lt;/p&gt;
       &lt;p&gt;&lt;a href="http://glyphicons.com"&gt;Glyphicons Free&lt;/a&gt; licensed under &lt;a href="http://creativecommons.org/licenses/by/3.0/"&gt;CC BY 3.0&lt;/a&gt;.&lt;/p&gt;
       &lt;ul class="footer-links"&gt;
-         &lt;li&gt;&lt;a href="http://blog.getbootstrap.com"&gt;Blog&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href="https://code.google.com/p/cosmo-framework/"&gt;Cosmo Framework&lt;/a&gt;&lt;/li&gt;
          &lt;li class="muted"&gt;&amp;middot;&lt;/li&gt;
-         &lt;li&gt;&lt;a href="https://github.com/twitter/bootstrap/issues?state=open"&gt;Issues&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href="https://code.google.com/p/cosmo-framework/source/checkout"&gt;Source code&lt;/a&gt;&lt;/li&gt;
          &lt;li class="muted"&gt;&amp;middot;&lt;/li&gt;
-         &lt;li&gt;&lt;a href="https://github.com/twitter/bootstrap/blob/master/CHANGELOG.md"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href="https://code.google.com/p/cosmo-framework/wiki/Downloads"&gt;Downloads&lt;/a&gt;&lt;/li&gt;
       &lt;/ul&gt;
    &lt;/div&gt;
 &lt;/footer&gt;
@@ -106,15 +107,15 @@
 &lt;/div&gt;
 &lt;footer class="footer"&gt;
    &lt;div class="container"&gt;
-      &lt;p&gt;Designed and built with all the love in the world by &lt;a href="http://twitter.com/mdo" target="_blank"&gt;@mdo&lt;/a&gt; and &lt;a href="http://twitter.com/fat" target="_blank"&gt;@fat&lt;/a&gt;.&lt;/p&gt;
+      &lt;p&gt;Designed and built by &lt;code&gt;@gllort&lt;/code&gt; using &lt;a href="http://twitter.github.io/bootstrap" target="_blank"&gt;Twitter Bootstrap&lt;/a&gt;.&lt;/p&gt;
       &lt;p&gt;Code licensed under &lt;a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank"&gt;Apache License v2.0&lt;/a&gt;, documentation under &lt;a href="http://creativecommons.org/licenses/by/3.0/"&gt;CC BY 3.0&lt;/a&gt;.&lt;/p&gt;
       &lt;p&gt;&lt;a href="http://glyphicons.com"&gt;Glyphicons Free&lt;/a&gt; licensed under &lt;a href="http://creativecommons.org/licenses/by/3.0/"&gt;CC BY 3.0&lt;/a&gt;.&lt;/p&gt;
       &lt;ul class="footer-links"&gt;
-         &lt;li&gt;&lt;a href="http://blog.getbootstrap.com"&gt;Blog&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href="https://code.google.com/p/cosmo-framework/"&gt;Cosmo Framework&lt;/a&gt;&lt;/li&gt;
          &lt;li class="muted"&gt;&amp;middot;&lt;/li&gt;
-         &lt;li&gt;&lt;a href="https://github.com/twitter/bootstrap/issues?state=open"&gt;Issues&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href="https://code.google.com/p/cosmo-framework/source/checkout"&gt;Source code&lt;/a&gt;&lt;/li&gt;
          &lt;li class="muted"&gt;&amp;middot;&lt;/li&gt;
-         &lt;li&gt;&lt;a href="https://github.com/twitter/bootstrap/blob/master/CHANGELOG.md"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href="https://code.google.com/p/cosmo-framework/wiki/Downloads"&gt;Downloads&lt;/a&gt;&lt;/li&gt;
       &lt;/ul&gt;
    &lt;/div&gt;
 &lt;/footer&gt;
@@ -142,15 +143,15 @@
 &lt;/div&gt;
 &lt;footer class="footer"&gt;
    &lt;div class="container"&gt;
-      &lt;p&gt;Designed and built with all the love in the world by &lt;a href="http://twitter.com/mdo" target="_blank"&gt;@mdo&lt;/a&gt; and &lt;a href="http://twitter.com/fat" target="_blank"&gt;@fat&lt;/a&gt;.&lt;/p&gt;
+      &lt;p&gt;Designed and built by &lt;code&gt;@gllort&lt;/code&gt; using &lt;a href="http://twitter.github.io/bootstrap" target="_blank"&gt;Twitter Bootstrap&lt;/a&gt;.&lt;/p&gt;
       &lt;p&gt;Code licensed under &lt;a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank"&gt;Apache License v2.0&lt;/a&gt;, documentation under &lt;a href="http://creativecommons.org/licenses/by/3.0/"&gt;CC BY 3.0&lt;/a&gt;.&lt;/p&gt;
       &lt;p&gt;&lt;a href="http://glyphicons.com"&gt;Glyphicons Free&lt;/a&gt; licensed under &lt;a href="http://creativecommons.org/licenses/by/3.0/"&gt;CC BY 3.0&lt;/a&gt;.&lt;/p&gt;
       &lt;ul class="footer-links"&gt;
-         &lt;li&gt;&lt;a href="http://blog.getbootstrap.com"&gt;Blog&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href="https://code.google.com/p/cosmo-framework/"&gt;Cosmo Framework&lt;/a&gt;&lt;/li&gt;
          &lt;li class="muted"&gt;&amp;middot;&lt;/li&gt;
-         &lt;li&gt;&lt;a href="https://github.com/twitter/bootstrap/issues?state=open"&gt;Issues&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href="https://code.google.com/p/cosmo-framework/source/checkout"&gt;Source code&lt;/a&gt;&lt;/li&gt;
          &lt;li class="muted"&gt;&amp;middot;&lt;/li&gt;
-         &lt;li&gt;&lt;a href="https://github.com/twitter/bootstrap/blob/master/CHANGELOG.md"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href="https://code.google.com/p/cosmo-framework/wiki/Downloads"&gt;Downloads&lt;/a&gt;&lt;/li&gt;
       &lt;/ul&gt;
    &lt;/div&gt;
 &lt;/footer&gt;
@@ -258,29 +259,21 @@
          <!-- LOGIN/LOGOUT -->
          <pcontrol id="CosmoUiWdgtLogin">
             <celement id="log-in">
-&lt;div class="navbar"&gt;
-   &lt;div class="navbar-inner"&gt;
-      &lt;div class="container"&gt;
-         &lt;a class="brand"&gt;&lt;i class="icon-lock"&gt;&lt;/i&gt; Convidat&lt;/a&gt;
-         &lt;ul class="nav pull-right"&gt;
-            &lt;li class="divider-vertical"&gt;&lt;/li&gt;
-            &lt;li&gt;&lt;a href="[@HREF]"&gt;Login&lt;/a&gt;&lt;/li&gt;
-         &lt;/ul&gt;
-      &lt;/div&gt;
-   &lt;/div&gt;
+&lt;div class="controls"&gt;
+  &lt;div class="input-prepend input-append"&gt;
+    &lt;span class="add-on"&gt;&lt;i class="icon-lock"&gt;&lt;/i&gt;&lt;/span&gt;
+    &lt;span class="span2 uneditable-input"&gt;Convidat&lt;/span&gt;
+    &lt;a href="[@HREF]" class="btn btn-primary"&gt;Login&lt;/a&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
             </celement>
             <celement id="log-out">
-&lt;div class="navbar"&gt;
-   &lt;div class="navbar-inner"&gt;
-      &lt;div class="container"&gt;
-         &lt;a class="brand"&gt;&lt;i class="icon-user"&gt;&lt;/i&gt; [@USER]&lt;/a&gt;
-         &lt;ul class="nav pull-right"&gt;
-            &lt;li class="divider-vertical"&gt;&lt;/li&gt;
-            &lt;li&gt;&lt;a href="[@HREF]"&gt;Logout&lt;/a&gt;&lt;/li&gt;
-         &lt;/ul&gt;
-      &lt;/div&gt;
-   &lt;/div&gt;
+&lt;div class="controls"&gt;
+  &lt;div class="input-prepend input-append"&gt;
+    &lt;span class="add-on"&gt;&lt;i class="icon-user"&gt;&lt;/i&gt;&lt;/span&gt;
+    &lt;span class="span2 uneditable-input"&gt;&lt;strong&gt;[@USER]&lt;/strong&gt;&lt;/span&gt;
+    &lt;a href="[@HREF]" class="btn btn-primary"&gt;Logout&lt;/a&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
             </celement>
          </pcontrol>
@@ -304,18 +297,13 @@
          <!-- BARRA DE BOTONES -->
          <pcontrol id="CosmoUiCtrlButtonBar">
             <celement id="buttonbar-header">
-&lt;div class="navbar"&gt;
-  &lt;div class="navbar-inner"&gt;
-    &lt;div class="container"&gt;
-      &lt;ul class="nav"&gt;
+&lt;div class="btn-toolbar"&gt;
+  &lt;div class="btn-group"&gt;
             </celement>
             <celement id="buttonbar-item">
-        &lt;li&gt;&lt;a href="[@HREF]"&gt;[#IF ICON]&lt;i class="[@ICON]"&gt;&lt;/i&gt; [#ENDIF ICON][@FTITLE]&lt;/a&gt;&lt;/li&gt;
-        &lt;li class="divider-vertical"&gt;&lt;/li&gt;
+    &lt;a class="btn" href="[@HREF]"&gt;[#IF ICON]&lt;i class="[@ICON]"&gt;&lt;/i&gt; [#ENDIF ICON][@FTITLE]&lt;/a&gt;
             </celement>
             <celement id="buttonbar-footer">
-      &lt;/ul&gt;
-    &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;
             </celement>
@@ -504,14 +492,38 @@
 
          <!-- SLIDER -->
          <pcontrol id="CosmoUiCtrlSlider">
+            <celement id="slider-element-first">active</celement>
             <celement id="slider-header">
-&lt;ul class="slideshow" width="[@WIDTH]" height="[@HEIGHT]"&gt;
+&lt;div id="[@ID]" class="carousel slide"&gt;
+            </celement>
+            <celement id="slider-item-header">
+  &lt;ol class="carousel-indicators"&gt;
             </celement>
             <celement id="slider-item">
-&lt;li&gt;[@CONTENTS]&lt;/li&gt;
+    &lt;li data-target="#[@ID]" data-slide-to="[@COUNT]" [#IF FIRST]class="[@FIRST]"[#ENDIF FIRST]&gt;&lt;/li&gt;
+            </celement>
+            <celement id="slider-item-footer">
+  &lt;/ol&gt;
+            </celement>
+            <celement id="slider-content-header">
+  &lt;div class="carousel-inner"&gt;
+            </celement>
+            <celement id="slider-content">
+    &lt;div class="item[#IF FIRST] [@FIRST][#ENDIF FIRST]"&gt;
+      [@CONTENTS]
+      [#IF TITLE]&lt;div class="carousel-caption"&gt;
+        &lt;h4&gt;[@TITLE]&lt;/h4&gt;
+        [#IF DESCRIPTION]&lt;p&gt;[@DESCRIPTION]&lt;/p&gt;[#ENDIF DESCRIPTION]
+      &lt;/div&gt;[#ENDIF TITLE]
+    &lt;/div&gt;
+            </celement>
+            <celement id="slider-content-footer">
+  &lt;/div&gt;
             </celement>
             <celement id="slider-footer">
-&lt;/ul&gt;
+  &lt;a class="carousel-control left" href="#[@ID]" data-slide="prev"&gt;&amp;lsaquo;&lt;/a&gt;
+  &lt;a class="carousel-control right" href="#[@ID]" data-slide="next"&gt;&amp;rsaquo;&lt;/a&gt;
+&lt;/div&gt;
             </celement>
 			</pcontrol>
 
