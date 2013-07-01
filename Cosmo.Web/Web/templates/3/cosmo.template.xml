@@ -439,13 +439,13 @@
 
          <!-- FORMULARIO -->
          <pcontrol id="CosmoUiCtrlForm" separator="&amp;nbsp;&amp;nbsp;" css-class-active="std-button-active" css-class="std-button">
-            <cscript type="internal" src="js/wysihtml5-0.3.0.js" />
-            <cscript type="internal" src="js/bootstrap-wysihtml5.js" />
+            <cscript type="external" src="js/wysihtml5-0.3.0.js" />
+            <cscript type="external" src="js/bootstrap-wysihtml5.js" />
             <clink rel="stylesheet" type="text/css" href="css/bootstrap-wysihtml5.css" media="all" />
             <celement id="form-head">
 [#IF FTITLE]&lt;h4&gt;[@FTITLE]&lt;/h4&gt;[#ENDIF FTITLE]
 [#IF FDESC]&lt;p&gt;[@FDESC]&lt;/p&gt;[#ENDIF FDESC]
-[@FTAG]
+&lt;form id="[@FNAME]" name="[@FNAME]" action="" method="[@FMETHOD]" class="form-horizontal"&gt;
             </celement>
             <celement id="form-fieldset-head">
 &lt;fieldset&gt;
@@ -482,6 +482,8 @@
    &lt;/div&gt;
    [#IF FDESC]&lt;span class="help-block"&gt;[@FDESC]&lt;/span&gt;[#ENDIF FDESC]
 &lt;/div&gt;
+&lt;script type="text/javascript"&gt;$('#[@CTRL-NAME]').wysihtml5();&lt;/script&gt;
+&lt;script type="text/javascript"&gt;$(prettyPrint);&lt;/script&gt;
             </celement>
             <celement id="form-captcha">
 &lt;p&gt;
@@ -496,7 +498,7 @@
 &lt;/div&gt;[#ENDIF FBUTTONS]
             </celement>
             <celement id="form-footer">
-[@FENDTAG]
+&lt;/form&gt;
             </celement>
          </pcontrol>
 
