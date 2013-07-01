@@ -439,7 +439,9 @@
 
          <!-- FORMULARIO -->
          <pcontrol id="CosmoUiCtrlForm" separator="&amp;nbsp;&amp;nbsp;" css-class-active="std-button-active" css-class="std-button">
-            <cscript type="external" src="include/plugins/jquery/jquery.validate.min.js" />
+            <cscript type="internal" src="js/wysihtml5-0.3.0.js" />
+            <cscript type="internal" src="js/bootstrap-wysihtml5.js" />
+            <clink rel="stylesheet" type="text/css" href="css/bootstrap-wysihtml5.css" media="all" />
             <celement id="form-head">
 [#IF FTITLE]&lt;h4&gt;[@FTITLE]&lt;/h4&gt;[#ENDIF FTITLE]
 [#IF FDESC]&lt;p&gt;[@FDESC]&lt;/p&gt;[#ENDIF FDESC]
@@ -454,24 +456,32 @@
 &lt;/fieldset&gt;
             </celement>
             <celement id="form-control">
-&lt;p&gt;&lt;label&gt;[@FLABEL]&lt;br /&gt;[@FCONTROL][#IF FDESC]&lt;br /&gt;&lt;span class="comment"&gt;[@FDESC]&lt;/span&gt;[#ENDIF FDESC]&lt;/label&gt;&lt;/p&gt;
+&lt;div class="control-group"&gt;
+   &lt;label class="control-label" for="[@CTRL-NAME]"&gt;[@FLABEL]&lt;/label&gt;
+   &lt;div class="controls"&gt;
+      [@FCONTROL]
+   &lt;/div&gt;
+   [#IF FDESC]&lt;span class="help-block"&gt;[@FDESC]&lt;/span&gt;[#ENDIF FDESC]
+&lt;/div&gt;
             </celement>
             <celement id="form-option">
-&lt;p&gt;
-   &lt;label&gt;
-[@FCONTROL] [@FLABEL]
-[#IF DESC]&lt;br /&gt;&lt;span class="comment"&gt;[@DESC]&lt;/span&gt;[#ENDIF DESC]
-   &lt;/label&gt;
-&lt;/p&gt;
+&lt;div class="control-group"&gt;
+   &lt;div class="controls"&gt;
+      &lt;label class="checkbox" for="[@CTRL-NAME]"&gt;
+         [@FCONTROL] [@FLABEL]
+      &lt;/label&gt;
+   &lt;/div&gt;
+   [#IF FDESC]&lt;span class="help-block"&gt;[@FDESC]&lt;/span&gt;[#ENDIF FDESC]
+&lt;/div&gt;
             </celement>
             <celement id="form-textarea">
-&lt;p&gt;
-   &lt;label&gt;
-[@FLABEL]&lt;br /&gt;
-[@FCONTROL]
-[#IF DESC]&lt;br /&gt;&lt;span class="comment"&gt;[@DESC]&lt;/span&gt;[#ENDIF DESC]
-   &lt;/label&gt;
-&lt;/p&gt;
+&lt;div class="control-group"&gt;
+   &lt;label class="control-label" for="[@CTRL-NAME]"&gt;[@FLABEL]&lt;/label&gt;
+   &lt;div class="controls"&gt;
+      [@FCONTROL]
+   &lt;/div&gt;
+   [#IF FDESC]&lt;span class="help-block"&gt;[@FDESC]&lt;/span&gt;[#ENDIF FDESC]
+&lt;/div&gt;
             </celement>
             <celement id="form-captcha">
 &lt;p&gt;
@@ -555,19 +565,18 @@
          <!-- ERROR MESSAGE -->
          <pcontrol id="CosmoUiCtrlErrMsg">
             <celement id="errmsg-body">
-&lt;div class="col_12"&gt;
-  &lt;ul class="tabs"&gt;
-    &lt;li class="current first last"&gt;&lt;a href="#instructions"&gt;&lt;i class="icon-exclamation-sign"&gt;&lt;/i&gt; Missatge del servidor&lt;/a&gt;&lt;/li&gt;
-  &lt;/ul&gt;
-  &lt;div id="instructions" class="tab-content clearfix" style=""&gt;
-    &lt;h4&gt;&lt;i class="[@ICON]"&gt;&lt;/i&gt; [@TITLE]&lt;/h4&gt;
-    &lt;p&gt;El servidor ha detectat un problema i no ha generat la pàgina sol·licitada. Els detalls d'aquest problema es mostren a continuació.&lt;/p&gt;
-    &lt;hr /&gt;
-    &lt;h6&gt;[@MSG]&lt;/h6&gt;
-    [#IF TRACE]&lt;br /&gt;&lt;p&gt;La traça que ha produït l'error és la que es mostra a continuació:&lt;/p&gt;
-    &lt;pre class="prettyprint"&gt;[@TRACE]&lt;/pre&gt;[#ENDIF TRACE]
-  &lt;/div&gt;
+&lt;div class="bs-docs-exception" style="overflow: hidden;"&gt; 
+   &lt;h3&gt;&lt;/i&gt; [@TITLE]&lt;/h3&gt;
+   &lt;blockquote&gt;
+      &lt;p&gt;El servidor ha detectat un problema i no ha generat la pàgina sol·licitada.&lt;/p&gt;
+      &lt;small&gt;Els detalls d'aquest problema es mostren a continuació.&lt;/small&gt;
+   &lt;/blockquote&gt;
+   [#IF MSG]&lt;div class="alert alert-error"&gt;[@MSG]&lt;/div&gt;[#ENDIF MSG]
 &lt;/div&gt;
+[#IF TRACE]&lt;pre class="prettyprint linenums"&gt;
+[@TRACE]
+&lt;/pre&gt;[#ENDIF TRACE]
+&lt;hr class="bs-docs-separator" /&gt;
             </celement>
          </pcontrol>
 
