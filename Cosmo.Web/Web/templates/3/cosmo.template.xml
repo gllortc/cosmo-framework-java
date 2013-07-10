@@ -13,7 +13,7 @@
       <hlink rel="stylesheet" type="text/css" href="css/bootstrap.min.css" media="all" />
       <hlink rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css" media="all" />
       <hlink rel="stylesheet" type="text/css" href="css/docs.css" media="all" />
-      <hscript type="text/javascript" src="js/actions.js" />
+      <hscript type="text/javascript" src="js/bootbox.min.js" />
       <hscript type="text/javascript" src="js/actions.js" />
    </head>
    <dom>
