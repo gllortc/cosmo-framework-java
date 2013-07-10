@@ -17,9 +17,29 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+			<!-- <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>2.6.1</version>
+            <configuration>
+               <stylesheetfile>${basedir}/javadoc/stylesheet.css</stylesheetfile>
+               <javadocDirectory>${basedir}/javadoc</javadocDirectory>
+               <docfilessubdirs>true</docfilessubdirs>
+            </configuration>
+         </plugin> -->
 		</plugins>
 	</build>
 	<dependencies>
+	   <dependency>
+         <groupId>javax</groupId>
+         <artifactId>javaee-web-api</artifactId>
+         <version>6.0</version>
+         <scope>provided</scope>
+      </dependency>
+      <dependency>
+         <groupId>javax.servlet</groupId>
+         <artifactId>servlet-api</artifactId>
+         <version>2.5</version>
+      </dependency>
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
@@ -29,11 +49,6 @@
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>9.1-901.jdbc4</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-httpclient</groupId>
