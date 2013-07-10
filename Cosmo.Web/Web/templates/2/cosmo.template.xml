@@ -4,6 +4,7 @@
    <author>Gerard Llort</author>
    <version>1.0</version>
    <copyright>InforGEST</copyright>
+   <description>Based on HTMLToolkit from 99lime(http://www.99lime.com/elements)</description>
    <first-cssclass>first</first-cssclass>
    <head>
       <hscript type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" />
@@ -360,15 +361,6 @@
 &lt;a href="[@HREF]"&gt;&lt;img class="align-left" src="[@THUMB]" width="50" height="50"&gt;&lt;/a&gt;
 &lt;p&gt;[@DESCRIPTION]&lt;/p&gt;
 &lt;hr /&gt;
-            
-<!-- &lt;div class="col_2"&gt;&lt;a href="[@HREF]"&gt;&lt;img class="style1" src="[@THUMB]" alt="[@CAPTION]" width="[@WIDTH]" height="[@HEIGHT]" /&gt;&lt;/a&gt;&lt;/div&gt;
-      &lt;div class="col_10"&gt;
-         &lt;h5 style="margin-top:0px;"&gt;&lt;a href="[@HREF]"&gt;[@CAPTION]&lt;/a&gt;&lt;/h5&gt;
-         &lt;p&gt;[@DESCRIPTION]&lt;/p&gt;
-         &lt;blockquote class="small" style="margin-bottom:0;"&gt;&lt;span&gt;&lt;span class="icon medium gray" data-icon="i"&gt;&lt;/span&gt; [#IF DATE]Publicado el [@DATE][#IF AUTHOR] por [@AUTHOR][#ENDIF AUTHOR][#ENDIF DATE]&lt;/span&gt;&lt;/blockquote&gt;
-      &lt;/div&gt;
-   &lt;/div&gt;
-   &lt;hr class="alt2" style="margin:5px 0;" /&gt; -->
             </celement>
             <celement id="object-list-footer">
 &lt;/div&gt;
@@ -508,16 +500,22 @@
 
          <!-- SLIDER -->
          <pcontrol id="CosmoUiCtrlSlider">
+            <celement id="slider-element-first" />
             <celement id="slider-header">
 &lt;ul class="slideshow" width="[@WIDTH]" height="[@HEIGHT]"&gt;
             </celement>
+            <celement id="slider-item-header" />
             <celement id="slider-item">
-&lt;li&gt;[@CONTENTS]&lt;/li&gt;
+  &lt;li&gt;[@CONTENTS]&lt;/li&gt;
             </celement>
+            <celement id="slider-item-footer" />
+            <celement id="slider-content-header" />
+            <celement id="slider-content" />
+            <celement id="slider-content-footer" />
             <celement id="slider-footer">
 &lt;/ul&gt;
             </celement>
-			</pcontrol>
+         </pcontrol>
 
          <!-- CAJA DE BÚSQUEDA (GOOGLE CUSTOM ENGINE) -->
          <pcontrol id="google-cse-search-box" show="true">
