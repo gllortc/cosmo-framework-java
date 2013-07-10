@@ -35,7 +35,7 @@
    <connections cosmo-server="cosmo.server">
 
 	   <connection id="cosmo.server" 
-	               corm.driver="com.cosmo.data.orm.OrmDriverPostgreSql"
+	               corm.driver="com.cosmo.data.orm.impl.OrmDriverPostgreSqlImpl"
 	               jdbc.driver="org.postgresql.Driver" 
 	               server="jdbc:postgresql:cosmo-test" 
 	               port="5432" 
@@ -45,54 +45,71 @@
 	
    </connections>
    
+   <!-- SECURITY CONFIGURATION -->
    <security authentication-agent="rdbms" authorization-agent="rdbms" login-page="LoginPage">
       
       <authentication-agent id="rdbms" driver="com.cosmo.security.auth.impl.PostgreSqlAuthenticationImpl">
-         <param key="connection" value="cosmo.server" />
-         <param key="lockControl" value="true" />
-         <param key="lockTimeout" value="60" />
+         <param key="connection"   value="cosmo.server" />
+         <param key="lockControl"  value="true" />
+         <param key="lockTimeout"  value="60" />
          <param key="lockAttempts" value="3" />
       </authentication-agent>
 
       <authentication-agent id="ldap" driver="com.cosmo.security.auth.impl.LdapAuthenticationImpl">
-         <param key="context-factory" value="com.sun.jndi.ldap.LdapCtxFactory" />
-         <param key="host-url" value="ldap.testathon.net" />
-         <param key="host-port" value="389" />
-         <param key="search-base" value="OU=users,DC=testathon,DC=net" />
-         <param key="login-pattern" value="CN=%login%,OU=Users,DC=testathon,DC=net" />
-         <param key="ldap-attrib-mail" value="mail" />
-         <param key="ldap-attrib-name" value="givenName" />
+         <param key="context-factory"     value="com.sun.jndi.ldap.LdapCtxFactory" />
+         <param key="host-url"            value="ldap.testathon.net" />
+         <param key="host-port"           value="389" />
+         <param key="search-base"         value="OU=users,DC=testathon,DC=net" />
+         <param key="login-pattern"       value="CN=%login%,OU=Users,DC=testathon,DC=net" />
+         <param key="ldap-attrib-mail"    value="mail" />
+         <param key="ldap-attrib-name"    value="givenName" />
          <param key="ldap-attrib-surname" value="sn" />
       </authentication-agent>
       
       <authentication-agent id="cas" driver="com.cosmo.security.auth.impl.CasAuthenticationImpl">
-         <param key="service-url" value="http://localhost:8080/Cosmo.Web/" />
-         <param key="cas-service" value="https://developsc.intranet.dtgna:8443/cas-dipta/" />
-         <param key="cas-attrib-mail" value="mail" />
+         <param key="service-url"      value="http://localhost:8080/Cosmo.Web/" />
+         <param key="cas-service"      value="https://developsc.intranet.dtgna:8443/cas-dipta/" />
+         <param key="cas-attrib-mail"  value="mail" />
          <param key="cas-attrib-cname" value="nomComplet" />
       </authentication-agent>
       
       <authorization-agent id="rdbms" driver="com.cosmo.security.auth.impl.PostgreSqlAuthorizationImpl">
-         <param key="connection" value="cosmo.server" />
+         <param key="connection"       value="cosmo.server" />
       </authorization-agent>
       
    </security>
    
+   <!-- ORM uAPPLICATIONS -->
+   <corm-apps>
+
+      <corm-app id="appWeather" class="com.cosmo.web.sample.Weather" connection="cosmo.server" title="Gestió del temps" description="Gestiona els registres meteorològics de les ciutats catalanes.">
+	      <app-action type="grid" activitiesAllowed="weather.grid" rolesAllowed="" />
+	      <app-action type="create" activitiesAllowed="weather.create" rolesAllowed="" />
+	   </corm-app>
+	   
+	   <corm-app id="appConvenios" class="com.cosmo.web.sample.Convenio" connection="cosmo.server" title="Gestión de convenios" description="Gestión de las ofertas de accidentes de convenios.">
+         <app-action type="grid" activitiesAllowed="convenios.grid" rolesAllowed="" />
+         <app-action type="create" activitiesAllowed="convenios.create" rolesAllowed="" />
+      </corm-app>
+
+   </corm-apps>
+   
    <!-- STATIC MENUS -->
    <menu type="lateral">
-      <menuitem id="mnuHome" name="Inici" href="HomePage" parent="" />
-      <menuitem id="mnuContent" name="Contingut" href="ContentPage" parent="" />
-      <menuitem id="mnuListView" name="Llistes" href="ListViewPage" parent="" />
-      <menuitem id="mnuSlider" name="Slider" href="SliderPage" parent="" />
-      <menuitem id="mnuForm" name="Grid / Formularis" href="GridPage" parent="" />
-      <menuitem id="mnuDrivers" name="Informació de seguretat" href="SecurityInfoPage" icon="icon-lock" parent="" />
-      <menuitem id="mnuTests" name="Tests de seguretat" href="SecurityTestsPage" icon="icon-lock" parent="" />
-      <menuitem id="mnuUsrMngr" name="Gestió d'usuaris" href="UserManagerPage" icon="icon-lock" parent="" />
+      <menuitem id="mnuHome"     name="Inici"                   href="HomePage"          parent="" />
+      <menuitem id="mnuContent"  name="Contingut"               href="ContentPage"       parent="" />
+      <menuitem id="mnuListView" name="Llistes"                 href="ListViewPage"      parent="" />
+      <menuitem id="mnuSlider"   name="Slider"                  href="SliderPage"        parent="" />
+      <menuitem id="mnuForm"     name="Grid / Formularis"       href="GridPage"          parent="" />
+      <menuitem id="mnuOrmForm"  name="ORM Grid / Formularis"   href="OrmGridPage"       parent="" />
+      <menuitem id="mnuDrivers"  name="Informació de seguretat" href="SecurityInfoPage"  icon="icon-lock" parent="" />
+      <menuitem id="mnuTests"    name="Tests de seguretat"      href="SecurityTestsPage" icon="icon-lock" parent="" />
+      <menuitem id="mnuUsrMngr"  name="Gestió d'usuaris"        href="UserManagerPage"   icon="icon-lock" parent="" />
    </menu>
    
    <menu type="top">
-      <menuitem id="mnuHome" name="Home" href="/HomePage" parent="" />
-      <menuitem id="mnuForm" name="Form" href="" parent="" />
+      <menuitem id="mnuHome"  name="Home"      href="/HomePage"  parent="" />
+      <menuitem id="mnuForm"  name="Form"      href=""           parent="" />
       <menuitem id="mnuForm1" name="LoginPage" href="/LoginPage" parent="mnuForm" />
    </menu>
    
