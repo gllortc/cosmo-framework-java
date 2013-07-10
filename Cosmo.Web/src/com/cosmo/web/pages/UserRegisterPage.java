@@ -20,7 +20,7 @@ import com.cosmo.ui.controls.DynamicMessageControl;
 import com.cosmo.ui.controls.DynamicMessageControl.MessageTypes;
 import com.cosmo.ui.controls.FormButton;
 import com.cosmo.ui.controls.FormControl;
-import com.cosmo.ui.controls.FormFieldGroup;
+import com.cosmo.ui.controls.FormFieldset;
 import com.cosmo.ui.controls.FormFieldText;
 import com.cosmo.ui.controls.HeaderControl;
 
@@ -77,14 +77,14 @@ public class UserRegisterPage extends Page
             form.setName("frmUserAdd");
             form.setTitle("Nou compte d'usuari");
 
-            FormFieldGroup grpId = new FormFieldGroup("Identificació");
+            FormFieldset grpId = new FormFieldset("Identificació");
             grpId.addField(new FormFieldText(FIELD_LOGIN, "Login", 35));
             grpId.addField(new FormFieldText(FIELD_PASSWORD, "Contrassenya", 32, true));
             grpId.addField(new FormFieldText(FIELD_PASSWORDVER, "Verificació", 32, true));
             grpId.addField(new FormFieldText(FIELD_MAIL, "Correu-e", 255));
             form.addGroup(grpId);
 
-            FormFieldGroup grpDat = new FormFieldGroup("Dades personals");
+            FormFieldset grpDat = new FormFieldset("Dades personals");
             grpDat.addField(new FormFieldText(FIELD_NAME, "Nom complert", 64));
             form.addGroup(grpDat);
             

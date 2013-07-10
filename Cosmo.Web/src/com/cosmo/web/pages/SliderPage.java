@@ -46,11 +46,11 @@ public class SliderPage extends Page
       SliderControl slider = new SliderControl(getWorkspace());
       slider.setWidth(550);
       slider.setHeight(413);
-      slider.addItem(new SliderItem("img/Cosmos_01.jpg", 550, 413, SliderItem.SlideType.Image));
-      slider.addItem(new SliderItem("img/Cosmos_02.jpg", 550, 413, SliderItem.SlideType.Image));
-      slider.addItem(new SliderItem("img/Cosmos_03.jpg", 550, 413, SliderItem.SlideType.Image));
-      slider.addItem(new SliderItem("img/Cosmos_04.jpg", 550, 413, SliderItem.SlideType.Image));
-      slider.addItem(new SliderItem("img/Cosmos_05.jpg", 550, 413, SliderItem.SlideType.Image));
+      slider.addItem(new SliderItem("img/Cosmos_01.jpg", 550, 413, "Slider 1", "Quisque tristique massa nulla, eget congue lectus varius eget. Mauris eget nisi tincidunt, condimentum orci ut, consequat felis. Pellentesque pretium hendrerit egestas. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vivamus quis ipsum sed diam faucibus iaculis lacinia ac nisi.", SliderItem.SlideType.Image));
+      slider.addItem(new SliderItem("img/Cosmos_02.jpg", 550, 413, "Slider 2", "Quisque tristique massa nulla, eget congue lectus varius eget. Mauris eget nisi tincidunt, condimentum orci ut, consequat felis. Pellentesque pretium hendrerit egestas. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vivamus quis ipsum sed diam faucibus iaculis lacinia ac nisi.", SliderItem.SlideType.Image));
+      slider.addItem(new SliderItem("img/Cosmos_03.jpg", 550, 413, "Slider 3", "Quisque tristique massa nulla, eget congue lectus varius eget. Mauris eget nisi tincidunt, condimentum orci ut, consequat felis. Pellentesque pretium hendrerit egestas. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vivamus quis ipsum sed diam faucibus iaculis lacinia ac nisi.", SliderItem.SlideType.Image));
+      slider.addItem(new SliderItem("img/Cosmos_04.jpg", 550, 413, "Slider 4", "Quisque tristique massa nulla, eget congue lectus varius eget. Mauris eget nisi tincidunt, condimentum orci ut, consequat felis. Pellentesque pretium hendrerit egestas. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vivamus quis ipsum sed diam faucibus iaculis lacinia ac nisi.", SliderItem.SlideType.Image));
+      slider.addItem(new SliderItem("img/Cosmos_05.jpg", 550, 413, "Slider 5", "Quisque tristique massa nulla, eget congue lectus varius eget. Mauris eget nisi tincidunt, condimentum orci ut, consequat felis. Pellentesque pretium hendrerit egestas. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vivamus quis ipsum sed diam faucibus iaculis lacinia ac nisi.", SliderItem.SlideType.Image));
       pc.addContent(slider, ContentColumns.MAIN);
       
       return pc;

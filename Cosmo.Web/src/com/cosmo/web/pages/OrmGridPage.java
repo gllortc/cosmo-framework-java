@@ -4,8 +4,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cosmo.data.DataConnection;
-import com.cosmo.structures.GridData;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.PageContext;
 import com.cosmo.ui.PageContext.ContentColumns;
@@ -18,19 +16,17 @@ import com.cosmo.ui.controls.DynamicMessageControl;
 import com.cosmo.ui.controls.GridControl;
 import com.cosmo.ui.controls.HeaderControl;
 import com.cosmo.ui.controls.Icon;
-import com.cosmo.web.sample.WeatherManager;
+import com.cosmo.web.sample.Weather;
 
 /**
- * Página de prova.
- * 
- * @author Gerard Llort
+ * Servlet implementation class FormPage
  */
-@WebServlet( description = "GridPage", urlPatterns = { "/GridPage" } )
-public class GridPage extends Page 
+@WebServlet(description = "Exemple de taula Cosmo fent us de CORM", urlPatterns = { "/OrmGridPage" })
+public class OrmGridPage extends Page 
 {
    /** Serial Version UID */
-   private static final long serialVersionUID = -2960537450581221913L;
-
+   private static final long serialVersionUID = 8878330001994265668L;
+   
    private static final String ID_GRID = "grid";
    private static final String ID_MSG = "msg";
    
@@ -68,20 +64,12 @@ public class GridPage extends Page
    @Override
    public PageContext loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
-      DataConnection conn;
-      WeatherManager wm;
+      GridControl grid;
       
       try 
       {
-         conn = new DataConnection(getWorkspace().getProperties().getDataSource("cosmo.server"));
-         wm = new WeatherManager(conn);
-      
-         GridData gd = new GridData();
-         gd.setCells(wm.getAll(), true);
-         
-         GridControl grid = (GridControl) pc.getControl(ID_GRID);
-         // grid.setData(request, gd);
-         grid.setData(gd);
+         grid = (GridControl) pc.getControl(ID_GRID);
+         grid.setData("cosmo.server", Weather.class, true);
       } 
       catch (Exception ex) 
       {

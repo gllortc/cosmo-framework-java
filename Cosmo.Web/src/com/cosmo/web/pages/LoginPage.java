@@ -18,7 +18,7 @@ import com.cosmo.ui.controls.DynamicMessageControl;
 import com.cosmo.ui.controls.FormButton;
 import com.cosmo.ui.controls.FormButton.ButtonType;
 import com.cosmo.ui.controls.FormControl;
-import com.cosmo.ui.controls.FormFieldGroup;
+import com.cosmo.ui.controls.FormFieldset;
 import com.cosmo.ui.controls.FormFieldHidden;
 import com.cosmo.ui.controls.FormFieldText;
 import com.cosmo.ui.controls.HeaderControl;
@@ -61,7 +61,7 @@ public class LoginPage extends Page
       
       FormControl form = new FormControl(getWorkspace(), "LoginForm");
       form.addHiddenValue(new FormFieldHidden(Cosmo.URL_PARAM_TOURL, HttpRequestUtils.getValue(request, Cosmo.URL_PARAM_TOURL)));
-      FormFieldGroup group = new FormFieldGroup("Datos de identificación");
+      FormFieldset group = new FormFieldset("Datos de identificación");
       group.addField(new FormFieldText(LoginPage.FIELD_LOGIN, "Login"));
       group.addField(new FormFieldText(LoginPage.FIELD_PASSWORD, "Password", true));
       form.addGroup(group);
@@ -77,7 +77,7 @@ public class LoginPage extends Page
       try 
       {
          getWorkspace().createUserSession(HttpRequestUtils.getValue(request, LoginPage.FIELD_LOGIN), 
-                                      HttpRequestUtils.getValue(request, LoginPage.FIELD_PASSWORD));
+                                          HttpRequestUtils.getValue(request, LoginPage.FIELD_PASSWORD));
 
          response.sendRedirect(HttpRequestUtils.getValue(request, Cosmo.URL_PARAM_TOURL));
       } 

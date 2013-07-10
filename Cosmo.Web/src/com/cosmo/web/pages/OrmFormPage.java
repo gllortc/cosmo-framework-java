@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cosmo.data.orm.InvalidMappingException;
-import com.cosmo.data.orm.OrmProvider;
+import com.cosmo.data.orm.OrmFactory;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.PageContext;
 import com.cosmo.ui.PageContext.ContentColumns;
@@ -74,12 +74,15 @@ public class OrmFormPage extends Page
    @Override
    public PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response)
    {
-      OrmProvider ormp;
+      Object instance;
+      OrmFactory ormp;
       
       try 
       {
-         ormp = new OrmProvider("cosmo.server", getWorkspace());
-         ormp.add(Weather.class, request);
+         instance = OrmFactory.getObjectFromRequest(Weather.class, request);
+         
+         ormp = new OrmFactory("cosmo.server", getWorkspace());
+         ormp.insert(instance);
 
          response.sendRedirect("GridPage");
       } 

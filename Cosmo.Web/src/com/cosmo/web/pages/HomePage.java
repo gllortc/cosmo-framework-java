@@ -10,6 +10,8 @@ import com.cosmo.logging.LogManager;
 import com.cosmo.logging.Logger;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.PageContext;
+import com.cosmo.ui.annotations.CacheScope;
+import com.cosmo.ui.annotations.CacheScope.PageCacheScopes;
 import com.cosmo.ui.controls.HeaderControl;
 import com.cosmo.ui.controls.Icon;
 import com.cosmo.ui.controls.XhtmlControl;
@@ -19,6 +21,7 @@ import com.cosmo.ui.controls.XhtmlControl;
  * 
  * @author Gerard Llort
  */
+@CacheScope( scope = PageCacheScopes.SCOPE_APPLICATION )
 @WebServlet( description = "HomePage", urlPatterns = { "/HomePage" } )
 public class HomePage extends Page 
 {
@@ -33,7 +36,7 @@ public class HomePage extends Page
    {
       ArrayList<String> ul;
       
-      logger = LogManager.getLogger(getWorkspace(), SecurityInfoPage.class);
+      logger = LogManager.getLogger(getWorkspace(), HomePage.class);
       
       logger.info("Iniciant pàgina...");
       

@@ -84,7 +84,8 @@ public class ServerInfoPage extends Page
          }
          
          GridControl grid = (GridControl) pc.getControl(ID_GRID);
-         grid.setData(request, gd);
+         grid.setData(gd);
+         // grid.setData(request, gd);
       } 
       catch (Exception ex) 
       {

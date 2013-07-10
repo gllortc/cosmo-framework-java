@@ -80,7 +80,8 @@ public class UserManagerPage extends Page
          gd.setCells(auth.getUsersList(), true);
          
          GridControl grid = (GridControl) pc.getControl(ID_GRID);
-         grid.setData(request, gd);
+         grid.setData(gd);
+         // grid.setData(request, gd);
       } 
       catch (Exception ex) 
       {

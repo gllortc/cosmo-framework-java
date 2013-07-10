@@ -16,7 +16,7 @@ import com.cosmo.ui.controls.DynamicMessageControl;
 import com.cosmo.ui.controls.FormButton;
 import com.cosmo.ui.controls.FormButton.ButtonType;
 import com.cosmo.ui.controls.FormControl;
-import com.cosmo.ui.controls.FormFieldGroup;
+import com.cosmo.ui.controls.FormFieldset;
 import com.cosmo.ui.controls.FormFieldText;
 import com.cosmo.ui.controls.HeaderControl;
 import com.cosmo.ui.controls.Icon;
@@ -55,7 +55,7 @@ public class FormPage extends Page
       pc.addContent(message, ContentColumns.MAIN);
       
       FormControl form = new FormControl(getWorkspace(), "WeatherForm");
-      FormFieldGroup group = new FormFieldGroup("Temps meteorològic", "Introdueixi les dades de registre meteorològic.", form);
+      FormFieldset group = new FormFieldset("Temps meteorològic", "Introdueixi les dades de registre meteorològic.", form);
       group.addField(new FormFieldText("txtName", "Ciutat"));
       group.addField(new FormFieldText("txtTMin", "Temperatura mínima"));
       group.addField(new FormFieldText("txtTMax", "Temperatura màxima"));
