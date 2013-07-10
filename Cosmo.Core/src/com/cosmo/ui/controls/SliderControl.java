@@ -14,13 +14,24 @@ public class SliderControl extends Control
 {
    private static final String CONTROL_ID = "CosmoUiCtrlSlider";
    
+   private static final String CPART_FIRST = "slider-element-first";
    private static final String CPART_HEADER = "slider-header";
-   private static final String CPART_FOOTER = "slider-footer";
+   private static final String CPART_ITEM_HEADER = "slider-item-header";
    private static final String CPART_ITEM = "slider-item";
-         
+   private static final String CPART_ITEM_FOOTER = "slider-item-footer";
+   private static final String CPART_CONTENT_HEADER = "slider-content-header";
+   private static final String CPART_CONTENT = "slider-content";
+   private static final String CPART_CONTENT_FOOTER = "slider-content-footer";
+   private static final String CPART_FOOTER = "slider-footer";
+            
    private static final String TAG_SLIDER_CONTENTS = "CONTENTS";
    private static final String TAG_SLIDER_HEIGHT = "HEIGHT";
    private static final String TAG_SLIDER_WIDTH = "WIDTH";
+   private static final String TAG_SLIDER_COUNT = "COUNT";
+   private static final String TAG_SLIDER_ID = "ID";
+   private static final String TAG_SLIDER_TITLE = "TITLE";
+   private static final String TAG_SLIDER_DESCRIPTION = "DESCRIPTION";
+   private static final String TAG_SLIDER_FIRST = "FIRST";
    
    // Variables privadas
    private int width;
@@ -112,7 +123,9 @@ public class SliderControl extends Control
    @Override
    public String render()
    {
+      int count = 0;
       String xitem;
+      String first = "";
       TemplateControl ctrl;
       StringBuilder str = new StringBuilder();
       
@@ -125,21 +138,71 @@ public class SliderControl extends Control
       // Obtiene la plantilla y la parte del control
       ctrl = getWorkspace().getTemplate().getControl(SliderControl.CONTROL_ID);
       
+      // Obtiene el indicador de primer elemento (permite diferenciar la clase cuando es el primer elemento)
+      first = ctrl.getElement(CPART_FIRST);
+      
       // Genera la cabecera de la barra de navegación
       xitem = ctrl.getElement(CPART_HEADER);
+      xitem = Control.replaceTag(xitem, TAG_SLIDER_ID, this.getId());
       xitem = Control.replaceTag(xitem, TAG_SLIDER_WIDTH, "" + this.width);
       xitem = Control.replaceTag(xitem, TAG_SLIDER_HEIGHT, "" + this.height);
       str.append(xitem);
       
+      xitem = ctrl.getElement(CPART_ITEM_HEADER);
+      xitem = Control.replaceTag(xitem, TAG_SLIDER_ID, this.getId());
+      str.append(xitem);
+      
       for (SliderItem item : this.items)
       {
+         count++;
+         
          xitem = ctrl.getElement(CPART_ITEM);
+         xitem = Control.replaceTag(xitem, TAG_SLIDER_ID, this.getId());
          xitem = Control.replaceTag(xitem, TAG_SLIDER_CONTENTS, item.render());
+         xitem = Control.replaceTag(xitem, TAG_SLIDER_COUNT, "" + count);
+         xitem = Control.replaceTag(xitem, TAG_SLIDER_FIRST, first);
          str.append(xitem);
+         
+         first = "";
       }
       
+      xitem = ctrl.getElement(CPART_ITEM_FOOTER);
+      xitem = Control.replaceTag(xitem, TAG_SLIDER_ID, this.getId());
+      xitem = Control.replaceTag(xitem, TAG_SLIDER_COUNT, "" + count);  // Número total de diapositivas
+      str.append(xitem);
+      
+      // Obtiene el indicador de primer elemento (permite diferenciar la clase cuando es el primer elemento)
+      first = ctrl.getElement(CPART_FIRST);
+      
+      xitem = ctrl.getElement(CPART_CONTENT_HEADER);
+      xitem = Control.replaceTag(xitem, TAG_SLIDER_ID, this.getId());
+      str.append(xitem);
+
+      for (SliderItem item : this.items)
+      {
+         count++;
+         
+         xitem = ctrl.getElement(CPART_CONTENT);
+         xitem = Control.replaceTag(xitem, TAG_SLIDER_ID, this.getId());
+         xitem = Control.replaceTag(xitem, TAG_SLIDER_CONTENTS, item.render());
+         xitem = Control.replaceTag(xitem, TAG_SLIDER_COUNT, "" + count);
+         xitem = Control.replaceTag(xitem, TAG_SLIDER_TITLE, item.getTitle());
+         xitem = Control.replaceTag(xitem, TAG_SLIDER_DESCRIPTION, item.getDescription());
+         xitem = Control.replaceTag(xitem, TAG_SLIDER_FIRST, first);
+         str.append(xitem);
+         
+         first = "";
+      }
+      
+      xitem = ctrl.getElement(CPART_CONTENT_FOOTER);
+      xitem = Control.replaceTag(xitem, TAG_SLIDER_ID, this.getId());
+      xitem = Control.replaceTag(xitem, TAG_SLIDER_COUNT, "" + count);  // Número total de diapositivas
+      str.append(xitem);
+      
       // Genera el piÃ© de la barra de navegación
-      str.append(ctrl.getElement(CPART_FOOTER));
+      xitem = ctrl.getElement(CPART_FOOTER);
+      xitem = Control.replaceTag(xitem, TAG_SLIDER_ID, this.getId());
+      str.append(xitem);
       
       return str.toString();
    }

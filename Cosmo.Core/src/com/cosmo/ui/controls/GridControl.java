@@ -1,16 +1,22 @@
 package com.cosmo.ui.controls;
 
+import java.lang.reflect.Method;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import com.cosmo.Workspace;
+import com.cosmo.data.DataException;
+import com.cosmo.data.orm.InvalidMappingException;
+import com.cosmo.data.orm.OrmFactory;
+import com.cosmo.data.orm.annotations.CormObjectField;
 import com.cosmo.structures.GridData;
 import com.cosmo.ui.templates.TemplateControl;
 
 /**
- * Implementa un grid.
+ * Implementa un control grid para mostrar datos en forma de tabla.
  * 
  * @author Gerard Llort
  */
@@ -37,7 +43,8 @@ public class GridControl extends Control
    private boolean firstRowTitles;
    private String rowActionsCaption;
    private ArrayList<GridRowAction> rowActions;
-   private int idColumn;
+   private ArrayList<Integer> rowIds;
+   private GridData gridData;
    
    //==============================================
    // Contructors
@@ -45,6 +52,9 @@ public class GridControl extends Control
    
    /**
     * Contructor de la clase.
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
+    * @param id Identificador único del control.
     */
    public GridControl(Workspace workspace, String id)
    {
@@ -55,73 +65,100 @@ public class GridControl extends Control
       this.description = "";
       this.rowActionsCaption = "Acciones";
       this.rowActions = new ArrayList<GridRowAction>();
-      this.idColumn = 0;
+      this.gridData = new GridData();
    }
    
    //==============================================
    // Properties
    //==============================================
 
+   /**
+    * Devuelve un identificador único del tipo de control.
+    */
    @Override
    public String getControlTypeId() 
    {
       return GridControl.CONTROL_ID;
    }
 
+   /**
+    * Devuelve el título que se mostrará en el control.
+    */
    public String getTitle() 
    {
       return title;
    }
 
+   /**
+    * Establece el título que se mostrará en el control.
+    */
    public void setTitle(String title) 
    {
       this.title = title;
    }
 
+   /**
+    * Devuelve la descripción que se mostrará en el control.
+    */
    public String getDescription() 
    {
       return description;
    }
 
+   /**
+    * Establece la descripción que se mostrará en el control.
+    */
    public void setDescription(String description) 
    {
       this.description = description;
    }
 
+   /**
+    * Indica si se muestra la fila de títulos de columna.
+    */
    public boolean isFirstRowTitles() 
    {
       return firstRowTitles;
    }
 
+   /**
+    * Establece el indicador de muestra de la fila de títulos de columna.
+    */
    public void setFirstRowTitles(boolean firstRowTitles) 
    {
       this.firstRowTitles = firstRowTitles;
    }
    
+   /**
+    * Devuelve el título de la columna de acciones.
+    */
    public String getRowActionsCaption()
    {
       return rowActionsCaption;
    }
 
+   /**
+    * Establece el título de la columna de acciones.
+    */
    public void setRowActionsCaption(String rowActionsCaption)
    {
       this.rowActionsCaption = rowActionsCaption;
    }
    
    /**
-    * Devuelve el índice de la columna (base 0) que contiene el identificador de la fila.
+    * Devuelve la lista de índices de columnas que contienen los indicadores de clave primaria (base 0).
     */
-   public int getIdColumn() 
+   public ArrayList<Integer> getRowIds() 
    {
-      return idColumn;
+      return rowIds;
    }
 
    /**
-    * Establece el índice de la columna (base 0) que contiene el identificador de la fila.
+    * Establece la lista de índices de columnas que contienen los indicadores de clave primaria (base 0).
     */
-   public void setIdColumn(int idColumn) 
+   public void setRowIds(ArrayList<Integer> rowIds)
    {
-      this.idColumn = idColumn;
+      this.rowIds = rowIds;
    }
    
    
@@ -135,9 +172,38 @@ public class GridControl extends Control
     * @param request Una instancia de {@link HttpServletRequest} que contiene el contexto de la llamada.
     * @param data Una instancia de {@link GridData} que contiene los datos del grid.
     */
-   public void setData(HttpServletRequest request, GridData data)
+   public void setData(GridData data)
    {
-      request.getSession().setAttribute(this.getSessionControlData(), data);
+      this.gridData = data;
+   }
+   
+   /**
+    * Establece los datos del grid a partir de una consulta a una tabla de datos ORM.
+    * 
+    * @param dataSourceId Identificador de la connexión a datos que se usará para obtener los datos.
+    * @param ormClass Una clase Cosmo ORM (CORM) que contiene la definición de la misma.
+    * 
+    * @throws Exception 
+    * @throws DataException 
+    * @throws SQLException 
+    * @throws InvalidMappingException 
+    */
+   public void setData(String dataSourceId, Class<?> ormClass, boolean showAllColumns) throws InvalidMappingException, SQLException, DataException, Exception 
+   {
+      ResultSet rs;
+
+      // Limpia los IDs
+      this.rowIds = new ArrayList<Integer>();
+      
+      // Obtiene el ResultSet
+      OrmFactory ormp = new OrmFactory(dataSourceId, getWorkspace());
+      rs = ormp.select(ormClass, showAllColumns);
+      
+      // Establece los datos en el grid
+      this.gridData.setCells(rs, true);
+      
+      // Establece los índices de las columnas que contienen las claves principales
+      setGridMetaData(ormClass, showAllColumns);
    }
    
    /**
@@ -147,30 +213,9 @@ public class GridControl extends Control
     * 
     * @return Una instancia de {@link GridData}.
     */
-   public GridData getData(HttpServletRequest request)
+   public GridData getData()
    {
-      if (request == null)
-      {
-         return new GridData();
-      }
-      
-      HttpSession session = request.getSession();
-      
-      if (session == null)
-      {
-         return new GridData();
-      }
-      
-      GridData gd = (GridData) session.getAttribute(this.getSessionControlData());
-      
-      if (gd != null)
-      {
-         return gd;
-      }
-      else
-      {
-         return new GridData();
-      }
+      return this.gridData;
    }
    
    /**
@@ -205,18 +250,15 @@ public class GridControl extends Control
       String xrowtitle, xrow, xrowdata, xcell, xhead;
       TemplateControl ctrl;
       
-      // Obtiene los datos de la tabla
-      GridData data = this.getData(getWorkspace().getServerRequest());
-      
       // Obtiene la plantilla y la parte del control
       ctrl = getWorkspace().getTemplate().getControl(CONTROL_ID);
 
       // Genera la fila de títulos
       xrowdata = "";
       xcell = ctrl.getElement(CPART_ROWTITLE_CELL);
-      for (int col = 0; col < data.getColumnCount(); col++)
+      for (int col = 0; col < this.gridData.getColumnCount(); col++)
       {
-         xrowdata += Control.replaceTag(xcell, TAG_VALUE, data.getCell(0, col, "").toString());
+         xrowdata += Control.replaceTag(xcell, TAG_VALUE, this.gridData.getCell(0, col, "").toString());
       }
       if (!this.rowActions.isEmpty())
       {
@@ -228,19 +270,20 @@ public class GridControl extends Control
       // Genera las celdas de datos
       xrow = "";
       xcell = ctrl.getElement(CPART_ROW_CELL);
-      for (int row = 1; row < data.getRowCount(); row++)
+      for (int row = 1; row < this.gridData.getRowCount(); row++)
       {
          xrowdata = "";
-         for (int col = 0; col < data.getColumnCount(); col++)
+         for (int col = 0; col < this.gridData.getColumnCount(); col++)
          {
-            xrowdata += Control.replaceTag(xcell, TAG_VALUE, data.getCell(row, col, "").toString());
+            xrowdata += Control.replaceTag(xcell, TAG_VALUE, this.gridData.getCell(row, col, "").toString());
          }
          if (!this.rowActions.isEmpty())
          {
             actions = "";
             for (GridRowAction action : this.rowActions)
             {
-               actions += action.render(ctrl, data.getCell(row, this.idColumn, "").toString());
+               // actions += action.render(ctrl, data.getCell(row, this.idColumn, "").toString());
+               actions += action.render(ctrl, this.gridData.getRowId(row)); //  getRowId(this.gridData, row));
             }
             xrowdata += Control.replaceTag(xcell, TAG_VALUE, actions);
          }
@@ -264,4 +307,70 @@ public class GridControl extends Control
       
       return xhtml;
    }
+   
+   
+   //==============================================
+   // Methods
+   //==============================================
+
+   /**
+    * Establece las índices de columna que contienen los identificadores de registro.
+    * 
+    * @param ormClass Clase CORM que contiene la definición de la misma (anotaciones).
+    */
+   private void setGridMetaData(Class<?> ormClass, boolean showAllColumns)
+   {
+      int idx = 0;
+      CormObjectField cfg;
+      
+      this.rowIds = new ArrayList<Integer>();
+      
+      for (Method method : ormClass.getMethods())
+      {
+         if (method.isAnnotationPresent(CormObjectField.class))
+         {
+            cfg = method.getAnnotation(CormObjectField.class);
+            
+            if (showAllColumns || (!showAllColumns && cfg.showInObjectListGrid()))
+            {
+               cfg = method.getAnnotation(CormObjectField.class);
+               this.gridData.setColumnField(idx, cfg.dbTableColumn());
+               this.gridData.setColumnPrimaryKey(idx, cfg.isPrimaryKey());
+               idx++;
+            }
+         }
+      }
+   }
+   
+   /**
+    * Obtiene un ID compuesto por todos los valores de las columnas identioficador de fila.
+    * <br /><br />
+    * Formato: {@code id=12|AJC-0|2}
+    * <br /><br />
+    * Se forma juntando los distintos valores que forman parte de la clave principal mediante el carácter "{@code |}". 
+    * 
+    * @param data Una instancia de {@link GridData} que contiene los datos del control.
+    * @param row Índice de la fila actual.
+    * 
+    * @return Una cadena que contiene un identificador únioco para la fila.
+    */
+   /*private String getRowId(GridData data, int row)
+   {
+      if (this.rowIds.isEmpty())
+      {
+         return "";
+      }
+
+      boolean first = true;
+      String id = "";
+      
+      for (Integer colIdx : this.rowIds)
+      {
+         id += (first ? "" : "|");
+         id += data.getCell(row, colIdx, "").toString();
+         first = false;
+      }
+      
+      return id;
+   }*/
 }

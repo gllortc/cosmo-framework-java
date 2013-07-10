@@ -57,11 +57,11 @@ public class GridRowAction
     * Renderiza el elemento y lo convierte a una cadena en formato XHTML.
     * 
     * @param tc Una instancia de {@link TemplateControl} que representa el control al que pertenece el elemento.
-    * @param id Valor del identificador de la fila.
+    * @param rowId Valor del identificador de la fila.
     * 
     * @return Una cadena en formato XHTML representable en un navegador web.
     */
-   public String render(TemplateControl tc, String id)
+   public String render(TemplateControl tc, String rowId)
    {
       String xhtml;
       
@@ -69,7 +69,7 @@ public class GridRowAction
       xhtml = Control.replaceTag(xhtml, TAG_HREF, this.getHref());
       xhtml = Control.replaceTag(xhtml, TAG_TITLE, this.getCaption());
       xhtml = Control.replaceTag(xhtml, TAG_ICON, this.getIcon());
-      xhtml = xhtml.replace(GridRowAction.TOKEN_ROW_ID, id);
+      xhtml = xhtml.replace(GridRowAction.TOKEN_ROW_ID, rowId);
       
       return xhtml;
    }

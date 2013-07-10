@@ -151,11 +151,10 @@ public class FormFieldDate extends FormField
       sb.append("<input type=\"date\" ").
          append("id=\"").append(this.name).append("\" ").
          append("name=\"").append(this.name).append("\" ").
-         append("value=\"").append(sdf.format(this.value)).append("\" ").
+         append(value != null ? "value=\"" + sdf.format(this.value) + "\" " : "").
          append(min != null ? "min=\"" + sdf.format(this.min) + "\" " : "").
          append(max != null ? "max=\"" + sdf.format(this.max) + "\" " : "").
-         append("value=\"").append(this.value).append("\" ").
-         append(required ? "required" : "").
+         append(required ? "required " : "").
          append("/>");
 
       return sb.toString();

@@ -2,11 +2,11 @@ package com.cosmo.ui.templates;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 /**
- *
- * @author gllort
+ * Representa una especificació de control en una plantilla.
+ * 
+ * @author Gerard Llort
  */
 public class TemplateControl 
 {
@@ -22,7 +22,7 @@ public class TemplateControl
    /**
     * Constructor de la clase.
     * 
-    * @param id Identificador Ãºnico del control.
+    * @param id Identificador único del control.
     */
    public TemplateControl(String id)
    {
@@ -61,10 +61,10 @@ public class TemplateControl
    }
    
    /**
-    * AÃ±ade una parte del control.
+    * Añade una parte del control.
     * 
-    * @param id Identificador Ãºnico del control.
-    * @param xhtml CÃ³digo XHTML correspondiente a la parte del control.
+    * @param id Identificador único del control.
+    * @param xhtml Código XHTML correspondiente a la parte del control.
     */
    public void addControlPart(String id, String xhtml)
    {
@@ -75,7 +75,7 @@ public class TemplateControl
     * Obtiene un elemento del control.
     * 
     * @param id El identificador de la parte que se desea obtener.
-    * @return Una cadena de texto que contiene el cÃ³digo XHTML que corresponde a la parte del control solicitada.
+    * @return Una cadena de texto que contiene el código XHTML que corresponde a la parte del control solicitada.
     */
    public String getElement(String id)
    {
@@ -83,22 +83,22 @@ public class TemplateControl
    }
    
    /**
-    * Obtiene un iterador que permite recorrer los links necesarios para el control.
+    * Obtiene una lista de los links necesarios para el control.
     * 
-    * @return Una instancia de {@link Iterator} que apunta a la lista de links necesarios para el control.
+    * @return Un array de instancias de {@link TemplateLink} que representa la lista de links necesarios para el control.
     */
-   public Iterator<TemplateLink> getLinks()
+   public ArrayList<TemplateLink> getLinks()
    {
-      return this.links.iterator();
+      return this.links;
    }
    
    /**
-    * Obtiene un iterador que permite recorrer los scripts necesarios para el control.
+    * Obtiene una lista de los scripts necesarios para el control.
     * 
-    * @return Una instancia de {@link Iterator} que apunta a la lista de scripts necesarios para el control.
+    * @return Un array de instancias de {@link TemplateScript} que apunta a la lista de scripts necesarios para el control.
     */
-   public Iterator<TemplateScript> getScripts()
+   public ArrayList<TemplateScript> getScripts()
    {
-      return this.scripts.iterator();
+      return this.scripts;
    }
 }

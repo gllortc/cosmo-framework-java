@@ -1,5 +1,7 @@
 package com.cosmo.net;
 
+import java.sql.Date;
+
 import com.cosmo.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 
@@ -60,6 +62,91 @@ public class HttpRequestUtils
    public static Integer getInt(HttpServletRequest request, String fieldName)
    {
       return Integer.valueOf(getValue(request, fieldName, "0"));
+   }
+   
+   /**
+    * Obtiene un valor pasado por GET o POST.
+    * 
+    * @param request Una instancia de {@link HttpServletRequest} que representa la llamada.
+    * @param fieldName Nombre del campo cuyo valor se desea recuperar.
+    * @return Una cadena de texto con el valor recuperado o {@code null} si el nombre no corresponde a ningÃºn valor.
+    */
+   public static Integer getInt(HttpServletRequest request, String fieldName, int defaultValue)
+   {
+      if (request == null)
+      {
+         return defaultValue;
+      }
+      else if (request.getParameter(fieldName) == null)
+      {
+         return defaultValue;
+      }
+      
+      return Integer.valueOf(getValue(request, fieldName, "" + defaultValue));
+   }
+   
+   /**
+    * Obtiene un valor pasado por GET o POST de tipo {@code Double}.
+    * 
+    * @param request Una instancia de {@link HttpServletRequest} que representa la llamada.
+    * @param fieldName Nombre del campo cuyo valor se desea recuperar.
+    * 
+    * @return Una valor {@code Double} que corresponde al parámetro recuperado o {@code 0} si no se puede recuperar el parámetro.
+    */
+   public static Double getDouble(HttpServletRequest request, String fieldName)
+   {
+      return Double.valueOf(getValue(request, fieldName, "0"));
+   }
+   
+   /**
+    * Obtiene un valor pasado por GET o POST de tipo {@code Double}.
+    * 
+    * @param request Una instancia de {@link HttpServletRequest} que representa la llamada.
+    * @param fieldName Nombre del campo cuyo valor se desea recuperar.
+    * @param defaultValue Valor por defecto que se devolverá en caso de no encontrar el valor.
+    * 
+    * @return Una valor {@code Double} que corresponde al parámetro recuperado o {@code defaultValue} si no se puede recuperar el parámetro.
+    */
+   public static Double getDouble(HttpServletRequest request, String fieldName, double defaultValue)
+   {
+      if (request == null)
+      {
+         return defaultValue;
+      }
+      else if (request.getParameter(fieldName) == null)
+      {
+         return defaultValue;
+      }
+      
+      return Double.valueOf(getValue(request, fieldName, "" + defaultValue));
+   }
+   
+   /**
+    * Obtiene un valor pasado por GET o POST de tipo {@code Date}.<br />
+    * El formato aceptado por éste método es {@code yyyy-mm-dd}.
+    * 
+    * @param request Una instancia de {@link HttpServletRequest} que representa la llamada.
+    * @param fieldName Nombre del campo cuyo valor se desea recuperar.
+    * 
+    * @return Una valor {@code Double} que corresponde al parámetro recuperado o 
+    *         {@code null} si no se puede recuperar el parámetro o se produce algún error en la transformación.
+    */
+   public static Date getDate(HttpServletRequest request, String fieldName)
+   {
+      if (request == null)
+      {
+         return null;
+      }
+      else if (request.getParameter(fieldName) == null)
+      {
+         return null;
+      }
+      else if (request.getParameter(fieldName).isEmpty())
+      {
+         return null;
+      }
+      
+      return Date.valueOf(getValue(request, fieldName));
    }
    
    /**

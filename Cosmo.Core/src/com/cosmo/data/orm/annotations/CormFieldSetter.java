@@ -1,5 +1,6 @@
 package com.cosmo.data.orm.annotations;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -7,13 +8,16 @@ import java.lang.annotation.ElementType;
 
 /**
  * Anotación que sirve para indicar a las páginas que se precisa ser usuario autenticado.
+ * 
+ * @author Gerard Llort
  */
+@Documented
 @Retention( value = RetentionPolicy.RUNTIME )
 @Target( value = ElementType.METHOD )
-public @interface CosmoFieldSetter 
+public @interface CormFieldSetter 
 {
    /**
-    * Nombre del campo (se usará como nombre de campo en el formulario).
+    * Nombre del campo en la BBDD.
     */
-   String name();
+   String dbTableColumn();
 }

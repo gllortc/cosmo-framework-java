@@ -335,23 +335,28 @@ public class Template
                      {
                         if (ePart.getAttribute(Template.XML_ATT_TYPE).equals("external"))
                         {
-                           control.addScript(new TemplateScript(TemplateScript.ScriptType.Code, 
-                                                                ePart.getAttribute(Template.XML_ATT_SRC)));
+                           href = ePart.getAttribute(Template.XML_ATT_SRC);
+                           href = Template.PATH_TEMPLATES + "/" + templateId + "/" + href;
+                           
+                           control.addScript(new TemplateScript(TemplateScript.ScriptType.Referenced, href));
                         }
                         else if (ePart.getAttribute(Template.XML_ATT_TYPE).equals("internal"))
                         {
                            if (ePart.hasChildNodes())
                            {
-                              control.addScript(new TemplateScript(TemplateScript.ScriptType.Referenced, 
+                              control.addScript(new TemplateScript(TemplateScript.ScriptType.Code, 
                                                                    ePart.getFirstChild().getNodeValue()));
                            }
                         }
                      }
                      else if (ePart.getNodeName().equals(Template.XML_NODE_LINK))
                      {
+                        href = ePart.getAttribute(Template.XML_ATT_HREF);
+                        href = Template.PATH_TEMPLATES + "/" + templateId + "/" + href;
+                        
                         control.addLink(new TemplateLink(ePart.getAttribute(Template.XML_ATT_REL), 
                                                          ePart.getAttribute(Template.XML_ATT_TYPE),
-                                                         ePart.getAttribute(Template.XML_ATT_HREF)));
+                                                         href));
                      }
                   }
                }

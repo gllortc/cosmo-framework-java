@@ -2,6 +2,7 @@ package com.cosmo.ui;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,23 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
 import com.cosmo.WorkspaceFactory;
-import com.cosmo.WorkspaceLoadException;
-import com.cosmo.security.NotAuthorizedException;
-import com.cosmo.security.PageSecurity;
-import com.cosmo.security.UserNotFoundException;
 import com.cosmo.security.UserSession;
-import com.cosmo.security.auth.AuthenticationException;
-import com.cosmo.security.auth.AuthorizationException;
-import com.cosmo.ui.controls.Control;
-import com.cosmo.ui.controls.FormControl;
+import com.cosmo.ui.annotations.CacheScope;
 import com.cosmo.ui.render.LoadPageRenderException;
-import com.cosmo.ui.render.PageRender;
+import com.cosmo.ui.render.PageRenderer;
 import com.cosmo.ui.render.PageRenderException;
-import com.cosmo.ui.render.PageRenderFactory;
-import com.cosmo.ui.templates.RulesLoadException;
-import com.cosmo.ui.templates.TemplateLoadException;
+import com.cosmo.ui.render.PageRendererFactory;
 import com.cosmo.ui.templates.TemplateUnavailableException;
-import com.cosmo.ui.widgets.providers.MenuProviderException;
 
 // Possibles modificacions:
 //
@@ -44,8 +35,9 @@ public abstract class Page extends HttpServlet
    /** Serial Version UID */
    private static final long serialVersionUID = -2313025410371254322L;
 
+   private String uuid;
    private Workspace workspace;
-   private PageRender renderProvider;
+   private PageRenderer renderProvider;
 
    
    //==============================================
@@ -82,6 +74,14 @@ public abstract class Page extends HttpServlet
       return workspace.getUserSession();
    }
    
+   /**
+    * Devuelve un UUID único para la página.
+    */
+   public String getUuid()
+   {
+      return this.uuid;
+   }
+
    
    //==============================================
    // Abstract members
@@ -145,11 +145,11 @@ public abstract class Page extends HttpServlet
          // Si no hay renderizador asignado, lo carga
          if (this.renderProvider == null)
          {
-            this.renderProvider = PageRenderFactory.getInstance(workspace);
+            this.renderProvider = PageRendererFactory.getInstance(workspace);
          }
          
          // Invoca la renderización al proveedor
-         xhtml = new StringBuilder(this.renderProvider.render(getWorkspace(), pc));
+         xhtml = new StringBuilder(this.renderProvider.render(getWorkspace(), pc, this.uuid));
       }
       catch (PageRenderException ex)
       {
@@ -228,17 +228,42 @@ public abstract class Page extends HttpServlet
     * @throws ServletException 
     * @throws IOException 
     */
-   protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+   protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException //, IOException 
    {
+      long startTime;
+      long totalTime;
+      StringBuilder xhtml;
+      PageContext pc;
+      
+      // Inica el cronometraje de generación de la página
+      startTime = System.currentTimeMillis();
+      
       try 
       {
-         createPage(request, response);
+         // Obtiene el workspace
+         this.workspace = WorkspaceFactory.getInstance(getServletContext(), request, response);
+         
+         // Ejecuta el ciclo de vida de la página y obtiene el modelo de página
+         pc = PageLifecycle.execute(this, request, response);
+         
+         // Si se ha cancelado la carga (usualmente por redirección de página) termina
+         if (pc == null) return;
+         
+         // Renderiza la página
+         xhtml = render(pc);
+         
+         // Finaliza el cronometraje de generación de la página
+         totalTime = System.currentTimeMillis() - startTime;
+         xhtml.append("\n\n");
+         xhtml.append("<!-- Page generated in " + totalTime + " mSec using " + Cosmo.COSMO_NAME + " -->\n");
+         
+         // Manda el resultado de la renderización al cliente
+         response.setContentType("text/html");
+         PrintWriter out = response.getWriter();
+         out.println(xhtml.toString());
       } 
       catch (Exception ex) 
       {
-         // pageException(ex);
-      
-         // Mostrar error sin formato o con formato dependiendo de la excepción
          throw new ServletException(ex.getMessage(), ex);
       }
    }
@@ -294,97 +319,12 @@ public abstract class Page extends HttpServlet
    {
       this.workspace = null;
       this.renderProvider = null;
+      
+      this.uuid = UUID.randomUUID().toString();
    }
    
-   /**
-    * Método que se llama en la respuesta de un formulario enviado y que pone los datos dentro del formulario.
-    */
-   private void formRefreshData(PageContext pc, HttpServletRequest request)
+   public boolean isCacheable()
    {
-      for (Control control : pc.getCenterContents())
-      {
-         if (control instanceof FormControl)
-         {
-            ((FormControl) control).setFormValues(request);
-         }
-      }
-   }
-   
-   /**
-    * Crea la página.<br />
-    * El guión de llamadas a eventos es el siguiente:<br /><ul>
-    * <li>- {@code initPageEvent()}: Sólo si es la primera vez que se accede a la página.</li>
-    * <li>- {@code formSendedEvent()}: Sólo si se reciben datos de un formulario Cosmo.</li>
-    * <li>- {@code loadPageEvent()}</li>
-    * </ul>
-    * 
-    * @param request Una instancia de {@link HttpServletRequest} que corresponde a la llamada actual del contexto.
-    * @param response Una instancia de {@link HttpServletResponse} que corresponde a la respuesta actual del contexto.
-    * 
-    * @throws ServletException
-    * @throws IOException
-    * @throws WorkspaceLoadException
-    * @throws RulesLoadException
-    * @throws TemplateUnavailableException
-    * @throws TemplateLoadException
-    * @throws MenuProviderException
-    * @throws AuthorizationException 
-    * @throws UserNotFoundException 
-    * @throws AuthenticationException 
-    * @throws NotAuthorizedException 
-    */
-   private void createPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, WorkspaceLoadException, RulesLoadException, TemplateUnavailableException, TemplateLoadException, MenuProviderException, NotAuthorizedException, AuthenticationException, UserNotFoundException, AuthorizationException
-   {
-      boolean init = false;
-      long startTime = 0;
-      long totalTime = 0;
-      StringBuilder xhtml = null;
-      PageContext pc = new PageContext();
-      
-      // Inica el cronometraje de generación de la página
-      startTime = System.currentTimeMillis();
-      
-      // Obtiene el workspace
-      this.workspace = WorkspaceFactory.getInstance(getServletContext(), request, response);
-
-      try
-      {
-         // Comprueba si el usuario puede ver la página
-         PageSecurity psec = new PageSecurity();
-         psec.checkPageSecurity(this, workspace, request, response);
-         
-         // Lanza el evento initPageEvent sólo si es la primera vez que se accede a la página
-         if (!init)
-         {
-            pc = initPageEvent(pc, request, response);
-            init = true;
-         }
-         
-         // Lanza el evento formSendedEvent
-         if (isPostback(request))
-         {
-            formRefreshData(pc, request);
-            pc = formSendedEvent(pc, request, response);
-         }
-
-         // Lanza el evento loadPageEvent
-         pc = loadPageEvent(pc, request, response);
-      }
-      catch (Exception ex)
-      {
-         pc = pageException(pc, ex);
-      }
-
-      // Renderiza la página
-      xhtml = render(pc);
-      
-      // Finaliza el cronometraje de generación de la página
-      totalTime = System.currentTimeMillis() - startTime;
-      xhtml.append("<!-- Page generated in " + totalTime + " mSec using " + Cosmo.COSMO_NAME + " -->\n");
-      
-      // Manda el resultado de la renderización al cliente
-      response.setContentType("text/html");
-      PrintWriter out = response.getWriter();
-      out.println(xhtml.toString());
+      return this.getClass().isAnnotationPresent(CacheScope.class);
    }
 }

@@ -7,8 +7,7 @@ import com.cosmo.Workspace;
 import com.cosmo.util.StringUtils;
 
 /**
- * Interface que debe implementar cualquier control de contenido.<br />
- * Los controles de contenido son componentes que combinados entre sí, rellenan la zona de contenidos.
+ * Clase abstracta que deben implementar los controles de página.
  * 
  * @author Gerard Llort
  */
@@ -18,6 +17,7 @@ public abstract class Control
    private String uuid;
    private Workspace workspace;
 
+   
    //==============================================
    // Constructors
    //==============================================
@@ -45,6 +45,7 @@ public abstract class Control
       this.uuid = UUID.randomUUID().toString();
       this.workspace = workspace;
    }
+   
    
    //==============================================
    // Properties
@@ -88,6 +89,7 @@ public abstract class Control
       return this.workspace;
    }
    
+   
    //==============================================
    // Methods
    //==============================================
@@ -104,10 +106,11 @@ public abstract class Control
     * 
     * @return Una cadena de texto que corresponde a la clave de acceso a los datos del control en caché.
     */
-   public String getSessionControlData()
+   public String getSessionControlDataKey()
    {
       return Cosmo.KEY_CACHE_SESSION_CTRLDATA + this.uuid;
    }
+   
    
    //==============================================
    // Static members
@@ -255,20 +258,51 @@ public abstract class Control
       return xhtml;
    }
    
+   
    //==============================================
    // Private members
    //==============================================
 
+   /**
+    * Genera un TAG concreto (formato {@code [@TAG]}).
+    * <br /><br />
+    * Ejemplo de uso:<br />
+    * {@code [#IF TITLE]Este es el [@TITLE] del documento[#ENDIF TITLE]}
+    * 
+    * @param name Nombre del TAG.
+    * 
+    * @return Una cadena que contiene el TAG correctamente formateado.
+    */
    private static String getTag(String name)
    {
       return "[@" + name.trim().toUpperCase() + "]";
    }
    
+   /**
+    * Genera un TAG condicional de inicio (formato {@code [#IF TAG]}).
+    * <br /><br />
+    * Ejemplo de uso:<br />
+    * {@code [#IF TITLE]Este es el [@TITLE] del documento[#ENDIF TITLE]}
+    * 
+    * @param name Nombre del TAG.
+    * 
+    * @return Una cadena que contiene el TAG correctamente formateado.
+    */
    private static String getConditionalTagBegin(String name)
    {
       return "[#IF " + name.trim().toUpperCase() + "]";
    }
    
+   /**
+    * Genera un TAG condicional de cierre (formato {@code [#ENDIF TAG]}).
+    * <br /><br />
+    * Ejemplo de uso:<br />
+    * {@code [#IF TITLE]Este es el [@TITLE] del documento[#ENDIF TITLE]}
+    * 
+    * @param name Nombre del TAG.
+    * 
+    * @return Una cadena que contiene el TAG correctamente formateado.
+    */
    private static String getConditionalTagEnd(String name)
    {
       return "[#ENDIF " + name.trim().toUpperCase() + "]";

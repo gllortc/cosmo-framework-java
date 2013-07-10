@@ -17,6 +17,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.cosmo.data.DataSource;
+import com.cosmo.data.orm.apps.OrmApplication;
 import com.cosmo.structures.PluginProperties;
 import com.cosmo.util.IOUtils;
 import com.cosmo.util.StringUtils;
@@ -50,6 +51,14 @@ public class WorkspaceProperties
    private static final String XML_ATT_AUTHENTICATIONAGENT = "authentication-agent";
    private static final String XML_ATT_AUTHORIZATIONAGENT = "authorization-agent";
    private static final String XML_ATT_LOGINPAGE = "login-page";
+   private static final String XML_TAG_CORMAPPS = "corm-apps";
+   private static final String XML_TAG_CORMAPP = "corm-app";
+   private static final String XML_ATT_CLASS = "class";
+   private static final String XML_ATT_CONNECTION = "connection";
+   private static final String XML_TAG_APPACTION = "app-action";
+   private static final String XML_ATT_TYPE = "type";
+   private static final String XML_ATT_TITLE = "title";
+   private static final String XML_ATT_DESCRIPTION = "description";
    
    // Parámetros de configuración
    private HashMap<String, String> properties;
@@ -64,6 +73,7 @@ public class WorkspaceProperties
    private String authorizationAgentId;
    private HashMap<String, PluginProperties> authenticationAgents;
    private HashMap<String, PluginProperties> authorizationAgents;
+   private HashMap<String, OrmApplication> ormApps;
       
 
    //==============================================
@@ -239,6 +249,19 @@ public class WorkspaceProperties
       return this.authorizationAgents.get(this.authorizationAgentId);
    }
    
+   /**
+    * Obtiene la definición de una aplicación CORM.
+    * 
+    * @param appId Identificador de la aplicación.
+    * 
+    * @return Una instancia de {@link OrmApplication} que representa la aplicación.
+    */
+   public OrmApplication getOrmApplication(String appId)
+   {
+      return this.ormApps.get(appId);
+   }
+   
+   
    //==============================================
    // Private members
    //==============================================
@@ -341,6 +364,14 @@ public class WorkspaceProperties
             this.authorizationAgents = readPluginsByType(doc, WorkspaceProperties.XML_TAG_AUTHORIZATION);
          }
          
+         // Obtiene la configuración de las aplicaciones ORM
+         nList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_CORMAPPS);
+         if (nList.getLength() >= 1)
+         {
+            // Obtiene todos los agentes de autenticación
+            this.ormApps = readOrmApps(doc);
+         }
+         
          iStream.close();
       }
       catch (ParserConfigurationException ex)
@@ -411,6 +442,69 @@ public class WorkspaceProperties
    }
    
    /**
+    * Lee todas las definiciones de plugin de un determinado tipo.
+    * 
+    * @param doc Una instancia de {@link Document} que representa el documento XML.
+    * @param pluginTag Una cadena que contiene el nombre del TAG que reciben todas las definiciones del tipo de plugin a leer.
+    * 
+    * @return Una instancia de {@link HashMap} que contiene las definiciones de plugin recopiladas.
+    */
+   private HashMap<String, OrmApplication> readOrmApps(Document doc)
+   {
+      Node actionNode;
+      NodeList attribList;
+      Element appElement;
+      Element actionElement;
+      OrmApplication oa;
+      
+      HashMap<String, OrmApplication> apps = new HashMap<String, OrmApplication>();
+      
+      NodeList appsList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_CORMAPP);
+      for (int pidx = 0; pidx < appsList.getLength(); pidx++)
+      {
+         Node appNode = appsList.item(pidx);
+         if (appNode.getNodeType() == Node.ELEMENT_NODE)
+         {
+            appElement = (Element) appNode;
+
+            oa = new OrmApplication();
+            oa.setId(appElement.getAttribute(WorkspaceProperties.XML_ATT_ID));
+            oa.setClassName(appElement.getAttribute(WorkspaceProperties.XML_ATT_CLASS));
+            oa.setConnectionId(appElement.getAttribute(WorkspaceProperties.XML_ATT_CONNECTION));
+            oa.setTitle(appElement.getAttribute(WorkspaceProperties.XML_ATT_TITLE));
+            oa.setDescription(appElement.getAttribute(WorkspaceProperties.XML_ATT_DESCRIPTION));
+            
+            attribList = appElement.getElementsByTagName(WorkspaceProperties.XML_TAG_APPACTION);
+            for (int aidx = 0; aidx < attribList.getLength(); aidx++) 
+            {
+               actionNode = attribList.item(aidx);
+               if (actionNode.getNodeType() == Node.ELEMENT_NODE)
+               {
+                  actionElement = (Element) actionNode;
+                  
+                  if (actionElement.getAttribute(WorkspaceProperties.XML_ATT_TYPE).toLowerCase().trim().equals("delete"))
+                  {
+                     oa.setDeleteEnabled(true);
+                  }
+                  else if (actionElement.getAttribute(WorkspaceProperties.XML_ATT_TYPE).toLowerCase().trim().equals("create"))
+                  {
+                     oa.setCreateEnabled(true);
+                  }
+                  else if (actionElement.getAttribute(WorkspaceProperties.XML_ATT_TYPE).toLowerCase().trim().equals("edit"))
+                  {
+                     oa.setEditEnabled(true);
+                  }
+               }
+            }
+            
+            apps.put(oa.getId(), oa);
+         }
+      }
+      
+      return apps;
+   }
+   
+   /**
     * Inicializa la instancia.
     */
    private void initialize()
@@ -420,6 +514,7 @@ public class WorkspaceProperties
       serverDatasource = "";
       authenticationAgents = new HashMap<String, PluginProperties>();
       authorizationAgents = new HashMap<String, PluginProperties>();
+      ormApps = new HashMap<String, OrmApplication>();
       loginPage = "";
       authenticationAgentId = "";
       authorizationAgentId = "";

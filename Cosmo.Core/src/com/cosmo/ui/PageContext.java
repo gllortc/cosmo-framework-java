@@ -9,7 +9,7 @@ import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
 import com.cosmo.ui.controls.Control;
 import com.cosmo.ui.controls.ErrorMessageControl;
-import com.cosmo.ui.render.PageRender;
+import com.cosmo.ui.render.PageRenderer;
 
 /**
  * Implementa un contenedor de datos de la página (contexto) específico para:
@@ -30,7 +30,7 @@ public class PageContext
    private ArrayList<Control> centerContents;
    private ArrayList<Control> rightContents;
    private StringBuilder xhtml;
-   private PageRender renderProvider;
+   private PageRenderer renderProvider;
    
    /**
     * Enumera las distintas regiones dónde se pueden agregar controles en la página.
@@ -152,12 +152,12 @@ public class PageContext
       this.xhtml = xhtml;
    }
 
-   public PageRender getRenderProvider() 
+   public PageRenderer getRenderProvider() 
    {
       return renderProvider;
    }
 
-   public void setRenderProvider(PageRender renderProvider) 
+   public void setRenderProvider(PageRenderer renderProvider) 
    {
       this.renderProvider = renderProvider;
    }

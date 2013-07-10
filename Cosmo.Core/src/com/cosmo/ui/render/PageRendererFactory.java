@@ -9,10 +9,10 @@ import com.cosmo.security.auth.AuthenticationException;
  * 
  * @author Gerard Llort
  */
-public abstract class PageRenderFactory 
+public abstract class PageRendererFactory 
 {
    // Instancia singleton del renderizador
-   private static PageRender instance = null;
+   private static PageRenderer instance = null;
    
    //==============================================
    // Methods
@@ -35,16 +35,16 @@ public abstract class PageRenderFactory
    //==============================================
    
    /**
-    * Devuelve una instancia de {@link PageRender} convenientemente instanciada y con
+    * Devuelve una instancia de {@link PageRenderer} convenientemente instanciada y con
     * el proveedor de renderizado cargado.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     * 
-    * @return Una instancia única de {@link PageRender} (sigleton).
+    * @return Una instancia única de {@link PageRenderer} (sigleton).
     * 
     * @throws LoadPageRenderException 
     */
-   public static PageRender getInstance(Workspace workspace) throws LoadPageRenderException 
+   public static PageRenderer getInstance(Workspace workspace) throws LoadPageRenderException 
    {
       if (instance == null) 
       {
@@ -63,10 +63,10 @@ public abstract class PageRenderFactory
     * 
     * @throws AuthenticationException 
     */
-   private static PageRender loadProvider(Workspace workspace) throws LoadPageRenderException
+   private static PageRenderer loadProvider(Workspace workspace) throws LoadPageRenderException
    {
       String className = "-- no render provider defined in proprties --";
-      PageRender provider;
+      PageRenderer provider;
       
       try 
 		{
@@ -75,7 +75,7 @@ public abstract class PageRenderFactory
          
          // Genera una instancia de la clase
          Class<?> cls = Class.forName(className);
-         provider = (PageRender) cls.newInstance();
+         provider = (PageRenderer) cls.newInstance();
          
          return provider;
 		} 

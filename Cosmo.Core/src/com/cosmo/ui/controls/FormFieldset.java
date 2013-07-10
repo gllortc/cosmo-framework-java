@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Implementa un grupo de controles de un formulario web.
  */
-public class FormFieldGroup extends FormField
+public class FormFieldset extends FormField
 {
    private String name;
    private String title;
@@ -26,7 +26,7 @@ public class FormFieldGroup extends FormField
     * 
     * @param title Título visible del grupo de controles.
     */
-   public FormFieldGroup(String title)
+   public FormFieldset(String title)
    {
       this.title = title;
       this.description = "";
@@ -42,7 +42,7 @@ public class FormFieldGroup extends FormField
     * @param description Descripción del contenido del grupo.
     * @param control La instancia de {@link FormControl} al que pertenece.
     */
-   public FormFieldGroup(String title, String description, FormControl control)
+   public FormFieldset(String title, String description, FormControl control)
    {
       this.title = title;
       this.description = description;

@@ -143,7 +143,7 @@ public class FormFieldInteger extends FormField
    public String render(HttpSession session)
    {
       StringBuilder sb = new StringBuilder();
-
+      
       sb.append("<input type=\"number\" ").
          append("id=\"").append(this.name).append("\" ").
          append("name=\"").append(this.name).append("\" ").

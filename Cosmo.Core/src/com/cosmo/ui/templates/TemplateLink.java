@@ -102,8 +102,14 @@ public class TemplateLink
       sb.append("rel=\"" + this.rel + "\" ");
       sb.append("type=\"" + this.type + "\" ");
       sb.append("href=\"" + this.href + "\" ");
-      sb.append(">\n");
+      sb.append("></link>\n");
 
       return sb.toString();
+   }
+   
+   @Override
+   public String toString()
+   {
+      return render();
    }
 }

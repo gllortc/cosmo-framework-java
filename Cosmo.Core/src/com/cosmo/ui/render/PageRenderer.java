@@ -10,7 +10,7 @@ import com.cosmo.ui.templates.TemplateUnavailableException;
  * 
  * @author Gerard Llort
  */
-public interface PageRender
+public interface PageRenderer
 {
    public static final String TAG_WIDGET_LOGIN = "[@LOGIN]";
    public static final String TAG_WIDGET_MENU = "[@MENU]";
@@ -27,10 +27,12 @@ public interface PageRender
     * Renderiza la página convirtiendo la lógica de clases en código XHTML.
     * 
     * @param page Una instancia de {@link Page} que representa la página a renderizar.
+    * @param uuid Identificador único de la página (si lo tuviera).
+    * 
     * @return Una cadena que contiene el código XHTML.
     * 
     * @throws TemplateUnavailableException
     * @throws PageRenderException 
     */
-   public abstract String render(Workspace workspace, PageContext page) throws TemplateUnavailableException, PageRenderException;
+   public abstract String render(Workspace workspace, PageContext page, String uuid) throws TemplateUnavailableException, PageRenderException;
 }

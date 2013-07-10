@@ -13,10 +13,9 @@ import com.cosmo.logging.LogFactory;
 import com.cosmo.logging.Logger;
 
 /**
- * Implementació del logger pel sistema de LOG del JDK de Java.<br />
- * Implementació basada en el projecte <strong>esl4j</strong>.
+ * Implementación del <em>logger</em> para el sistema nativo de Java JDK.<br />
  * <br /><br />
- * Més informació: https://code.google.com/p/esl4j/
+ * Basado en el proyecto: <a href="https://code.google.com/p/esl4j/">https://code.google.com/p/esl4j/</a>
  * 
  * @author Gerard Llort
  */
@@ -166,7 +165,8 @@ public class JdkLogFactory implements LogFactory
          return logger.isLoggable(Level.FINER);
       }
 
-      public boolean isErrorEnabled() {
+      public boolean isErrorEnabled()
+      {
          return logger.isLoggable(Level.SEVERE);
       }
 

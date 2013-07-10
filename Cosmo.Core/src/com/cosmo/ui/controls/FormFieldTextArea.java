@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
  * 
  * @author Gerard Llort
  */
-public class FormFieldText extends FormField
+public class FormFieldTextArea extends FormField
 {
    private String name;
    private String value;
@@ -26,7 +26,7 @@ public class FormFieldText extends FormField
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
     */
-   public FormFieldText(String name, String label) 
+   public FormFieldTextArea(String name, String label) 
    {
       this.name = name;
       this.label = label;
@@ -42,7 +42,7 @@ public class FormFieldText extends FormField
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
     */
-   public FormFieldText(String name, String label, boolean isPassword) 
+   public FormFieldTextArea(String name, String label, boolean isPassword) 
    {
       this.name = name;
       this.label = label;
@@ -59,7 +59,7 @@ public class FormFieldText extends FormField
     * @param label Etiqueta que se mostrará junto el control.
     * @param maxLength Número máximo de carácteres que admite el control.
     */
-   public FormFieldText(String name, String label, int maxLength) 
+   public FormFieldTextArea(String name, String label, int maxLength) 
    {
       this.name = name;
       this.label = label;
@@ -77,7 +77,7 @@ public class FormFieldText extends FormField
     * @param maxLength Número máximo de carácteres que admite el control.
     * @param isPassword Indica si el campo será de texto oculto.
     */
-   public FormFieldText(String name, String label, int maxLength, boolean isPassword) 
+   public FormFieldTextArea(String name, String label, int maxLength, boolean isPassword) 
    {
       this.name = name;
       this.label = label;
@@ -164,8 +164,13 @@ public class FormFieldText extends FormField
    public String render(HttpSession session)
    {
       StringBuilder sb = new StringBuilder();
-      sb.append("<input type=\"").append(password ? "password" : "text").append("\" id=\"").append(this.name).append("\" name=\"").append(this.name).append("\" value=\"").append(this.value).append("\" />");
-      
+
+      sb.append("<textarea ").
+         append("id=\"").append(this.name).append("\" ").
+         append("name=\"").append(this.name).append("\" ").
+         append("style=\"width:100%;height:200px;\" ").
+         append("class=\"textarea\">").append(this.value).append("</textarea>");
+
       return sb.toString();
    }
    

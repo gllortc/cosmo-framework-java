@@ -15,9 +15,9 @@ public class TemplateScript
     */
    public enum ScriptType
    {
-      /** Incluye el cÃ³digo JavaScript */
+      /** Incluye el código JavaScript */
       Code,
-      /** Referencia a un archivo .js (ya sea interno o accedido por HTTP) */
+      /** Referencia a un archivo {@code .js} (ya sea interno o accedido por HTTP) */
       Referenced
    }
    
@@ -63,16 +63,16 @@ public class TemplateScript
    //==============================================
    
    /**
-    * Transforma el script a cÃ³digo XHTML.
+    * Transforma el script a código XHTML.
     * 
-    * @return Una cadena de texto que contiene el cÃ³digo XHTML.
+    * @return Una cadena de texto que contiene el código XHTML.
     */
    public String render()
    {
       String xhtml;
 
       xhtml = "";
-      xhtml += "  <script ";
+      xhtml += "<script ";
       xhtml += "type=\"text/javascript\" ";
       if (this.type == ScriptType.Referenced)
       {
@@ -86,5 +86,11 @@ public class TemplateScript
       xhtml += "</script>\n";
 
       return xhtml;
+   }
+   
+   @Override
+   public String toString()
+   {
+      return render();
    }
 }

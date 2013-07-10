@@ -9,6 +9,8 @@ public class SliderItem
 {
    // variables privadas
    private SlideType type;
+   private String title;
+   private String description;
    private String src;
    private int width;
    private int height;
@@ -33,6 +35,8 @@ public class SliderItem
    public SliderItem()
    {
       this.type = SlideType.Xhtml;
+      this.title = "";
+      this.description = "";
       this.src = "";
       this.width = 0;
       this.height = 0;
@@ -41,11 +45,13 @@ public class SliderItem
    /**
     * Constructor de la clase.
     * 
-    * @param src URL (para videos e imÃ¡genes) o cÃ³digo XHTML para los slides con contenido web.
+    * @param src URL (para videos e imágenes) o código XHTML para los slides con contenido web.
     */
    public SliderItem(String src, SlideType type)
    {
       this.type = type;
+      this.title = "";
+      this.description = "";
       this.src = src;
       this.width = 0;
       this.height = 0;
@@ -54,13 +60,32 @@ public class SliderItem
    /**
     * Constructor de la clase.
     * 
-    * @param src URL (para videos e imÃ¡genes) o cÃ³digo XHTML para los slides con contenido web.
-    * @param width Un nÃºmero que indica el ancho (en pÃ­xels) de la imagen o video.
-    * @param height Un nÃºmero que indica la altura (en pÃ­xels) de la imagen o video. 
+    * @param src URL (para videos e imágenes) o código XHTML para los slides con contenido web.
+    * @param width Un número que indica el ancho (en píxels) de la imagen o video.
+    * @param height Un número que indica la altura (en píxels) de la imagen o video. 
     */
    public SliderItem(String src, int width, int height, SlideType type)
    {
       this.type = type;
+      this.title = "";
+      this.description = "";
+      this.src = src;
+      this.width = width;
+      this.height = height;
+   }
+   
+   /**
+    * Constructor de la clase.
+    * 
+    * @param src URL (para videos e imágenes) o código XHTML para los slides con contenido web.
+    * @param width Un número que indica el ancho (en píxels) de la imagen o video.
+    * @param height Un número que indica la altura (en píxels) de la imagen o video. 
+    */
+   public SliderItem(String src, int width, int height, String title, String description, SlideType type)
+   {
+      this.type = type;
+      this.title = title;
+      this.description = description;
       this.src = src;
       this.width = width;
       this.height = height;
@@ -69,6 +94,26 @@ public class SliderItem
    //==============================================
    // Properties
    //==============================================
+
+   public String getTitle()
+   {
+      return title;
+   }
+
+   public void setTitle(String title) 
+   {
+      this.title = title;
+   }
+   
+   public String getDescription() 
+   {
+      return description;
+   }
+
+   public void setDescription(String description) 
+   {
+      this.description = description;
+   }
 
    public String getSrc() 
    {

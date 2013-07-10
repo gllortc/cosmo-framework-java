@@ -1,13 +1,11 @@
 package com.cosmo.logging;
 
 /**
- * Interface que han d'implementar els proveïdors de LOG.<br />
- * Implementació basada en el projecte <strong>esl4j</strong>.
+ * Interface que deben implementar los proveedores de LOG.
  * <br /><br />
- * Más información en: https://code.google.com/p/esl4j/
+ * Basado en el proyecto: <a href="https://code.google.com/p/esl4j/">https://code.google.com/p/esl4j/</a>
  * 
  * @author Gerard Llort
- *
  */
 public interface Logger 
 {
