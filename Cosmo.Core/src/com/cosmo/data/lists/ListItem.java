@@ -95,6 +95,21 @@ public class ListItem
    //==============================================
    
    /**
+    * Convierte la instancia en una cadena de texto.
+    */
+   @Override
+   public String toString()
+   {
+      return "[value: " + this.value + ", " +
+              "caption: " + this.caption + ", " +
+              "isDefault=" + (this.isDefault ? "true" : "false") + "]";
+   }
+   
+   //==============================================
+   // Private members
+   //==============================================
+   
+   /**
     * Inicializa la instancia.
     */
    private void initialize()
