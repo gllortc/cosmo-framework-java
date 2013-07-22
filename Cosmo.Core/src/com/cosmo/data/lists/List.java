@@ -40,5 +40,5 @@ public interface List
     * 
     * @return Una lista de instancias de {@link ListItem} que representan los elementos de la lista.
     */
-   public ArrayList<ListItem> getListItems();
+   public ArrayList<ListItem> getListItems() throws Exception;
 }
