@@ -119,7 +119,7 @@ public class StaticList implements List
     * @return Una lista de instancias de {@link ListItem} que representan los elementos de la lista.
     */
    @Override
-   public ArrayList<ListItem> getListItems() 
+   public ArrayList<ListItem> getListItems()
    {
       return items;
    }
