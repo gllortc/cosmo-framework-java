@@ -65,6 +65,7 @@ public class WorkspaceProperties
    private static final String XML_TAG_DATALISTS = "data-lists";
    private static final String XML_TAG_STATICLIST = "static-list";
    private static final String XML_TAG_STATICLISTITEM = "static-list-item";
+   private static final String XML_ATT_DEFAULTVALUE = "default-value";
    
    // Parámetros de configuración
    private HashMap<String, String> properties;
@@ -505,6 +506,12 @@ public class WorkspaceProperties
                   attribElement = (Element) attribNode;
                   item = new ListItem(attribElement.getAttribute(WorkspaceProperties.XML_ATT_VALUE),
                                       attribElement.getAttribute(WorkspaceProperties.XML_ATT_TITLE));
+                  
+                  if (!StringUtils.isNullOrEmptyTrim(attribElement.getAttribute(WorkspaceProperties.XML_ATT_DEFAULTVALUE)))
+                  {
+                     item.setDefault(attribElement.getAttribute(WorkspaceProperties.XML_ATT_DEFAULTVALUE).equals("true") ||
+                                     attribElement.getAttribute(WorkspaceProperties.XML_ATT_DEFAULTVALUE).equals("1"));
+                  }
                   
                   sList.addListItem(item);
                }
