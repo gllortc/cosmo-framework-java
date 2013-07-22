@@ -17,6 +17,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.cosmo.data.DataSource;
+import com.cosmo.data.lists.List;
+import com.cosmo.data.lists.ListItem;
+import com.cosmo.data.lists.StaticList;
 import com.cosmo.data.orm.apps.OrmApplication;
 import com.cosmo.structures.PluginProperties;
 import com.cosmo.util.IOUtils;
@@ -59,6 +62,9 @@ public class WorkspaceProperties
    private static final String XML_ATT_TYPE = "type";
    private static final String XML_ATT_TITLE = "title";
    private static final String XML_ATT_DESCRIPTION = "description";
+   private static final String XML_TAG_DATALISTS = "data-lists";
+   private static final String XML_TAG_STATICLIST = "static-list";
+   private static final String XML_TAG_STATICLISTITEM = "static-list-item";
    
    // Parámetros de configuración
    private HashMap<String, String> properties;
@@ -74,6 +80,7 @@ public class WorkspaceProperties
    private HashMap<String, PluginProperties> authenticationAgents;
    private HashMap<String, PluginProperties> authorizationAgents;
    private HashMap<String, OrmApplication> ormApps;
+   private HashMap<String, List> ormLists;
       
 
    //==============================================
@@ -261,6 +268,18 @@ public class WorkspaceProperties
       return this.ormApps.get(appId);
    }
    
+   /**
+    * Obtiene una lista de datos.
+    * 
+    * @param id Identificador único de la lista.
+    * 
+    * @return Una instancia de {@link List} que representa la lista de opciones.
+    */
+   public List getDataList(String id)
+   {
+      return this.ormLists.get(id);
+   }
+   
    
    //==============================================
    // Private members
@@ -364,13 +383,11 @@ public class WorkspaceProperties
             this.authorizationAgents = readPluginsByType(doc, WorkspaceProperties.XML_TAG_AUTHORIZATION);
          }
          
+         // Obtiene las listas de datos
+         this.ormLists = readDataLists(doc);
+         
          // Obtiene la configuración de las aplicaciones ORM
-         nList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_CORMAPPS);
-         if (nList.getLength() >= 1)
-         {
-            // Obtiene todos los agentes de autenticación
-            this.ormApps = readOrmApps(doc);
-         }
+         this.ormApps = readOrmApps(doc);
          
          iStream.close();
       }
@@ -449,9 +466,69 @@ public class WorkspaceProperties
     * 
     * @return Una instancia de {@link HashMap} que contiene las definiciones de plugin recopiladas.
     */
+   private HashMap<String, List> readDataLists(Document doc)
+   {
+      Node attribNode;
+      NodeList attribList;
+      Element pluginElement;
+      Element attribElement;
+      StaticList sList = null;
+      ListItem item;
+      
+      // Inicializa el contenedor de listas
+      HashMap<String, List> lists = new HashMap<String, List>();
+      
+      // Comprueba si existe la definición
+      attribList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_DATALISTS);
+      if (attribList.getLength() < 1)
+      {
+         return lists;
+      }
+      
+      // Carga las listas estáticas
+      NodeList pluginList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_STATICLIST);
+      for (int pidx = 0; pidx < pluginList.getLength(); pidx++)
+      {
+         Node pluginNode = pluginList.item(pidx);
+         if (pluginNode.getNodeType() == Node.ELEMENT_NODE)
+         {
+            pluginElement = (Element) pluginNode;
+
+            sList = new StaticList(pluginElement.getAttribute(WorkspaceProperties.XML_ATT_ID));
+            
+            attribList = pluginElement.getElementsByTagName(WorkspaceProperties.XML_TAG_STATICLISTITEM);
+            for (int aidx = 0; aidx < attribList.getLength(); aidx++) 
+            {
+               attribNode = attribList.item(aidx);
+               if (attribNode.getNodeType() == Node.ELEMENT_NODE)
+               {
+                  attribElement = (Element) attribNode;
+                  item = new ListItem(attribElement.getAttribute(WorkspaceProperties.XML_ATT_VALUE),
+                                      attribElement.getAttribute(WorkspaceProperties.XML_ATT_TITLE));
+                  
+                  sList.addListItem(item);
+               }
+            }
+            
+            lists.put(sList.getId(), sList);
+         }
+      }
+      
+      return lists;
+   }
+   
+   /**
+    * Lee todas las definiciones de plugin de un determinado tipo.
+    * 
+    * @param doc Una instancia de {@link Document} que representa el documento XML.
+    * @param pluginTag Una cadena que contiene el nombre del TAG que reciben todas las definiciones del tipo de plugin a leer.
+    * 
+    * @return Una instancia de {@link HashMap} que contiene las definiciones de plugin recopiladas.
+    */
    private HashMap<String, OrmApplication> readOrmApps(Document doc)
    {
       Node actionNode;
+      NodeList appsList;
       NodeList attribList;
       Element appElement;
       Element actionElement;
@@ -459,7 +536,14 @@ public class WorkspaceProperties
       
       HashMap<String, OrmApplication> apps = new HashMap<String, OrmApplication>();
       
-      NodeList appsList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_CORMAPP);
+      // Comprueba si existe la definición
+      attribList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_CORMAPPS);
+      if (attribList.getLength() < 1)
+      {
+         return apps;
+      }
+      
+      appsList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_CORMAPP);
       for (int pidx = 0; pidx < appsList.getLength(); pidx++)
       {
          Node appNode = appsList.item(pidx);
