@@ -63,6 +63,11 @@ public class StaticList implements List
    @Override
    public void addListItem(ListItem item) 
    {
+      if (item.isDefault())
+      {
+         clearDefaultValue();
+      }
+      
       items.add(item);
    }
    
@@ -131,6 +136,17 @@ public class StaticList implements List
    {
       this.id = "";
       this.items = new ArrayList<ListItem>();
+   }
+   
+   /**
+    * Elimina cualquier valor por defecto definido.
+    */
+   private void clearDefaultValue()
+   {
+      for (ListItem item : items)
+      {
+         item.setDefault(false);
+      }
    }
    
 }
