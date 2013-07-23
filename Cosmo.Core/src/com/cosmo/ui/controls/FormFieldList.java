@@ -1,0 +1,182 @@
+package com.cosmo.ui.controls;
+
+import javax.servlet.http.HttpSession;
+
+import com.cosmo.data.lists.List;
+
+/**
+ * Implementa una lista de opciones representable dentro de un formulario Cosmo.
+ * 
+ * @author Gerard Llort
+ */
+public class FormFieldList extends FormField
+{
+   private String name;
+   private String value;
+   private String label;
+   private String description;
+   private ListType listType;
+   private List list;
+   
+   //==============================================
+   // Enumerations
+   //==============================================
+   
+   /**
+    * Enumera los tipos de lista admitidos por el control <em>FormFieldList</em>.
+    */
+   public enum ListType
+   {
+      /** Lista desplegable. */
+      ComboBox,
+      /** Lista. */
+      ListBox,
+      /** Conjunto de controles <em>radio buttons</em>. */
+      RadioButtons
+   }
+   
+   //==============================================
+   // Contructors
+   //==============================================
+   
+   /**
+    * Contructor de la clase.
+    * 
+    * @param name Nombre identificativo del elemento dentro de la página.
+    * @param label Etiqueta que se mostrará junto el control.
+    */
+   public FormFieldList(String name, String label) 
+   {
+      this.name = name;
+      this.label = label;
+      this.description = "";
+      this.value = "";
+      this.listType = ListType.ComboBox;
+      this.list = null;
+   }
+   
+   /**
+    * Contructor de la clase.
+    * 
+    * @param name Nombre identificativo del elemento dentro de la página.
+    * @param label Etiqueta que se mostrará junto el control.
+    * @param list Una instancia de una clase que implemente {@link List} y que contenga los datos de la lista.
+    */
+   public FormFieldList(String name, String label, List list) 
+   {
+      this.name = name;
+      this.label = label;
+      this.description = "";
+      this.value = "";
+      this.listType = ListType.ComboBox;
+      this.list = list;
+   }
+
+   //==============================================
+   // Properties
+   //==============================================
+   
+   @Override
+   public String getName() 
+   {
+      return name;
+   }
+
+   public void setName(String name) 
+   {
+      this.name = name;
+   }
+
+   public String getValue() 
+   {
+      return value;
+   }
+
+   @Override
+   public void setValue(Object value) 
+   {
+      this.value = (String) value;
+   }
+
+   public String getLabel() 
+   {
+      return label;
+   }
+
+   public void setLabel(String label) 
+   {
+      this.label = label;
+   }
+
+   public String getDescription() 
+   {
+      return description;
+   }
+
+   public void setDescription(String description) 
+   {
+      this.description = description;
+   }
+   
+   public ListType getListType() 
+   {
+      return listType;
+   }
+
+   public void setListType(ListType listType) 
+   {
+      this.listType = listType;
+   }
+   
+   public void setList(List list) 
+   {
+      this.list = list;
+   }
+   
+   
+   //==============================================
+   // Methods
+   //==============================================
+
+   /**
+    * Convierte el campo en un TAG XHTML.
+    */
+   @Override
+   public String render(HttpSession session)
+   {
+      StringBuilder sb = new StringBuilder();
+      // sb.append("<input type=\"").append(password ? "password" : "text").append("\" id=\"").append(this.name).append("\" name=\"").append(this.name).append("\" value=\"").append(this.value).append("\" />");
+      
+      switch (this.listType)
+      {
+         case ListBox:
+            break;
+            
+         case RadioButtons:
+            break;
+      
+         default:
+            break;
+      }
+      
+      return sb.toString();
+   }
+   
+   /**
+    * Convierte la instancia en una cadena de texto.
+    */
+   @Override
+   public String toString()
+   {
+      StringBuilder sb = new StringBuilder();
+      
+      sb.append("    <div>").append("\n");
+      sb.append("      <label for=\"").append(this.name).append("\">"); 
+      sb.append(this.label).append(" ");
+      // sb.append("<input type=\"").append(password ? "password" : "text").append("\" id=\"").append(this.name).append("\" name=\"").append(this.name).append("\" value=\"").append(this.value).append("\" />");
+      sb.append("</label>").append("\n");
+      sb.append("    </div>");
+      
+      return sb.toString();
+   }
+}

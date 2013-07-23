@@ -28,7 +28,6 @@ public class DynamicList implements List
    private String titleFieldName;
    private CacheMode cacheMode;
    private ArrayList<ListItem> items;
-   private Workspace ws;
    
 
    //==============================================
@@ -40,11 +39,10 @@ public class DynamicList implements List
     *
     * @param id Una cadena que contiene el identificador único de la lista.
     */
-   public DynamicList(Workspace workspace, String id)
+   public DynamicList(String id)
    {
       initialize();
       
-      this.ws = workspace;
       this.id = id;
    }
    
@@ -218,7 +216,7 @@ public class DynamicList implements List
     * @return Una lista de instancias de {@link ListItem} que representan los elementos de la lista.
     */
    @Override
-   public ArrayList<ListItem> getListItems() throws Exception 
+   public ArrayList<ListItem> getListItems(Workspace workspace) throws Exception 
    {
       ListItem item;
       ResultSet rs;
@@ -236,7 +234,7 @@ public class DynamicList implements List
       
       try
       {      
-         connection = new DataConnection(ws.getProperties().getDataSource(this.connection));
+         connection = new DataConnection(workspace.getProperties().getDataSource(this.connection));
          connection.connect();
          rs = connection.executeSql(this.sql);
          while (rs.next())

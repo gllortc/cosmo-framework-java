@@ -2,6 +2,8 @@ package com.cosmo.data.lists;
 
 import java.util.ArrayList;
 
+import com.cosmo.Workspace;
+
 /**
  * Implementa una lista estática de elementos.
  * 
@@ -119,7 +121,7 @@ public class StaticList implements List
     * @return Una lista de instancias de {@link ListItem} que representan los elementos de la lista.
     */
    @Override
-   public ArrayList<ListItem> getListItems()
+   public ArrayList<ListItem> getListItems(Workspace workspace)
    {
       return items;
    }

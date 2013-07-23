@@ -2,6 +2,8 @@ package com.cosmo.data.lists;
 
 import java.util.ArrayList;
 
+import com.cosmo.Workspace;
+
 /**
  * Interface que han d'implementar les llistes.
  * 
@@ -38,7 +40,9 @@ public interface List
    /**
     * Devuelve la lista de elementos.
     * 
+    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
+    * 
     * @return Una lista de instancias de {@link ListItem} que representan los elementos de la lista.
     */
-   public ArrayList<ListItem> getListItems() throws Exception;
+   public ArrayList<ListItem> getListItems(Workspace workspace) throws Exception;
 }

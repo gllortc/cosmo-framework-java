@@ -17,6 +17,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.cosmo.data.DataSource;
+import com.cosmo.data.lists.DynamicList;
 import com.cosmo.data.lists.List;
 import com.cosmo.data.lists.ListItem;
 import com.cosmo.data.lists.StaticList;
@@ -64,8 +65,10 @@ public class WorkspaceProperties
    private static final String XML_ATT_DESCRIPTION = "description";
    private static final String XML_TAG_DATALISTS = "data-lists";
    private static final String XML_TAG_STATICLIST = "static-list";
+   private static final String XML_TAG_DYNAMICLIST = "dynamic-list";
    private static final String XML_TAG_STATICLISTITEM = "static-list-item";
    private static final String XML_ATT_DEFAULTVALUE = "default-value";
+   private static final String XML_TAG_SQLSTATEMENT = "sql-statement";
    
    // Parámetros de configuración
    private HashMap<String, String> properties;
@@ -460,20 +463,22 @@ public class WorkspaceProperties
    }
    
    /**
-    * Lee todas las definiciones de plugin de un determinado tipo.
+    * Lee todas las definiciones de listas de datos.
     * 
     * @param doc Una instancia de {@link Document} que representa el documento XML.
-    * @param pluginTag Una cadena que contiene el nombre del TAG que reciben todas las definiciones del tipo de plugin a leer.
     * 
-    * @return Una instancia de {@link HashMap} que contiene las definiciones de plugin recopiladas.
+    * @return Una instancia de {@link HashMap} que contiene las definiciones de listas de datos recopiladas.
     */
    private HashMap<String, List> readDataLists(Document doc)
    {
       Node attribNode;
+      Node listNode;
       NodeList attribList;
-      Element pluginElement;
+      NodeList listDefs;
+      Element listElement;
       Element attribElement;
       StaticList sList = null;
+      DynamicList dList = null;
       ListItem item;
       
       // Inicializa el contenedor de listas
@@ -487,17 +492,17 @@ public class WorkspaceProperties
       }
       
       // Carga las listas estáticas
-      NodeList pluginList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_STATICLIST);
-      for (int pidx = 0; pidx < pluginList.getLength(); pidx++)
+      listDefs = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_STATICLIST);
+      for (int pidx = 0; pidx < listDefs.getLength(); pidx++)
       {
-         Node pluginNode = pluginList.item(pidx);
-         if (pluginNode.getNodeType() == Node.ELEMENT_NODE)
+         listNode = listDefs.item(pidx);
+         if (listNode.getNodeType() == Node.ELEMENT_NODE)
          {
-            pluginElement = (Element) pluginNode;
+            listElement = (Element) listNode;
 
-            sList = new StaticList(pluginElement.getAttribute(WorkspaceProperties.XML_ATT_ID));
+            sList = new StaticList(listElement.getAttribute(WorkspaceProperties.XML_ATT_ID));
             
-            attribList = pluginElement.getElementsByTagName(WorkspaceProperties.XML_TAG_STATICLISTITEM);
+            attribList = listElement.getElementsByTagName(WorkspaceProperties.XML_TAG_STATICLISTITEM);
             for (int aidx = 0; aidx < attribList.getLength(); aidx++) 
             {
                attribNode = attribList.item(aidx);
@@ -518,6 +523,31 @@ public class WorkspaceProperties
             }
             
             lists.put(sList.getId(), sList);
+         }
+      }
+      
+      // Carga las listas dinámicas SQL
+      listDefs = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_DYNAMICLIST);
+      for (int pidx = 0; pidx < listDefs.getLength(); pidx++)
+      {
+         listNode = listDefs.item(pidx);
+         if (listNode.getNodeType() == Node.ELEMENT_NODE)
+         {
+            listElement = (Element) listNode;
+
+            dList = new DynamicList(listElement.getAttribute(WorkspaceProperties.XML_ATT_ID));
+            dList.setConnection(listElement.getAttribute(WorkspaceProperties.XML_ATT_CONNECTION));
+            dList.setValueFieldName(listElement.getAttribute(WorkspaceProperties.XML_ATT_VALUE));
+            dList.setTitleFieldName(listElement.getAttribute(WorkspaceProperties.XML_ATT_TITLE));
+
+            attribList = listElement.getElementsByTagName(WorkspaceProperties.XML_TAG_SQLSTATEMENT);
+            if (attribList.getLength() > 0)
+            {
+               attribNode = attribList.item(0);
+               dList.setSqlStatement(attribNode.getFirstChild().getNodeValue());
+               
+               lists.put(dList.getId(), dList);
+            }
          }
       }
       
