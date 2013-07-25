@@ -1,8 +1,11 @@
 package com.cosmo.ui.controls;
 
-import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 
+import com.cosmo.Workspace;
 import com.cosmo.data.lists.List;
+import com.cosmo.data.lists.ListItem;
+import com.cosmo.data.lists.StaticList;
 
 /**
  * Implementa una lista de opciones representable dentro de un formulario Cosmo.
@@ -52,7 +55,7 @@ public class FormFieldList extends FormField
       this.description = "";
       this.value = "";
       this.listType = ListType.ComboBox;
-      this.list = null;
+      this.list = new StaticList();
    }
    
    /**
@@ -142,21 +145,49 @@ public class FormFieldList extends FormField
     * Convierte el campo en un TAG XHTML.
     */
    @Override
-   public String render(HttpSession session)
+   public String render(Workspace workspace)
    {
       StringBuilder sb = new StringBuilder();
-      // sb.append("<input type=\"").append(password ? "password" : "text").append("\" id=\"").append(this.name).append("\" name=\"").append(this.name).append("\" value=\"").append(this.value).append("\" />");
-      
-      switch (this.listType)
+
+      try 
       {
-         case ListBox:
-            break;
-            
-         case RadioButtons:
-            break;
-      
-         default:
-            break;
+         // Obtiene los elementos del menú
+         ArrayList<ListItem> items = list.getListItems(workspace);
+         
+         switch (this.listType)
+         {
+            case ListBox:
+               sb.append("<select name=\"" + this.getName() + "\" id=\"" + this.getName() + "\" multiple=\"multiple\">\n");
+               for (ListItem item : items)
+               {
+                  sb.append("  <option value=\"" + item.getValue() + "\">" + item.getCaption() + "</option>\n");
+               }
+               sb.append("</select>\n");
+               break;
+               
+            case RadioButtons:
+               for (ListItem item : items)
+               {
+                  sb.append("<label class=\"radio\">\n");
+                  sb.append("   <input type=\"radio\" name=\"" + this.getName() + "\" id=\"" + this.getName() + "\" value=\"" + item.getValue() + "\">\n");
+                  sb.append("   " + item.getCaption() + "\n");
+                  sb.append("</label>\n");
+               }
+               break;
+         
+            default:
+               sb.append("<select name=\"" + this.getName() + "\" id=\"" + this.getName() + "\">\n");
+               for (ListItem item : items)
+               {
+                  sb.append("   <option value=\"" + item.getValue() + "\">" + item.getCaption() + "</option>\n");
+               }
+               sb.append("</select>\n");
+               break;
+         }
+      } 
+      catch (Exception e) 
+      {
+         e.printStackTrace();
       }
       
       return sb.toString();

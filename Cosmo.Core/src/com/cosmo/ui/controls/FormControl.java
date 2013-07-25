@@ -202,6 +202,10 @@ public class FormControl extends Control
             {
                group.addField(new FormFieldBoolean(cfg.dbTableColumn(), cfg.label()));
             }
+            else if (cfg.fieldClass() == FormFieldList.class)
+            {
+               group.addField(new FormFieldList(cfg.dbTableColumn(), cfg.label(), getWorkspace().getProperties().getDataList(cfg.list())));
+            }
             else if (cfg.fieldClass() == FormFieldCaptcha.class)
             {
                group.addField(new FormFieldCaptcha(cfg.dbTableColumn(), cfg.label()));
@@ -418,7 +422,7 @@ public class FormControl extends Control
 
       for (FormFieldHidden hfield : this.hidden)
       {
-         xhtml += hfield.render(getWorkspace().getServerSession()) + "\n";
+         xhtml += hfield.render(getWorkspace()) + "\n";
       }
       
       for (FormFieldset group : this.groups)
@@ -436,7 +440,7 @@ public class FormControl extends Control
             if (field instanceof FormFieldText)
             {
                xitem = ctrl.getElement(CPART_FIELD_CONTROL);
-               xitem = Control.replaceTag(xitem, TAG_CONTROL, field.render(getWorkspace().getServerSession()));
+               xitem = Control.replaceTag(xitem, TAG_CONTROL, field.render(getWorkspace()));
                xitem = Control.replaceTag(xitem, TAG_LABEL, ((FormFieldText) field).getLabel());
                xitem = Control.replaceTag(xitem, TAG_DESCRIPTION, ((FormFieldText) field).getDescription());
                xitem = Control.replaceTag(xitem, TAG_CONTROL_NAME, ((FormFieldText) field).getName());
@@ -445,7 +449,7 @@ public class FormControl extends Control
             else if (field instanceof FormFieldTextArea)
             {
                xitem = ctrl.getElement(CPART_FIELD_TEXTAREA);
-               xitem = Control.replaceTag(xitem, TAG_CONTROL, field.render(getWorkspace().getServerSession()));
+               xitem = Control.replaceTag(xitem, TAG_CONTROL, field.render(getWorkspace()));
                xitem = Control.replaceTag(xitem, TAG_LABEL, ((FormFieldTextArea) field).getLabel());
                xitem = Control.replaceTag(xitem, TAG_DESCRIPTION, ((FormFieldTextArea) field).getDescription());
                xitem = Control.replaceTag(xitem, TAG_CONTROL_NAME, ((FormFieldTextArea) field).getName());
@@ -454,7 +458,7 @@ public class FormControl extends Control
             else if (field instanceof FormFieldInteger)
             {
                xitem = ctrl.getElement(CPART_FIELD_CONTROL);
-               xitem = Control.replaceTag(xitem, TAG_CONTROL, field.render(getWorkspace().getServerSession()));
+               xitem = Control.replaceTag(xitem, TAG_CONTROL, field.render(getWorkspace()));
                xitem = Control.replaceTag(xitem, TAG_LABEL, ((FormFieldInteger) field).getLabel());
                xitem = Control.replaceTag(xitem, TAG_DESCRIPTION, ((FormFieldInteger) field).getDescription());
                xitem = Control.replaceTag(xitem, TAG_CONTROL_NAME, ((FormFieldInteger) field).getName());
@@ -463,7 +467,7 @@ public class FormControl extends Control
             else if (field instanceof FormFieldBoolean)
             {
                xitem = ctrl.getElement(CPART_FIELD_OPTION);
-               xitem = Control.replaceTag(xitem, TAG_CONTROL, field.render(getWorkspace().getServerSession()));
+               xitem = Control.replaceTag(xitem, TAG_CONTROL, field.render(getWorkspace()));
                xitem = Control.replaceTag(xitem, TAG_LABEL, ((FormFieldBoolean) field).getLabel());
                xitem = Control.replaceTag(xitem, TAG_DESCRIPTION, ((FormFieldBoolean) field).getDescription());
                xitem = Control.replaceTag(xitem, TAG_CONTROL_NAME, ((FormFieldBoolean) field).getName());
@@ -472,10 +476,19 @@ public class FormControl extends Control
             else if (field instanceof FormFieldDate)
             {
                xitem = ctrl.getElement(CPART_FIELD_CONTROL);
-               xitem = Control.replaceTag(xitem, TAG_CONTROL, field.render(getWorkspace().getServerSession()));
+               xitem = Control.replaceTag(xitem, TAG_CONTROL, field.render(getWorkspace()));
                xitem = Control.replaceTag(xitem, TAG_LABEL, ((FormFieldDate) field).getLabel());
                xitem = Control.replaceTag(xitem, TAG_DESCRIPTION, ((FormFieldDate) field).getDescription());
                xitem = Control.replaceTag(xitem, TAG_CONTROL_NAME, ((FormFieldDate) field).getName());
+               xhtml += xitem;
+            }
+            else if (field instanceof FormFieldList)
+            {
+               xitem = ctrl.getElement(CPART_FIELD_CONTROL);
+               xitem = Control.replaceTag(xitem, TAG_CONTROL, field.render(getWorkspace()));
+               xitem = Control.replaceTag(xitem, TAG_LABEL, ((FormFieldList) field).getLabel());
+               xitem = Control.replaceTag(xitem, TAG_DESCRIPTION, ((FormFieldList) field).getDescription());
+               xitem = Control.replaceTag(xitem, TAG_CONTROL_NAME, ((FormFieldList) field).getName());
                xhtml += xitem;
             }
          }
@@ -513,18 +526,18 @@ public class FormControl extends Control
       
       for (FormFieldHidden field : this.hidden)
       {
-         str.append(field.render(null)).append("\n");
+         str.append(field.render(getWorkspace())).append("\n");
       }
       for (FormFieldset group : this.groups)
       {
-         str.append(group.render(null)).append("\n");
+         str.append(group.render(getWorkspace())).append("\n");
       }
       if (!this.buttons.isEmpty()) 
       {
          str.append("    <div id=\"").append(this.getId()).append("btn\">").append("\n");
          for (FormButton button : this.buttons)
          {
-            str.append(button.render(null)).append("\n");
+            str.append(button.render(getWorkspace())).append("\n");
          }
          str.append("    </div>").append("\n");
       }
@@ -565,7 +578,7 @@ public class FormControl extends Control
       String btns = "";
       for (FormButton button : this.buttons)
       {
-         btns += button.render(session) + "&nbsp;&nbsp;"; 
+         btns += button.render(getWorkspace()) + "&nbsp;&nbsp;"; 
       }
       return btns;
    }

@@ -77,4 +77,9 @@ public @interface CormObjectField
     * Indica si el campo es de sólo lectura.
     */
    boolean readOnly() default false;
+   
+   /**
+    * Indica que los valores del campo provienen de una lista de valores definida en el archivo de configuración.
+    */
+   String list() default "";
 }

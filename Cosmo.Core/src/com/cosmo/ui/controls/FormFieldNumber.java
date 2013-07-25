@@ -1,6 +1,6 @@
 package com.cosmo.ui.controls;
 
-import javax.servlet.http.HttpSession;
+import com.cosmo.Workspace;
 
 /**
  * Implementa un cuadro de texto que acepta números decimales (Float) representable dentro de un formulario Cosmo.
@@ -140,7 +140,7 @@ public class FormFieldNumber extends FormField
     * Convierte el campo en un TAG XHTML 5.
     */
    @Override
-   public String render(HttpSession session)
+   public String render(Workspace workspace)
    {
       StringBuilder sb = new StringBuilder();
 

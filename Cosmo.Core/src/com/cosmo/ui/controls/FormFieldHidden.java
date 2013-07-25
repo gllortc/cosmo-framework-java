@@ -1,6 +1,6 @@
 package com.cosmo.ui.controls;
 
-import javax.servlet.http.HttpSession;
+import com.cosmo.Workspace;
 
 /**
  *
@@ -70,7 +70,7 @@ public class FormFieldHidden extends FormField
     * Convierte la instancia en una cadena XHTML que representa el elemento en una página web.
     */
    @Override
-   public String render(HttpSession session)
+   public String render(Workspace workspace)
    {
       return toString();
    }

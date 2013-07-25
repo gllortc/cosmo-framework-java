@@ -2,8 +2,7 @@ package com.cosmo.ui.controls;
 
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpSession;
-
+import com.cosmo.Workspace;
 import com.cosmo.structures.KeyValue;
 
 /**
@@ -61,7 +60,7 @@ public abstract class FormField
    /**
     * Convierte la instancia en una cadena XHTML que representa el elemento en una página web.
     */
-   public abstract String render(HttpSession session);
+   public abstract String render(Workspace workspace);
    
    
    //==============================================

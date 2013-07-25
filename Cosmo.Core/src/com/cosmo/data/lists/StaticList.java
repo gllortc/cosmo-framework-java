@@ -21,6 +21,14 @@ public class StaticList implements List
    
    /**
     * Constructor de la clase.
+    */
+   public StaticList()
+   {
+      initialize();
+   }
+   
+   /**
+    * Constructor de la clase.
     *
     * @param id Una cadena que contiene el identificador único de la lista.
     */

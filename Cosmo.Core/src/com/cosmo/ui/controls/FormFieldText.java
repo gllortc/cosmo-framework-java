@@ -1,6 +1,6 @@
 package com.cosmo.ui.controls;
 
-import javax.servlet.http.HttpSession;
+import com.cosmo.Workspace;
 
 /**
  * Implementa un cuadro de texto representable dentro de un formulario Cosmo.
@@ -161,7 +161,7 @@ public class FormFieldText extends FormField
     * Convierte el campo en un TAG XHTML.
     */
    @Override
-   public String render(HttpSession session)
+   public String render(Workspace workspace)
    {
       StringBuilder sb = new StringBuilder();
       sb.append("<input type=\"").append(password ? "password" : "text").append("\" id=\"").append(this.name).append("\" name=\"").append(this.name).append("\" value=\"").append(this.value).append("\" />");

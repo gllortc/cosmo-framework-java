@@ -1,6 +1,6 @@
 package com.cosmo.ui.controls;
 
-import javax.servlet.http.HttpSession;
+import com.cosmo.Workspace;
 
 /**
  * Implementa un cuadro de texto representable dentro de un formulario Cosmo.
@@ -117,7 +117,7 @@ public class FormFieldCaptcha extends FormField
     * Convierte el campo en un TAG XHTML.
     */
    @Override
-   public String render(HttpSession session)
+   public String render(Workspace workspace)
    {
       StringBuilder sb = new StringBuilder();
       
