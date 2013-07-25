@@ -9,10 +9,10 @@
    <head>
       <hscript type="text/javascript" src="http://code.jquery.com/jquery.js" />
       <hscript type="text/javascript" src="js/bootstrap.min.js" />
-      <hlink rel="icon" type="image/x-icon" href="favicon.ico" />
-      <hlink rel="stylesheet" type="text/css" href="css/bootstrap.min.css" media="all" />
-      <hlink rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css" media="all" />
-      <hlink rel="stylesheet" type="text/css" href="css/docs.css" media="all" />
+      <hlink rel="icon"       type="image/x-icon" href="favicon.ico" />
+      <hlink rel="stylesheet" type="text/css"     href="css/bootstrap.min.css"            media="all" />
+      <hlink rel="stylesheet" type="text/css"     href="css/bootstrap-responsive.min.css" media="all" />
+      <hlink rel="stylesheet" type="text/css"     href="css/docs.css"                     media="all" />
       <hscript type="text/javascript" src="js/bootbox.min.js" />
       <hscript type="text/javascript" src="js/actions.js" />
    </head>
