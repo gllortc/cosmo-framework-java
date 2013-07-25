@@ -74,10 +74,24 @@
       </authentication-agent>
       
       <authorization-agent id="rdbms" driver="com.cosmo.security.auth.impl.PostgreSqlAuthorizationImpl">
-         <param key="connection"       value="cosmo.server" />
+         <param key="connection" value="cosmo.server" />
       </authorization-agent>
       
    </security>
+   
+   <!-- LISTAS DE DATOS -->
+   <data-lists>
+
+      <static-list id="sex">
+         <static-list-item value="H" title="Masculino" default-value="true" />
+         <static-list-item value="M" title="Femenino" />
+      </static-list>
+      
+      <dynamic-list id="dListSample" connection="cosmo.server" value="usrlogin" title="usrname" cache="none">
+         <sql-statement>SELECT usrlogin, usrname FROM cosmo_users ORDER BY usrname Asc</sql-statement>
+      </dynamic-list>
+
+   </data-lists>
    
    <!-- ORM uAPPLICATIONS -->
    <corm-apps>
@@ -102,9 +116,9 @@
       <menuitem id="mnuSlider"   name="Slider"                  href="SliderPage"        parent="" />
       <menuitem id="mnuForm"     name="Grid / Formularis"       href="GridPage"          parent="" />
       <menuitem id="mnuOrmForm"  name="ORM Grid / Formularis"   href="OrmGridPage"       parent="" />
-      <menuitem id="mnuDrivers"  name="Informació de seguretat" href="SecurityInfoPage"  icon="icon-lock" parent="" />
-      <menuitem id="mnuTests"    name="Tests de seguretat"      href="SecurityTestsPage" icon="icon-lock" parent="" />
-      <menuitem id="mnuUsrMngr"  name="Gestió d'usuaris"        href="UserManagerPage"   icon="icon-lock" parent="" />
+      <menuitem id="mnuDrivers"  name="Informació de seguretat" href="SecurityInfoPage"  parent="" icon="icon-lock" />
+      <menuitem id="mnuTests"    name="Tests de seguretat"      href="SecurityTestsPage" parent="" icon="icon-lock" />
+      <menuitem id="mnuUsrMngr"  name="Gestió d'usuaris"        href="UserManagerPage"   parent="" icon="icon-lock" />
    </menu>
    
    <menu type="top">
