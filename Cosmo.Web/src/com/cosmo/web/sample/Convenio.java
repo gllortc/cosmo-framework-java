@@ -10,6 +10,7 @@ import com.cosmo.ui.controls.FormFieldBoolean;
 import com.cosmo.ui.controls.FormFieldDate;
 import com.cosmo.ui.controls.FormFieldEMail;
 import com.cosmo.ui.controls.FormFieldInteger;
+import com.cosmo.ui.controls.FormFieldList;
 import com.cosmo.ui.controls.FormFieldText;
 import com.cosmo.ui.controls.FormFieldTextArea;
 
@@ -352,12 +353,11 @@ public class Convenio
       this.tomfax = tomfax;
    }
 
-   @CormObjectField( fieldClass           = FormFieldInteger.class, 
+   @CormObjectField( fieldClass           = FormFieldList.class,
+                     list                 = "sex",
                      dbTableColumn        = "tomsexo", 
                      label                = "Sexo",
                      showInObjectListGrid = false)
-   @CormObjectFieldStaticList( values = {"0",         "1",        "2"},
-                               labels = {"Masculino", "Femenino", "Empresa"} )
    public int getTomsexo()
    {
       return tomsexo;
