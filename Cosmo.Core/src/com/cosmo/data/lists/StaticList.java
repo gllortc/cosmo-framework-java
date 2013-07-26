@@ -60,6 +60,24 @@ public class StaticList implements List
       this.id = id;
    }
    
+   /**
+    * Devuelve el valor seleccionado por defecto en la lista.
+    * 
+    * @return Una cadena que contiene el valor por defecto seleccionado en la lista o {@code null} si no hay ningún valor seleccionado.
+    */
+   public String getDefaultValue()
+   {
+      for (ListItem item : items)
+      {
+         if (item.isDefault())
+         {
+            return item.getValue();
+         }
+      }
+      
+      return null;
+   }
+   
    
    //==============================================
    // Methods
