@@ -283,8 +283,7 @@ public class GridControl extends Control
             actions = "";
             for (GridRowAction action : this.rowActions)
             {
-               // actions += action.render(ctrl, data.getCell(row, this.idColumn, "").toString());
-               actions += action.render(ctrl, this.gridData.getRowId(row)); //  getRowId(this.gridData, row));
+               actions += action.render(ctrl, this.gridData.getRowId(row));
             }
             xrowdata += Control.replaceTag(xcell, TAG_VALUE, actions);
          }
