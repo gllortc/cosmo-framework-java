@@ -47,13 +47,10 @@ public class OrmDataService extends Page
    private final String CTRL_MESSAGE = "msg";
    private final String CTRL_GRID = "grd";
    
-   
    @Override
    public PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       OrmApplication app;
-      
-      
       
       try
       {      

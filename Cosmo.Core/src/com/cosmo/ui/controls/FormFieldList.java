@@ -6,6 +6,7 @@ import com.cosmo.Workspace;
 import com.cosmo.data.lists.List;
 import com.cosmo.data.lists.ListItem;
 import com.cosmo.data.lists.StaticList;
+import com.cosmo.util.StringUtils;
 
 /**
  * Implementa una lista de opciones representable dentro de un formulario Cosmo.
@@ -98,7 +99,7 @@ public class FormFieldList extends FormField
    @Override
    public void setValue(Object value) 
    {
-      this.value = (String) value;
+      this.value = value.toString();
    }
 
    public String getLabel() 
@@ -147,6 +148,7 @@ public class FormFieldList extends FormField
    @Override
    public String render(Workspace workspace)
    {
+      boolean selected = false;
       StringBuilder sb = new StringBuilder();
 
       try 
@@ -160,7 +162,16 @@ public class FormFieldList extends FormField
                sb.append("<select name=\"" + this.getName() + "\" id=\"" + this.getName() + "\" multiple=\"multiple\">\n");
                for (ListItem item : items)
                {
-                  sb.append("  <option value=\"" + item.getValue() + "\">" + item.getCaption() + "</option>\n");
+                  if (StringUtils.isNullOrEmptyTrim(this.getValue()))
+                  {
+                     selected = item.isDefault();
+                  }
+                  else
+                  {
+                     selected = (item.getValue().equals(this.getValue()));
+                  }
+                  
+                  sb.append("  <option value=\"" + item.getValue() + "\"" + (selected ? " selected=\"selected\"" : "") + ">" + item.getCaption() + "</option>\n");
                }
                sb.append("</select>\n");
                break;
@@ -179,7 +190,16 @@ public class FormFieldList extends FormField
                sb.append("<select name=\"" + this.getName() + "\" id=\"" + this.getName() + "\">\n");
                for (ListItem item : items)
                {
-                  sb.append("   <option value=\"" + item.getValue() + "\">" + item.getCaption() + "</option>\n");
+                  if (StringUtils.isNullOrEmptyTrim(this.getValue()))
+                  {
+                     selected = item.isDefault();
+                  }
+                  else
+                  {
+                     selected = (item.getValue().equals(this.getValue()));
+                  }
+                  
+                  sb.append("   <option value=\"" + item.getValue() + "\"" + (selected ? " selected=\"selected\"" : "") + ">" + item.getCaption() + "</option>\n");
                }
                sb.append("</select>\n");
                break;

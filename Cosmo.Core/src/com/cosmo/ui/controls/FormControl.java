@@ -278,6 +278,19 @@ public class FormControl extends Control
                fld.setValue(method.invoke(data));
                group.addField(fld);
             }
+            else if (cfg.fieldClass() == FormFieldList.class)
+            {
+               FormFieldList fld = new FormFieldList(cfg.dbTableColumn(), cfg.label());
+               fld.setList(getWorkspace().getProperties().getDataList(cfg.list()));
+               fld.setValue(method.invoke(data));
+               group.addField(fld);
+            }
+            else if (cfg.fieldClass() == FormFieldBoolean.class)
+            {
+               FormFieldBoolean fld = new FormFieldBoolean(cfg.dbTableColumn(), cfg.label());
+               fld.setValue(method.invoke(data));
+               group.addField(fld);
+            }
             else if (cfg.fieldClass() == FormFieldDate.class)
             {
                FormFieldDate fld = new FormFieldDate(cfg.dbTableColumn(), cfg.label());

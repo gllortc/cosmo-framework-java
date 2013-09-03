@@ -1,5 +1,9 @@
 package com.cosmo.util;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Utilidades para cadenas de texto (String).
  * 
@@ -63,5 +67,43 @@ public class StringUtils
 	    }
 
 	    return true;
+	}
+	
+	/**
+	 * Formatea un objeto por defecto.
+	 * 
+	 * @param value Valor a formatear.
+	 * 
+	 * @return Una cadena que representa el valor formateado.
+	 */
+	public static String formatValue(Object value)
+	{
+	   Class<?> paramType = value.getClass();
+	   
+	   if ((paramType == Integer.class) || (paramType == int.class) || 
+          (paramType == Long.class) || (paramType == long.class) || 
+          (paramType == Short.class) || (paramType == short.class) || 
+          (paramType == Byte.class) || (paramType == byte.class))
+      {
+	      return String.format("%d", (Integer) value);
+      }
+      else if ((paramType == Float.class) || (paramType == float.class) || 
+               (paramType == Double.class) || (paramType == double.class))
+      {
+         return String.format("%s", value);
+      }
+      else if ((paramType == Boolean.class) || (paramType == boolean.class))
+      {
+         return ((Boolean) value ? "Sí" : "No");
+      }
+      else if ((paramType == Date.class) ||
+               (paramType == Timestamp.class))
+      {
+         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+         return sdf.format(value);
+      }
+      
+      return value.toString();
 	}
 }

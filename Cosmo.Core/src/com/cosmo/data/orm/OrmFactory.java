@@ -241,6 +241,10 @@ public class OrmFactory
                {
                   method.invoke(instance, HttpRequestUtils.getDouble(request, cfs.dbTableColumn()));
                }
+               else if ((paramType == Boolean.class) || (paramType == boolean.class))
+               {
+                  method.invoke(instance, HttpRequestUtils.getBoolean(request, cfs.dbTableColumn()));
+               }
                else if (paramType == Date.class)
                {
                   method.invoke(instance, HttpRequestUtils.getDate(request, cfs.dbTableColumn()));

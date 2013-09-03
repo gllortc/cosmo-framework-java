@@ -122,6 +122,57 @@ public class HttpRequestUtils
    }
    
    /**
+    * Obtiene un valor pasado por GET o POST de tipo {@code Boolean}.<br />
+    * El formato aceptado por éste método es {@code 0} / {@code false} y {@code 1} / {@code true}.
+    * 
+    * @param request Una instancia de {@link HttpServletRequest} que representa la llamada.
+    * @param fieldName Nombre del campo cuyo valor se desea recuperar.
+    * 
+    * @return Una valor {@code Boolean} que corresponde al parámetro recuperado o 
+    *         {@code false} si no se puede recuperar el parámetro o se produce algún error en la transformación.
+    */
+   public static boolean getBoolean(HttpServletRequest request, String fieldName)
+   {
+      return getBoolean(request, fieldName, false);
+   }
+   
+   /**
+    * Obtiene un valor pasado por GET o POST de tipo {@code Boolean}.<br />
+    * El formato aceptado por éste método es {@code 0} / {@code false} y {@code 1} / {@code true}.
+    * 
+    * @param request Una instancia de {@link HttpServletRequest} que representa la llamada.
+    * @param fieldName Nombre del campo cuyo valor se desea recuperar.
+    * @param defaultValue Valor por defecto que se devolverá en caso de no encontrar el valor.
+    * 
+    * @return Una valor {@code Boolean} que corresponde al parámetro recuperado o 
+    *         {@code false} si no se puede recuperar el parámetro o se produce algún error en la transformación.
+    */
+   public static boolean getBoolean(HttpServletRequest request, String fieldName, boolean defaultValue)
+   {
+      if (request == null)
+      {
+         return defaultValue;
+      }
+      else if (request.getParameter(fieldName) == null)
+      {
+         return defaultValue;
+      }
+      else 
+      {
+         if ((request.getParameter(fieldName).equals("0")) || (request.getParameter(fieldName).toLowerCase().equals("false")))
+         {
+            return false;
+         }
+         else if ((request.getParameter(fieldName).equals("1")) || (request.getParameter(fieldName).toLowerCase().equals("true")))
+         {
+            return true;
+         }
+      }
+      
+      return defaultValue;
+   }
+   
+   /**
     * Obtiene un valor pasado por GET o POST de tipo {@code Date}.<br />
     * El formato aceptado por éste método es {@code yyyy-mm-dd}.
     * 

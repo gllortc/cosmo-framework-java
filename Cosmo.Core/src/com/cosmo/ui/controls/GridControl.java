@@ -14,6 +14,7 @@ import com.cosmo.data.orm.OrmFactory;
 import com.cosmo.data.orm.annotations.CormObjectField;
 import com.cosmo.structures.GridData;
 import com.cosmo.ui.templates.TemplateControl;
+import com.cosmo.util.StringUtils;
 
 /**
  * Implementa un control grid para mostrar datos en forma de tabla.
@@ -275,7 +276,7 @@ public class GridControl extends Control
          xrowdata = "";
          for (int col = 0; col < this.gridData.getColumnCount(); col++)
          {
-            xrowdata += Control.replaceTag(xcell, TAG_VALUE, this.gridData.getCell(row, col, "").toString());
+            xrowdata += Control.replaceTag(xcell, TAG_VALUE, StringUtils.formatValue(this.gridData.getCell(row, col, "")));
          }
          if (!this.rowActions.isEmpty())
          {
