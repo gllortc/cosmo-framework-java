@@ -14,13 +14,20 @@ import com.cosmo.data.DataConnection;
  */
 public class DynamicList implements List
 {
+   /**
+    * Enumera el tipo de cache que se aplicará a los elementos de la lista.
+    */
    public enum CacheMode
    {
+      /** Sin caché */
       None,
+      /** Caché de usuario. */
       User,
+      /** Caché de aplicación. */
       Application
    }
    
+   private boolean isLoaded;
    private String id;
    private String connection;
    private String sql;
@@ -208,6 +215,8 @@ public class DynamicList implements List
    public void clear() 
    {
       items.clear();
+
+      this.isLoaded = false;
    }
 
    /**
@@ -222,18 +231,16 @@ public class DynamicList implements List
       ResultSet rs;
       DataConnection connection = null;
       
-      if (this.cacheMode == CacheMode.User || this.cacheMode == CacheMode.Application)
+      // Si existe caché y ya está cargada la lista la devuelve.
+      if (this.cacheMode != CacheMode.None && this.isLoaded)
       {
-         if (!items.isEmpty())
-         {
-            return items;
-         }
+         return items;
       }
-      
-      items.clear();
       
       try
       {      
+         items.clear();
+         
          connection = new DataConnection(workspace.getProperties().getDataSource(this.connection));
          connection.connect();
          rs = connection.executeSql(this.sql);
@@ -243,6 +250,8 @@ public class DynamicList implements List
                                 rs.getString(this.titleFieldName));
             items.add(item);
          }
+         
+         this.isLoaded = true;
       }
       catch (Exception ex)
       {
@@ -269,6 +278,7 @@ public class DynamicList implements List
     */
    private void initialize()
    {
+      this.isLoaded = false;
       this.id = "";
       this.connection = "";
       this.valueFieldName = "";
