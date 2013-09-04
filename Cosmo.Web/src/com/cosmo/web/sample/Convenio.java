@@ -2,6 +2,7 @@ package com.cosmo.web.sample;
 
 import java.util.Date;
 
+import com.cosmo.data.orm.annotations.CormForeignKey;
 import com.cosmo.data.orm.annotations.CormObjectField;
 import com.cosmo.data.orm.annotations.CormFieldSetter;
 import com.cosmo.data.orm.annotations.CormObject;
@@ -263,10 +264,13 @@ public class Convenio
       this.tomcp = tomcp;
    }
 
-   @CormObjectField( fieldClass           = FormFieldText.class, 
+   @CormObjectField( fieldClass           = FormFieldList.class, 
+                     list                 = "cities", 
                      dbTableColumn        = "tomciudad", 
                      label                = "Ciudad",
                      showInObjectListGrid = false)
+   @CormForeignKey(  dbTableName          = "v_cities", 
+                     dbTableField         = "code" )
    public String getTomciudad() 
    {
       return tomciudad;
