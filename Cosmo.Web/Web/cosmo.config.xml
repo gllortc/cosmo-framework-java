@@ -88,6 +88,12 @@
          <static-list-item value="2" title="Empresa" />
       </static-list>
       
+      <static-list id="personIdType">
+         <static-list-item value="0" title="NIF" default-value="true" />
+         <static-list-item value="1" title="CIF" />
+         <static-list-item value="2" title="NIE" />
+      </static-list>
+      
       <dynamic-list id="cities" connection="cosmo.server" value="code" title="name" cache="none">
          <sql-statement>SELECT code, name FROM v_cities ORDER BY name Asc</sql-statement>
       </dynamic-list>
