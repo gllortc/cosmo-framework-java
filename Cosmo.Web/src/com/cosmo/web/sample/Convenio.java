@@ -201,13 +201,11 @@ public class Convenio
       this.tomapellido2 = tomapellido2;
    }
 
-   @CormObjectField( fieldClass           = FormFieldInteger.class, 
+   @CormObjectField( fieldClass           = FormFieldList.class,
+                     list                 = "personIdType",
                      dbTableColumn        = "tomtiponif", 
                      label                = "Tipo documento identidad",
                      showInObjectListGrid = false)
-   @CormObjectFieldStaticList( values       = {"0",   "1",   "2"},
-                               labels       = {"NIF", "CIF", "NIE"},
-                               defaultValue = "0" )
    public int getTomtiponif() 
    {
       return tomtiponif;
