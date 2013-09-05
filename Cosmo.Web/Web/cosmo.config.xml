@@ -83,12 +83,13 @@
    <data-lists>
 
       <static-list id="sex">
-         <static-list-item value="H" title="Masculino" default-value="true" />
-         <static-list-item value="M" title="Femenino" />
+         <static-list-item value="0" title="Masculino" default-value="true" />
+         <static-list-item value="1" title="Femenino" />
+         <static-list-item value="2" title="Empresa" />
       </static-list>
       
-      <dynamic-list id="dListSample" connection="cosmo.server" value="usrlogin" title="usrname" cache="none">
-         <sql-statement>SELECT usrlogin, usrname FROM cosmo_users ORDER BY usrname Asc</sql-statement>
+      <dynamic-list id="cities" connection="cosmo.server" value="code" title="name" cache="none">
+         <sql-statement>SELECT code, name FROM v_cities ORDER BY name Asc</sql-statement>
       </dynamic-list>
 
    </data-lists>
