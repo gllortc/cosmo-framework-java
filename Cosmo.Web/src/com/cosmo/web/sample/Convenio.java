@@ -2,11 +2,10 @@ package com.cosmo.web.sample;
 
 import java.util.Date;
 
-import com.cosmo.data.orm.annotations.CormForeignKey;
-import com.cosmo.data.orm.annotations.CormObjectField;
 import com.cosmo.data.orm.annotations.CormFieldSetter;
+import com.cosmo.data.orm.annotations.CormForeignKey;
 import com.cosmo.data.orm.annotations.CormObject;
-import com.cosmo.data.orm.annotations.CormObjectFieldStaticList;
+import com.cosmo.data.orm.annotations.CormObjectField;
 import com.cosmo.ui.controls.FormFieldBoolean;
 import com.cosmo.ui.controls.FormFieldDate;
 import com.cosmo.ui.controls.FormFieldEMail;
@@ -76,7 +75,7 @@ public class Convenio
 
    
    //==============================================
-   // Constructors
+   // Properties
    //==============================================
    
    @CormObjectField( fieldClass           = FormFieldInteger.class, 
