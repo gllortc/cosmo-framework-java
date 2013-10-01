@@ -42,6 +42,15 @@
 	               schema="public" 
 	               user="postgres" 
 	               pwd="esfacil" />
+	               
+      <connection id="rwm" 
+                  corm.driver="com.cosmo.data.orm.impl.OrmDriverPostgreSqlImpl"
+                  jdbc.driver="org.postgresql.Driver" 
+                  server="jdbc:postgresql:rwm" 
+                  port="5432" 
+                  schema="public" 
+                  user="postgres" 
+                  pwd="esfacil" />
 	
    </connections>
    
@@ -94,8 +103,19 @@
          <static-list-item value="2" title="NIE" />
       </static-list>
       
+      <static-list id="travelStatus">
+         <static-list-item value="0" title="Propuesta" default-value="true" />
+         <static-list-item value="1" title="Inscripción abierta" />
+         <static-list-item value="2" title="Inscripción cerrada" />
+         <static-list-item value="3" title="Realizado" />
+      </static-list>
+      
       <dynamic-list id="cities" connection="cosmo.server" value="code" title="name" cache="none">
          <sql-statement>SELECT code, name FROM v_cities ORDER BY name Asc</sql-statement>
+      </dynamic-list>
+      
+      <dynamic-list id="users" connection="cosmo.server" value="usrlogin" title="usrname" cache="none">
+         <sql-statement>SELECT usrlogin, usrname FROM cosmo_users ORDER BY usrname Asc</sql-statement>
       </dynamic-list>
 
    </data-lists>
@@ -112,6 +132,11 @@
          <app-action type="grid" activitiesAllowed="convenios.grid" rolesAllowed="" />
          <app-action type="create" activitiesAllowed="convenios.create" rolesAllowed="" />
       </corm-app>
+      
+      <corm-app id="appTravels" class="com.cosmo.web.sample.Travel" connection="rwm" title="Excursiones" description="Excursiones de aficionados.">
+         <app-action type="grid" activitiesAllowed="convenios.grid" rolesAllowed="" />
+         <app-action type="create" activitiesAllowed="convenios.create" rolesAllowed="" />
+      </corm-app>
 
    </corm-apps>
    
@@ -122,10 +147,10 @@
       <menuitem id="mnuListView" name="Llistes"                 href="ListViewPage"      parent="" />
       <menuitem id="mnuSlider"   name="Slider"                  href="SliderPage"        parent="" />
       <menuitem id="mnuForm"     name="Grid / Formularis"       href="GridPage"          parent="" />
-      <menuitem id="mnuOrmForm"  name="ORM Grid / Formularis"   href="OrmGridPage"       parent="" />
       <menuitem id="mnuDrivers"  name="Informació de seguretat" href="SecurityInfoPage"  parent="" icon="icon-lock" />
       <menuitem id="mnuTests"    name="Tests de seguretat"      href="SecurityTestsPage" parent="" icon="icon-lock" />
       <menuitem id="mnuUsrMngr"  name="Gestió d'usuaris"        href="UserManagerPage"   parent="" icon="icon-lock" />
+      <menusection name="Apps" source="corm-apps" icon="icon-cog" />
    </menu>
    
    <menu type="top">
