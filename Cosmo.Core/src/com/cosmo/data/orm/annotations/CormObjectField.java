@@ -18,6 +18,12 @@ import com.cosmo.ui.controls.FormFieldText;
 @Target( value = ElementType.METHOD )
 public @interface CormObjectField 
 {
+   // Valores por defecto que puede adoptar un campo
+   public static String DEFVAL_USER_LOGIN   = "%%userlogin%%";
+   public static String DEFVAL_USER_NAME    = "%%username%%";
+   public static String DEFVAL_USER_MAIL    = "%%usermail%%";
+   public static String DEFVAL_DATETIME_NOW = "%%now%%";
+   
    /**
     * Tipo de datos del campo.
     */
@@ -82,4 +88,9 @@ public @interface CormObjectField
     * Indica que los valores del campo provienen de una lista de valores definida en el archivo de configuración.
     */
    String list() default "";
+   
+   /**
+    * Indica el valor por defecto que adoptará el campo.
+    */
+   String defaultValue() default "";
 }

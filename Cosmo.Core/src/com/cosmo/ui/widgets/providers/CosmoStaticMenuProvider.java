@@ -2,11 +2,14 @@ package com.cosmo.ui.widgets.providers;
 
 import com.cosmo.Workspace;
 import com.cosmo.WorkspaceProperties;
+import com.cosmo.data.orm.apps.OrmApplication;
 import com.cosmo.ui.widgets.MenuWidget;
 import com.cosmo.ui.widgets.MenuWidget.MenuTypes;
 import com.cosmo.ui.widgets.MenuItem;
 import com.cosmo.util.DataTypeException;
 import com.cosmo.util.IOUtils;
+import com.cosmo.util.StringUtils;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -36,6 +39,8 @@ public class CosmoStaticMenuProvider extends MenuProvider
    private static final String XML_ATT_ICON = "icon";
    private static final String XML_ATT_PARENT = "parent";
    private static final String XML_ATT_TYPE = "type";
+   private static final String XML_NODE_MENUSECTION = "menusection";
+   private static final String XML_ATT_SOURCE = "source";
    
    //==============================================
    // Methods
@@ -86,6 +91,7 @@ public class CosmoStaticMenuProvider extends MenuProvider
                   mtype = MenuWidget.convertToMenuType(menuElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_TYPE));
                   if (mtype == type)
                   {
+                     // Obtiene los elementos de menú estáticos
                      nList = menuElement.getElementsByTagName(CosmoStaticMenuProvider.XML_NODE_MENUITEM);
                      for (int temp = 0; temp < nList.getLength(); temp++) 
                      {
@@ -105,6 +111,41 @@ public class CosmoStaticMenuProvider extends MenuProvider
                            }
                            
                            menuItems.add(menuitem);
+                        }
+                     }
+                     
+                     // Obtiene las secciones dinámicas
+                     String source;
+                     nList = menuElement.getElementsByTagName(CosmoStaticMenuProvider.XML_NODE_MENUSECTION);
+                     for (int temp = 0; temp < nList.getLength(); temp++) 
+                     {
+                        nNode = nList.item(temp);
+                        if (nNode.getNodeType() == Node.ELEMENT_NODE)
+                        {
+                           eElement = (Element) nNode;
+                           source = eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_SOURCE);
+
+                           if (!StringUtils.isNullOrEmptyTrim(source))
+                           {
+                              if (source.equalsIgnoreCase("corm-apps"))
+                              {
+                                 for (OrmApplication app : workspace.getProperties().getOrmApplications())
+                                 {
+                                    menuitem = new MenuItem(app.getId(),
+                                                            app.getTitle(), 
+                                                            app.getApplicationUrl(workspace),
+                                                            "");
+                                    
+                                    // Si existe icono especificado, lo agrega
+                                    if (!StringUtils.isNullOrEmptyTrim(eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_ICON)))
+                                    {
+                                       menuitem.setIcon(eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_ICON));
+                                    }
+                                    
+                                    menuItems.add(menuitem);
+                                 }
+                              }
+                           }
                         }
                      }
                   }

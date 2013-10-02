@@ -1,5 +1,8 @@
 package com.cosmo.data.orm.apps;
 
+import com.cosmo.Workspace;
+import com.cosmo.net.URL;
+
 /**
  * Representa una aplicación ORM.
  * 
@@ -15,7 +18,6 @@ public class OrmApplication
    private boolean canCreate;
    private boolean canDelete;
    private boolean canEdit;
-   
    
    //==============================================
    // Constructors
@@ -115,5 +117,23 @@ public class OrmApplication
    {
       this.canEdit = enabled;
    }
-   
+
+   //==============================================
+   // Methods
+   //==============================================
+
+   /**
+    * Obtiene la URL inicial de la aplicación.
+    * 
+    * @param workspace Una instancia de {@link Workspace}.
+    * 
+    * @return Una cadena que representa la URL de inicio de la aplicación.
+    */
+   public String getApplicationUrl(Workspace workspace) 
+   {
+      URL url = new URL(workspace.getUrl() + OrmDataService.URL_BASE);
+      url.addParameter("appid", this.id);
+      
+      return url.toString();
+   }
 }

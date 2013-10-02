@@ -3,6 +3,7 @@ package com.cosmo;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.HashMap;
 
 import javax.servlet.ServletContext;
@@ -258,6 +259,16 @@ public class WorkspaceProperties
       }
       
       return this.authorizationAgents.get(this.authorizationAgentId);
+   }
+   
+   /**
+    * Obtiene todas las aplicaciones CORM registradas.
+    * 
+    * @return Una colección de instancias de {@link OrmApplication}.
+    */
+   public Collection<OrmApplication> getOrmApplications()
+   {
+      return this.ormApps.values();
    }
    
    /**

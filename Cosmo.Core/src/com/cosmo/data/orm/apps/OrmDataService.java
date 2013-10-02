@@ -32,7 +32,8 @@ public class OrmDataService extends Page
    /** Serial Version UUID */
    private static final long serialVersionUID = 769955795551205157L;
 
-   public final String URL_BASE = "OrmDataService";
+   /** Nombre/URL de la página del servicio **/
+   public static final String URL_BASE = "OrmDataService";
    
    public final String PARAMETER_COMMAND = "cmd";
    public final String PARAMETER_HOSTPAGE = "hp";
