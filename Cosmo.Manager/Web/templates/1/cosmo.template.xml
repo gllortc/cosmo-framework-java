@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template cdt-ver="1.0">
+   <name>Blues</name>
+   <author>Gerard Llort</author>
+   <version>1.0</version>
+   <copyright>2012 G2 Software</copyright>
+   <first-cssclass>first</first-cssclass>
+   <head>
+      <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+   </head>
+   <dom>
+
+      <!-- Estructura de las páginas -->
+      <page-layouts>
+      
+         <layout id="home-page">
+&lt;div id="page"&gt;
+   &lt;div id="banner"&gt;&amp;nbsp;&lt;/div&gt;
+   &lt;a name="top"&gt;&lt;/a&gt;
+   &lt;div id="container"&gt;
+      &lt;div class="top"&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;div id="barleft"&gt;
+[@MENU]
+[@BANNERS-LEFT]
+      &lt;/div&gt; 
+      &lt;div id="content" style="width: 630px; margin-right: 10px; margin-bottom: 0;"&gt;
+[@NAVBAR]
+         &lt;div id="barright"&gt;
+[@CONTENT-RIGHT]
+[@BANNERS-RIGHT]
+         &lt;/div&gt;
+         &lt;div id="pageContents" class="page-cols"&gt;
+[@BANNERS-CENTER-TOP]
+[@CONTENT]
+[@BANNERS-CENTER-BOTTOM]
+            &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div id="footer"&gt;[@FOOTER]&lt;br /&gt;MetaObjects 4.0 powered by &lt;em&gt;Cosmo Framework&lt;/em&gt;&lt;/div&gt;
+      &lt;div class="bottom"&gt;&amp;nbsp;&lt;/div&gt;
+   &lt;/div&gt;
+&lt;/div&gt;
+[@STATS]
+         </layout>
+         
+         <layout id="one-col">
+&lt;div id="page"&gt;
+   &lt;div id="banner"&gt;&amp;nbsp;&lt;/div&gt;
+   &lt;a name="top"&gt;&lt;/a&gt;
+   &lt;div id="container"&gt;
+      &lt;div class="top"&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;div id="barleft"&gt;
+[@MENU]
+[@BANNERS-LEFT]
+      &lt;/div&gt; 
+      &lt;div id="content" style="width: 630px; margin-right: 10px; margin-bottom: 0;"&gt;
+[@NAVBAR]
+         &lt;div id="barright"&gt;
+[@CONTENT-RIGHT]
+[@BANNERS-RIGHT]
+         &lt;/div&gt;
+         &lt;div id="pageContents" class="page-cols"&gt;
+[@BANNERS-CENTER-TOP]
+[@CONTENT]
+[@BANNERS-CENTER-BOTTOM]
+            &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div id="footer"&gt;[@FOOTER]&lt;br /&gt;MetaObjects 4.0 powered by &lt;em&gt;Cosmo Framework&lt;/em&gt;&lt;/div&gt;
+      &lt;div class="bottom"&gt;&amp;nbsp;&lt;/div&gt;
+   &lt;/div&gt;
+&lt;/div&gt;
+[@STATS]
+         </layout>
+
+         <layout id="two-cols-left">
+&lt;div id="page"&gt;
+   &lt;div id="banner"&gt;&amp;nbsp;&lt;/div&gt;
+   &lt;a name="top"&gt;&lt;/a&gt;
+   &lt;div id="container"&gt;
+      &lt;div class="top"&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;div id="barleft"&gt;
+[@MENU]
+[@BANNERS-LEFT]
+      &lt;/div&gt;
+      &lt;div id="content" style="width: 630px; margin-right: 10px; margin-bottom: 0;"&gt;
+[@BANNERS-CENTER-TOP]
+[@CONTENT]
+[@BANNERS-CENTER-BOTTOM]
+      &lt;/div&gt;
+      &lt;div id="footer"&gt;[@FOOTER]&lt;br /&gt;MetaObjects CMS 4.0 powered by &lt;em&gt;Cosmo Framework&lt;/em&gt;&lt;/div&gt;
+      &lt;div class="bottom"&gt;&amp;nbsp;&lt;/div&gt;
+   &lt;/div&gt;
+&lt;/div&gt;
+[@STATS]
+         </layout>
+
+         <layout id="two-cols-right">
+&lt;div id="page"&gt;
+   &lt;div id="banner"&gt;&amp;nbsp;&lt;/div&gt;
+   &lt;a name="top"&gt;&lt;/a&gt;
+   &lt;div id="container"&gt;
+      &lt;div class="top"&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;div id="barleft"&gt;
+[@MENU]
+[@BANNERS-LEFT]
+      &lt;/div&gt;
+      &lt;div id="content" style="width: 630px; margin-right: 10px; margin-bottom: 0;"&gt;
+[@BANNERS-CENTER-TOP]
+[@CONTENT]
+[@BANNERS-CENTER-BOTTOM]
+            &lt;/div&gt;
+      &lt;div id="footer"&gt;[@FOOTER]&lt;br /&gt;MetaObjects CMS 4.0 powered by &lt;em&gt;Cosmo Framework&lt;/em&gt;&lt;/div&gt;
+      &lt;div class="bottom"&gt;&amp;nbsp;&lt;/div&gt;
+   &lt;/div&gt;
+&lt;/div&gt;
+[@STATS]
+         </layout>
+
+         <layout id="three-cols">
+&lt;div id="page"&gt;
+   &lt;div id="banner"&gt;&amp;nbsp;&lt;/div&gt;
+   &lt;a name="top"&gt;&lt;/a&gt;
+   &lt;div id="container"&gt;
+      &lt;div class="top"&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;div id="barleft"&gt;
+[@MENU]
+[@BANNERS-LEFT]
+      &lt;/div&gt; 
+      &lt;div id="content" style="width: 630px; margin-right: 10px; margin-bottom: 0;"&gt;
+         &lt;div id="barright"&gt;
+[@CONTENT-RIGHT]
+[@BANNERS-RIGHT]
+         &lt;/div&gt;
+         &lt;div id="pageContent" class="page-cols"&gt;
+[@BANNERS-CENTER-TOP]
+[@CONTENT]
+[@BANNERS-CENTER-BOTTOM]
+         &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div id="footer"&gt;[@FOOTER]&lt;br /&gt;MetaObjects CMS 4.0 powered by &lt;em&gt;Cosmo Framework&lt;/em&gt;&lt;/div&gt;
+      &lt;div class="bottom"&gt;&amp;nbsp;&lt;/div&gt;
+   &lt;/div&gt;
+&lt;/div&gt;
+[@STATS]
+         </layout>
+
+      </page-layouts>
+
+      <layout-components>
+
+         <!-- MENÚ PRINCIPAL -->
+         <pcontrol id="CosmoUiWdgtMenu">
+            <celement id="menu-header">
+&lt;div id="menu"&gt;
+   &lt;ul id="menulat"&gt;
+      &lt;li class="title"&gt;[@MNAME]&lt;/li&gt;
+      &lt;li&gt;
+         &lt;ul&gt;
+            </celement>
+            <celement id="menu-grp-header" />
+            <celement id="menu-item">
+            &lt;li&gt;&lt;a href="[@IHREF]"&gt;[@ICAPTION]&lt;/a&gt;&lt;/li&gt;
+            </celement>
+            <celement id="menu-subitem" />
+            <celement id="menu-grp-footer" />
+            <celement id="menu-footer">
+         &lt;/ul&gt;
+      &lt;/li&gt;
+   &lt;/ul&gt;
+   &lt;div class="bottom"&gt;&lt;/div&gt;
+&lt;/div&gt;
+            </celement>
+         </pcontrol>
+
+         <!-- BARRA DE NAVEGACIÓN -->
+         <pcontrol id="navbar-top">
+            <celement id="navbar-top-header">
+&lt;div id="navbar"&gt;
+            </celement>
+            <celement id="navbar-top-left-header">
+  &lt;div class="left"&gt;
+            </celement>
+            <celement id="navbar-top-left-footer">
+  &lt;/div&gt;
+            </celement>
+            <celement id="navbar-top-right-header">
+  &lt;div class="right"&gt;
+            </celement>
+            <celement id="navbar-top-right-footer">
+  &lt;/div&gt;
+            </celement>
+            <celement id="navbar-top-footer">
+&lt;/div&gt;
+            </celement>
+			</pcontrol>
+
+         <!-- ZONA DE BANNERS -->
+         <pcontrol id="CosmoUiWdgtBannerArea">
+            <celement id="banners-header">
+&lt;div id="[@BANNER-ID]"&gt;
+            </celement>
+            <celement id="banner-item">
+&lt;p&gt;[@BANNER-OBJECT]&lt;/p&gt;
+            </celement>
+            <celement id="banners-footer">
+&lt;/div&gt;
+            </celement>
+         </pcontrol>
+
+      </layout-components>
+
+      <content-components>
+
+         <!-- CABECERA DE DOCUMENTO -->
+         <pcontrol id="CosmoUiCtrlHeader" center="true" lateral="false">
+            <cscript type="external" src="http://static.addtoany.com/menu/page.js" />
+            <celement id="page-title">
+&lt;h1&gt;[@TITLE]&lt;/h1&gt;
+[#IF UTILITIES]&lt;div&gt;[@UTILITIES]&lt;/div&gt;[#ENDIF UTILITIES]
+&lt;p style="clear:both;"&gt;&lt;em&gt;[@DESCRIPTION]&lt;/em&gt;&lt;/p&gt;
+            </celement>
+            <celement id="page-utilities">
+  &lt;div style="float:left;padding-bottom:25px;"&gt;
+    [#IF AUTHOR]por &lt;span class="alt"&gt;[@AUTHOR]&lt;/span&gt;[#ENDIF AUTHOR]
+  &lt;/div&gt;
+  &lt;div style="float:right;"&gt;
+    &lt;div class="a2a_kit"&gt;
+      &lt;a class="a2a_button_facebook"&gt;
+        &lt;img src="templates/shared/share_facebook_16.png" border="0" alt="Facebook" width="16" height="16" /&gt;
+      &lt;/a&gt;
+      &lt;a class="a2a_button_twitter"&gt;
+        &lt;img src="templates/shared/share_twitter_16.png" border="0" alt="Twitter" width="16" height="16" /&gt;
+      &lt;/a&gt;
+      &lt;a class="a2a_button_delicious"&gt;
+        &lt;img src="templates/shared/share_delicious_16.png" border="0" alt="Delicious" width="16" height="16" /&gt;
+      &lt;/a&gt;
+      &lt;a class="a2a_button_email"&gt;
+        &lt;img src="templates/shared/share_email_16.png" border="0" alt="Enviar enlace por correo" width="16" height="16" /&gt;
+      &lt;/a&gt;
+    &lt;/div&gt;
+    &lt;script type="text/javascript" src="http://static.addtoany.com/menu/page.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+      a2a_config.locale = "es-ES";
+    &lt;/script&gt;
+  &lt;/div&gt;      
+            </celement>
+			</pcontrol>
+
+         <!-- CUADRO DE MENSAJE -->
+         <pcontrol id="info-box" center="true" lateral="false">
+            <celement id="info-box-info">
+&lt;div class="info_box"&gt;
+  &lt;p class="title"&gt;[@TITLE]&lt;/p&gt;
+  &lt;p&gt;[@TEXT]&lt;/p&gt;
+&lt;/div&gt;
+            </celement>
+            <celement id="info-box-warning">
+&lt;div class="warning_box"&gt;
+  &lt;p class="title"&gt;[@TITLE]&lt;/p&gt;
+  &lt;p&gt;[@TEXT]&lt;/p&gt;
+&lt;/div&gt;
+            </celement>
+            <celement id="info-box-error">
+&lt;div class="error_box"&gt;
+  &lt;p class="title"&gt;[@TITLE]&lt;/p&gt;
+  &lt;p&gt;[@TEXT]&lt;/p&gt;
+&lt;/div&gt;
+            </celement>
+		   </pcontrol>
+
+         <!-- LISTADO DE OBJETOS -->
+         <pcontrol id="object-list" lat-equiv="object-list-lateral">
+            <celement id="object-list-title">
+[#IF TITLE]&lt;h2&gt;[@TITLE]&lt;/h2&gt;[#ENDIF TITLE]
+[#IF DESCRIPTION]&lt;p&gt;[@DESCRIPTION]&lt;/p&gt;[#ENDIF DESCRIPTION]
+            </celement>
+            <celement id="object-list-header" />
+            <celement id="object-list-item">
+&lt;div class="doc-entry"&gt;
+  [#IF THUMB]&lt;div class="thumnail"&gt;
+    &lt;a href="[@HREF]"&gt;&lt;img src="[@THUMB]" alt="[@CAPTION]" /&gt;&lt;/a&gt;
+  &lt;/div&gt;[#ENDIF THUMB]
+  &lt;p&gt;&lt;span class="title"&gt;&lt;a href="[@HREF]"&gt;[@CAPTION]&lt;/a&gt;&lt;/span&gt;&lt;br /&gt;[@DESCRIPTION]&lt;/p&gt;
+  [#IF AUTHOR]&lt;p class="info"&gt;[@AUTHOR]&lt;/p&gt;[#ENDIF AUTHOR]
+&lt;/div&gt;
+            </celement>
+            <celement id="object-list-footer">
+&lt;div id="navbar-bottom"&gt;
+  &lt;div class="left alt"&gt;[@ITEMS] documento(s) mostrado(s)&lt;/div&gt;
+  &lt;div class="right"&gt;&lt;img src="images/ico_top.gif" alt="Subir" /&gt;&amp;nbsp;&lt;a href="#top"&gt;Subir&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+            </celement>
+		   </pcontrol>
+
+         <!-- LISTADO DE OBJETOS (BARRAS LATERALES) -->
+         <pcontrol id="object-list-lateral">
+            <celement id="object-list-title">
+[#IF TITLE]&lt;h2&gt;[@TITLE]&lt;/h2&gt;[#ENDIF TITLE]
+[#IF DESCRIPTION]&lt;p&gt;[@DESCRIPTION]&lt;/p&gt;[#ENDIF DESCRIPTION]
+            </celement>
+            <celement id="object-list-header">
+&lt;div id="[@OBJID]"&gt;
+            </celement>
+            <celement id="object-list-item">
+   &lt;div class="hlbox"&gt;
+      &lt;span class="title"&gt;[@CAPTION]&lt;/span&gt;&lt;br /&gt;
+      &lt;a href="[@HREF]"&gt;&lt;img class="thumb" src="[@THUMB]" alt="[@CAPTION]" /&gt;&lt;/a&gt;&lt;br /&gt;
+      [@DESCRIPTION]&amp;nbsp;&lt;a href="[@HREF]">Leer&lt;/a&gt;
+   &lt;/div&gt;
+            </celement>
+            <celement id="object-list-footer">
+&lt;/div&gt;
+            </celement>
+         </pcontrol>
+
+         <!-- LISTADO DE CARPETAS -->
+         <pcontrol id="folder-list" lat-equiv="folder-list-lateral">
+            <celement id="folder-list-title">
+&lt;h2&gt;[@TITLE]&lt;/h2&gt;
+[#IF DESCRIPTION]&lt;p&gt;[@DESCRIPTION]&lt;/p&gt;[#ENDIF DESCRIPTION]
+            </celement>
+            <celement id="folder-list-header">
+&lt;ul class="folder_list"&gt;              
+				</celement>
+            <celement id="folder-list-item">
+  &lt;li [@CLASS]&gt;&lt;a href="[@HREF]"&gt;[@CAPTION]&lt;/a&gt;&lt;br /&gt;&lt;span class="alt"&gt;[@DESCRIPTION]&lt;/span&gt;&lt;/li&gt;
+				</celement>
+            <celement id="folder-list-footer">
+&lt;/ul&gt;
+				</celement>
+			</pcontrol>
+
+         <!-- LISTADO DE CARPETAS (BARRAS LATERALES) -->
+         <pcontrol id="folder-list-lateral">
+            <celement id="folder-list-title">
+[#IF TITLE]&lt;h3&gt;[@TITLE]&lt;/h3&gt;[#ENDIF TITLE]
+[#IF DESCRIPTION]&lt;p&gt;[@DESCRIPTION]&lt;/p&gt;[#ENDIF DESCRIPTION]
+            </celement>
+            <celement id="folder-list-header">
+&lt;ul class="folder_list"&gt;
+            </celement>
+            <celement id="folder-list-item">
+   &lt;li [@CLASS]&gt;&lt;a href="[@HREF]"&gt;[@CAPTION]&lt;/a&gt;&lt;br /&gt;&lt;span class="alt"&gt;[@DESCRIPTION]&lt;/span&gt;&lt;/li&gt;
+            </celement>
+            <celement id="folder-list-footer">
+&lt;/ul&gt;
+            </celement>
+         </pcontrol>
+
+         <!-- TABLA/LISTADO DE DATOS -->
+         <pcontrol id="grid">
+            <clink rel="stylesheet" type="text/css" href="include/plugins/jquery/css/flexigrid.css" />
+            <cscript type="external" src="include/plugins/jquery/jquery.grid.js" />
+            <celement id="grid-title">
+&lt;link rel="stylesheet" type="text/css" href="include/plugins/jquery/css/flexigrid.css" /&gt;
+&lt;h2&gt;[@TITLE]&lt;/h2&gt;
+&lt;p&gt;[@DESCRIPTION]&lt;/p&gt;
+            </celement>
+            <celement id="grid-body">
+&lt;table class="[@ID]"&gt;
+   &lt;thead&gt;
+[@TITLEROWS]
+   &lt;/thead&gt;
+   &lt;tbody&gt;
+[@ROWS]
+   &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;script type="text/javascript" src="include/plugins/jquery/jquery.grid.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+
+   $(document).ready(function () {
+      $('.[@ID]').flexigrid();
+   });
+
+&lt;/script&gt;
+            </celement>
+            <celement id="grid-rowtitle-body">&lt;tr&gt;[@CELLS]&lt;/tr&gt;</celement>
+            <celement id="grid-rowtitle-cell">&lt;th width="100"&gt;[@VALUE]&lt;/th&gt;</celement>
+            <celement id="grid-row-body">&lt;tr&gt;[@CELLS]&lt;/tr&gt;</celement>
+            <celement id="grid-row-cell">&lt;td&gt;[@VALUE]&lt;/td&gt;</celement>
+         </pcontrol>
+
+         <!-- FORMULARIO -->
+         <pcontrol id="CosmoUiCtrlForm" separator="&amp;nbsp;&amp;nbsp;" css-class-active="std-button-active" css-class="std-button">
+            <cscript type="external" src="include/plugins/jquery/jquery.validate.min.js" />
+            <celement id="form-head">
+&lt;div class="form-box"&gt;
+   [#IF FTITLE]&lt;p class="title"&gt;[@FTITLE]&lt;/p&gt;[#ENDIF FTITLE]
+   [#IF FDESC]&lt;p&gt;[@FDESC]&lt;/p&gt;[#ENDIF FDESC]
+   [@FTAG]
+            </celement>
+            <celement id="form-fieldset-head">
+&lt;p class="title"&gt;[@FTITLE]&lt;/p&gt;
+[#IF FDESC]&lt;p&gt;[@FDESC]&lt;/p&gt;[#ENDIF FDESC]
+            </celement>
+            <celement id="form-fieldset-footer" />
+            <celement id="form-control">
+&lt;p&gt;&lt;label&gt;[@FLABEL]&lt;br /&gt;[@FCONTROL][#IF FDESC]&lt;br /&gt;&lt;span class="comment"&gt;[@FDESC]&lt;/span&gt;[#ENDIF FDESC]&lt;/label&gt;&lt;/p&gt;
+            </celement>
+            <celement id="form-option">
+&lt;p&gt;
+   &lt;label&gt;
+[@FCONTROL] [@FLABEL]
+[#IF DESC]&lt;br /&gt;&lt;span class="comment"&gt;[@DESC]&lt;/span&gt;[#ENDIF DESC]
+   &lt;/label&gt;
+&lt;/p&gt;
+            </celement>
+            <celement id="form-textarea">
+&lt;p&gt;
+   &lt;label&gt;
+[@FLABEL]&lt;br /&gt;
+[@FCONTROL]
+[#IF DESC]&lt;br /&gt;&lt;span class="comment"&gt;[@DESC]&lt;/span&gt;[#ENDIF DESC]
+   &lt;/label&gt;
+&lt;/p&gt;
+            </celement>
+            <celement id="form-captcha">
+&lt;p&gt;
+   [@FCAPTCHAIMG]&amp;nbsp;&amp;nbsp;
+   [@FCONTROL]
+&lt;/p&gt;
+            </celement>
+            <celement id="form-upload" />
+            <celement id="form-buttons">
+[#IF FBUTTONS]&lt;div class="controls"&gt;
+[@FBUTTONS]
+&lt;/div&gt;[#ENDIF FBUTTONS]
+            </celement>
+            <celement id="form-footer">
+   [@FENDTAG]
+&lt;/div&gt;
+            </celement>
+         </pcontrol>
+
+         <!-- CAJA DE BÚSQUEDA (GOOGLE CUSTOM ENGINE) -->
+         <pcontrol id="google-cse-search-box" show="true">
+            <celement id="gcsesb-box">
+&lt;div class="form-box"&gt;
+   [#IF TITLE]&lt;p class="title"&gt;[@TITLE]&lt;/p&gt;[#ENDIF TITLE]
+   [#IF DESC]&lt;p&gt;[@DESC]&lt;/p&gt;[#ENDIF DESC]
+   &lt;form action="[@RESULTS]" id="cse-search-box"&gt;
+      &lt;div&gt;
+         &lt;input name="cx" value="[@CSEKEY]" type="hidden" /&gt;
+            &lt;input name="cof" value="FORID:9" type="hidden" /&gt;
+            &lt;input name="ie" value="UTF-8" type="hidden" /&gt;
+            &lt;p&gt;
+               &lt;label&gt;
+               [#IF QLABEL][@QLABEL]:&amp;nbsp;&amp;nbsp;[#ENDIF QLABEL]&lt;input type="text" name="q" size="31" /&gt;
+               &lt;/label&gt;
+               &lt;input name="sa" value="Buscar" type="submit" /&gt;
+            &lt;/p&gt;
+         &lt;/div&gt;
+      &lt;input value="[@SITEURL]" name="siteurl" type="hidden" /&gt;
+   &lt;/form&gt;
+&lt;/div&gt;
+&lt;script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;amp;lang=es"&gt;&lt;/script&gt;
+            </celement>
+         </pcontrol>
+
+      </content-components>
+
+   </dom>
+</template>

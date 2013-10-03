@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<cosmo-settings ver="1.0" app-id="Cosmo.Web">
+   
+   <!-- SETTINGS -->
+   <settings>
+
+      <param key="ws.title" value="Cosmo Manager" />
+      <param key="ws.url" value="http://localhost:8080/Cosmo.Manager/" />
+      <param key="ws.mail" value="gllort@dipta.cat" />
+      
+      <param key="ws.ui.charset" value="ISO-8859-1" />
+      <param key="ws.ui.lang" value="es" />
+      <param key="ws.ui.render.provider" value="com.cosmo.ui.render.impl.CosmoPageRenderImpl" />
+      
+      <param key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoStaticMenuProvider" />
+      <!-- value key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoDynamicMenuProvider" / -->
+
+      <param key="ws.logger.provider" value="com.cosmo.logging.impl.JdkLogFactory" />
+
+      <param key="ws.data.serverId" value="cosmo.server" />
+      
+      <param key="ws.comm.mail.transport.protocol" value="smtp" />
+      <param key="ws.comm.mail.smtp.host" value="smtp.gmail.com" />
+      <param key="ws.comm.mail.smtp.auth" value="true" />
+      <param key="ws.comm.mail.smtp.starttls.enable" value="true" />
+      <param key="ws.comm.mail.smtp.login" value="XXXXXX@gmail.com" />
+      <param key="ws.comm.mail.smtp.password" value="XXXXXXX" />
+      <param key="ws.comm.mail.smtp.from.name" value="Cosmo Communications Server" />
+      <param key="ws.comm.mail.smtp.from.address" value="XXXXXXX" />
+
+   </settings>
+   
+   <!-- DATABASE CONNECTIONS -->
+   <connections cosmo-server="cosmo.server">
+
+	   <connection id="cosmo.server" 
+	               corm.driver="com.cosmo.data.orm.impl.OrmDriverPostgreSqlImpl"
+	               jdbc.driver="org.postgresql.Driver" 
+	               server="jdbc:postgresql:cosmo-test" 
+	               port="5432" 
+	               schema="public" 
+	               user="postgres" 
+	               pwd="esfacil" />
+	               
+      <connection id="rwm" 
+                  corm.driver="com.cosmo.data.orm.impl.OrmDriverPostgreSqlImpl"
+                  jdbc.driver="org.postgresql.Driver" 
+                  server="jdbc:postgresql:rwm" 
+                  port="5432" 
+                  schema="public" 
+                  user="postgres" 
+                  pwd="esfacil" />
+	
+   </connections>
+   
+   <!-- SECURITY CONFIGURATION -->
+   <security authentication-agent="rdbms" authorization-agent="rdbms" login-page="LoginPage">
+      
+      <authentication-agent id="rdbms" driver="com.cosmo.security.auth.impl.PostgreSqlAuthenticationImpl">
+         <param key="connection"   value="cosmo.server" />
+         <param key="lockControl"  value="true" />
+         <param key="lockTimeout"  value="60" />
+         <param key="lockAttempts" value="3" />
+      </authentication-agent>
+
+      <authentication-agent id="ldap" driver="com.cosmo.security.auth.impl.LdapAuthenticationImpl">
+         <param key="context-factory"     value="com.sun.jndi.ldap.LdapCtxFactory" />
+         <param key="host-url"            value="ldap.testathon.net" />
+         <param key="host-port"           value="389" />
+         <param key="search-base"         value="OU=users,DC=testathon,DC=net" />
+         <param key="login-pattern"       value="CN=%login%,OU=Users,DC=testathon,DC=net" />
+         <param key="ldap-attrib-mail"    value="mail" />
+         <param key="ldap-attrib-name"    value="givenName" />
+         <param key="ldap-attrib-surname" value="sn" />
+      </authentication-agent>
+      
+      <authentication-agent id="cas" driver="com.cosmo.security.auth.impl.CasAuthenticationImpl">
+         <param key="service-url"      value="http://localhost:8080/Cosmo.Web/" />
+         <param key="cas-service"      value="https://developsc.intranet.dtgna:8443/cas-dipta/" />
+         <param key="cas-attrib-mail"  value="mail" />
+         <param key="cas-attrib-cname" value="nomComplet" />
+      </authentication-agent>
+      
+      <authorization-agent id="rdbms" driver="com.cosmo.security.auth.impl.PostgreSqlAuthorizationImpl">
+         <param key="connection" value="cosmo.server" />
+      </authorization-agent>
+      
+   </security>
+   
+   <!-- LISTAS DE DATOS -->
+   <data-lists>
+
+      <static-list id="sex">
+         <static-list-item value="0" title="Masculino" default-value="true" />
+         <static-list-item value="1" title="Femenino" />
+         <static-list-item value="2" title="Empresa" />
+      </static-list>
+      
+      <static-list id="personIdType">
+         <static-list-item value="0" title="NIF" default-value="true" />
+         <static-list-item value="1" title="CIF" />
+         <static-list-item value="2" title="NIE" />
+      </static-list>
+      
+      <static-list id="travelStatus">
+         <static-list-item value="0" title="Propuesta" default-value="true" />
+         <static-list-item value="1" title="Inscripción abierta" />
+         <static-list-item value="2" title="Inscripción cerrada" />
+         <static-list-item value="3" title="Realizado" />
+      </static-list>
+      
+      <dynamic-list id="cities" connection="cosmo.server" value="code" title="name" cache="none">
+         <sql-statement>SELECT code, name FROM v_cities ORDER BY name Asc</sql-statement>
+      </dynamic-list>
+      
+      <dynamic-list id="users" connection="cosmo.server" value="usrlogin" title="usrname" cache="none">
+         <sql-statement>SELECT usrlogin, usrname FROM cosmo_users ORDER BY usrname Asc</sql-statement>
+      </dynamic-list>
+
+   </data-lists>
+   
+   <!-- ORM uAPPLICATIONS -->
+   <corm-apps>
+
+      <corm-app id="appWeather" class="com.cosmo.web.sample.Weather" connection="cosmo.server" title="Gestió del temps" description="Gestiona els registres meteorològics de les ciutats catalanes.">
+	      <app-action type="grid" activitiesAllowed="weather.grid" rolesAllowed="" />
+	      <app-action type="create" activitiesAllowed="weather.create" rolesAllowed="" />
+	   </corm-app>
+	   
+	   <corm-app id="appConvenios" class="com.cosmo.web.sample.Convenio" connection="cosmo.server" title="Gestión de convenios" description="Gestión de las ofertas de accidentes de convenios.">
+         <app-action type="grid" activitiesAllowed="convenios.grid" rolesAllowed="" />
+         <app-action type="create" activitiesAllowed="convenios.create" rolesAllowed="" />
+      </corm-app>
+      
+      <corm-app id="appTravels" class="com.cosmo.web.sample.Travel" connection="rwm" title="Excursiones" description="Excursiones de aficionados.">
+         <app-action type="grid" activitiesAllowed="convenios.grid" rolesAllowed="" />
+         <app-action type="create" activitiesAllowed="convenios.create" rolesAllowed="" />
+      </corm-app>
+
+   </corm-apps>
+   
+   <!-- STATIC MENUS -->
+   <menu type="lateral">
+      <menuitem id="mnuHome"     name="Home"                    href="HomePage"            parent="" />
+      <menuitem id="mnuContent"  name="Users"                   href="UserManagerPage"     parent="" />
+      <menuitem id="mnuListView" name="Activities"              href="ActivityManagerPage" parent="" />
+      <menuitem id="mnuSlider"   name="Roles"                   href="RolesManagerPage"    parent="" />
+      <menuitem id="mnuDrivers"  name="Security info"           href="SecurityInfoPage"    parent="" icon="icon-lock" />
+      <menuitem id="mnuTests"    name="Security tests"          href="SecurityTestsPage"   parent="" icon="icon-lock" />
+      <!-- <menusection name="Apps" source="corm-apps" icon="icon-cog" /> -->
+   </menu>
+   
+   <menu type="top">
+      <menuitem id="mnuHome"  name="Home"      href="/HomePage"  parent="" />
+      <menuitem id="mnuForm"  name="Form"      href=""           parent="" />
+      <menuitem id="mnuForm1" name="LoginPage" href="/LoginPage" parent="mnuForm" />
+   </menu>
+   
+</cosmo-settings>
