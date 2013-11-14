@@ -4,13 +4,26 @@ import java.util.ArrayList;
 
 import javax.mail.internet.InternetAddress;
 
+/**
+ * Implementa un mensaje de correo electrónico.
+ * 
+ * @author Gerard Llort
+ */
 public class MailMessage 
 {
    private String subject;
    private String body;
    private String htmlBody;
    private ArrayList<InternetAddress> to;
-   
+
+
+   //==============================================
+   // Constructors
+   //==============================================
+
+   /**
+    * Constructor de la clase {@link MailMessage}.
+    */
    public MailMessage() 
    { 
       this.subject = "";
@@ -18,7 +31,12 @@ public class MailMessage
       this.htmlBody = "";
       this.to = new ArrayList<InternetAddress>();
    }
-   
+
+
+   //==============================================
+   // Properties
+   //==============================================
+
    public String getSubject() 
    {
       return subject;
@@ -58,5 +76,5 @@ public class MailMessage
    {
       this.to.add(address);
    }
-   
+
 }

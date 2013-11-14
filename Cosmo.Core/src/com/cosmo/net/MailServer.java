@@ -20,19 +20,35 @@ import com.cosmo.Workspace;
  */
 public class MailServer 
 {
-   private String transport;
+   private String transportProtocol;
    private String host;
    private String fromName;
    private String fromAddress;
    private String login;
    private String password;
-   private boolean auth;
-   private boolean starttls;
+   private boolean authenticated;
+   private boolean startTls;
+
 
    //==============================================
    // Constructors
    //==============================================
-   
+
+   /**
+    * Constructor de la clase {@link MailServer}.
+    */
+   public MailServer()
+   {
+      this.transportProtocol = "smtp";
+      this.host = "";
+      this.authenticated = false;
+      this.startTls = false;
+      this.fromName = "";
+      this.fromAddress = "";
+      this.login = "";
+      this.password = "";
+   }
+
    /**
     * Constructor de la clase {@link MailServer}.
     * 
@@ -40,20 +56,106 @@ public class MailServer
     */
    public MailServer(Workspace workspace)
    {
-      this.transport = workspace.getProperties().getString(Cosmo.PROPERTY_WORKSPACE_COMM_MAIL_TRANSPORT);
+      this.transportProtocol = workspace.getProperties().getString(Cosmo.PROPERTY_WORKSPACE_COMM_MAIL_TRANSPORT);
       this.host = workspace.getProperties().getString(Cosmo.PROPERTY_WORKSPACE_COMM_SMTP_HOST);
-      this.auth = workspace.getProperties().getBoolean(Cosmo.PROPERTY_WORKSPACE_COMM_SMTP_AUTH);
-      this.starttls = workspace.getProperties().getBoolean(Cosmo.PROPERTY_WORKSPACE_COMM_SMTP_STARTTLS);
+      this.authenticated = workspace.getProperties().getBoolean(Cosmo.PROPERTY_WORKSPACE_COMM_SMTP_AUTH);
+      this.startTls = workspace.getProperties().getBoolean(Cosmo.PROPERTY_WORKSPACE_COMM_SMTP_STARTTLS);
       this.fromName = workspace.getProperties().getString(Cosmo.PROPERTY_WORKSPACE_COMM_SMTP_FROMNAME);
       this.fromAddress = workspace.getProperties().getString(Cosmo.PROPERTY_WORKSPACE_COMM_SMTP_FROMADD);
       this.login = workspace.getProperties().getString(Cosmo.PROPERTY_WORKSPACE_COMM_SMTP_LOGIN);
       this.password = workspace.getProperties().getString(Cosmo.PROPERTY_WORKSPACE_COMM_SMTP_PASSWORD);
    }
-   
+
+
+   //==============================================
+   // Properties
+   //==============================================
+
+   public String getTransportProtocol()
+   {
+      return transportProtocol;
+   }
+
+   public void setTransportProtocol(String transportProtocol)
+   {
+      this.transportProtocol = transportProtocol;
+   }
+
+   public String getHost()
+   {
+      return host;
+   }
+
+   public void setHost(String host)
+   {
+      this.host = host;
+   }
+
+   public String getFromName()
+   {
+      return fromName;
+   }
+
+   public void setFromName(String fromName)
+   {
+      this.fromName = fromName;
+   }
+
+   public String getFromAddress()
+   {
+      return fromAddress;
+   }
+
+   public void setFromAddress(String fromAddress)
+   {
+      this.fromAddress = fromAddress;
+   }
+
+   public String getLogin()
+   {
+      return login;
+   }
+
+   public void setLogin(String login)
+   {
+      this.login = login;
+   }
+
+   public String getPassword()
+   {
+      return password;
+   }
+
+   public void setPassword(String password)
+   {
+      this.password = password;
+   }
+
+   public boolean isAuthenticated()
+   {
+      return authenticated;
+   }
+
+   public void setAuthenticated(boolean authenticated)
+   {
+      this.authenticated = authenticated;
+   }
+
+   public boolean isStartTls()
+   {
+      return startTls;
+   }
+
+   public void setStartTls(boolean startTls)
+   {
+      this.startTls = startTls;
+   }
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Envia un mensaje de correo electrónico.
     * 
@@ -65,13 +167,13 @@ public class MailServer
    public void sendMail(MailMessage message) throws UnsupportedEncodingException, MessagingException
    {
       Properties props = System.getProperties();
-      props.put("mail.transport.protocol", transport);
+      props.put("mail.transport.protocol", transportProtocol);
       props.put("mail.smtp.host", host);
-      props.put("mail.smtp.auth", auth ? "true" : "false");
-      props.put("mail.smtp.starttls.enable", starttls ? "true" : "false"); 
-         
+      props.put("mail.smtp.auth", authenticated ? "true" : "false");
+      props.put("mail.smtp.starttls.enable", startTls ? "true" : "false"); 
+
       Session session = Session.getInstance(props, null);
-         
+
       Message msg = new MimeMessage(session);
       msg.setFrom(new InternetAddress(this.fromAddress, this.fromName));
       msg.setSubject(message.getSubject());
@@ -80,10 +182,11 @@ public class MailServer
       {
          msg.addRecipient(Message.RecipientType.TO, add);
       }
-         
+
       Transport transport = session.getTransport();
       transport.connect(host, login, password);
       transport.sendMessage(msg, msg.getAllRecipients());
       transport.close();
    }
+
 }
