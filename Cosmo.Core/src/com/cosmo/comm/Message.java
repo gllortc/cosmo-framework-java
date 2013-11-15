@@ -11,8 +11,9 @@ import javax.mail.internet.MimeBodyPart;
 import com.cosmo.util.StringUtils;
 
 /**
- * Representa un mensage genérico (puede ser de correo electrónico, SMS, etc.).<br />
- * Lea atentamente las intrucciones de cada proveedor de comunicaciones para saber
+ * Representa un mensage genérico (puede ser de correo electrónico, SMS, etc.).
+ * <br /><br />
+ * <strong>NOTA</strong>: Lea atentamente las intrucciones de cada proveedor de comunicaciones para saber
  * que campos son reconocidos por los distintos servidores de comunicaciones.
  * 
  * @author Gerard Llort
