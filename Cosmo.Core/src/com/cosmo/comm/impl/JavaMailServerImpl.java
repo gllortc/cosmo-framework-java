@@ -18,7 +18,7 @@ import com.cosmo.Workspace;
  * 
  * @author Gerard Llort
  */
-public class MailServer 
+public class JavaMailServerImpl 
 {
    private String transportProtocol;
    private String host;
@@ -35,9 +35,9 @@ public class MailServer
    //==============================================
 
    /**
-    * Constructor de la clase {@link MailServer}.
+    * Constructor de la clase {@link JavaMailServerImpl}.
     */
-   public MailServer()
+   public JavaMailServerImpl()
    {
       this.transportProtocol = "smtp";
       this.host = "";
@@ -50,11 +50,11 @@ public class MailServer
    }
 
    /**
-    * Constructor de la clase {@link MailServer}.
+    * Constructor de la clase {@link JavaMailServerImpl}.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     */
-   public MailServer(Workspace workspace)
+   public JavaMailServerImpl(Workspace workspace)
    {
       this.transportProtocol = workspace.getProperties().getString(Cosmo.PROPERTY_WORKSPACE_COMM_MAIL_TRANSPORT);
       this.host = workspace.getProperties().getString(Cosmo.PROPERTY_WORKSPACE_COMM_SMTP_HOST);
