@@ -1,4 +1,4 @@
-package com.cosmo.comm;
+package com.cosmo.comm.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
