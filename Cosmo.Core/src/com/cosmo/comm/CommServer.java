@@ -1,5 +1,7 @@
 package com.cosmo.comm;
 
+import com.cosmo.structures.PluginProperties;
+
 /**
  * Interface que deben implementar todos los servidores de comunicaciones de Cosmo.
  * 
@@ -12,14 +14,12 @@ public interface CommServer
     * 
     * @param message Una instancia de {@link CommMessage} que contiene los datos del mensaje a enviar.
     */
-   public void sendMessage(CommMessage message);
+   public void sendMessage(Message message) throws Exception;
 
    /**
-    * Obtiene una propiedad de configuración del servidor.
+    * Obtiene las propiedades de configuración del servidor.
     * 
-    * @param key Clave asociada al valor que se desea obtener.
-    * 
-    * @return Una cadena que contiene el valor asociado a la clave proporcionada.
+    * @return Una instancia de {@link PluginProperties} que contiene todos los parámetros de configuración del servidor.
     */
-   public String getProperty(String key);
+   public PluginProperties getProperties();
 }

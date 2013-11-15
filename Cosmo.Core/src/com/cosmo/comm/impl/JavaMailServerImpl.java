@@ -10,16 +10,27 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
+import com.cosmo.comm.CommServer;
+import com.cosmo.structures.PluginProperties;
 
 /**
- * Implementa el servidor de correo electrónico.
+ * Implementa un servidor de correo electrónico basado en Java Mail API.
  * 
  * @author Gerard Llort
  */
-public class JavaMailServerImpl 
+public class JavaMailServerImpl implements CommServer
 {
+   private static final String PROPERTY_WORKSPACE_COMM_MAIL_TRANSPORT = "transport.protocol";
+   private static final String PROPERTY_WORKSPACE_COMM_SMTP_HOST = "smtp.host";
+   private static final String PROPERTY_WORKSPACE_COMM_SMTP_AUTH = "smtp.auth";
+   private static final String PROPERTY_WORKSPACE_COMM_SMTP_STARTTLS = "smtp.starttls.enable";
+   private static final String PROPERTY_WORKSPACE_COMM_SMTP_LOGIN = "smtp.login";
+   private static final String PROPERTY_WORKSPACE_COMM_SMTP_PASSWORD = "smtp.password";
+   private static final String PROPERTY_WORKSPACE_COMM_SMTP_FROMNAME = "smtp.from.name";
+   private static final String PROPERTY_WORKSPACE_COMM_SMTP_FROMADD = "smtp.from.address";
+
+   // private Workspace workspace;
    private String transportProtocol;
    private String host;
    private String fromName;
@@ -28,6 +39,7 @@ public class JavaMailServerImpl
    private String password;
    private boolean authenticated;
    private boolean startTls;
+   private PluginProperties properties;
 
 
    //==============================================
@@ -36,40 +48,33 @@ public class JavaMailServerImpl
 
    /**
     * Constructor de la clase {@link JavaMailServerImpl}.
-    */
-   public JavaMailServerImpl()
-   {
-      this.transportProtocol = "smtp";
-      this.host = "";
-      this.authenticated = false;
-      this.startTls = false;
-      this.fromName = "";
-      this.fromAddress = "";
-      this.login = "";
-      this.password = "";
-   }
-
-   /**
-    * Constructor de la clase {@link JavaMailServerImpl}.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     */
    public JavaMailServerImpl(Workspace workspace)
    {
-      this.transportProtocol = workspace.getProperties().getString(Cosmo.PROPERTY_WORKSPACE_COMM_MAIL_TRANSPORT);
-      this.host = workspace.getProperties().getString(Cosmo.PROPERTY_WORKSPACE_COMM_SMTP_HOST);
-      this.authenticated = workspace.getProperties().getBoolean(Cosmo.PROPERTY_WORKSPACE_COMM_SMTP_AUTH);
-      this.startTls = workspace.getProperties().getBoolean(Cosmo.PROPERTY_WORKSPACE_COMM_SMTP_STARTTLS);
-      this.fromName = workspace.getProperties().getString(Cosmo.PROPERTY_WORKSPACE_COMM_SMTP_FROMNAME);
-      this.fromAddress = workspace.getProperties().getString(Cosmo.PROPERTY_WORKSPACE_COMM_SMTP_FROMADD);
-      this.login = workspace.getProperties().getString(Cosmo.PROPERTY_WORKSPACE_COMM_SMTP_LOGIN);
-      this.password = workspace.getProperties().getString(Cosmo.PROPERTY_WORKSPACE_COMM_SMTP_PASSWORD);
+      // this.workspace = workspace;
+
+      this.transportProtocol = workspace.getProperties().getString(PROPERTY_WORKSPACE_COMM_MAIL_TRANSPORT);
+      this.host = workspace.getProperties().getString(PROPERTY_WORKSPACE_COMM_SMTP_HOST);
+      this.authenticated = workspace.getProperties().getBoolean(PROPERTY_WORKSPACE_COMM_SMTP_AUTH);
+      this.startTls = workspace.getProperties().getBoolean(PROPERTY_WORKSPACE_COMM_SMTP_STARTTLS);
+      this.fromName = workspace.getProperties().getString(PROPERTY_WORKSPACE_COMM_SMTP_FROMNAME);
+      this.fromAddress = workspace.getProperties().getString(PROPERTY_WORKSPACE_COMM_SMTP_FROMADD);
+      this.login = workspace.getProperties().getString(PROPERTY_WORKSPACE_COMM_SMTP_LOGIN);
+      this.password = workspace.getProperties().getString(PROPERTY_WORKSPACE_COMM_SMTP_PASSWORD);
    }
 
 
    //==============================================
    // Properties
    //==============================================
+
+   @Override
+   public PluginProperties getProperties()
+   {
+      return this.properties;
+   }
 
    public String getTransportProtocol()
    {
@@ -164,13 +169,14 @@ public class JavaMailServerImpl
     * @throws UnsupportedEncodingException
     * @throws MessagingException
     */
-   public void sendMail(MailMessage message) throws UnsupportedEncodingException, MessagingException
+   @Override
+   public void sendMessage(com.cosmo.comm.Message message) throws Exception
    {
       Properties props = System.getProperties();
       props.put("mail.transport.protocol", transportProtocol);
       props.put("mail.smtp.host", host);
       props.put("mail.smtp.auth", authenticated ? "true" : "false");
-      props.put("mail.smtp.starttls.enable", startTls ? "true" : "false"); 
+      props.put("mail.smtp.starttls.enable", startTls ? "true" : "false");
 
       Session session = Session.getInstance(props, null);
 
@@ -178,9 +184,9 @@ public class JavaMailServerImpl
       msg.setFrom(new InternetAddress(this.fromAddress, this.fromName));
       msg.setSubject(message.getSubject());
       msg.setText(message.getBody());
-      for (InternetAddress add : message.getTo())
+      for (Object add : message.getReceipients())
       {
-         msg.addRecipient(Message.RecipientType.TO, add);
+         msg.addRecipient(Message.RecipientType.TO, (InternetAddress) add);
       }
 
       Transport transport = session.getTransport();
