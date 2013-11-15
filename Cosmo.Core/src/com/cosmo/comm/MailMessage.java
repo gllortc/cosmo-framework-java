@@ -1,4 +1,4 @@
-package com.cosmo.net;
+package com.cosmo.comm;
 
 import java.util.ArrayList;
 
