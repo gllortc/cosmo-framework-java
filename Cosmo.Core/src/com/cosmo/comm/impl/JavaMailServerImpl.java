@@ -1,18 +1,20 @@
 package com.cosmo.comm.impl;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 import javax.mail.Message;
-import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import com.cosmo.Workspace;
 import com.cosmo.comm.CommServer;
 import com.cosmo.structures.PluginProperties;
+import com.cosmo.util.StringUtils;
 
 /**
  * Implementa un servidor de correo electrónico basado en Java Mail API.
@@ -166,12 +168,15 @@ public class JavaMailServerImpl implements CommServer
     * 
     * @param message Una instancia de {@link MailMessage} que representa el mensaje de correo.
     * 
-    * @throws UnsupportedEncodingException
-    * @throws MessagingException
+    * @throws Exception
     */
    @Override
    public void sendMessage(com.cosmo.comm.Message message) throws Exception
    {
+      boolean isMultipart = false;
+      Multipart multiPart = new MimeMultipart();
+
+      // Configura el servidor de correo electrónico
       Properties props = System.getProperties();
       props.put("mail.transport.protocol", transportProtocol);
       props.put("mail.smtp.host", host);
@@ -180,15 +185,41 @@ public class JavaMailServerImpl implements CommServer
 
       Session session = Session.getInstance(props, null);
 
+      // Crea y configura la instancia para el correo electrónico a partir del mensaje proporcionado
       Message msg = new MimeMessage(session);
       msg.setFrom(new InternetAddress(this.fromAddress, this.fromName));
-      msg.setSubject(message.getSubject());
-      msg.setText(message.getBody());
       for (Object add : message.getReceipients())
       {
          msg.addRecipient(Message.RecipientType.TO, (InternetAddress) add);
       }
+      msg.setSubject(message.getSubject());
+      msg.setText(message.getBody());
 
+      // Si el mensaje tiene cuerpo en formato HTML, lo agrega como adjunto al correo electrónico
+      if (!StringUtils.isNullOrEmptyTrim(message.getHtmlBody()))
+      {
+         MimeBodyPart attachment = new MimeBodyPart();
+         attachment.setContent(message.getHtmlBody(), "text/html");
+         multiPart.addBodyPart(attachment);
+
+         isMultipart = true;
+      }
+      
+      // Si el mensaje tiene adjuntos, los agrega al correo electrónico
+      for (MimeBodyPart attachment : message.getAttachments())
+      {
+         multiPart.addBodyPart(attachment);
+
+         isMultipart = true;
+      }
+
+      // Establece el contenido adjunto al correo electrónico
+      if (isMultipart)
+      {
+         msg.setContent(multiPart);
+      }
+
+      // Realiza el envio del correo electrónico
       Transport transport = session.getTransport();
       transport.connect(host, login, password);
       transport.sendMessage(msg, msg.getAllRecipients());

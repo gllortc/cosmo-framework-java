@@ -8,6 +8,8 @@ import javax.activation.FileDataSource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeBodyPart;
 
+import com.cosmo.util.StringUtils;
+
 /**
  * Representa un mensage genérico (puede ser de correo electrónico, SMS, etc.).<br />
  * Lea atentamente las intrucciones de cada proveedor de comunicaciones para saber
@@ -145,12 +147,29 @@ public class Message
     */
    public void addAttachment(String fileName) throws MessagingException
    {
+      this.addAttachment(fileName, null);
+   }
+
+   /**
+    * Agrega un archivo adjunto al mensaje.
+    * 
+    * @param fileName Path + nombre del archivo a adjuntar.
+    * @param mimeType Descriptor del tipo MIME (ej. {@code "application/pdf"}).
+    * 
+    * @throws MessagingException
+    */
+   public void addAttachment(String fileName, String mimeType) throws MessagingException
+   {
       DataSource source = new FileDataSource(fileName);
       
       MimeBodyPart attachment = new MimeBodyPart();
       attachment.setFileName("manual.pdf");
       attachment.setDataHandler(new DataHandler(source));
-      
+      if (!StringUtils.isNullOrEmptyTrim(mimeType))
+      {
+         attachment.setHeader("Content-Type", mimeType);
+      }
+
       multiPart.add(attachment);
    }
 }
