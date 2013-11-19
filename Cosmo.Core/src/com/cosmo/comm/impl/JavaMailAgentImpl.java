@@ -1,8 +1,10 @@
 package com.cosmo.comm.impl;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -12,6 +14,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 import com.cosmo.comm.CommAgent;
+import com.cosmo.comm.CommunicationsException;
 import com.cosmo.structures.PluginProperties;
 import com.cosmo.util.StringUtils;
 
@@ -159,10 +162,10 @@ public class JavaMailAgentImpl extends CommAgent
     * 
     * @param message Una instancia de {@link MailMessage} que representa el mensaje de correo.
     * 
-    * @throws Exception
+    * @throws CommunicationsException 
     */
    @Override
-   public void sendMessage(com.cosmo.comm.Message message) throws Exception
+   public void sendMessage(com.cosmo.comm.Message message) throws CommunicationsException 
    {
       boolean isMultipart = false;
       Multipart multiPart = new MimeMultipart();
@@ -176,48 +179,58 @@ public class JavaMailAgentImpl extends CommAgent
       props.put("mail.smtp.user", this.login);
       props.put("mail.smtp.password", this.password);
       props.put("mail.smtp.auth", this.authenticated ? "true" : "false");
-      
 
       Session session = Session.getInstance(props, null);
 
-      // Crea y configura la instancia para el correo electrónico a partir del mensaje proporcionado
-      Message msg = new MimeMessage(session);
-      msg.setFrom(new InternetAddress(this.fromAddress, this.fromName));
-      for (Object add : message.getReceipients())
+      try
       {
-         msg.addRecipient(Message.RecipientType.TO, (InternetAddress) add);
+         // Crea y configura la instancia para el correo electrónico a partir del mensaje proporcionado
+         Message msg = new MimeMessage(session);
+         msg.setFrom(new InternetAddress(this.fromAddress, this.fromName));
+         for (Object add : message.getReceipients())
+         {
+            msg.addRecipient(Message.RecipientType.TO, (InternetAddress) add);
+         }
+         msg.setSubject(message.getSubject());
+         msg.setText(message.getBody());
+   
+         // Si el mensaje tiene cuerpo en formato HTML, lo agrega como adjunto al correo electrónico
+         if (!StringUtils.isNullOrEmptyTrim(message.getHtmlBody()))
+         {
+            MimeBodyPart attachment = new MimeBodyPart();
+            attachment.setContent(message.getHtmlBody(), "text/html");
+            multiPart.addBodyPart(attachment);
+   
+            isMultipart = true;
+         }
+         
+         // Si el mensaje tiene adjuntos, los agrega al correo electrónico
+         for (MimeBodyPart attachment : message.getAttachments())
+         {
+            multiPart.addBodyPart(attachment);
+   
+            isMultipart = true;
+         }
+   
+         // Establece el contenido adjunto al correo electrónico
+         if (isMultipart)
+         {
+            msg.setContent(multiPart);
+         }
+   
+         // Realiza el envio del correo electrónico
+         Transport transport = session.getTransport(transportProtocol);
+         transport.connect(host, login, password);
+         transport.sendMessage(msg, msg.getAllRecipients());
+         transport.close();
       }
-      msg.setSubject(message.getSubject());
-      msg.setText(message.getBody());
-
-      // Si el mensaje tiene cuerpo en formato HTML, lo agrega como adjunto al correo electrónico
-      if (!StringUtils.isNullOrEmptyTrim(message.getHtmlBody()))
+      catch (MessagingException ex)
       {
-         MimeBodyPart attachment = new MimeBodyPart();
-         attachment.setContent(message.getHtmlBody(), "text/html");
-         multiPart.addBodyPart(attachment);
-
-         isMultipart = true;
+         throw new CommunicationsException("ERROR sending email message. " + ex.getMessage(), ex);
       }
-      
-      // Si el mensaje tiene adjuntos, los agrega al correo electrónico
-      for (MimeBodyPart attachment : message.getAttachments())
+      catch (UnsupportedEncodingException ex) 
       {
-         multiPart.addBodyPart(attachment);
-
-         isMultipart = true;
+         throw new CommunicationsException("ERROR encoding mail address (mail: " + this.fromAddress + ", name: " + this.fromName + "). " + ex.getMessage(), ex);
       }
-
-      // Establece el contenido adjunto al correo electrónico
-      if (isMultipart)
-      {
-         msg.setContent(multiPart);
-      }
-
-      // Realiza el envio del correo electrónico
-      Transport transport = session.getTransport(transportProtocol);
-      transport.connect(host, login, password);
-      transport.sendMessage(msg, msg.getAllRecipients());
-      transport.close();
    }
 }
