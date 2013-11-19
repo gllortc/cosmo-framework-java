@@ -72,12 +72,14 @@ public class CommPage extends Page
    {
       try 
       {
+         // Genera el mensaje
          Message message = new Message();
          message.setFrom(getWorkspace().getProperties().getString(Cosmo.PROPERTY_WORKSPACE_MAIL));
          message.addReceipient(new InternetAddress(HttpRequestUtils.getValue(request, "txtMail"), 
                                                    HttpRequestUtils.getValue(request, "txtName")));
          message.setHtmlBody(HttpRequestUtils.getValue(request, "txtBody"));
 
+         // Envia el mensaje
          CommunicationsFactory.sendMessage(getWorkspace(), message);
 
          DynamicMessageControl msg = (DynamicMessageControl) pc.getControl(ID_MSG);
