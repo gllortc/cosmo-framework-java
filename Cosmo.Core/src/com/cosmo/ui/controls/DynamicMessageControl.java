@@ -6,7 +6,7 @@ import com.cosmo.ui.templates.TemplateControl;
 /** 
  * Implementa un mensaje que se puede hacer aparecer de forma dinámica (JavaScript, etc).
  * 
- * @author gllort
+ * @author Gerard Llort
  */
 public class DynamicMessageControl extends Control 
 {

@@ -2,9 +2,9 @@ package com.cosmo.comm;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 
 import com.cosmo.Workspace;
-import com.cosmo.security.annotations.LoginGatewayAgent;
 import com.cosmo.structures.PluginProperties;
 import com.cosmo.util.StringUtils;
 
@@ -18,103 +18,144 @@ import com.cosmo.util.StringUtils;
  */
 public abstract class CommunicationsFactory 
 {
-   // Instancia única del agente de autenticación
-   private static CommServer instance = null;
-   
-   
+   // Mapa con las instancias únicas de los agentes de comunicaciones
+   private static HashMap<String, CommServer> agents = null;
+
+
    //==============================================
    // Static members
    //==============================================
-   
+
    /**
-    * Devuelve una instancia de {@link Authentication} convenientemente instanciada y con
-    * el proveedor de autenticación de usuarios cargado.
+    * Envia un mensaje usando un determinado agente de comunicaciones.
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
+    * @param agentId Identificador del agente de comunicaciones a usar.
+    * @param message Una instancia de {@link Message} que contiene los detalles del mensaje.
+    * 
+    * @throws Exception
+    */
+   public static void sendMessage(Workspace workspace, String agentId, Message message) throws Exception
+   {
+      CommServer server = loadProvider(workspace, agentId);
+
+      server.sendMessage(message);
+   }
+
+   /**
+    * Envia un mensaje usando el agente de comunicaciones por defecto.
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
+    * @param message Una instancia de {@link Message} que contiene los detalles del mensaje.
+    * 
+    * @throws Exception
+    */
+   public static void sendMessage(Workspace workspace, Message message) throws Exception
+   {
+      sendMessage(workspace, null, message);
+   }
+
+   /**
+    * Devuelve una instancia de {@link CommServer} convenientemente instanciada.
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
+    * @param agentId Identificador del agente de comunicaciones a usar.
+    * 
+    * @return Una instancia única de {@link CommServer} (sigleton).
+    * 
+    * @throws AuthenticationException
+    */
+   public static CommServer getInstance(Workspace workspace, String agentId) throws CommunicationsException
+   {
+      return loadProvider(workspace, agentId);
+   }
+
+   /**
+    * Devuelve una instancia de {@link CommServer} convenientemente instanciada.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     * 
-    * @return Una instancia única de {@link Authentication} (sigleton).
+    * @return Una instancia única de {@link CommServer} (sigleton).
     * 
-    * @throws AuthenticationException 
+    * @throws AuthenticationException
     */
-   public static CommServer getInstance(Workspace workspace) throws CommunicationsException 
+   public static CommServer getInstance(Workspace workspace) throws CommunicationsException
    {
-      if (instance == null) 
-      {
-         instance = loadProvider(workspace);
-      }
-
-      return instance;
-   }
-   
-   /**
-    * Indica si una determinada instancia de un objeto corresponde a un agente con el mecanismo <em>Login Gateway</em>.
-    * 
-    * @param agent Instancia a comprobar.
-    * 
-    * @return {@code true} si la instancia pertenece a un agente que usa <em>Login Gateway</em> o {@code false} en cualquier otro caso. 
-    */
-   public static boolean isLoginGatewayAgent(Object agent)
-   {
-      return (agent.getClass().isAnnotationPresent(LoginGatewayAgent.class));
+      return getInstance(workspace, null);
    }
 
-   
+
    //==============================================
    // Private members
    //==============================================
-   
+
    /**
     * Carga el controlador de usuarios.
-    * 
-    * @throws AuthenticationException 
+    *
+    * @throws AuthenticationException
     */
-   private static CommServer loadProvider(Workspace workspace) throws CommunicationsException
+   private static CommServer loadProvider(Workspace workspace, String agentId) throws CommunicationsException
    {
-      String className = "-- no communications provider defined in proprties --";
-      PluginProperties agent;
-      CommServer provider;
-      
-      // Obtiene el agente de autenticación
-      agent = workspace.getProperties().getAuthenticationAgent();
-      if (agent == null)
+      String className;
+
+      // Inicializa el diccionario de agentes de comunicación
+      if (agents == null)
       {
-         throw new CommunicationsException("Communications Configuration Exception: No communications agent found");
+         agents = new HashMap<String, CommServer>();
       }
-      
-      // Obtiene el driver de autenticación
-      className = agent.getModuleClass();
-      if (StringUtils.isNullOrEmptyTrim(className))
+
+      // Si no se proporciona un identificador de agente, se usa el especificado por defecto en la configuración.
+      if (StringUtils.isNullOrEmptyTrim(agentId))
       {
-         throw new CommunicationsException("Communications Configuration Exception: No communications driver found");
+         agentId = workspace.getProperties().getDefaultCommunicationsAgentsId();
       }
-      
-      try 
-		{
-         Class<?> cls = Class.forName(className);
-         Constructor<?> cons = cls.getConstructor(Workspace.class);
-         provider = (CommServer) cons.newInstance(workspace);
-         
-         return provider;
-		}
-      catch (NoSuchMethodException ex) 
-		{
-         throw new CommunicationsException("NoSuchMethodException: " + className, ex);
-      }
-      catch (InvocationTargetException ex) 
-		{
-         throw new CommunicationsException("InvocationTargetException: " + className, ex);
-      }
-		catch (ClassNotFoundException ex) 
-		{
-         throw new CommunicationsException("ClassNotFoundException: " + className, ex);
-		}
-      catch (InstantiationException ex)
+
+      if (agents.containsKey(agentId))
       {
-         throw new CommunicationsException("InstantiationException: " + className, ex);
+         return agents.get(agentId);
       }
-      catch (IllegalAccessException ex)
+      else
       {
-         throw new CommunicationsException("IllegalAccessException: " + className, ex);
+         PluginProperties agent = workspace.getProperties().getCommunicationAgent(agentId);
+
+         className = agent.getModuleClass();
+         if (StringUtils.isNullOrEmptyTrim(className))
+         {
+            throw new CommunicationsException("Communications Configuration Exception: No communications driver found");
+         }
+
+         try
+         {
+            Class<?> cls = Class.forName(className);
+            
+            Class<?>[] types = { PluginProperties.class };
+            Object[] arguments = { agent };
+            CommServer server = (CommServer) cls.getDeclaredConstructor(types).newInstance(arguments);
+
+            agents.put(agentId, server);
+            
+            return server;
+         }
+         catch (NoSuchMethodException ex)
+         {
+            throw new CommunicationsException("NoSuchMethodException: " + className, ex);
+         }
+         catch (InvocationTargetException ex)
+         {
+            throw new CommunicationsException("InvocationTargetException: " + className, ex);
+         }
+         catch (ClassNotFoundException ex)
+         {
+            throw new CommunicationsException("ClassNotFoundException: " + className, ex);
+         }
+         catch (InstantiationException ex)
+         {
+            throw new CommunicationsException("InstantiationException: " + className, ex);
+         }
+         catch (IllegalAccessException ex)
+         {
+            throw new CommunicationsException("IllegalAccessException: " + className, ex);
+         }
       }
    }
 }

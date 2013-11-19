@@ -20,6 +20,7 @@ import com.cosmo.util.StringUtils;
  */
 public class Message
 {
+   private String from;
    private String subject;
    private String body;
    private String htmlBody;
@@ -35,7 +36,8 @@ public class Message
     * Constructor de la clase {@link MailMessage}.
     */
    public Message() 
-   { 
+   {
+      this.from = "";
       this.subject = "";
       this.body = "";
       this.htmlBody = "";
@@ -47,6 +49,23 @@ public class Message
    //==============================================
    // Properties
    //==============================================
+
+
+   /**
+    * Devuelve la dirección del remitente (o un valor que lo represente, p. ej. el número de teléfono).
+    */
+   public String getFrom()
+   {
+      return from;
+   }
+
+   /**
+    * Establece la dirección del remitente (o un valor que lo represente, p. ej. el número de teléfono).
+    */
+   public void setFrom(String from)
+   {
+      this.from = from;
+   }
 
    /**
     * Devuelve el asunto del mensaje.

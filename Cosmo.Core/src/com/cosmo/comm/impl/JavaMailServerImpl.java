@@ -53,18 +53,16 @@ public class JavaMailServerImpl implements CommServer
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     */
-   public JavaMailServerImpl(Workspace workspace)
+   public JavaMailServerImpl(PluginProperties properties)
    {
-      // this.workspace = workspace;
-
-      this.transportProtocol = workspace.getProperties().getString(PROPERTY_WORKSPACE_COMM_MAIL_TRANSPORT);
-      this.host = workspace.getProperties().getString(PROPERTY_WORKSPACE_COMM_SMTP_HOST);
-      this.authenticated = workspace.getProperties().getBoolean(PROPERTY_WORKSPACE_COMM_SMTP_AUTH);
-      this.startTls = workspace.getProperties().getBoolean(PROPERTY_WORKSPACE_COMM_SMTP_STARTTLS);
-      this.fromName = workspace.getProperties().getString(PROPERTY_WORKSPACE_COMM_SMTP_FROMNAME);
-      this.fromAddress = workspace.getProperties().getString(PROPERTY_WORKSPACE_COMM_SMTP_FROMADD);
-      this.login = workspace.getProperties().getString(PROPERTY_WORKSPACE_COMM_SMTP_LOGIN);
-      this.password = workspace.getProperties().getString(PROPERTY_WORKSPACE_COMM_SMTP_PASSWORD);
+      this.transportProtocol = properties.getParamString(PROPERTY_WORKSPACE_COMM_MAIL_TRANSPORT);
+      this.host = properties.getParamString(PROPERTY_WORKSPACE_COMM_SMTP_HOST);
+      this.authenticated = properties.getParamBoolean(PROPERTY_WORKSPACE_COMM_SMTP_AUTH, false);
+      this.startTls = properties.getParamBoolean(PROPERTY_WORKSPACE_COMM_SMTP_STARTTLS, false);
+      this.fromName = properties.getParamString(PROPERTY_WORKSPACE_COMM_SMTP_FROMNAME);
+      this.fromAddress = properties.getParamString(PROPERTY_WORKSPACE_COMM_SMTP_FROMADD);
+      this.login = properties.getParamString(PROPERTY_WORKSPACE_COMM_SMTP_LOGIN);
+      this.password = properties.getParamString(PROPERTY_WORKSPACE_COMM_SMTP_PASSWORD);
    }
 
 

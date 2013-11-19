@@ -56,8 +56,8 @@ public class WorkspaceProperties
    private static final String XML_ATT_AUTHENTICATIONAGENT = "authentication-agent";
    private static final String XML_ATT_AUTHORIZATIONAGENT = "authorization-agent";
    private static final String XML_ATT_LOGINPAGE = "login-page";
-   private static final String XML_TAG_CORMAPPS = "corm-apps";
-   private static final String XML_TAG_CORMAPP = "corm-app";
+   private static final String XML_TAG_CORM_APPS = "corm-apps";
+   private static final String XML_TAG_CORM_APP = "corm-app";
    private static final String XML_ATT_CLASS = "class";
    private static final String XML_ATT_CONNECTION = "connection";
    private static final String XML_TAG_APPACTION = "app-action";
@@ -70,6 +70,9 @@ public class WorkspaceProperties
    private static final String XML_TAG_STATICLISTITEM = "static-list-item";
    private static final String XML_ATT_DEFAULTVALUE = "default-value";
    private static final String XML_TAG_SQLSTATEMENT = "sql-statement";
+   private static final String XML_TAG_COMM_AGENTS = "communications";
+   private static final String XML_TAG_COMM_AGENT = "comm-agent";
+   private static final String XML_ATT_COMM_DEFAULTDRIVER = "communication-agent";
    
    // Parámetros de configuración
    private HashMap<String, String> properties;
@@ -82,8 +85,10 @@ public class WorkspaceProperties
    private String loginPage;
    private String authenticationAgentId;
    private String authorizationAgentId;
+   private String commAgentId;
    private HashMap<String, PluginProperties> authenticationAgents;
    private HashMap<String, PluginProperties> authorizationAgents;
+   private HashMap<String, PluginProperties> commAgents;
    private HashMap<String, OrmApplication> ormApps;
    private HashMap<String, List> ormLists;
       
@@ -145,6 +150,16 @@ public class WorkspaceProperties
    {
       return this.loginPage;
    }
+
+   /**
+    * Obtiene el identificador del agente de comunicaciones a usar por defecto.
+    * 
+    * @return Una cadena que contiene el identificador del agente de comunicaciones a usar por defecto.
+    */
+   public String getDefaultCommunicationsAgentsId()
+   {
+      return this.commAgentId;
+   }
    
    //==============================================
    // Methods
@@ -167,10 +182,10 @@ public class WorkspaceProperties
     * @param key Clave asociada al valor deseado.
     * @return Devuelve una cadena de texto que corresponde al valor asociado a la clave especificada.
     */
-   public Integer getInteger(String key, Integer defaultNum) 
+   public Integer getInteger(String key, Integer defaultNum)
    {
       String snum = properties.get(key);
-      
+
       try
       {
          return Integer.valueOf(snum);
@@ -180,19 +195,19 @@ public class WorkspaceProperties
          return defaultNum;
       }
    }
-   
+
    /**
     * Obtiene el valor de configuración asociado a una clave.
     * 
     * @param key Clave asociada al valor deseado.
     * @return Devuelve una cadena de texto que corresponde al valor asociado a la clave especificada.
     */
-   public Boolean getBoolean(String key) 
+   public Boolean getBoolean(String key)
    {
       String snum = properties.get(key);
       return Boolean.valueOf(snum);
    }
-   
+
    /**
     * Obtiene el valor de configuración asociado a una clave.
     * 
@@ -200,14 +215,14 @@ public class WorkspaceProperties
     * @return Devuelve una cadena de texto que corresponde al valor asociado a la clave especificada.
     */
    @Deprecated
-   public String getWorkspaceProperty(String key) 
+   public String getWorkspaceProperty(String key)
    {
       return properties.get(key);
    }
-   
+
    /**
     * Obtiene la consexión al servidor Cosmo.
-    * 
+    *
     * @return Una instancia de {@link DataSource} que contiene los parámetros de conexión a la base de datos.
     */
    public DataSource getServerDataSource()
@@ -216,13 +231,13 @@ public class WorkspaceProperties
       {
          return null;
       }
-      
+
       return getDataSource(this.serverDatasource);
    }
-   
+
    /**
     * Obtiene una conxeión a un orígen de datos.
-    * 
+    *
     * @param key Clave identificativa de la conexión.
     * @return Una instancia de {@link DataSource} que contiene los parámetros de conexión a la base de datos.
     */
@@ -230,7 +245,34 @@ public class WorkspaceProperties
    {
       return this.dataSources.get(key);
    }
-   
+
+   /**
+    * Obtiene el agente de comunicación por defecto.
+    * 
+    * @return Una instancia de {@link PluginProperties} que contiene la información del agente de comunicación a usar o {@code null} si no se ha configurado.
+    */
+   public PluginProperties getCommunicationAgent()
+   {
+      if (StringUtils.isNullOrEmptyTrim(this.commAgentId))
+      {
+         return null;
+      }
+      
+      return this.getCommunicationAgent(this.commAgentId);
+   }
+
+   /**
+    * Obtiene un determinado agente de comunicación.
+    * 
+    * @param commAgentId Identificador del agente de comunicaciones a obtener.
+    * 
+    * @return Una instancia de {@link PluginProperties} que contiene la información del agente de comunicación especificado o {@code null} en cualquier otro caso.
+    */
+   public PluginProperties getCommunicationAgent(String commAgentId)
+   {
+      return this.commAgents.get(commAgentId);
+   }
+
    /**
     * Obtiene el agente de autenticación.
     * 
@@ -245,10 +287,10 @@ public class WorkspaceProperties
       
       return this.authenticationAgents.get(this.authenticationAgentId);
    }
-   
+
    /**
     * Obtiene el agente de autorización.
-    * 
+    *
     * @return Una instancia de {@link PluginProperties} que contiene la información del agente de autorización a usar o {@code null} si no se ha configurado.
     */
    public PluginProperties getAuthorizationAgent()
@@ -257,54 +299,54 @@ public class WorkspaceProperties
       {
          return null;
       }
-      
+
       return this.authorizationAgents.get(this.authorizationAgentId);
    }
-   
+
    /**
     * Obtiene todas las aplicaciones CORM registradas.
-    * 
+    *
     * @return Una colección de instancias de {@link OrmApplication}.
     */
    public Collection<OrmApplication> getOrmApplications()
    {
       return this.ormApps.values();
    }
-   
+
    /**
     * Obtiene la definición de una aplicación CORM.
-    * 
+    *
     * @param appId Identificador de la aplicación.
-    * 
+    *
     * @return Una instancia de {@link OrmApplication} que representa la aplicación.
     */
    public OrmApplication getOrmApplication(String appId)
    {
       return this.ormApps.get(appId);
    }
-   
+
    /**
     * Obtiene una lista de datos.
-    * 
+    *
     * @param id Identificador único de la lista.
-    * 
+    *
     * @return Una instancia de {@link List} que representa la lista de opciones.
     */
    public List getDataList(String id)
    {
       return this.ormLists.get(id);
    }
-   
-   
+
+
    //==============================================
    // Private members
    //==============================================
-   
+
    /**
     * Carga la configuración del workspace. 
-    * 
+    *
     * @param context Contexto del servidor web.
-    * 
+    *
     * @throws ParserConfigurationException
     * @throws SAXException
     * @throws IOException
@@ -316,7 +358,7 @@ public class WorkspaceProperties
       NodeList nList;
       DataSource ds;
       InputStream iStream = null;
-      
+
       try
       {
          iStream = new FileInputStream(context.getRealPath("/" + WorkspaceProperties.PROPERTIES_FILENAME));
@@ -352,7 +394,7 @@ public class WorkspaceProperties
                eElement = (Element) nNode;
                this.serverDatasource = eElement.getAttribute(WorkspaceProperties.XML_ATT_COSMOSERVER);
             }
-            
+
             nList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_CONNECTION);
             for (int temp = 0; temp < nList.getLength(); temp++) 
             {
@@ -375,7 +417,7 @@ public class WorkspaceProperties
                }
             }
          }
-         
+
          // Obtiene la información de seguridad
          nList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_SECURITY);
          if (nList.getLength() >= 1)
@@ -390,20 +432,37 @@ public class WorkspaceProperties
                this.authorizationAgentId = eElement.getAttribute(WorkspaceProperties.XML_ATT_AUTHORIZATIONAGENT);
                this.loginPage = eElement.getAttribute(WorkspaceProperties.XML_ATT_LOGINPAGE);
             }
-            
+
             // Obtiene todos los agentes de autenticación
             this.authenticationAgents = readPluginsByType(doc, WorkspaceProperties.XML_TAG_AUTHENTICATION);
-            
+
             // Obtiene todos los agentes de autorización
             this.authorizationAgents = readPluginsByType(doc, WorkspaceProperties.XML_TAG_AUTHORIZATION);
          }
-         
+
+         // Obtiene la información de comunicaciones
+         nList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_COMM_AGENTS);
+         if (nList.getLength() >= 1)
+         {
+            // Obtiene la configuración
+            nNode = nList.item(0);
+            if (nNode.getNodeType() == Node.ELEMENT_NODE)
+            {
+               eElement = (Element) nNode;
+
+               this.commAgentId = eElement.getAttribute(WorkspaceProperties.XML_ATT_COMM_DEFAULTDRIVER);
+            }
+
+            // Obtiene todos los agentes de autenticación
+            this.commAgents = readPluginsByType(doc, WorkspaceProperties.XML_TAG_COMM_AGENT);
+         }
+
          // Obtiene las listas de datos
          this.ormLists = readDataLists(doc);
-         
+
          // Obtiene la configuración de las aplicaciones ORM
          this.ormApps = readOrmApps(doc);
-         
+
          iStream.close();
       }
       catch (ParserConfigurationException ex)
@@ -423,13 +482,13 @@ public class WorkspaceProperties
          IOUtils.closeStream(iStream);
       }
    }
-   
+
    /**
     * Lee todas las definiciones de plugin de un determinado tipo.
-    * 
+    *
     * @param doc Una instancia de {@link Document} que representa el documento XML.
     * @param pluginTag Una cadena que contiene el nombre del TAG que reciben todas las definiciones del tipo de plugin a leer.
-    * 
+    *
     * @return Una instancia de {@link HashMap} que contiene las definiciones de plugin recopiladas.
     */
    private HashMap<String, PluginProperties> readPluginsByType(Document doc, String pluginTag)
@@ -439,9 +498,9 @@ public class WorkspaceProperties
       Element pluginElement;
       Element attribElement;
       PluginProperties plugin;
-      
+
       HashMap<String, PluginProperties> plugins = new HashMap<String, PluginProperties>();
-      
+
       NodeList pluginList = doc.getElementsByTagName(pluginTag);
       for (int pidx = 0; pidx < pluginList.getLength(); pidx++)
       {
@@ -453,7 +512,7 @@ public class WorkspaceProperties
             plugin = new PluginProperties();
             plugin.setId(pluginElement.getAttribute(WorkspaceProperties.XML_ATT_ID));
             plugin.setModuleClass(pluginElement.getAttribute(WorkspaceProperties.XML_ATT_DRIVER));
-            
+
             attribList = pluginElement.getElementsByTagName(WorkspaceProperties.XML_TAG_PARAMETER);
             for (int aidx = 0; aidx < attribList.getLength(); aidx++) 
             {
@@ -469,15 +528,15 @@ public class WorkspaceProperties
             plugins.put(plugin.getId(), plugin);
          }
       }
-      
+
       return plugins;
    }
-   
+
    /**
     * Lee todas las definiciones de listas de datos.
-    * 
+    *
     * @param doc Una instancia de {@link Document} que representa el documento XML.
-    * 
+    *
     * @return Una instancia de {@link HashMap} que contiene las definiciones de listas de datos recopiladas.
     */
    private HashMap<String, List> readDataLists(Document doc)
@@ -491,17 +550,17 @@ public class WorkspaceProperties
       StaticList sList = null;
       DynamicList dList = null;
       ListItem item;
-      
+
       // Inicializa el contenedor de listas
       HashMap<String, List> lists = new HashMap<String, List>();
-      
+
       // Comprueba si existe la definición
       attribList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_DATALISTS);
       if (attribList.getLength() < 1)
       {
          return lists;
       }
-      
+
       // Carga las listas estáticas
       listDefs = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_STATICLIST);
       for (int pidx = 0; pidx < listDefs.getLength(); pidx++)
@@ -512,7 +571,7 @@ public class WorkspaceProperties
             listElement = (Element) listNode;
 
             sList = new StaticList(listElement.getAttribute(WorkspaceProperties.XML_ATT_ID));
-            
+
             attribList = listElement.getElementsByTagName(WorkspaceProperties.XML_TAG_STATICLISTITEM);
             for (int aidx = 0; aidx < attribList.getLength(); aidx++) 
             {
@@ -522,21 +581,21 @@ public class WorkspaceProperties
                   attribElement = (Element) attribNode;
                   item = new ListItem(attribElement.getAttribute(WorkspaceProperties.XML_ATT_VALUE),
                                       attribElement.getAttribute(WorkspaceProperties.XML_ATT_TITLE));
-                  
+
                   if (!StringUtils.isNullOrEmptyTrim(attribElement.getAttribute(WorkspaceProperties.XML_ATT_DEFAULTVALUE)))
                   {
                      item.setDefault(attribElement.getAttribute(WorkspaceProperties.XML_ATT_DEFAULTVALUE).equals("true") ||
                                      attribElement.getAttribute(WorkspaceProperties.XML_ATT_DEFAULTVALUE).equals("1"));
                   }
-                  
+
                   sList.addListItem(item);
                }
             }
-            
+
             lists.put(sList.getId(), sList);
          }
       }
-      
+
       // Carga las listas dinámicas SQL
       listDefs = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_DYNAMICLIST);
       for (int pidx = 0; pidx < listDefs.getLength(); pidx++)
@@ -556,21 +615,21 @@ public class WorkspaceProperties
             {
                attribNode = attribList.item(0);
                dList.setSqlStatement(attribNode.getFirstChild().getNodeValue());
-               
+
                lists.put(dList.getId(), dList);
             }
          }
       }
-      
+
       return lists;
    }
-   
+
    /**
     * Lee todas las definiciones de plugin de un determinado tipo.
-    * 
+    *
     * @param doc Una instancia de {@link Document} que representa el documento XML.
     * @param pluginTag Una cadena que contiene el nombre del TAG que reciben todas las definiciones del tipo de plugin a leer.
-    * 
+    *
     * @return Una instancia de {@link HashMap} que contiene las definiciones de plugin recopiladas.
     */
    private HashMap<String, OrmApplication> readOrmApps(Document doc)
@@ -581,17 +640,17 @@ public class WorkspaceProperties
       Element appElement;
       Element actionElement;
       OrmApplication oa;
-      
+
       HashMap<String, OrmApplication> apps = new HashMap<String, OrmApplication>();
-      
+
       // Comprueba si existe la definición
-      attribList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_CORMAPPS);
+      attribList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_CORM_APPS);
       if (attribList.getLength() < 1)
       {
          return apps;
       }
-      
-      appsList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_CORMAPP);
+
+      appsList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_CORM_APP);
       for (int pidx = 0; pidx < appsList.getLength(); pidx++)
       {
          Node appNode = appsList.item(pidx);
@@ -605,7 +664,7 @@ public class WorkspaceProperties
             oa.setConnectionId(appElement.getAttribute(WorkspaceProperties.XML_ATT_CONNECTION));
             oa.setTitle(appElement.getAttribute(WorkspaceProperties.XML_ATT_TITLE));
             oa.setDescription(appElement.getAttribute(WorkspaceProperties.XML_ATT_DESCRIPTION));
-            
+
             attribList = appElement.getElementsByTagName(WorkspaceProperties.XML_TAG_APPACTION);
             for (int aidx = 0; aidx < attribList.getLength(); aidx++) 
             {
@@ -613,7 +672,7 @@ public class WorkspaceProperties
                if (actionNode.getNodeType() == Node.ELEMENT_NODE)
                {
                   actionElement = (Element) actionNode;
-                  
+
                   if (actionElement.getAttribute(WorkspaceProperties.XML_ATT_TYPE).toLowerCase().trim().equals("delete"))
                   {
                      oa.setDeleteEnabled(true);
@@ -628,14 +687,14 @@ public class WorkspaceProperties
                   }
                }
             }
-            
+
             apps.put(oa.getId(), oa);
          }
       }
-      
+
       return apps;
    }
-   
+
    /**
     * Inicializa la instancia.
     */
