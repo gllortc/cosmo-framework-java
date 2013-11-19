@@ -21,7 +21,7 @@ import com.cosmo.util.StringUtils;
  * 
  * @author Gerard Llort
  */
-public class JavaMailServerImpl implements CommServer
+public class JavaMailAgentImpl implements CommServer
 {
    private static final String PROPERTY_WORKSPACE_COMM_MAIL_TRANSPORT = "transport.protocol";
    private static final String PROPERTY_WORKSPACE_COMM_SMTP_HOST = "smtp.host";
@@ -53,11 +53,11 @@ public class JavaMailServerImpl implements CommServer
    //==============================================
 
    /**
-    * Constructor de la clase {@link JavaMailServerImpl}.
+    * Constructor de la clase {@link JavaMailAgentImpl}.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     */
-   public JavaMailServerImpl(PluginProperties properties)
+   public JavaMailAgentImpl(PluginProperties properties)
    {
       this.transportProtocol = properties.getParamString(PROPERTY_WORKSPACE_COMM_MAIL_TRANSPORT);
       this.host = properties.getParamString(PROPERTY_WORKSPACE_COMM_SMTP_HOST);
@@ -186,11 +186,14 @@ public class JavaMailServerImpl implements CommServer
 
       // Configura el servidor de correo electrónico
       Properties props = System.getProperties();
-      props.put("mail.transport.protocol", transportProtocol);
-      props.put("mail.smtp.host", host);
-      props.put("mail.smtp.port", port);
-      props.put("mail.smtp.auth", authenticated ? "true" : "false");
-      props.put("mail.smtp.starttls.enable", startTls ? "true" : "false");
+      props.put("mail.transport.protocol", this.transportProtocol);
+      props.put("mail.smtp.starttls.enable", this.startTls ? "true" : "false");
+      props.put("mail.smtp.host", this.host);
+      props.put("mail.smtp.port", this.port);
+      props.put("mail.smtp.user", this.login);
+      props.put("mail.smtp.password", this.password);
+      props.put("mail.smtp.auth", this.authenticated ? "true" : "false");
+      
 
       Session session = Session.getInstance(props, null);
 
@@ -229,7 +232,7 @@ public class JavaMailServerImpl implements CommServer
       }
 
       // Realiza el envio del correo electrónico
-      Transport transport = session.getTransport();
+      Transport transport = session.getTransport(transportProtocol);
       transport.connect(host, login, password);
       transport.sendMessage(msg, msg.getAllRecipients());
       transport.close();
