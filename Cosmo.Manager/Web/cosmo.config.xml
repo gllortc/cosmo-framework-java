@@ -30,19 +30,19 @@
       <param key="ws.comm.mail.smtp.from.address" value="XXXXXXX" />
 
    </settings>
-   
+
    <!-- DATABASE CONNECTIONS -->
    <connections cosmo-server="cosmo.server">
 
-	   <connection id="cosmo.server" 
-	               corm.driver="com.cosmo.data.orm.impl.OrmDriverPostgreSqlImpl"
-	               jdbc.driver="org.postgresql.Driver" 
-	               server="jdbc:postgresql:cosmo-test" 
-	               port="5432" 
-	               schema="public" 
-	               user="postgres" 
-	               pwd="esfacil" />
-	               
+      <connection id="cosmo.server" 
+                  corm.driver="com.cosmo.data.orm.impl.OrmDriverPostgreSqlImpl"
+                  jdbc.driver="org.postgresql.Driver" 
+                  server="jdbc:postgresql:cosmo-test" 
+                  port="5432" 
+                  schema="public" 
+                  user="postgres" 
+                  pwd="esfacil" />
+
       <connection id="rwm" 
                   corm.driver="com.cosmo.data.orm.impl.OrmDriverPostgreSqlImpl"
                   jdbc.driver="org.postgresql.Driver" 
@@ -51,12 +51,38 @@
                   schema="public" 
                   user="postgres" 
                   pwd="esfacil" />
-	
+
    </connections>
-   
+
+   <!-- COMMUNICATION SERVERS -->
+   <communications communication-agent="mailServer">
+
+      <comm-agent id="mailServer" driver="com.cosmo.comm.impl.JavaMailAgentImpl">
+         <param key="transport.protocol" value="smtp" />
+         <param key="smtp.host" value="smtp.gmail.com" />
+         <param key="smtp.port" value="587" />
+         <param key="smtp.auth" value="true" />
+         <param key="smtp.starttls.enable" value="true" />
+         <param key="smtp.login" value="gllortc" />
+         <param key="smtp.password" value="dbag1032" />
+         <param key="smtp.from.name" value="Cosmo Communications Server" />
+         <param key="smtp.from.address" value="gllortc@gmail.com" />
+      </comm-agent>
+
+      <comm-agent id="smsServer" driver="com.cosmo.comm.impl.JavaSmsGatewayServerImpl">
+         <param key="SMPP_SERVER" value="gateway.domain.com" />
+         <param key="SMPP_PORT" value="503" />
+         <param key="USE_HEADER_FROM" value="0" />
+         <param key="DEFAULT_SOURCE_ADDRESS" value="000" />
+         <param key="GATEWAY_PROFILE" value="sms1" />
+         <param key="SMSC_DEFAULT_CHARSET" value="UCS2" />
+      </comm-agent>
+
+   </communications>
+
    <!-- SECURITY CONFIGURATION -->
    <security authentication-agent="rdbms" authorization-agent="rdbms" login-page="LoginPage">
-      
+
       <authentication-agent id="rdbms" driver="com.cosmo.security.auth.impl.PostgreSqlAuthenticationImpl">
          <param key="connection"   value="cosmo.server" />
          <param key="lockControl"  value="true" />
@@ -74,20 +100,20 @@
          <param key="ldap-attrib-name"    value="givenName" />
          <param key="ldap-attrib-surname" value="sn" />
       </authentication-agent>
-      
+
       <authentication-agent id="cas" driver="com.cosmo.security.auth.impl.CasAuthenticationImpl">
          <param key="service-url"      value="http://localhost:8080/Cosmo.Web/" />
          <param key="cas-service"      value="https://developsc.intranet.dtgna:8443/cas-dipta/" />
          <param key="cas-attrib-mail"  value="mail" />
          <param key="cas-attrib-cname" value="nomComplet" />
       </authentication-agent>
-      
+
       <authorization-agent id="rdbms" driver="com.cosmo.security.auth.impl.PostgreSqlAuthorizationImpl">
          <param key="connection" value="cosmo.server" />
       </authorization-agent>
-      
+
    </security>
-   
+
    <!-- LISTAS DE DATOS -->
    <data-lists>
 
@@ -124,8 +150,10 @@
    <corm-apps>
 
       <corm-app id="appWeather" class="com.cosmo.web.sample.Weather" connection="cosmo.server" title="Gestió del temps" description="Gestiona els registres meteorològics de les ciutats catalanes.">
-	      <app-action type="grid" activitiesAllowed="weather.grid" rolesAllowed="" />
-	      <app-action type="create" activitiesAllowed="weather.create" rolesAllowed="" />
+	      <app-action type="list" activitiesAllowed="weather.list" rolesAllowed="" />
+	      <app-action type="add" activitiesAllowed="weather.add" rolesAllowed="" />
+	      <app-action type="edit" activitiesAllowed="weather.edit" rolesAllowed="" />
+	      <app-action type="delete" activitiesAllowed="weather.delete" rolesAllowed="" />
 	   </corm-app>
 	   
 	   <corm-app id="appConvenios" class="com.cosmo.web.sample.Convenio" connection="cosmo.server" title="Gestión de convenios" description="Gestión de las ofertas de accidentes de convenios.">
