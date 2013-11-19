@@ -12,7 +12,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 import com.cosmo.Workspace;
-import com.cosmo.comm.CommServer;
+import com.cosmo.comm.CommAgent;
 import com.cosmo.structures.PluginProperties;
 import com.cosmo.util.StringUtils;
 
@@ -21,7 +21,7 @@ import com.cosmo.util.StringUtils;
  * 
  * @author Gerard Llort
  */
-public class JavaMailAgentImpl implements CommServer
+public class JavaMailAgentImpl implements CommAgent
 {
    private static final String PROPERTY_WORKSPACE_COMM_MAIL_TRANSPORT = "transport.protocol";
    private static final String PROPERTY_WORKSPACE_COMM_SMTP_HOST = "smtp.host";

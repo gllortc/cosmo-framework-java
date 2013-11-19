@@ -7,7 +7,7 @@ import com.cosmo.structures.PluginProperties;
  * 
  * @author Gerard Llort
  */
-public interface CommServer
+public interface CommAgent
 {
    /**
     * Envia un mensaje a través del servidor que representa la instancia actual.

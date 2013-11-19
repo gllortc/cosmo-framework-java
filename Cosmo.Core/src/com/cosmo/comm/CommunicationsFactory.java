@@ -18,7 +18,7 @@ import com.cosmo.util.StringUtils;
 public abstract class CommunicationsFactory 
 {
    // Mapa con las instancias únicas de los agentes de comunicaciones
-   private static HashMap<String, CommServer> agents = null;
+   private static HashMap<String, CommAgent> agents = null;
 
 
    //==============================================
@@ -36,7 +36,7 @@ public abstract class CommunicationsFactory
     */
    public static void sendMessage(Workspace workspace, String agentId, Message message) throws Exception
    {
-      CommServer server = loadProvider(workspace, agentId);
+      CommAgent server = loadProvider(workspace, agentId);
 
       server.sendMessage(message);
    }
@@ -55,30 +55,30 @@ public abstract class CommunicationsFactory
    }
 
    /**
-    * Devuelve una instancia de {@link CommServer} convenientemente instanciada.
+    * Devuelve una instancia de {@link CommAgent} convenientemente instanciada.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     * @param agentId Identificador del agente de comunicaciones a usar.
     * 
-    * @return Una instancia única de {@link CommServer} (sigleton).
+    * @return Una instancia única de {@link CommAgent} (sigleton).
     * 
     * @throws CommunicationsException
     */
-   public static CommServer getInstance(Workspace workspace, String agentId) throws CommunicationsException
+   public static CommAgent getInstance(Workspace workspace, String agentId) throws CommunicationsException
    {
       return loadProvider(workspace, agentId);
    }
 
    /**
-    * Devuelve una instancia de {@link CommServer} convenientemente instanciada.
+    * Devuelve una instancia de {@link CommAgent} convenientemente instanciada.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     * 
-    * @return Una instancia única de {@link CommServer} (sigleton).
+    * @return Una instancia única de {@link CommAgent} (sigleton).
     * 
     * @throws CommunicationsException
     */
-   public static CommServer getInstance(Workspace workspace) throws CommunicationsException
+   public static CommAgent getInstance(Workspace workspace) throws CommunicationsException
    {
       return getInstance(workspace, null);
    }
@@ -93,14 +93,14 @@ public abstract class CommunicationsFactory
     *
     * @throws CommunicationsException
     */
-   private static CommServer loadProvider(Workspace workspace, String agentId) throws CommunicationsException
+   private static CommAgent loadProvider(Workspace workspace, String agentId) throws CommunicationsException
    {
       String className;
 
       // Inicializa el diccionario de agentes de comunicación
       if (agents == null)
       {
-         agents = new HashMap<String, CommServer>();
+         agents = new HashMap<String, CommAgent>();
       }
 
       // Si no se proporciona un identificador de agente, se usa el especificado por defecto en la configuración.
@@ -130,7 +130,7 @@ public abstract class CommunicationsFactory
             // Genera la instancia del agente solicitado
             Class<?>[] types = { PluginProperties.class };
             Object[] arguments = { agent };
-            CommServer server = (CommServer) cls.getDeclaredConstructor(types).newInstance(arguments);
+            CommAgent server = (CommAgent) cls.getDeclaredConstructor(types).newInstance(arguments);
 
             // Almacena la instancia en la lista de instancias de agentes (Singleton)
             agents.put(agentId, server);
