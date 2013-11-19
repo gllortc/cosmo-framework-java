@@ -11,7 +11,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import com.cosmo.Workspace;
 import com.cosmo.comm.CommAgent;
 import com.cosmo.structures.PluginProperties;
 import com.cosmo.util.StringUtils;
@@ -21,7 +20,7 @@ import com.cosmo.util.StringUtils;
  * 
  * @author Gerard Llort
  */
-public class JavaMailAgentImpl implements CommAgent
+public class JavaMailAgentImpl extends CommAgent
 {
    private static final String PROPERTY_WORKSPACE_COMM_MAIL_TRANSPORT = "transport.protocol";
    private static final String PROPERTY_WORKSPACE_COMM_SMTP_HOST = "smtp.host";
@@ -45,7 +44,6 @@ public class JavaMailAgentImpl implements CommAgent
    private String password;
    private boolean authenticated;
    private boolean startTls;
-   private PluginProperties properties;
 
 
    //==============================================
@@ -55,10 +53,13 @@ public class JavaMailAgentImpl implements CommAgent
    /**
     * Constructor de la clase {@link JavaMailAgentImpl}.
     * 
-    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
+    * @param properties Una instancia de {@link PluginProperties} que contiene los parámetros de configuración del agente.
     */
    public JavaMailAgentImpl(PluginProperties properties)
    {
+      super(properties);
+
+      // Obtiene las propiedades y las almacena en variables locales
       this.transportProtocol = properties.getParamString(PROPERTY_WORKSPACE_COMM_MAIL_TRANSPORT);
       this.host = properties.getParamString(PROPERTY_WORKSPACE_COMM_SMTP_HOST);
       this.port = properties.getParamInteger(PROPERTY_WORKSPACE_COMM_SMTP_PORT, DEFAULT_SMTP_PORT);
@@ -75,101 +76,83 @@ public class JavaMailAgentImpl implements CommAgent
    // Properties
    //==============================================
 
+   /**
+    * Devuelve el tipo de transporte (por defecto, smtp).
+    */
    public String getTransportProtocol()
    {
       return transportProtocol;
    }
 
-   public void setTransportProtocol(String transportProtocol)
-   {
-      this.transportProtocol = transportProtocol;
-   }
-
+   /**
+    * Devuelve el <em>host</em>.
+    */
    public String getHost()
    {
       return host;
    }
 
-   public void setHost(String host)
+   /**
+    * Devuelve el puerto TCP/IP del <em>host</em>.
+    */
+   public int getPort()
    {
-      this.host = host;
+      return port;
    }
 
+   /**
+    * Devuelve el nombre del remitente por defecto que se usará para enviar los mensajes.
+    */
    public String getFromName()
    {
       return fromName;
    }
 
-   public void setFromName(String fromName)
-   {
-      this.fromName = fromName;
-   }
-
+   /**
+    * Devuelve la dirección de correo electrónico (según <a href="http://www.ietf.org/rfc/rfc822.txt">RFC822</a>) del remitente por 
+    * defecto que se usará para enviar los mensajes.
+    */
    public String getFromAddress()
    {
       return fromAddress;
    }
 
-   public void setFromAddress(String fromAddress)
-   {
-      this.fromAddress = fromAddress;
-   }
-
+   /**
+    * Devuelve el login del usuario que se usa para la autenticación en el <em>host</em>.
+    */
    public String getLogin()
    {
       return login;
    }
 
-   public void setLogin(String login)
-   {
-      this.login = login;
-   }
-
+   /**
+    * Devuelve la contraseña del usuario que se usa para la autenticación en el <em>host</em>.
+    */
    public String getPassword()
    {
       return password;
    }
 
-   public void setPassword(String password)
-   {
-      this.password = password;
-   }
-
+   /**
+    * Indica si el servidor de correo electrónico usa autenticación.
+    */
    public boolean isAuthenticated()
    {
       return authenticated;
    }
 
-   public void setAuthenticated(boolean authenticated)
-   {
-      this.authenticated = authenticated;
-   }
-
+   /**
+    * Indica si el servidor de correo electrónico usa Start TLS.
+    */
    public boolean isStartTls()
    {
       return startTls;
-   }
-
-   public void setStartTls(boolean startTls)
-   {
-      this.startTls = startTls;
    }
 
 
    //==============================================
    // Methods
    //==============================================
-
-   /**
-    * Devuelve los parámetros de configuración del agente de comunicaciones actual.
-    * 
-    * @return Una instancia de {@link PluginProperties} que contiene los parámetros de configuración.
-    */
-   @Override
-   public PluginProperties getProperties()
-   {
-      return this.properties;
-   }
 
    /**
     * Envia un mensaje de correo electrónico.
@@ -237,5 +220,4 @@ public class JavaMailAgentImpl implements CommAgent
       transport.sendMessage(msg, msg.getAllRecipients());
       transport.close();
    }
-
 }
