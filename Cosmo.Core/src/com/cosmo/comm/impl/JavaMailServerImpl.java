@@ -25,6 +25,7 @@ public class JavaMailServerImpl implements CommServer
 {
    private static final String PROPERTY_WORKSPACE_COMM_MAIL_TRANSPORT = "transport.protocol";
    private static final String PROPERTY_WORKSPACE_COMM_SMTP_HOST = "smtp.host";
+   private static final String PROPERTY_WORKSPACE_COMM_SMTP_PORT = "smtp.port";
    private static final String PROPERTY_WORKSPACE_COMM_SMTP_AUTH = "smtp.auth";
    private static final String PROPERTY_WORKSPACE_COMM_SMTP_STARTTLS = "smtp.starttls.enable";
    private static final String PROPERTY_WORKSPACE_COMM_SMTP_LOGIN = "smtp.login";
@@ -32,9 +33,12 @@ public class JavaMailServerImpl implements CommServer
    private static final String PROPERTY_WORKSPACE_COMM_SMTP_FROMNAME = "smtp.from.name";
    private static final String PROPERTY_WORKSPACE_COMM_SMTP_FROMADD = "smtp.from.address";
 
+   private static final int DEFAULT_SMTP_PORT = 25;
+
    // private Workspace workspace;
    private String transportProtocol;
    private String host;
+   private int port;
    private String fromName;
    private String fromAddress;
    private String login;
@@ -57,6 +61,7 @@ public class JavaMailServerImpl implements CommServer
    {
       this.transportProtocol = properties.getParamString(PROPERTY_WORKSPACE_COMM_MAIL_TRANSPORT);
       this.host = properties.getParamString(PROPERTY_WORKSPACE_COMM_SMTP_HOST);
+      this.port = properties.getParamInteger(PROPERTY_WORKSPACE_COMM_SMTP_PORT, DEFAULT_SMTP_PORT);
       this.authenticated = properties.getParamBoolean(PROPERTY_WORKSPACE_COMM_SMTP_AUTH, false);
       this.startTls = properties.getParamBoolean(PROPERTY_WORKSPACE_COMM_SMTP_STARTTLS, false);
       this.fromName = properties.getParamString(PROPERTY_WORKSPACE_COMM_SMTP_FROMNAME);
@@ -69,12 +74,6 @@ public class JavaMailServerImpl implements CommServer
    //==============================================
    // Properties
    //==============================================
-
-   @Override
-   public PluginProperties getProperties()
-   {
-      return this.properties;
-   }
 
    public String getTransportProtocol()
    {
@@ -162,6 +161,17 @@ public class JavaMailServerImpl implements CommServer
    //==============================================
 
    /**
+    * Devuelve los parámetros de configuración del agente de comunicaciones actual.
+    * 
+    * @return Una instancia de {@link PluginProperties} que contiene los parámetros de configuración.
+    */
+   @Override
+   public PluginProperties getProperties()
+   {
+      return this.properties;
+   }
+
+   /**
     * Envia un mensaje de correo electrónico.
     * 
     * @param message Una instancia de {@link MailMessage} que representa el mensaje de correo.
@@ -178,6 +188,7 @@ public class JavaMailServerImpl implements CommServer
       Properties props = System.getProperties();
       props.put("mail.transport.protocol", transportProtocol);
       props.put("mail.smtp.host", host);
+      props.put("mail.smtp.port", port);
       props.put("mail.smtp.auth", authenticated ? "true" : "false");
       props.put("mail.smtp.starttls.enable", startTls ? "true" : "false");
 

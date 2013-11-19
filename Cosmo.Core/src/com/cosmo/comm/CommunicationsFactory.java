@@ -1,6 +1,5 @@
 package com.cosmo.comm;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
@@ -63,7 +62,7 @@ public abstract class CommunicationsFactory
     * 
     * @return Una instancia única de {@link CommServer} (sigleton).
     * 
-    * @throws AuthenticationException
+    * @throws CommunicationsException
     */
    public static CommServer getInstance(Workspace workspace, String agentId) throws CommunicationsException
    {
@@ -77,7 +76,7 @@ public abstract class CommunicationsFactory
     * 
     * @return Una instancia única de {@link CommServer} (sigleton).
     * 
-    * @throws AuthenticationException
+    * @throws CommunicationsException
     */
    public static CommServer getInstance(Workspace workspace) throws CommunicationsException
    {
@@ -92,7 +91,7 @@ public abstract class CommunicationsFactory
    /**
     * Carga el controlador de usuarios.
     *
-    * @throws AuthenticationException
+    * @throws CommunicationsException
     */
    private static CommServer loadProvider(Workspace workspace, String agentId) throws CommunicationsException
    {
@@ -127,13 +126,15 @@ public abstract class CommunicationsFactory
          try
          {
             Class<?> cls = Class.forName(className);
-            
+
+            // Genera la instancia del agente solicitado
             Class<?>[] types = { PluginProperties.class };
             Object[] arguments = { agent };
             CommServer server = (CommServer) cls.getDeclaredConstructor(types).newInstance(arguments);
 
+            // Almacena la instancia en la lista de instancias de agentes (Singleton)
             agents.put(agentId, server);
-            
+
             return server;
          }
          catch (NoSuchMethodException ex)
