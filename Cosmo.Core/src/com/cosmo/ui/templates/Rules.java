@@ -17,32 +17,32 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- * Implementa un contenedor de las reglas de aplicaci贸n de plantillas.
+ * Implementa un contenedor de las reglas de aplicaci髇 de plantillas.
  * 
  * @author Gerard Llort
  */
 public class Rules 
 {
    public static String RULES_FILENAME = "cosmo.rules.xml";
-   
-   // Literales para los nodos del archivo de configuraci贸n
+
+   // Literales para los nodos del archivo de configuraci髇
    private static final String XML_NODE_RULES = "rules";
    private static final String XML_ATT_DEFINITIONVER = "cdt-ver";
    private static final String XML_ATT_DEFAULTTMPLT = "default";
    private static final String XML_NODE_RULE = "rule";
    private static final String XML_ATT_CONTAINS = "contains";
    private static final String XML_ATT_TEMPLATE = "template";
-   
+
    private static final String XML_DEFINITION_VERSION = "1.0";
-   
+
    private ArrayList<Rule> rules;
    private int defaultTemplateId;
    private ServletContext context;
-   
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
     * Constructor de la clase.
     * 
@@ -58,13 +58,14 @@ public class Rules
       rules = new ArrayList<Rule>();
       loadRules(context);
    }
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
-    * Aplica las reglas de presentaci贸n para obtener la plantilla adecuada.
+    * Aplica las reglas de presentaci髇 para obtener la plantilla adecuada.
     * 
     * @param browserAgent Cadena de texto proporcionada por el navegador cliente.
     * @return Una instancia de {@link Template} que representa la plantilla a aplicar.
@@ -81,23 +82,24 @@ public class Rules
             return new Template(this.context, rule.getTemplateId());
          }
       }
-      
+
       // Aplica la plantilla por defecto
       if (this.defaultTemplateId > 0)
       {
          return new Template(this.context, this.defaultTemplateId);
       }
-      
-      // No se ha encontrado plantilla: se genera una excepci贸n
+
+      // No se ha encontrado plantilla: se genera una excepci髇
       throw new TemplateUnavailableException();
    }
-   
+
+
    //==============================================
    // Private members
    //==============================================
-   
+
    /**
-    * Carega las reglas de aplicaci贸n de plantillas.
+    * Carega las reglas de aplicaci髇 de plantillas.
     * 
     * @param context Contexto del servidor web.
     * 
@@ -110,7 +112,7 @@ public class Rules
       NodeList nList;
       Rule rule;
       InputStream is = null;
-      
+
       try
       {
          is = new FileInputStream(context.getRealPath("/templates/" + Rules.RULES_FILENAME));
@@ -127,14 +129,14 @@ public class Rules
          {
             eElement = (Element) nNode;
             this.defaultTemplateId = Integer.parseInt(eElement.getAttribute(Rules.XML_ATT_DEFAULTTMPLT));
-            
+
             if (eElement.getAttribute(Rules.XML_ATT_DEFINITIONVER).compareTo(Rules.XML_DEFINITION_VERSION) < 0)
             {
                throw new RulesLoadException("File defining rules must be compatible with version " + Rules.XML_DEFINITION_VERSION + " or higher");
             }
          }
-         
-         // Obtiene los valores de configuraci贸n clave/valor
+
+         // Obtiene los valores de configuraci髇 clave/valor
          nList = doc.getElementsByTagName(Rules.XML_NODE_RULE);
          for (int temp = 0; temp < nList.getLength(); temp++) 
          {
