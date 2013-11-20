@@ -255,7 +255,7 @@ public class PageSecurity
    {
       URL url;
       
-      url = new URL(workspace.getProperties().getLoginPage());
+      url = new URL(workspace.getProperties().getSecurityProperties().getLoginPage());
       url.addParameter(Cosmo.URL_PARAM_TOURL, workspace.getRequestedUrl());
       
       // Redirecciona la página al servlet de LOGIN.
