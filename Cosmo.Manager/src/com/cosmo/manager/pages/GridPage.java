@@ -73,7 +73,7 @@ public class GridPage extends Page
       
       try 
       {
-         conn = new DataConnection(getWorkspace().getProperties().getDataSource("cosmo.server"));
+         conn = new DataConnection(getWorkspace().getProperties().getDataProperties().getDataSource("cosmo.server"));
          wm = new WeatherManager(conn);
       
          GridData gd = new GridData();
