@@ -106,7 +106,7 @@ public abstract class CommunicationsFactory
       // Si no se proporciona un identificador de agente, se usa el especificado por defecto en la configuración.
       if (StringUtils.isNullOrEmptyTrim(agentId))
       {
-         agentId = workspace.getProperties().getDefaultCommunicationsAgentsId();
+         agentId = workspace.getProperties().getCommProperties().getDefaultCommunicationsAgentId();
       }
 
       if (agents.containsKey(agentId))
@@ -115,7 +115,7 @@ public abstract class CommunicationsFactory
       }
       else
       {
-         PluginProperties agent = workspace.getProperties().getCommunicationAgent(agentId);
+         PluginProperties agent = workspace.getProperties().getCommProperties().getCommunicationAgent(agentId);
 
          className = agent.getModuleClass();
          if (StringUtils.isNullOrEmptyTrim(className))

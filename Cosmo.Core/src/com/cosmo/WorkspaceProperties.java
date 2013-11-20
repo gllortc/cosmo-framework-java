@@ -17,13 +17,17 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.cosmo.comm.CommServiceProperties;
+import com.cosmo.data.DataServiceProperties;
 import com.cosmo.data.DataSource;
 import com.cosmo.data.lists.DynamicList;
 import com.cosmo.data.lists.List;
 import com.cosmo.data.lists.ListItem;
 import com.cosmo.data.lists.StaticList;
 import com.cosmo.data.orm.apps.OrmApplication;
+import com.cosmo.security.SecurityServiceProperties;
 import com.cosmo.structures.PluginProperties;
+import com.cosmo.ui.UIServiceProperties;
 import com.cosmo.util.IOUtils;
 import com.cosmo.util.StringUtils;
 
@@ -35,27 +39,27 @@ public class WorkspaceProperties
    public static final String PROPERTIES_FILENAME = "cosmo.config.xml";
 
    // Literales para los nodos del archivo de configuración
-   private static final String XML_TAG_CONNECTIONS = "connections";
-   private static final String XML_ATT_COSMOSERVER = "cosmo-server";
-   private static final String XML_TAG_CONNECTION = "connection";
+   // private static final String XML_TAG_DATA_CONNECTIONS = "connections";
+   // private static final String XML_ATT_DATA_DEFAULTCONN = "default-connection";
+   // private static final String XML_TAG_CONNECTION = "connection";
    private static final String XML_ATT_ID = "id";
-   private static final String XML_ATT_JDBC_DRIVER = "jdbc.driver";
-   private static final String XML_ATT_CORM_DRIVER = "corm.driver";
-   private static final String XML_ATT_SERVER = "server";
-   private static final String XML_ATT_PORT = "port";
-   private static final String XML_ATT_SCHEMA = "schema";
-   private static final String XML_ATT_USER = "user";
-   private static final String XML_ATT_PASSWORD = "pwd";
-   private static final String XML_ATT_KEY = "key";
-   private static final String XML_ATT_VALUE = "value";
-   private static final String XML_TAG_AUTHENTICATION = "authentication-agent";
-   private static final String XML_TAG_AUTHORIZATION = "authorization-agent";
+   // private static final String XML_ATT_JDBC_DRIVER = "jdbc.driver";
+   // private static final String XML_ATT_CORM_DRIVER = "corm.driver";
+   // private static final String XML_ATT_SERVER = "server";
+   // private static final String XML_ATT_PORT = "port";
+   // private static final String XML_ATT_SCHEMA = "schema";
+   // private static final String XML_ATT_USER = "user";
+   // private static final String XML_ATT_PASSWORD = "pwd";
+   // private static final String XML_ATT_KEY = "key";
+   // private static final String XML_ATT_VALUE = "value";
+   // private static final String XML_TAG_AUTHENTICATION = "authentication-agent";
+   // private static final String XML_TAG_AUTHORIZATION = "authorization-agent";
    private static final String XML_ATT_DRIVER = "driver";
    private static final String XML_TAG_PARAMETER = "param";
-   private static final String XML_TAG_SECURITY = "security";
-   private static final String XML_ATT_AUTHENTICATIONAGENT = "authentication-agent";
-   private static final String XML_ATT_AUTHORIZATIONAGENT = "authorization-agent";
-   private static final String XML_ATT_LOGINPAGE = "login-page";
+   //private static final String XML_TAG_SECURITY = "security";
+   //private static final String XML_ATT_AUTHENTICATIONAGENT = "authentication-agent";
+   //private static final String XML_ATT_AUTHORIZATIONAGENT = "authorization-agent";
+   //private static final String XML_ATT_LOGINPAGE = "login-page";
    private static final String XML_TAG_CORM_APPS = "corm-apps";
    private static final String XML_TAG_CORM_APP = "corm-app";
    private static final String XML_ATT_CLASS = "class";
@@ -70,33 +74,52 @@ public class WorkspaceProperties
    private static final String XML_TAG_STATICLISTITEM = "static-list-item";
    private static final String XML_ATT_DEFAULTVALUE = "default-value";
    private static final String XML_TAG_SQLSTATEMENT = "sql-statement";
-   private static final String XML_TAG_COMM_AGENTS = "communications";
-   private static final String XML_TAG_COMM_AGENT = "comm-agent";
-   private static final String XML_ATT_COMM_DEFAULTDRIVER = "communication-agent";
-   
-   // Parámetros de configuración
+
+   // Definición de tags y atributos para Communication Services
+   // private static final String XML_TAG_COMM_AGENTS = "communications";
+   // private static final String XML_TAG_COMM_AGENT = "comm-agent";
+   // private static final String XML_ATT_COMM_DEFAULTDRIVER = "communication-agent";
+
+   // Definición de tags y atributos para UI Services
+   // private static final String XML_UI_TAG = "ui";
+   // private static final String XML_UI_TAG_TEMPLATE_RULE = "template-rule";
+   // private static final String XML_UI_ATT_DEFAULTTEMPLATE = "default-template";
+   // private static final String XML_UI_ATT_RULE_CONTAINS = "contains";
+   // private static final String XML_UI_ATT_RULE_TEMPLATE = "template";
+
+   // Declaración de variables locales (genérico)
    private HashMap<String, String> properties;
-   
-   // Datasources (conexiones a datos)
-   private HashMap<String, DataSource> dataSources;
-   private String serverDatasource;
-   
-   // Seguridad
-   private String loginPage;
-   private String authenticationAgentId;
-   private String authorizationAgentId;
-   private String commAgentId;
-   private HashMap<String, PluginProperties> authenticationAgents;
-   private HashMap<String, PluginProperties> authorizationAgents;
-   private HashMap<String, PluginProperties> commAgents;
    private HashMap<String, OrmApplication> ormApps;
    private HashMap<String, List> ormLists;
-      
+   private UIServiceProperties uiProps;
+   private SecurityServiceProperties securityProps;
+   private DataServiceProperties dataProps;
+   private CommServiceProperties commProps;
+
+   // Declaración de variables locales para Data Services
+   // private String serverDatasource;
+   // private HashMap<String, DataSource> dataSources;
+
+   // Declaración de variables locales para UI Services
+   // private String uiDefaultTemplateId;
+   // private ArrayList<Rule> uiTemplateRules;
+
+   // Declaración de variables locales para Security Services
+   // private String authenticationAgentId;
+   // private String authorizationAgentId;
+   // private String loginPage;
+   // private HashMap<String, PluginProperties> authenticationAgents;
+   // private HashMap<String, PluginProperties> authorizationAgents;
+
+   // Declaración de variables locales para Communication Services
+   // private String commAgentId;
+   // private HashMap<String, PluginProperties> commAgents;
+
 
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
     * Constructor de la clase.
     * 
@@ -109,11 +132,52 @@ public class WorkspaceProperties
       initialize();
       loadConfig(context);
    }
-   
-   
+
+
    //==============================================
    // Properties
    //==============================================
+
+   /**
+    * Devuelve las propiedades de configuración de UI Services.
+    */
+   public UIServiceProperties getUiProperties()
+   {
+      return uiProps;
+   }
+
+   /**
+    * Devuelve las propiedades de configuración de Security Services.
+    */
+   public SecurityServiceProperties getSecurityProperties()
+   {
+      return securityProps;
+   }
+
+   /**
+    * Devuelve las propiedades de configuración de Data Services.
+    */
+   public DataServiceProperties getDataProperties()
+   {
+      return dataProps;
+   }
+
+   /**
+    * Devuelve las propiedades de configuración de Data Services.
+    */
+   public CommServiceProperties getCommProperties()
+   {
+      return commProps;
+   }
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    /**
     * Devuelve el número de propiedades de configuración leídas.
@@ -122,45 +186,14 @@ public class WorkspaceProperties
    {
       return this.properties.size();
    }
-   
-   /**
-    * Devuelve el número de DataSources leídos.
-    */
-   public int getNumDatasources()
-   {
-      return this.dataSources.size();
-   }
-   
-   /**
-    * Obtiene el nombre de la conexión al servidor Cosmo.
-    * 
-    * @return Una cadena que contiene el nombre del datasource definido como servidor Cosmo.
-    */
-   public String getServerDataSourceName()
-   {
-      return this.serverDatasource;
-   }
-   
-   /**
-    * Obtiene la página de login.
-    * 
-    * @return Una cadena que contiene el nombre del servlet que actúa de página de login.
-    */
-   public String getLoginPage()
-   {
-      return this.loginPage;
-   }
 
-   /**
-    * Obtiene el identificador del agente de comunicaciones a usar por defecto.
-    * 
-    * @return Una cadena que contiene el identificador del agente de comunicaciones a usar por defecto.
-    */
-   public String getDefaultCommunicationsAgentsId()
-   {
-      return this.commAgentId;
-   }
    
+   
+   
+   
+   
+
+
    //==============================================
    // Methods
    //==============================================
@@ -209,101 +242,6 @@ public class WorkspaceProperties
    }
 
    /**
-    * Obtiene el valor de configuración asociado a una clave.
-    * 
-    * @param key Clave asociada al valor deseado.
-    * @return Devuelve una cadena de texto que corresponde al valor asociado a la clave especificada.
-    */
-   @Deprecated
-   public String getWorkspaceProperty(String key)
-   {
-      return properties.get(key);
-   }
-
-   /**
-    * Obtiene la consexión al servidor Cosmo.
-    *
-    * @return Una instancia de {@link DataSource} que contiene los parámetros de conexión a la base de datos.
-    */
-   public DataSource getServerDataSource()
-   {
-      if (StringUtils.isNullOrEmptyTrim(this.serverDatasource))
-      {
-         return null;
-      }
-
-      return getDataSource(this.serverDatasource);
-   }
-
-   /**
-    * Obtiene una conxeión a un orígen de datos.
-    *
-    * @param key Clave identificativa de la conexión.
-    * @return Una instancia de {@link DataSource} que contiene los parámetros de conexión a la base de datos.
-    */
-   public DataSource getDataSource(String key)
-   {
-      return this.dataSources.get(key);
-   }
-
-   /**
-    * Obtiene el agente de comunicación por defecto.
-    * 
-    * @return Una instancia de {@link PluginProperties} que contiene la información del agente de comunicación a usar o {@code null} si no se ha configurado.
-    */
-   public PluginProperties getCommunicationAgent()
-   {
-      if (StringUtils.isNullOrEmptyTrim(this.commAgentId))
-      {
-         return null;
-      }
-      
-      return this.getCommunicationAgent(this.commAgentId);
-   }
-
-   /**
-    * Obtiene un determinado agente de comunicación.
-    * 
-    * @param commAgentId Identificador del agente de comunicaciones a obtener.
-    * 
-    * @return Una instancia de {@link PluginProperties} que contiene la información del agente de comunicación especificado o {@code null} en cualquier otro caso.
-    */
-   public PluginProperties getCommunicationAgent(String commAgentId)
-   {
-      return this.commAgents.get(commAgentId);
-   }
-
-   /**
-    * Obtiene el agente de autenticación.
-    * 
-    * @return Una instancia de {@link PluginProperties} que contiene la información del agente de autenticación a usar o {@code null} si no se ha configurado.
-    */
-   public PluginProperties getAuthenticationAgent()
-   {
-      if (StringUtils.isNullOrEmptyTrim(this.authenticationAgentId))
-      {
-         return null;
-      }
-      
-      return this.authenticationAgents.get(this.authenticationAgentId);
-   }
-
-   /**
-    * Obtiene el agente de autorización.
-    *
-    * @return Una instancia de {@link PluginProperties} que contiene la información del agente de autorización a usar o {@code null} si no se ha configurado.
-    */
-   public PluginProperties getAuthorizationAgent()
-   {
-      if (StringUtils.isNullOrEmptyTrim(this.authorizationAgentId))
-      {
-         return null;
-      }
-
-      return this.authorizationAgents.get(this.authorizationAgentId);
-   }
-
-   /**
     * Obtiene todas las aplicaciones CORM registradas.
     *
     * @return Una colección de instancias de {@link OrmApplication}.
@@ -339,149 +277,8 @@ public class WorkspaceProperties
 
 
    //==============================================
-   // Private members
+   // static members
    //==============================================
-
-   /**
-    * Carga la configuración del workspace. 
-    *
-    * @param context Contexto del servidor web.
-    *
-    * @throws ParserConfigurationException
-    * @throws SAXException
-    * @throws IOException
-    */
-   private void loadConfig(ServletContext context) throws WorkspaceLoadException
-   {
-      Node nNode;
-      Element eElement;
-      NodeList nList;
-      DataSource ds;
-      InputStream iStream = null;
-
-      try
-      {
-         iStream = new FileInputStream(context.getRealPath("/" + WorkspaceProperties.PROPERTIES_FILENAME));
-
-         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-         Document doc = dBuilder.parse(iStream);
-         doc.getDocumentElement().normalize();
-
-         // Obtiene los valores de configuración clave/valor
-         nList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_PARAMETER);
-         for (int temp = 0; temp < nList.getLength(); temp++) 
-         {
-            nNode = nList.item(temp);
-            if (nNode.getNodeType() == Node.ELEMENT_NODE)
-            {
-               eElement = (Element) nNode;
-               String name = eElement.getAttribute(WorkspaceProperties.XML_ATT_KEY);
-               String val = eElement.getAttribute(WorkspaceProperties.XML_ATT_VALUE); 
-
-               this.properties.put(name, val);
-            }
-         }
-
-         // Obtiene la información de conexiones a base de datos
-         nList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_CONNECTIONS);
-         if (nList.getLength() >= 1)
-         {
-            // Obtiene la configuración
-            nNode = nList.item(0);
-            if (nNode.getNodeType() == Node.ELEMENT_NODE)
-            {
-               eElement = (Element) nNode;
-               this.serverDatasource = eElement.getAttribute(WorkspaceProperties.XML_ATT_COSMOSERVER);
-            }
-
-            nList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_CONNECTION);
-            for (int temp = 0; temp < nList.getLength(); temp++) 
-            {
-               nNode = nList.item(temp);
-               if (nNode.getNodeType() == Node.ELEMENT_NODE)
-               {
-                  eElement = (Element) nNode;
-
-                  ds = new DataSource();
-                  ds.setId(eElement.getAttribute(WorkspaceProperties.XML_ATT_ID));
-                  ds.setJdbcDriver(eElement.getAttribute(WorkspaceProperties.XML_ATT_JDBC_DRIVER));
-                  ds.setCormDriver(eElement.getAttribute(WorkspaceProperties.XML_ATT_CORM_DRIVER));
-                  ds.setHost(eElement.getAttribute(WorkspaceProperties.XML_ATT_SERVER));
-                  ds.setPort(eElement.getAttribute(WorkspaceProperties.XML_ATT_PORT));
-                  ds.setSchema(eElement.getAttribute(WorkspaceProperties.XML_ATT_SCHEMA));
-                  ds.setLogin(eElement.getAttribute(WorkspaceProperties.XML_ATT_USER));
-                  ds.setPassword(eElement.getAttribute(WorkspaceProperties.XML_ATT_PASSWORD));
-
-                  this.dataSources.put(ds.getId(), ds);
-               }
-            }
-         }
-
-         // Obtiene la información de seguridad
-         nList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_SECURITY);
-         if (nList.getLength() >= 1)
-         {
-            // Obtiene la configuración
-            nNode = nList.item(0);
-            if (nNode.getNodeType() == Node.ELEMENT_NODE)
-            {
-               eElement = (Element) nNode;
-
-               this.authenticationAgentId = eElement.getAttribute(WorkspaceProperties.XML_ATT_AUTHENTICATIONAGENT);
-               this.authorizationAgentId = eElement.getAttribute(WorkspaceProperties.XML_ATT_AUTHORIZATIONAGENT);
-               this.loginPage = eElement.getAttribute(WorkspaceProperties.XML_ATT_LOGINPAGE);
-            }
-
-            // Obtiene todos los agentes de autenticación
-            this.authenticationAgents = readPluginsByType(doc, WorkspaceProperties.XML_TAG_AUTHENTICATION);
-
-            // Obtiene todos los agentes de autorización
-            this.authorizationAgents = readPluginsByType(doc, WorkspaceProperties.XML_TAG_AUTHORIZATION);
-         }
-
-         // Obtiene la información de comunicaciones
-         nList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_COMM_AGENTS);
-         if (nList.getLength() >= 1)
-         {
-            // Obtiene la configuración
-            nNode = nList.item(0);
-            if (nNode.getNodeType() == Node.ELEMENT_NODE)
-            {
-               eElement = (Element) nNode;
-
-               this.commAgentId = eElement.getAttribute(WorkspaceProperties.XML_ATT_COMM_DEFAULTDRIVER);
-            }
-
-            // Obtiene todos los agentes de autenticación
-            this.commAgents = readPluginsByType(doc, WorkspaceProperties.XML_TAG_COMM_AGENT);
-         }
-
-         // Obtiene las listas de datos
-         this.ormLists = readDataLists(doc);
-
-         // Obtiene la configuración de las aplicaciones ORM
-         this.ormApps = readOrmApps(doc);
-
-         iStream.close();
-      }
-      catch (ParserConfigurationException ex)
-      {
-         throw new WorkspaceLoadException(ex.getMessage(), ex);
-      }
-      catch (SAXException ex)
-      {
-         throw new WorkspaceLoadException(ex.getMessage(), ex);
-      }
-      catch (IOException ex)
-      {
-         throw new WorkspaceLoadException(ex.getMessage(), ex);
-      }
-      finally
-      {
-         IOUtils.closeStream(iStream);
-      }
-   }
 
    /**
     * Lee todas las definiciones de plugin de un determinado tipo.
@@ -491,7 +288,7 @@ public class WorkspaceProperties
     *
     * @return Una instancia de {@link HashMap} que contiene las definiciones de plugin recopiladas.
     */
-   private HashMap<String, PluginProperties> readPluginsByType(Document doc, String pluginTag)
+   public static HashMap<String, PluginProperties> readPluginsByType(Document doc, String pluginTag)
    {
       Node attribNode;
       NodeList attribList;
@@ -530,6 +327,87 @@ public class WorkspaceProperties
       }
 
       return plugins;
+   }
+
+
+   //==============================================
+   // Private members
+   //==============================================
+
+   /**
+    * Carga la configuración del workspace. 
+    *
+    * @param context Contexto del servidor web.
+    *
+    * @throws WorkspaceLoadException
+    */
+   private void loadConfig(ServletContext context) throws WorkspaceLoadException
+   {
+      Node nNode;
+      Element eElement;
+      NodeList nList;
+      InputStream iStream = null;
+
+      try
+      {
+         iStream = new FileInputStream(context.getRealPath("/" + WorkspaceProperties.PROPERTIES_FILENAME));
+
+         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+         Document doc = dBuilder.parse(iStream);
+         doc.getDocumentElement().normalize();
+
+         // Obtiene los valores de configuración clave/valor
+         nList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_PARAMETER);
+         for (int temp = 0; temp < nList.getLength(); temp++) 
+         {
+            nNode = nList.item(temp);
+            if (nNode.getNodeType() == Node.ELEMENT_NODE)
+            {
+               eElement = (Element) nNode;
+               String name = eElement.getAttribute(WorkspaceProperties.XML_ATT_KEY);
+               String val = eElement.getAttribute(WorkspaceProperties.XML_ATT_VALUE); 
+
+               this.properties.put(name, val);
+            }
+         }
+
+         // Lectura de la configuración de UI Services
+         uiProps = new UIServiceProperties(doc);
+
+         // Lectura de la configuración de Security Services
+         securityProps = new SecurityServiceProperties(doc);
+
+         // Lectura de la configuración de Data Services
+         dataProps = new DataServiceProperties(doc);
+
+         // Lectura de la configuración de Communication Services
+         commProps = new CommServiceProperties(doc);
+
+         // Obtiene las listas de datos
+         this.ormLists = readDataLists(doc);
+
+         // Obtiene la configuración de las aplicaciones ORM
+         this.ormApps = readOrmApps(doc);
+
+         iStream.close();
+      }
+      catch (ParserConfigurationException ex)
+      {
+         throw new WorkspaceLoadException(ex.getMessage(), ex);
+      }
+      catch (SAXException ex)
+      {
+         throw new WorkspaceLoadException(ex.getMessage(), ex);
+      }
+      catch (IOException ex)
+      {
+         throw new WorkspaceLoadException(ex.getMessage(), ex);
+      }
+      finally
+      {
+         IOUtils.closeStream(iStream);
+      }
    }
 
    /**
@@ -700,14 +578,12 @@ public class WorkspaceProperties
     */
    private void initialize()
    {
+      this.uiProps = null;
+      this.securityProps = null;
+      this.dataProps = null;
+      this.commProps = null;
+      
       properties = new HashMap<String, String>();
-      dataSources = new HashMap<String, DataSource>();
-      serverDatasource = "";
-      authenticationAgents = new HashMap<String, PluginProperties>();
-      authorizationAgents = new HashMap<String, PluginProperties>();
       ormApps = new HashMap<String, OrmApplication>();
-      loginPage = "";
-      authenticationAgentId = "";
-      authorizationAgentId = "";
    }
 }
