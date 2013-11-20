@@ -28,11 +28,11 @@ import com.cosmo.net.HttpRequestUtils;
 public class OrmFactory 
 {
    OrmDriver driver;
-   
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
     * Constructor de la clase.
     * 
@@ -64,7 +64,7 @@ public class OrmFactory
    {
       return driver.getJdbcDriver();
    }
-   
+
    /**
     * Obtiene el resultado de una consulta.
     * 
@@ -81,7 +81,7 @@ public class OrmFactory
    {
       return driver.select(ormObject);
    }
-   
+
    /**
     * Obtiene el resultado de una consulta.
     * 
@@ -98,7 +98,7 @@ public class OrmFactory
    {
       return driver.select(ormObject, showAllColumns);
    }
-   
+
    /**
     * Genera una senténcia SELECT a partir de una instancia de un objeto CORM.
     * 
@@ -116,7 +116,7 @@ public class OrmFactory
    {
       return driver.get(data);
    }
-   
+
    /**
     * Genera una senténcia INSERT INTO a partir de una instancian de clase.
     * 
@@ -131,7 +131,7 @@ public class OrmFactory
    {
       driver.insert(data);
    }
-   
+
    /**
     * Actualiza la información del registro de la tabla de datos que indica el valor asociado a/los campo/s identificador/es.
     * 
@@ -147,7 +147,7 @@ public class OrmFactory
    {
       driver.update(data);
    }
-   
+
    /**
     * Elimina el registro de la tabla de datos que indica el valor asociado a/los campo/s identificador/es.
     * 
@@ -162,12 +162,12 @@ public class OrmFactory
    {
       driver.delete(data);
    }
-   
-   
+
+
    //==============================================
    // Static members
    //==============================================
-   
+
    /**
     * Recupera una instancia desde la URL.
     * 
@@ -188,7 +188,7 @@ public class OrmFactory
       Object instance = null;
       CormFieldSetter cfs;
       Class<?> paramType;
-      
+
       // Comprueba si el objeto proporcionado es un objeto CORM válido
       if (!OrmFactory.isValidCormObject(ormClass))
       {
@@ -212,7 +212,7 @@ public class OrmFactory
       {
          throw new OrmException(ex.getMessage(), ex);
       }
-      
+
       // Establece los valores de las propiedades con el contenido de los parámetros contenidos en el Request
       try
       {
@@ -223,7 +223,7 @@ public class OrmFactory
                method.setAccessible(true);
                cfs = method.getAnnotation(CormFieldSetter.class);
                paramType = method.getParameterTypes()[0];
-   
+
                // Establece el valor según el tipo de datos
                if ((paramType == String.class) || (paramType == char.class))
                {
@@ -256,10 +256,10 @@ public class OrmFactory
       {
          throw new OrmException(ex.getMessage(), ex);
       }
-      
+
       return instance;
    }
-   
+
    /**
     * Determina si una clase es un objeto CORM (Cosmo ORM).
     * <br /><br />
@@ -282,10 +282,10 @@ public class OrmFactory
       {
          isValid = isValid || method.isAnnotationPresent(CormObjectField.class);
       }
-      
+
       return isValid;
    }
-   
+
    /**
     * Obtiene el nombre de la tabla de base de datos de un objeto CORM (Cosmo ORM).
     * 
@@ -305,7 +305,7 @@ public class OrmFactory
 
       throw new InvalidMappingException(ormClass.getName() + " is not a CORM object.");
    }
-   
+
    /**
     * Determina si un objeto CORM (Cosmo ORM) tiene clave/s primaria/s definida/s.
     * 
@@ -331,7 +331,7 @@ public class OrmFactory
 
       return isValid;
    }
-   
+
    /**
     * Determina si una instancia de un objeto CORM dispone de campos ordenados.
     * 
@@ -342,11 +342,11 @@ public class OrmFactory
    public static boolean haveSortedFields(Class<?> ormClass)
    {
       CormObjectField cfg;
-      
+
       for (Method method : ormClass.getMethods())
       {
          cfg = method.getAnnotation(CormObjectField.class);
-         
+
          if (cfg != null)
          {
             if (cfg.sort() != FieldSortType.None)
@@ -355,15 +355,15 @@ public class OrmFactory
             }
          }
       }
-      
+
       return false;
    }
-   
-   
+
+
    //==============================================
    // Private members
    //==============================================
-   
+
    /**
     * Carga el controlador de usuarios.
     * 
@@ -374,24 +374,24 @@ public class OrmFactory
       OrmDriver provider;
       DataSource ds = null;
       DataConnection conn;
-      
+
       try 
       {
          // Genera la instancia
-         ds = workspace.getProperties().getDataSource(dataSourceId);
+         ds = workspace.getProperties().getDataProperties().getDataSource(dataSourceId);
          if (ds == null)
          {
             throw new OrmDriverException("Datasource " + dataSourceId + " not found");
          }
-         
+
          // Genera la conexión
          conn = new DataConnection(ds);
-         
+
          // Invoca el constructor del driver
          Class<?> cls = Class.forName(ds.getCormDriver());
          Constructor<?> cons = cls.getConstructor(DataConnection.class);
          provider = (OrmDriver) cons.newInstance(conn);
-         
+
          return provider;
       }
       catch (NoSuchMethodException ex)

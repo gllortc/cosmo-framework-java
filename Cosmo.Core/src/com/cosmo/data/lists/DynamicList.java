@@ -26,7 +26,7 @@ public class DynamicList implements List
       /** Caché de aplicación. */
       Application
    }
-   
+
    private boolean isLoaded;
    private String id;
    private String connection;
@@ -35,12 +35,12 @@ public class DynamicList implements List
    private String titleFieldName;
    private CacheMode cacheMode;
    private ArrayList<ListItem> items;
-   
+
 
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
     * Constructor de la clase.
     *
@@ -52,12 +52,12 @@ public class DynamicList implements List
       
       this.id = id;
    }
-   
+
 
    //==============================================
    // Properties
    //==============================================
-   
+
    /**
     * Devuelve el identificador único de la lista.
     */
@@ -105,7 +105,7 @@ public class DynamicList implements List
    {
       this.sql = sqlStatement;
    }
-   
+
    /**
     * Devuelve el nombre del campo de la consulta SQL que contiene el valor de los elementos.
     */
@@ -153,12 +153,12 @@ public class DynamicList implements List
    {
       this.cacheMode = cacheMode;
    }
-   
-   
+
+
    //==============================================
    // Methods
    //==============================================
-  
+
    /**
     * Agrega un nuevo elemento a la lista.
     * 
@@ -171,10 +171,10 @@ public class DynamicList implements List
       {
          clearDefaultValue();
       }
-      
+
       items.add(item);
    }
-   
+
    /**
     * Elimina un elemento de la lista.
     * 
@@ -184,7 +184,7 @@ public class DynamicList implements List
    public void removeListItem(String value) 
    {
       int idx = 0;
-      
+
       for (ListItem item : items)
       {
          if (item.getValue().equals(value))
@@ -192,11 +192,11 @@ public class DynamicList implements List
             removeListItem(idx);
             return;
          }
-         
+
          idx++;
       }
    }
-   
+
    /**
     * Elimina un elemento de la lista.
     * 
@@ -230,18 +230,18 @@ public class DynamicList implements List
       ListItem item;
       ResultSet rs;
       DataConnection connection = null;
-      
+
       // Si existe caché y ya está cargada la lista la devuelve.
       if (this.cacheMode != CacheMode.None && this.isLoaded)
       {
          return items;
       }
-      
+
       try
-      {      
+      {
          items.clear();
-         
-         connection = new DataConnection(workspace.getProperties().getDataSource(this.connection));
+
+         connection = new DataConnection(workspace.getProperties().getDataProperties().getDataSource(this.connection));
          connection.connect();
          rs = connection.executeSql(this.sql);
          while (rs.next())
@@ -264,15 +264,15 @@ public class DynamicList implements List
             connection.disconnect();
          }
       }
-      
+
       return items;
    }
-   
-   
+
+
    //==============================================
    // Private members
    //==============================================
-   
+
    /**
     * Inicializa la instancia.
     */
@@ -286,7 +286,7 @@ public class DynamicList implements List
       this.cacheMode = CacheMode.None;
       this.items = new ArrayList<ListItem>();
    }
-   
+
    /**
     * Elimina cualquier valor por defecto definido.
     */
@@ -297,5 +297,4 @@ public class DynamicList implements List
          item.setDefault(false);
       }
    }
-
 }
