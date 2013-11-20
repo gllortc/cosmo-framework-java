@@ -72,7 +72,7 @@ public class LoginWidget extends Widget
       if (!getWorkspace().isValidUserSession())
       {
          // Configura la url del login
-         URL url = new URL(getWorkspace().getProperties().getLoginPage());
+         URL url = new URL(getWorkspace().getProperties().getSecurityProperties().getLoginPage());
          url.addParameter("tourl", getWorkspace().getRequestedUrl());
          
          // Genera el XHTML del widget
