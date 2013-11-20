@@ -39,12 +39,13 @@ public class Rules
    private int defaultTemplateId;
    private ServletContext context;
 
+
    //==============================================
    // Constructors
    //==============================================
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link Rules}.
     * 
     * @param context Contexto del servidor web.
     * 
@@ -54,7 +55,7 @@ public class Rules
    {
       this.defaultTemplateId = -1;
       this.context = context;
-      
+
       rules = new ArrayList<Rule>();
       loadRules(context);
    }

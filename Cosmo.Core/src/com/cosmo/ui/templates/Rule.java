@@ -1,7 +1,7 @@
 package com.cosmo.ui.templates;
 
 /**
- * Representa una regla de aplicaciÃ³n de plantillas.
+ * Representa una regla de aplicación de plantillas.
  * 
  * @author Gerard Llort
  */
