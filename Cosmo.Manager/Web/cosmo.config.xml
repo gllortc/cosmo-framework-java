@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<cosmo-settings ver="1.0" app-id="Cosmo.Web">
+<cosmo-settings ver="1.0" app-id="Cosmo.Manager">
    
    <!-- SETTINGS -->
    <settings>
@@ -31,8 +31,21 @@
 
    </settings>
 
-   <!-- DATABASE CONNECTIONS -->
-   <connections cosmo-server="cosmo.server">
+   <!-- USER INTERFACE SERVICES -->
+   <ui default-template="3">
+
+      <!-- Navegadores móbiles -->
+      <template-rule contains="iphone" template="1" javascript="1" download="1" upload="1"  />
+      <template-rule contains="android" template="1" javascript="1" download="1" upload="1" />
+      <template-rule contains="blackberry" template="1" javascript="0" download="0" upload="0" />
+
+      <!-- Navegadores estándar de escritorio -->
+      <template-rule contains="mozilla" template="3" javascript="1" download="1" upload="1" />
+
+   </ui>
+
+   <!-- DATA SERVICES -->
+   <connections default-connection="cosmo.server">
 
       <connection id="cosmo.server" 
                   corm.driver="com.cosmo.data.orm.impl.OrmDriverPostgreSqlImpl"
@@ -54,7 +67,7 @@
 
    </connections>
 
-   <!-- COMMUNICATION SERVERS -->
+   <!-- COMMUNICATION SERVICES -->
    <communications communication-agent="mailServer">
 
       <comm-agent id="mailServer" driver="com.cosmo.comm.impl.JavaMailAgentImpl">
@@ -80,7 +93,7 @@
 
    </communications>
 
-   <!-- SECURITY CONFIGURATION -->
+   <!-- SECURITY SERVICES -->
    <security authentication-agent="rdbms" authorization-agent="rdbms" login-page="LoginPage">
 
       <authentication-agent id="rdbms" driver="com.cosmo.security.auth.impl.PostgreSqlAuthenticationImpl">
