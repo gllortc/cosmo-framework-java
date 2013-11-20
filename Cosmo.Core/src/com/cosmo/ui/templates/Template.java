@@ -28,9 +28,9 @@ import org.xml.sax.SAXException;
 public class Template 
 {
    public static final String FILENAME_TEMPLATE = "cosmo.template.xml";
-   
+
    public static final String PATH_TEMPLATES = "templates";
-   
+
    private int id;
    private String name;
    private String author;
@@ -40,7 +40,7 @@ public class Template
    private HashMap<String, TemplateControl> controls;
    private ArrayList<TemplateLink> headLinks;
    private ArrayList<TemplateScript> headScripts;
-   
+
    private static final String XML_NODE_TEMPLATE = "template";
    private static final String XML_ATT_DEFINITIONVER = "cdt-ver";
    private static final String XML_NODE_NAME = "name";
@@ -60,19 +60,20 @@ public class Template
    private static final String XML_NODE_HEADLINK = "hlink";
    private static final String XML_ATT_MEDIA = "media";
    private static final String XML_NODE_HEADSCRIPT = "hscript";
-   
+
    private static final String XML_DEFINITION_VERSION = "1.0";
-   
+
    public static final String LAYOUT_ID_HOMEPAGE = "home-page";
    public static final String LAYOUT_ID_2COLSLEFT = "two-cols-left";
    public static final String LAYOUT_ID_2COLSRIGHT = "two-cols-right";
    public static final String LAYOUT_ID_3COLS = "three-cols";
    public static final String LAYOUT_ID_1COL = "one-col";
-   
+
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
     * Constructor de la clase.
     * 
@@ -82,12 +83,13 @@ public class Template
    public Template(ServletContext context, int id) throws TemplateLoadException 
    {
       initialize();
-      
+
       this.id = id;
 
       loadTemplate(context, id);
    }
-   
+
+
    //==============================================
    // Properties
    //==============================================
@@ -116,7 +118,7 @@ public class Template
    {
       return copyright;
    }
-   
+
    /**
     * Devuelve un iterador que permite recorrer todos los elementos LINK de cabecera.
     */
@@ -124,7 +126,7 @@ public class Template
    {
       return this.headLinks.iterator();
    }
-   
+
    /**
     * Devuelve un iterador que permite recorrer todos los elementos SCRIPT de cabecera.
     */
@@ -132,21 +134,23 @@ public class Template
    {
       return this.headScripts.iterator();
    }
-   
+
+
    //==============================================
    // Methods
    //==============================================
 
    /**
-    * Obtiene el código XHTML correspondiente al esqueleto bÃ¡sico de una estructura.
+    * Obtiene el código XHTML correspondiente al esqueleto básico de una estructura.
     * 
     * @param layout Tipo de estructura a recuperar.
+    * 
     * @return Una cadena XHTML que representa el esqueleto de la estructura seleccionada.
     */
    public String getLayout(PageLayout layout) throws TemplateControlException
    {
       String xhtml = "";
-      
+
       switch (layout)
       {
          case HomePage:
@@ -156,37 +160,38 @@ public class Template
          case OneColumn:
             xhtml = this.layouts.get(Template.LAYOUT_ID_1COL);
             break;
-         
+
          case TwoColumnsLeft:
             xhtml = this.layouts.get(Template.LAYOUT_ID_2COLSLEFT);
             break;
-           
+
          case TwoColumnsRight:
             xhtml = this.layouts.get(Template.LAYOUT_ID_2COLSRIGHT);
             break;
-            
+
          case ThreeColumns:
             xhtml = this.layouts.get(Template.LAYOUT_ID_3COLS);
             break;
       }
-      
+
       if (xhtml == null || xhtml.equals(""))
       {
          throw new TemplateControlException("No layout definition found: " + layout.toString());
       }
-      
+
       return xhtml;
    }
-   
+
    public TemplateControl getControl(String id)
    {
       return this.controls.get(id);
    }
-   
+
+
    //==============================================
    // Private members
    //==============================================
-   
+
    /**
     * Carga una plantilla a partir del archivo de definición.
     * 
@@ -206,7 +211,7 @@ public class Template
       NodeList nParts;
       TemplateControl control;
       InputStream is = null;
-      
+
       try
       {
          is = new FileInputStream(context.getRealPath("/" + Template.PATH_TEMPLATES + "/" + templateId + "/" + Template.FILENAME_TEMPLATE));
@@ -227,14 +232,14 @@ public class Template
                throw new TemplateLoadException("File defining template must be compatible with version " + Template.XML_DEFINITION_VERSION + " or higher");
             }
          }
-         
+
          // Obtiene las propiedades de la plantilla
          Element root = doc.getDocumentElement();
          this.name = getTextValue(root, Template.XML_NODE_NAME);
          this.version = getTextValue(root, Template.XML_NODE_VERSION);
          this.author = getTextValue(root, Template.XML_NODE_AUTHOR);
          this.copyright = getTextValue(root, Template.XML_NODE_COPYRIGHT);
-         
+
          // Obtiene LINKS que se deben incorporar al HEAD
          nList = doc.getElementsByTagName(Template.XML_NODE_HEADLINK);
          for (int temp = 0; temp < nList.getLength(); temp++) 
@@ -243,7 +248,7 @@ public class Template
             if (nNode.getNodeType() == Node.ELEMENT_NODE)
             {
                eElement = (Element) nNode;
-               
+
                href = eElement.getAttribute(Template.XML_ATT_HREF).trim().toLowerCase();
                if (!href.startsWith("http")) 
                {
@@ -255,7 +260,7 @@ public class Template
                                                    eElement.getAttribute(Template.XML_ATT_MEDIA)));
             }
          }
-         
+
          // Obtiene SCRIPTS que se deben incorporar al HEAD
          nList = doc.getElementsByTagName(Template.XML_NODE_HEADSCRIPT);
          for (int temp = 0; temp < nList.getLength(); temp++) 
@@ -264,7 +269,7 @@ public class Template
             if (nNode.getNodeType() == Node.ELEMENT_NODE)
             {
                eElement = (Element) nNode;
-               
+
                if (!eElement.hasChildNodes())
                {
                   href = eElement.getAttribute(Template.XML_ATT_SRC).trim().toLowerCase();
@@ -301,7 +306,7 @@ public class Template
                }
             }
          }
-         
+
          // Obtiene las partes de controles
          nList = doc.getElementsByTagName(Template.XML_NODE_PAGECONTROL);
          for (int temp = 0; temp < nList.getLength(); temp++) 
@@ -311,7 +316,7 @@ public class Template
             {
                eElement = (Element) nNode;
                control = new TemplateControl(eElement.getAttribute(Template.XML_ATT_ID));
-               
+
                nParts = nNode.getChildNodes(); // eElement.getElementsByTagName(Template.XML_NODE_PAGECONTROLPART);
                for (int part = 0; part < nParts.getLength(); part++) 
                {
@@ -337,7 +342,7 @@ public class Template
                         {
                            href = ePart.getAttribute(Template.XML_ATT_SRC);
                            href = Template.PATH_TEMPLATES + "/" + templateId + "/" + href;
-                           
+
                            control.addScript(new TemplateScript(TemplateScript.ScriptType.Referenced, href));
                         }
                         else if (ePart.getAttribute(Template.XML_ATT_TYPE).equals("internal"))
@@ -353,7 +358,7 @@ public class Template
                      {
                         href = ePart.getAttribute(Template.XML_ATT_HREF);
                         href = Template.PATH_TEMPLATES + "/" + templateId + "/" + href;
-                        
+
                         control.addLink(new TemplateLink(ePart.getAttribute(Template.XML_ATT_REL), 
                                                          ePart.getAttribute(Template.XML_ATT_TYPE),
                                                          href));
@@ -385,7 +390,7 @@ public class Template
          IOUtils.closeStream(is);
       }
    }
-   
+
    /**
     * Inicializa la instancia.
     */
@@ -408,7 +413,7 @@ public class Template
    {
       return getTextValue(doc, tag, "");
    }
-   
+
    /**
     * Obtiene el valor de un determinado nodo.
     */
@@ -416,7 +421,7 @@ public class Template
    {
       String value = defaultValue;
       NodeList nl;
-      
+
       nl = doc.getElementsByTagName(tag);
       if (nl.getLength() > 0 && nl.item(0).hasChildNodes()) 
       {

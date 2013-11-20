@@ -9,18 +9,19 @@ public class TemplateLink
 {
    public static final String LINK_REL_STYLESHEET = "stylesheet";
    public static final String LINK_REL_ICON = "icon";
-   
+
    public static final String LINK_TYPE_CSS = "text/css";
    public static final String LINK_TYPE_ICON = "image/x-icon";
-   
+
    private String rel;
    private String type;
    private String href;
-   
+
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
     * Constructor de la clase.
     */
@@ -30,7 +31,7 @@ public class TemplateLink
       this.type = "";
       this.href = "";
    }
-   
+
    /**
     * Constructor de la clase.
     */
@@ -40,7 +41,7 @@ public class TemplateLink
       this.type = type;
       this.href = href;
    }
-   
+
    /**
     * Constructor de la clase.
     */
@@ -51,10 +52,11 @@ public class TemplateLink
       this.href = href;
    }
 
+
    //==============================================
    // Properties
    //==============================================
-   
+
    public String getRel() 
    {
       return rel;
@@ -84,11 +86,12 @@ public class TemplateLink
    {
       this.href = href;
    }
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Transforma el link a código XHTML.
     * 
@@ -106,7 +109,7 @@ public class TemplateLink
 
       return sb.toString();
    }
-   
+
    @Override
    public String toString()
    {

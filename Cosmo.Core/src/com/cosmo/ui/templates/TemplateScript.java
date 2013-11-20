@@ -9,7 +9,7 @@ public class TemplateScript
 {
    private ScriptType type;
    private String script;
-   
+
    /**
     * Enumera los tipos de scripts soportados.
     */
@@ -20,11 +20,12 @@ public class TemplateScript
       /** Referencia a un archivo {@code .js} (ya sea interno o accedido por HTTP) */
       Referenced
    }
-   
+
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
     * Constructor de la clase.
     */   
@@ -34,10 +35,11 @@ public class TemplateScript
       this.script = script;
    }
 
+
    //==============================================
    // Properties
    //==============================================
-   
+
    public ScriptType getType() 
    {
       return type;
@@ -57,11 +59,12 @@ public class TemplateScript
    {
       this.script = script;
    }
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Transforma el script a código XHTML.
     * 
@@ -87,7 +90,7 @@ public class TemplateScript
 
       return xhtml;
    }
-   
+
    @Override
    public String toString()
    {

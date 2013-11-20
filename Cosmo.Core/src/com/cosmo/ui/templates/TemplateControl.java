@@ -14,11 +14,12 @@ public class TemplateControl
    private ArrayList<TemplateScript> scripts;
    private ArrayList<TemplateLink> links;
    private HashMap<String, String> parts;
-   
+
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
     * Constructor de la clase.
     * 
@@ -32,34 +33,36 @@ public class TemplateControl
       this.parts = new HashMap<String, String>();
    }
 
+
    //==============================================
    // Properties
    //==============================================
-   
-   public String getId() 
+
+   public String getId()
    {
       return id;
    }
 
-   public void setId(String id) 
+   public void setId(String id)
    {
       this.id = id;
    }
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    public void addScript(TemplateScript script)
    {
       this.scripts.add(script);
    }
-   
+
    public void addLink(TemplateLink link)
    {
       this.links.add(link);
    }
-   
+
    /**
     * Añade una parte del control.
     * 
@@ -70,7 +73,7 @@ public class TemplateControl
    {
       this.parts.put(id, xhtml);
    }
-   
+
    /**
     * Obtiene un elemento del control.
     * 
@@ -81,7 +84,7 @@ public class TemplateControl
    {
       return this.parts.get(id);
    }
-   
+
    /**
     * Obtiene una lista de los links necesarios para el control.
     * 
@@ -91,7 +94,7 @@ public class TemplateControl
    {
       return this.links;
    }
-   
+
    /**
     * Obtiene una lista de los scripts necesarios para el control.
     * 
