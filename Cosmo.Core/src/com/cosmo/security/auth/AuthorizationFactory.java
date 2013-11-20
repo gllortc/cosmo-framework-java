@@ -111,7 +111,7 @@ public abstract class AuthorizationFactory
       Authorization provider;
       
       // Obtiene el agente de autorización
-      agent = workspace.getProperties().getAuthorizationAgent();
+      agent = workspace.getProperties().getSecurityProperties().getAuthorizationAgent();
       if (agent == null)
       {
          throw new AuthorizationException("Security Configuration Exception: No authorization agent found");

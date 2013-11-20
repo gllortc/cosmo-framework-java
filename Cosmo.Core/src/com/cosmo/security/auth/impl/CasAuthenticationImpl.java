@@ -81,7 +81,7 @@ public class CasAuthenticationImpl implements Authentication
       this.serviceTicket = "";
       this.httpClient = new HttpClient();
       this.workspace = workspace;
-      this.agent = this.workspace.getProperties().getAuthenticationAgent();
+      this.agent = this.workspace.getProperties().getSecurityProperties().getAuthenticationAgent();
    }
    
    

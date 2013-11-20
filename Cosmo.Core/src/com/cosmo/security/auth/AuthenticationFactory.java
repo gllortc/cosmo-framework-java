@@ -75,7 +75,7 @@ public abstract class AuthenticationFactory
       Authentication provider;
       
       // Obtiene el agente de autenticación
-      agent = workspace.getProperties().getAuthenticationAgent();
+      agent = workspace.getProperties().getSecurityProperties().getAuthenticationAgent();
       if (agent == null)
       {
          throw new AuthenticationException("Security Configuration Exception: No authentication agent found");

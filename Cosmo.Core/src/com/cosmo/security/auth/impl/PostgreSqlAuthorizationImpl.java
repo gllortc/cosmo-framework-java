@@ -46,7 +46,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
    public PostgreSqlAuthorizationImpl(Workspace workspace)
    {
       this.workspace = workspace;
-      this.agent = this.workspace.getProperties().getAuthorizationAgent();
+      this.agent = this.workspace.getProperties().getSecurityProperties().getAuthorizationAgent();
    }
    
    

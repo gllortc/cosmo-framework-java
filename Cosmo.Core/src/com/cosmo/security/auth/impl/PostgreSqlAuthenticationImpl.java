@@ -53,7 +53,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    public PostgreSqlAuthenticationImpl(Workspace workspace)
    {
       this.workspace = workspace;
-      this.agent = this.workspace.getProperties().getAuthenticationAgent();
+      this.agent = this.workspace.getProperties().getSecurityProperties().getAuthenticationAgent();
    }
    
    

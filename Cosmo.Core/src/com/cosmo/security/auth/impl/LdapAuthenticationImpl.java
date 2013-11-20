@@ -64,7 +64,7 @@ public class LdapAuthenticationImpl implements Authentication
    public LdapAuthenticationImpl(Workspace workspace)
    {
       this.workspace = workspace;
-      this.agent = this.workspace.getProperties().getAuthenticationAgent();
+      this.agent = this.workspace.getProperties().getSecurityProperties().getAuthenticationAgent();
 
       agent.getParamString(PARAM_SEARCHBASE);
       this.loginPattern = agent.getParamString(PARAM_LOGINPATTERN);
