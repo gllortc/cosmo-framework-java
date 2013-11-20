@@ -113,7 +113,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       try
       {
          // Obtiene la conexión
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
 
@@ -155,7 +155,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       try
       {
          // Obtiene la conexión
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          
@@ -194,7 +194,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       try
       {
          // Obtiene la conexión
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          
@@ -232,7 +232,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       try
       {
          // Obtiene la conexión
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          
@@ -278,7 +278,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       try
       {
          // Obtiene la conexión
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          
@@ -323,7 +323,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       try
       {
          // Obtiene la conexión
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
 
@@ -363,7 +363,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       try
       {
          // Obtiene la conexión
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          
@@ -406,7 +406,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       try
       {
          // Obtiene la conexión
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
 
@@ -448,7 +448,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       try
       {
          // Obtiene la conexión
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
 
@@ -486,7 +486,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       try
       {
          // Obtiene la conexión
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
 
@@ -527,7 +527,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       try
       {
          // Obtiene la conexión
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          
@@ -571,7 +571,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       try
       {
          // Obtiene la conexión
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          
@@ -609,7 +609,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       try
       {
          // Obtiene la conexión
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          

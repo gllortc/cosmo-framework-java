@@ -113,7 +113,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
                "WHERE Lower(usrlogin) = '" + login.trim().toLowerCase() + "' And " +
                "      usrpwd = '" + CryptoUtils.encrypt(password) + "'";
 
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          ResultSet rs = conn.executeSql(sql);
@@ -261,7 +261,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
                 "FROM " + TABLE_NAME + " " +
                 "WHERE Lower(usrlogin) = '" + login.trim().toLowerCase() + "'";
          
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          
@@ -300,7 +300,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
                 "WHERE Lower(usrlogin) = '" + user.getLogin().trim().toLowerCase() + "' Or " +
                 "      Lower(usrmail)  = '" + user.getMail().trim().toLowerCase()  + "'";
          
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          rs = conn.executeSql(sSQL);
@@ -360,7 +360,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
                 "      usrname = '" + DataConnection.sqlFormatTextValue(user.getName()) + "' " +
                 "WHERE Lower(usrlogin) = '" + user.getLogin().trim().toLowerCase() + "'";
 
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          conn.execute(sSQL);
@@ -404,7 +404,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
          sSQL = "DELETE FROM " + TABLE_NAME + " " +
                 "WHERE Lower(usrlogin) = '" + login.trim().toLowerCase() + "'";
 
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          conn.execute(sSQL);
@@ -446,7 +446,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
                 "WHERE Lower(usrlogin) = '" + login.trim().toLowerCase() + "' And " +
                 "      usrpwd = '" + CryptoUtils.encrypt(oldPassword) + "'";
 
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          if (conn.executeScalar(sSQL) <= 0)
@@ -496,7 +496,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
                 "FROM     " + TABLE_NAME + " " +
                 "ORDER BY usrlogin Asc";
          
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
 
@@ -546,7 +546,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
                 "      usrmail  LIKE '%" + DataConnection.sqlFormatTextValue(filter) + "%' " +
                 "ORDER BY usrlogin Asc";
          
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
 
@@ -590,7 +590,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
                 "FROM " + TABLE_NAME + " " +
                 "ORDER BY usrlogin Asc";
          
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          
@@ -656,7 +656,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
       try 
       {
          // Obtiene y abre la conexión a BBDD
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          
@@ -714,7 +714,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
       try 
       {
          // Obtiene y abre la conexión a BBDD
-         ds = this.workspace.getProperties().getServerDataSource();
+         ds = this.workspace.getProperties().getDataProperties().getDataSource();
          conn = new DataConnection(ds);
          conn.connect();
          
