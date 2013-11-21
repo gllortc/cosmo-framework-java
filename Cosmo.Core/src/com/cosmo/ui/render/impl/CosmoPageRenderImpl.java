@@ -29,17 +29,19 @@ public class CosmoPageRenderImpl implements PageRenderer
 {
    private static final String TAG_SITE_NAME = "SITE.NAME";
    private static final String TAB_SEPARATOR = "  ";
-   
+
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    // No constructors declared
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Renderiza la página convirtiendo la lógica de clases en código XHTML.
     * 
@@ -58,11 +60,11 @@ public class CosmoPageRenderImpl implements PageRenderer
       TemplateLink link;
       TemplateControl tctrl;
       StringBuilder xhtml = new StringBuilder();
-      
+
       Template template = workspace.getTemplate();
 
       try
-      {      
+      {
          // Confecciona la cabecera
          xhtml.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">").append("\n");
          xhtml.append("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"es\" lang=\"es\">").append("\n");
@@ -79,19 +81,19 @@ public class CosmoPageRenderImpl implements PageRenderer
             link = itl.next();
             xhtml.append(TAB_SEPARATOR + link.render());
          }
-         
+
          Iterator<TemplateScript> its = template.getScripts();
          while (its.hasNext())
          {
             script = its.next();
             xhtml.append(TAB_SEPARATOR + script.render());
          }
-         
+
          // Inserta Scripts y Links de los controles
          for (Control ctrl : page.getCenterContents())
          {
             tctrl = template.getControl(ctrl.getControlTypeId());
-            
+
             if (tctrl != null)
             {
                for (TemplateLink tlink : tctrl.getLinks())
@@ -105,7 +107,7 @@ public class CosmoPageRenderImpl implements PageRenderer
                }
             }
          }
-         
+
          // xhtml.append("  <link rel=\"stylesheet\" type=\"text/css\" href=\"templates/1/template.css\"></link>").append("\n");
          xhtml.append("</head>").append("\n");
          xhtml.append("<body>").append("\n");
@@ -134,7 +136,7 @@ public class CosmoPageRenderImpl implements PageRenderer
       {
          throw new PageRenderException(ex.getMessage(), ex);
       }
-            
+
       return xhtml.toString();
    }
  
@@ -146,7 +148,7 @@ public class CosmoPageRenderImpl implements PageRenderer
       Control control;
       Iterator<Control> it = page.getPageContent(PageContext.ContentColumns.MAIN);
       StringBuilder ctrl = new StringBuilder();
-      
+
       while (it.hasNext())
       {
          control = it.next();
@@ -156,7 +158,7 @@ public class CosmoPageRenderImpl implements PageRenderer
       int index = xhtml.indexOf(PageRenderer.TAG_WIDGET_CONTENT);
       xhtml.replace(index, index + PageRenderer.TAG_WIDGET_CONTENT.length(), ctrl.toString());
    }
-   
+
    /**
     * Renderiza el widget de Login.
     * 
@@ -166,14 +168,14 @@ public class CosmoPageRenderImpl implements PageRenderer
    private void renderLogin(Workspace workspace, StringBuilder xhtml, PageContext page) throws MenuProviderException, TemplateUnavailableException
    {
       int index = xhtml.indexOf(PageRenderer.TAG_WIDGET_LOGIN);
-      
+
       if (index >= 0)
       {
          LoginWidget login = new LoginWidget(workspace);
          xhtml.replace(index, index + PageRenderer.TAG_WIDGET_LOGIN.length(), login.render());
       }
    }
-   
+
    /**
     * Renderiza el menú.
     * 
@@ -183,14 +185,14 @@ public class CosmoPageRenderImpl implements PageRenderer
    private void renderMenus(Workspace workspace, StringBuilder xhtml, PageContext page) throws MenuProviderException, TemplateUnavailableException
    {
       int index = xhtml.indexOf(PageRenderer.TAG_WIDGET_MENU);
-      
+
       if (index >= 0)
       {
          MenuWidget menu = new MenuWidget(workspace, MenuWidget.MenuTypes.Lateral);
          xhtml.replace(index, index + PageRenderer.TAG_WIDGET_MENU.length(), menu.render());
       }
    }
-   
+
    /**
     * Renderiza el menú.
     * 
@@ -201,28 +203,28 @@ public class CosmoPageRenderImpl implements PageRenderer
    {
       int index;
       BannerAreaWidget baw;
-      
+
       index = xhtml.indexOf(PageRenderer.TAG_WIDGET_BANNERS_LEFT);
       if (index >= 0)
       {
          baw = new BannerAreaWidget(workspace, BannerAreaWidget.BannerAreas.Left);
          xhtml.replace(index, index + PageRenderer.TAG_WIDGET_BANNERS_LEFT.length(), baw.render());
       }
-      
+
       index = xhtml.indexOf(PageRenderer.TAG_WIDGET_BANNERS_RIGHT);
       if (index >= 0)
       {
          baw = new BannerAreaWidget(workspace, BannerAreaWidget.BannerAreas.Left);
          xhtml.replace(index, index + PageRenderer.TAG_WIDGET_BANNERS_RIGHT.length(), baw.render());
       }
-      
+
       index = xhtml.indexOf(PageRenderer.TAG_WIDGET_BANNERS_CENTER_TOP);
       if (index >= 0)
       {
          baw = new BannerAreaWidget(workspace, BannerAreaWidget.BannerAreas.Left);
          xhtml.replace(index, index + PageRenderer.TAG_WIDGET_BANNERS_CENTER_TOP.length(), baw.render());
       }
-      
+
       index = xhtml.indexOf(PageRenderer.TAG_WIDGET_BANNERS_CENTER_BOTTOM);
       if (index >= 0)
       {

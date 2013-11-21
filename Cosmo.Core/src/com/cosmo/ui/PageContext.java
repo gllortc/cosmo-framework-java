@@ -31,7 +31,7 @@ public class PageContext
    private ArrayList<Control> rightContents;
    private StringBuilder xhtml;
    private PageRenderer renderProvider;
-   
+
    /**
     * Enumera las distintas regiones dónde se pueden agregar controles en la página.
     */
@@ -41,7 +41,7 @@ public class PageContext
       MAIN,
       RIGHT
    }
-   
+
    /**
     * Enumera los distintos formatos de página.
     */
@@ -53,12 +53,12 @@ public class PageContext
       TwoColumnsRight,
       ThreeColumns
    }
-   
-   
+
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
     * Constructor de la clase.
     */
@@ -67,11 +67,11 @@ public class PageContext
       clear();
    }
 
-   
+
    //==============================================
    // Properties
    //==============================================
-   
+
    public boolean isInit() 
    {
       return init;
@@ -162,11 +162,11 @@ public class PageContext
       this.renderProvider = renderProvider;
    }
 
-   
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Agrega un control a la página.
     * 
@@ -188,7 +188,7 @@ public class PageContext
             break;
       }
    }
-   
+
    /**
     * Devuelve un iterador sobre el contenido de la página.
     * 
@@ -206,7 +206,7 @@ public class PageContext
             return this.centerContents.iterator();
       }
    }
-   
+
    /**
     * Permite obtener un determinado control para poder modificar alguna de sus propiedades.
     * 
@@ -225,10 +225,10 @@ public class PageContext
             }
          }
       }
-      
+
       return null;
    }
-   
+
    /**
     * Representa un error (excepción).
     * 
@@ -241,7 +241,7 @@ public class PageContext
       this.centerContents.clear();
       this.centerContents.add(new ErrorMessageControl(workspace, ex));
    }
-   
+
    /**
     * Limpia el contenido de la página.<br />
     * Equivale a dejar la página en blanco.
@@ -258,12 +258,12 @@ public class PageContext
       this.charset = Cosmo.CHARSET_ISO_8859_1;
       this.layout = PageLayout.OneColumn;
    }
-   
-   
+
+
    //==============================================
    // Static members
    //==============================================
-   
+
    /**
     * Devuelve el contexto actual de la página para la sesión actual.
     * 
@@ -275,7 +275,7 @@ public class PageContext
    public static PageContext getPageContext(HttpServletRequest request, Page page)
    {
       String id = getPageContextId(request, page);
-      
+
       PageContext pc = (PageContext) request.getAttribute(id);
       if (pc == null)
       {

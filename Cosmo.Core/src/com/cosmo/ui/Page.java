@@ -39,7 +39,7 @@ public abstract class Page extends HttpServlet
    private Workspace workspace;
    private PageRenderer renderProvider;
 
-   
+
    //==============================================
    // Constructors
    //==============================================
@@ -52,8 +52,8 @@ public abstract class Page extends HttpServlet
       super();
       initPage();
    }
-   
-   
+
+
    //==============================================
    // Properties
    //==============================================
@@ -65,7 +65,7 @@ public abstract class Page extends HttpServlet
    {
       return workspace;
    }
-   
+
    /**
     * Devuelve la instancia de {@link UserSession} que representa la sessión autenticada actual.
     */
@@ -73,7 +73,7 @@ public abstract class Page extends HttpServlet
    {
       return workspace.getUserSession();
    }
-   
+
    /**
     * Devuelve un UUID único para la página.
     */
@@ -82,11 +82,11 @@ public abstract class Page extends HttpServlet
       return this.uuid;
    }
 
-   
+
    //==============================================
    // Abstract members
    //==============================================
-   
+
    /**
     * Método que es llamado al inicializar la página.
     * 
@@ -95,7 +95,7 @@ public abstract class Page extends HttpServlet
     * @param response Una instancia de {@link HttpServletResponse} que representa el contexto de la respuesta.
     */
    public abstract PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response);
-   
+
    /**
     * Método que es llamado cuando la página recibe los datos de un formulario.
     * 
@@ -104,7 +104,7 @@ public abstract class Page extends HttpServlet
     * @param response Una instancia de {@link HttpServletResponse} que representa el contexto de la respuesta.
     */
    public abstract PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response);
-   
+
    /**
     * Método que es llamado al cargar la página.
     * 
@@ -113,7 +113,7 @@ public abstract class Page extends HttpServlet
     * @param response Una instancia de {@link HttpServletResponse} que representa el contexto de la respuesta.
     */
    public abstract PageContext loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response);
-   
+
    /**
     * Método que es llamado si se produce un error interno durante la carga (antes del renderizado).
     * 
@@ -121,12 +121,12 @@ public abstract class Page extends HttpServlet
     * @param exception Una instancia de {@link Exception} que representa la excepción capturada durante la construcción de la página.
     */
    public abstract PageContext pageException(PageContext pc, Exception exception);
-   
+
 
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Renderiza la página actual.
     * 
@@ -139,7 +139,7 @@ public abstract class Page extends HttpServlet
    public StringBuilder render(PageContext pc)
    {
       StringBuilder xhtml = null;
-      
+
       try
       {
          // Si no hay renderizador asignado, lo carga
@@ -147,7 +147,7 @@ public abstract class Page extends HttpServlet
          {
             this.renderProvider = PageRendererFactory.getInstance(workspace);
          }
-         
+
          // Invoca la renderización al proveedor
          xhtml = new StringBuilder(this.renderProvider.render(getWorkspace(), pc, this.uuid));
       }
@@ -166,10 +166,10 @@ public abstract class Page extends HttpServlet
          // Si se produce algún error durante el renderizado, se llama a toString() que deja xhtml con el código básico de la página
          toString();
       }
-      
+
       return xhtml;
    }
-   
+
    /**
     * Indica si la llamada es un envio de un formulario.
     * 
@@ -180,7 +180,7 @@ public abstract class Page extends HttpServlet
    public boolean isPostback(HttpServletRequest request)
    {
       String frmAction = request.getParameter(Cosmo.KEY_UI_FORM_ACTION);
-      
+
       if (frmAction == null)
       {
          return false;
@@ -194,7 +194,7 @@ public abstract class Page extends HttpServlet
          return false;
       }
    }
-   
+
    /**
     * Atiende la petición de la página por GET.
     * 
@@ -202,10 +202,10 @@ public abstract class Page extends HttpServlet
     * @throws IOException
 	 */
    @Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-	{
+   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+   {
       processRequest(request, response);
-	}
+   }
 
 	/**
     * Atiende la petición de la página por POST.
@@ -218,7 +218,7 @@ public abstract class Page extends HttpServlet
    {
       processRequest(request, response);
    }
-   
+
    /**
     * Atiende la petición de la página por GET y POST.
     * 
@@ -234,29 +234,32 @@ public abstract class Page extends HttpServlet
       long totalTime;
       StringBuilder xhtml;
       PageContext pc;
-      
+
       // Inica el cronometraje de generación de la página
       startTime = System.currentTimeMillis();
-      
+
       try 
       {
          // Obtiene el workspace
          this.workspace = WorkspaceFactory.getInstance(getServletContext(), request, response);
-         
+
          // Ejecuta el ciclo de vida de la página y obtiene el modelo de página
          pc = PageLifecycle.execute(this, request, response);
-         
+
          // Si se ha cancelado la carga (usualmente por redirección de página) termina
-         if (pc == null) return;
-         
+         if (pc == null) 
+         {
+            return;
+         }
+
          // Renderiza la página
          xhtml = render(pc);
-         
+
          // Finaliza el cronometraje de generación de la página
          totalTime = System.currentTimeMillis() - startTime;
          xhtml.append("\n\n");
          xhtml.append("<!-- Page generated in " + totalTime + " mSec using " + Cosmo.COSMO_NAME + " -->\n");
-         
+
          // Manda el resultado de la renderización al cliente
          response.setContentType("text/html");
          PrintWriter out = response.getWriter();
@@ -267,7 +270,7 @@ public abstract class Page extends HttpServlet
          throw new ServletException(ex.getMessage(), ex);
       }
    }
-   
+
    /**
     * Convierte la página en una cadena XHTML (sin aplicar la plantilla).
     */
@@ -307,11 +310,12 @@ public abstract class Page extends HttpServlet
       
       return "";
    }
-   
+
+
    //==============================================
    // Private members
    //==============================================
-   
+
    /**
     * Inicializa la instancia.
     */
@@ -319,10 +323,10 @@ public abstract class Page extends HttpServlet
    {
       this.workspace = null;
       this.renderProvider = null;
-      
+
       this.uuid = UUID.randomUUID().toString();
    }
-   
+
    public boolean isCacheable()
    {
       return this.getClass().isAnnotationPresent(CacheScope.class);

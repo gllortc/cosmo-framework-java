@@ -13,12 +13,12 @@ public abstract class PageRendererFactory
 {
    // Instancia singleton del renderizador
    private static PageRenderer instance = null;
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
-   
+
    /**
     * Renderiza la página convirtiendo la lógica de clases en código XHTML.
     * 
@@ -29,11 +29,12 @@ public abstract class PageRendererFactory
     * @throws PageRenderException 
     */
    // public abstract String render(Page page) throws TemplateUnavailableException, PageRenderException;
-   
+
+
    //==============================================
    // Static members
    //==============================================
-   
+
    /**
     * Devuelve una instancia de {@link PageRenderer} convenientemente instanciada y con
     * el proveedor de renderizado cargado.
@@ -53,11 +54,12 @@ public abstract class PageRendererFactory
 
       return instance;
    }
-   
+
+
    //==============================================
    // Private members
    //==============================================
-   
+
    /**
     * Carga el controlador de usuarios.
     * 
@@ -67,22 +69,22 @@ public abstract class PageRendererFactory
    {
       String className = "-- no render provider defined in proprties --";
       PageRenderer provider;
-      
+
       try 
-		{
+      {
          // Recupera el nombre de la clase
          className = workspace.getProperties().getString(Cosmo.PROPERTY_WORKSPACE_UI_RENDER_PROVIDER);
-         
+
          // Genera una instancia de la clase
          Class<?> cls = Class.forName(className);
          provider = (PageRenderer) cls.newInstance();
-         
+
          return provider;
-		} 
-		catch (ClassNotFoundException ex) 
-		{
+      }
+      catch (ClassNotFoundException ex) 
+      {
          throw new LoadPageRenderException("ClassNotFoundException: " + className, ex);
-		}
+      }
       catch (InstantiationException ex)
       {
          throw new LoadPageRenderException("InstantiationException: " + className, ex);
