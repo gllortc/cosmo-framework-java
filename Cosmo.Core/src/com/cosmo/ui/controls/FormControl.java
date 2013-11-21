@@ -204,7 +204,7 @@ public class FormControl extends Control
             }
             else if (cfg.fieldClass() == FormFieldList.class)
             {
-               group.addField(new FormFieldList(cfg.dbTableColumn(), cfg.label(), getWorkspace().getProperties().getDataList(cfg.list())));
+               group.addField(new FormFieldList(cfg.dbTableColumn(), cfg.label(), getWorkspace().getProperties().getDataProperties().getDataList(cfg.list())));
             }
             else if (cfg.fieldClass() == FormFieldCaptcha.class)
             {
@@ -217,7 +217,7 @@ public class FormControl extends Control
       // Agrega un botón de envio de datos
       this.addButton(new FormButton("cmdAcceopt", "Enviar", ButtonType.Submit));
    }
-   
+
    /**
     * Agrega un nuevo grupo de campos al formulario a partir de un clase Cosmo ORM.
     * 
@@ -233,13 +233,13 @@ public class FormControl extends Control
       CormObject ct;
       CormObjectField cfg;
       FormFieldset group;
-      
+
       // Comprueba si el objeto proporcionado es un objeto CORM válido
       if (!OrmFactory.isValidCormObject(data.getClass()))
       {
          throw new InvalidMappingException(data.getClass() + " is not a CORM object.");
       }
-      
+
       // Obtiene las propiedades de la clase y las mapea al formulario
       ct = data.getClass().getAnnotation(CormObject.class);
       this.name = ct.formName();
@@ -281,7 +281,7 @@ public class FormControl extends Control
             else if (cfg.fieldClass() == FormFieldList.class)
             {
                FormFieldList fld = new FormFieldList(cfg.dbTableColumn(), cfg.label());
-               fld.setList(getWorkspace().getProperties().getDataList(cfg.list()));
+               fld.setList(getWorkspace().getProperties().getDataProperties().getDataList(cfg.list()));
                fld.setValue(method.invoke(data));
                group.addField(fld);
             }
@@ -306,11 +306,11 @@ public class FormControl extends Control
          }
       }
       this.addGroup(group);
-      
+
       // Agrega un botón de envio de datos
       this.addButton(new FormButton("cmdAcceopt", "Enviar", ButtonType.Submit));
    }
-   
+
    /**
     * Agrega un campo oculto al formulario.
     * 
