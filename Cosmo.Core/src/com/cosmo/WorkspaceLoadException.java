@@ -52,7 +52,7 @@ public class WorkspaceLoadException extends Exception
 
 
    //==============================================
-   // Contructors
+   // Methods
    //==============================================
 
    /**

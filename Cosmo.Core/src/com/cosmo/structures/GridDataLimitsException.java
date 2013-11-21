@@ -10,6 +10,14 @@ public class GridDataLimitsException extends Exception
    /** Serial Version UID */
    private static final long serialVersionUID = -7170715618135972794L;
 
+
+   //==============================================
+   // Constructors
+   //==============================================
+
+   /**
+    * Constructor de la clase {@link GridDataLimitsException}.
+    */
    public GridDataLimitsException()
    {
       super();

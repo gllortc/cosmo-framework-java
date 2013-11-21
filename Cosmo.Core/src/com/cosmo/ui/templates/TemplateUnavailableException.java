@@ -10,7 +10,7 @@ public class TemplateUnavailableException extends Exception
    /** Serial Version UID */
    private static final long serialVersionUID = -9200934743663166710L;
 
-   // Declaración de variables locales de la clase
+   // Declaración de variables locales
    private Exception innerException;
 
 

@@ -1,33 +1,43 @@
 package com.cosmo.data.orm;
 
+/**
+ * Excepción que indica que existe algún problema con el mapeado ORM en algun objeto.
+ * 
+ * @author Gerard Llort
+ */
 public class InvalidMappingException extends Exception
 {
    /** Serial Version UID */
    private static final long serialVersionUID = 9134296343466070263L;
 
+
+   //==============================================
+   // Contructors
+   //==============================================
+
    /**
-    * Constructor de la classe.
+    * Constructor de la clase {@link InvalidMappingException}.
     */
    public InvalidMappingException() 
    { 
       super(); 
    }
-   
+
    /**
-    * Constructor de la classe.
+    * Constructor de la clase {@link InvalidMappingException}.
     * 
-    * @param msg Missatge que ha de mostrar l'excepción
+    * @param msg Mensaje descriptivo de la excepción.
     */
    public InvalidMappingException(String msg) 
    { 
       super(msg); 
    }
-   
+
    /**
-    * Constructor de la classe.
+    * Constructor de la clase {@link InvalidMappingException}.
     * 
-    * @param msg Missatge que ha de mostrar l'excepción
-    * @param throwable Excepción que l'ha provocat.
+    * @param msg Mensaje descriptivo de la excepción.
+    * @param throwable Una instancia de {@link Throwable} que contiene la información del orígen del problema.
     */
    public InvalidMappingException(String msg, Throwable throwable) 
    { 

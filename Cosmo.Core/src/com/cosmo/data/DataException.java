@@ -2,12 +2,18 @@ package com.cosmo.data;
 
 public class DataException extends Exception
 {
+   /** Serial Version UID */
    private static final long serialVersionUID = -2577150645305791318L;
 
+
+   //==============================================
+   // Contructors
+   //==============================================
+
    /**
-    * Constructor de la classe.
+    * Constructor de la clase {@link DataException}.
     * 
-    * @param msg Missatge que ha de mostrar l'excepciÃ³
+    * @param msg Mensaje descriptivo de la excepción.
     */
    public DataException(String msg) 
    { 
@@ -15,10 +21,10 @@ public class DataException extends Exception
    }
    
    /**
-    * Constructor de la classe.
+    * Constructor de la clase {@link DataException}.
     * 
-    * @param msg Missatge que ha de mostrar l'excepciÃ³
-    * @param throwable ExcepciÃ³ que l'ha provocat.
+    * @param msg Mensaje descriptivo de la excepción.
+    * @param throwable Una instancia de {@link Exception} que contiene la información del orígen del problema.
     */
    public DataException(String msg, Throwable throwable) 
    { 

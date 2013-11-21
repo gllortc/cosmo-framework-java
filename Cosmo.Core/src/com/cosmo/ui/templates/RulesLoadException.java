@@ -10,7 +10,7 @@ public class RulesLoadException extends Exception
    /** Serial Version UID */
    private static final long serialVersionUID = -8343012851203730237L;
 
-   // Declaración de variables locales de la clase
+   // Declaración de variables locales
    private Exception innerException;
 
 

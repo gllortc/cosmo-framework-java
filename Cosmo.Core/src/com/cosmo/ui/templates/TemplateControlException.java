@@ -10,7 +10,7 @@ public class TemplateControlException extends Exception
    /** Serial Version UID */
    private static final long serialVersionUID = 4282790500754859617L;
 
-   // Declaración de variables locales de la clase
+   // Declaración de variables locales
    private Exception innerException;
 
 
