@@ -9,7 +9,7 @@ public class Rule
 {
    private RuleType type;
    private String pattern;
-   private int templateId;
+   private String templateId;
 
    /**
     * Describe los distintos tipos de regla soportados.
@@ -38,7 +38,7 @@ public class Rule
     * @param pattern patrón de búsqueda.
     * @param templateId Identificador de la plantilla a aplicar en caso que se cumpla la regla.
     */
-   public Rule(RuleType type, String pattern, int templateId)
+   public Rule(RuleType type, String pattern, String templateId)
    {
       this.type = type;
       this.pattern = pattern;
@@ -70,12 +70,12 @@ public class Rule
       this.pattern = pattern.toLowerCase();
    }
 
-   public int getTemplateId() 
+   public String getTemplateId() 
    {
       return templateId;
    }
 
-   public void setTemplateId(int templateId) 
+   public void setTemplateId(String templateId) 
    {
       this.templateId = templateId;
    }
@@ -109,6 +109,6 @@ public class Rule
    {
       type = RuleType.BrowserAgent;
       pattern = "";
-      templateId = 0;
+      templateId = "";
    }
 }

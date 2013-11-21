@@ -10,7 +10,6 @@ import com.cosmo.security.UserNotFoundException;
 import com.cosmo.security.UserSession;
 import com.cosmo.security.auth.AuthenticationException;
 import com.cosmo.security.auth.AuthorizationException;
-import com.cosmo.ui.templates.Rules;
 import com.cosmo.ui.templates.RulesLoadException;
 import com.cosmo.ui.templates.Template;
 import com.cosmo.ui.templates.TemplateLoadException;
@@ -20,13 +19,14 @@ import com.cosmo.util.StringUtils;
 
 /**
  * Representa un espacio de trabajo de Cosmo.
+ * 
+ * @author Gerard Llort
  */
 public class Workspace 
 {
    private ServletContext context;
    private Template template;
    private WorkspaceProperties properties;
-   private Rules rules;
    private HttpServletRequest srvRequest;
    private HttpServletResponse srvResponse;
    private UserSession usrSession;
@@ -34,25 +34,26 @@ public class Workspace
    private String url;
    private String name;
    private String mail;
-   
+
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link Workspace}.
     */
    public Workspace()
    {
       initialize();
    }
-   
+
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link Workspace}.
     * 
-    * @param context Contexto de la llamada al workspace.
-    * @param request
-    * @param response
+    * @param context Una instancia de {@link ServletContext} que representa el contexto del servlet.
+    * @param request Una instancia de {@link HttpServletRequest} que representa el contexto de la llamada.
+    * @param response Una instancia de {@link HttpServletResponse} que representa el contexto de la respuesta.
     * 
     * @throws WorkspaceLoadException 
     * @throws RulesLoadException
@@ -66,11 +67,12 @@ public class Workspace
 
       reloadContext(context, request, response);
    }
-   
+
+
    //==============================================
    // Properties
    //==============================================
-   
+
    /**
     * Devuelve la plantilla de presentación aplicada.
     */
@@ -94,7 +96,7 @@ public class Workspace
    {
       return this.context;
    }
-   
+
    /**
     * Devuelve la instancia de {@link HttpServletRequest} que corresponde a la llamada.
     */
@@ -102,7 +104,7 @@ public class Workspace
    {
       return this.srvRequest;
    }
-   
+
    /**
     * Establece la instancia de {@link HttpServletRequest} que corresponde a la llamada.
     */
@@ -110,7 +112,7 @@ public class Workspace
    {
       this.srvRequest = request;
    }
-   
+
    /**
     * Devuelve la instancia de {@link HttpServletResponse} que corresponde a la respuesta.
     */
@@ -118,7 +120,7 @@ public class Workspace
    {
       return this.srvResponse;
    }
-   
+
    /**
     * Devuelve la instancia de {@link HttpServletRequest} que corresponde a la llamada.
     */
@@ -126,7 +128,7 @@ public class Workspace
    {
       return this.srvRequest.getSession();
    }
-   
+
    /**
     * Devuelve la instancia de {@link WorkspaceProperties} que contiene la configuración del workspace.
     */
@@ -158,7 +160,7 @@ public class Workspace
    {
       return this.mail;
    }
-   
+
    /**
     * Devuelve el juego de carácteres usado en el workspace.
     */
@@ -167,9 +169,9 @@ public class Workspace
       String charSet = this.properties.getString(Cosmo.PROPERTY_WORKSPACE_UI_CHARSET);
       return (StringUtils.isNullOrEmptyTrim(charSet) ? Cosmo.CHARSET_UTF_8 : charSet);
    }
-   
+
    /**
-    * Devuelve la URL pedida.
+    * Devuelve la URL correspondiente a l apetición HTTP.
     * 
     * @return Una cadena con la URL correspondiente a la llamada.
     */
@@ -177,7 +179,7 @@ public class Workspace
    {
       return this.requestedUrl;
    }
-   
+
    /**
     * Indica si existe una sesión de usuario Cosmo válida iniciada.
     * 
@@ -201,7 +203,7 @@ public class Workspace
          return false;
       }
    }
-   
+
    /**
     * Devuelve una instancia de {@link UserSession} que corresponde a la sesión de usuario iniciada o
     * {@code null} si no hay ninguna sesión de usuario iniciada.
@@ -209,9 +211,9 @@ public class Workspace
    public UserSession getUserSession() 
    {
       return this.usrSession;
-   }   
+   }
 
-   
+
    //==============================================
    // Methods
    //==============================================
@@ -244,7 +246,7 @@ public class Workspace
    {
       this.usrSession = new UserSession(this, login, password);
    }
-   
+
    /**
     * Cierra la sesión de usuario abierta.
     */
@@ -262,9 +264,9 @@ public class Workspace
    /**
     * Recarga el contexto.
     * 
-    * @param context Contexto del servidor.
-    * @param request Contexto de la llamada.
-    * @param response Contexto de la respuesta.
+    * @param context Una instancia de {@link ServletContext} que representa el contexto del servlet.
+    * @param request Una instancia de {@link HttpServletRequest} que representa el contexto de la llamada.
+    * @param response Una instancia de {@link HttpServletResponse} que representa el contexto de la respuesta.
     * 
     * @throws WorkspaceLoadException
     * @throws RulesLoadException
@@ -278,11 +280,11 @@ public class Workspace
       this.srvRequest = request;
       this.srvResponse = response;
       this.properties = new WorkspaceProperties(context);
-      this.rules = new Rules(context);
-      this.template = this.rules.checkRules(request.getHeader("User-Agent"));
+      this.template = this.properties.getUiProperties().checkRules(context, 
+                                                                   request.getHeader("User-Agent"));
 
       this.requestedUrl = getRequestedUrl(request);
-      
+
       this.url = this.properties.getString(Cosmo.PROPERTY_WORKSPACE_URL);
       this.name = this.properties.getString(Cosmo.PROPERTY_WORKSPACE_TITLE);
       this.mail = this.properties.getString(Cosmo.PROPERTY_WORKSPACE_MAIL);
@@ -300,13 +302,20 @@ public class Workspace
       this.context = null;
       this.srvRequest = null;
       this.srvResponse = null;
-      
+
       this.requestedUrl = "";
       this.url = "";
       this.name = "";
       this.mail = "";
    }
 
+   /**
+    * Obtiene la URL correspondiente a la petición.
+    * 
+    * @param request Una instancia de {@link HttpServletRequest} que representa el contexto de la llamada.
+    * 
+    * @return Una cadena que contiene la URL correspondiente a la petición.
+    */
    private String getRequestedUrl(HttpServletRequest request) 
    {
       StringBuffer requestURL = request.getRequestURL();
@@ -315,7 +324,7 @@ public class Workspace
       if (queryString == null) 
       {
           return requestURL.toString();
-      } 
+      }
       else 
       {
           return requestURL.append('?').append(queryString).toString();

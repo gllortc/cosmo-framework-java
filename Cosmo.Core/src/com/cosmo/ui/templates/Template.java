@@ -31,7 +31,7 @@ public class Template
 
    public static final String PATH_TEMPLATES = "templates";
 
-   private int id;
+   private String id;
    private String name;
    private String author;
    private String version;
@@ -80,7 +80,7 @@ public class Template
     * @param context Contexto de la llamada al workspace.
     * @param id Identificador de la plantilla.
     */
-   public Template(ServletContext context, int id) throws TemplateLoadException 
+   public Template(ServletContext context, String id) throws TemplateLoadException 
    {
       initialize();
 
@@ -94,7 +94,7 @@ public class Template
    // Properties
    //==============================================
 
-   public int getId() 
+   public String getId() 
    {
       return id;
    }
@@ -200,7 +200,7 @@ public class Template
     * 
     * @throws TemplateLoadException 
     */
-   private void loadTemplate(ServletContext context, int templateId) throws TemplateLoadException
+   private void loadTemplate(ServletContext context, String templateId) throws TemplateLoadException
    {
       String href;
       Node nNode;
@@ -396,7 +396,7 @@ public class Template
     */
    private void initialize()
    {
-      this.id = 0;
+      this.id = "";
       this.name = "";
       this.author = "";
       this.version = "";

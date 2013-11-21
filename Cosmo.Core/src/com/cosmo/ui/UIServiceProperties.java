@@ -2,12 +2,18 @@ package com.cosmo.ui;
 
 import java.util.ArrayList;
 
+import javax.servlet.ServletContext;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.cosmo.ui.templates.Rule;
+import com.cosmo.ui.templates.Template;
+import com.cosmo.ui.templates.TemplateLoadException;
+import com.cosmo.ui.templates.TemplateUnavailableException;
+import com.cosmo.util.StringUtils;
 
 /**
  * Contenedor encargado de leer y almacenar toda la configuración de UI Services.
@@ -22,7 +28,7 @@ public class UIServiceProperties
    private static final String XML_UI_ATT_DEFAULTTEMPLATE = "default-template";
    private static final String XML_UI_ATT_RULE_CONTAINS = "contains";
    private static final String XML_UI_ATT_RULE_TEMPLATE = "template";
-   
+
    // Declaración de variables locales para UI Services
    private String defaultTemplateId;
    private ArrayList<Rule> templateRules;
@@ -32,7 +38,7 @@ public class UIServiceProperties
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
     * Constructor de la clase {@link UIServiceProperties}.
     * 
@@ -73,26 +79,26 @@ public class UIServiceProperties
     * 
     * @throws TemplateUnavailableException 
     */
-   /*public Template checkRules(String browserAgent) throws TemplateUnavailableException, TemplateLoadException
+   public Template checkRules(ServletContext context, String browserAgent) throws TemplateUnavailableException, TemplateLoadException
    {
       // Aplica las reglas
-      for (Rule rule : this.rules)
+      for (Rule rule : this.templateRules)
       {
          if (rule.matchRule(browserAgent))
          {
-            return new Template(this.context, rule.getTemplateId());
+            return new Template(context, rule.getTemplateId());
          }
       }
 
       // Aplica la plantilla por defecto
-      if (this.defaultTemplateId > 0)
+      if (StringUtils.isNullOrEmptyTrim(this.defaultTemplateId))
       {
-         return new Template(this.context, this.defaultTemplateId);
+         return new Template(context, this.defaultTemplateId);
       }
 
       // No se ha encontrado plantilla: se genera una excepción
       throw new TemplateUnavailableException();
-   }*/
+   }
 
    /**
     * Lee y almacena las propiedades de configuración de UI Services.
@@ -127,7 +133,7 @@ public class UIServiceProperties
 
                this.templateRules.add(new Rule(Rule.RuleType.BrowserAgent, 
                                                eElement.getAttribute(UIServiceProperties.XML_UI_ATT_RULE_CONTAINS), 
-                                               Integer.parseInt(eElement.getAttribute(UIServiceProperties.XML_UI_ATT_RULE_TEMPLATE))));
+                                               eElement.getAttribute(UIServiceProperties.XML_UI_ATT_RULE_TEMPLATE)));
             }
          }
       }
