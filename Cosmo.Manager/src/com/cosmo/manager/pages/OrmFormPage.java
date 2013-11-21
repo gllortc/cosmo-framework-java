@@ -4,8 +4,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cosmo.data.orm.InvalidMappingException;
-import com.cosmo.data.orm.OrmFactory;
+import com.cosmo.orm.InvalidMappingException;
+import com.cosmo.orm.OrmFactory;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.PageContext;
 import com.cosmo.ui.PageContext.ContentColumns;
