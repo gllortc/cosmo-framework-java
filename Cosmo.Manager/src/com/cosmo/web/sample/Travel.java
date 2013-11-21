@@ -2,10 +2,10 @@ package com.cosmo.web.sample;
 
 import java.util.Date;
 
-import com.cosmo.data.orm.annotations.CormFieldSetter;
-import com.cosmo.data.orm.annotations.CormForeignKey;
-import com.cosmo.data.orm.annotations.CormObject;
-import com.cosmo.data.orm.annotations.CormObjectField;
+import com.cosmo.orm.annotations.CormFieldSetter;
+import com.cosmo.orm.annotations.CormForeignKey;
+import com.cosmo.orm.annotations.CormObject;
+import com.cosmo.orm.annotations.CormObjectField;
 import com.cosmo.ui.controls.FormFieldDate;
 import com.cosmo.ui.controls.FormFieldInteger;
 import com.cosmo.ui.controls.FormFieldList;
