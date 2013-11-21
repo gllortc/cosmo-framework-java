@@ -15,12 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.cosmo.data.DataConnection;
 import com.cosmo.data.DataException;
-import com.cosmo.data.orm.InvalidMappingException;
-import com.cosmo.data.orm.OrmDriver;
-import com.cosmo.data.orm.OrmFactory;
-import com.cosmo.data.orm.annotations.CormObjectField;
-import com.cosmo.data.orm.annotations.CormObjectField.FieldSortType;
-import com.cosmo.data.orm.annotations.CormFieldSetter;
+import com.cosmo.orm.InvalidMappingException;
+import com.cosmo.orm.OrmDriver;
+import com.cosmo.orm.OrmFactory;
+import com.cosmo.orm.annotations.CormFieldSetter;
+import com.cosmo.orm.annotations.CormObjectField;
+import com.cosmo.orm.annotations.CormObjectField.FieldSortType;
 
 /**
  * Implementa el proveedor de Cosmo ORM (CORM) para PostgreSQL 9.X.
