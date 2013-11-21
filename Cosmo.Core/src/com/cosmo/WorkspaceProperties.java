@@ -18,7 +18,7 @@ import org.xml.sax.SAXException;
 
 import com.cosmo.comm.CommServiceProperties;
 import com.cosmo.data.DataServiceProperties;
-import com.cosmo.data.orm.OrmServiceProperties;
+import com.cosmo.orm.OrmServiceProperties;
 import com.cosmo.security.SecurityServiceProperties;
 import com.cosmo.structures.PluginProperties;
 import com.cosmo.ui.UIServiceProperties;

@@ -2,7 +2,7 @@ package com.cosmo.ui.widgets.providers;
 
 import com.cosmo.Workspace;
 import com.cosmo.WorkspaceProperties;
-import com.cosmo.data.orm.apps.OrmApplication;
+import com.cosmo.orm.apps.OrmApplication;
 import com.cosmo.ui.widgets.MenuWidget;
 import com.cosmo.ui.widgets.MenuWidget.MenuTypes;
 import com.cosmo.ui.widgets.MenuItem;

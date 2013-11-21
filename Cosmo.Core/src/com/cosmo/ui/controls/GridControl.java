@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.cosmo.Workspace;
 import com.cosmo.data.DataException;
-import com.cosmo.data.orm.InvalidMappingException;
-import com.cosmo.data.orm.OrmFactory;
-import com.cosmo.data.orm.annotations.CormObjectField;
+import com.cosmo.orm.InvalidMappingException;
+import com.cosmo.orm.OrmFactory;
+import com.cosmo.orm.annotations.CormObjectField;
 import com.cosmo.structures.GridData;
 import com.cosmo.ui.templates.TemplateControl;
 import com.cosmo.util.StringUtils;

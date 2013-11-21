@@ -10,10 +10,10 @@ import javax.servlet.http.HttpSession;
 
 import com.cosmo.Cosmo;
 import com.cosmo.Workspace;
-import com.cosmo.data.orm.InvalidMappingException;
-import com.cosmo.data.orm.OrmFactory;
-import com.cosmo.data.orm.annotations.CormObjectField;
-import com.cosmo.data.orm.annotations.CormObject;
+import com.cosmo.orm.InvalidMappingException;
+import com.cosmo.orm.OrmFactory;
+import com.cosmo.orm.annotations.CormObject;
+import com.cosmo.orm.annotations.CormObjectField;
 import com.cosmo.structures.FormData;
 import com.cosmo.ui.controls.FormButton.ButtonType;
 import com.cosmo.ui.templates.TemplateControl;
