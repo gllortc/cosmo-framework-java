@@ -34,43 +34,43 @@ public class OrmDataService extends Page
 
    /** Nombre/URL de la página del servicio **/
    public static final String URL_BASE = "OrmDataService";
-   
+
    public final String PARAMETER_COMMAND = "cmd";
    public final String PARAMETER_HOSTPAGE = "hp";
    public final String PARAMETER_APPID = "appid";
-   
+
    public final String COMMAND_DELETE = "del";
    public final String COMMAND_EDIT = "edit";
    public final String COMMAND_CREATE = "create";
    public final String COMMAND_REPORT = "rpt";
-   
+
    private final String CTRL_HEADER = "head";
    private final String CTRL_MESSAGE = "msg";
    private final String CTRL_GRID = "grd";
-   
+
    @Override
    public PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       OrmApplication app;
       
       try
-      {      
+      {
          // Obtiene la definición de la aplicación y genera la estructura de página
-         app = getWorkspace().getProperties().getOrmApplication(getApplicationId(request));
-         
+         app = getWorkspace().getProperties().getOrmProperties().getOrmApplication(getApplicationId(request));
+
          pc.setLayout(PageLayout.TwoColumnsLeft);
          pc.setTitle(getWorkspace().getName() + " - " + app.getTitle());
-            
+
          BreadcrumbsControl navbar = new BreadcrumbsControl(getWorkspace());
          navbar.addItem(new BreadcrumbsItem("Home", "HomePage", Icon.ICON_IMAGE_HOME));
          navbar.addItem(new BreadcrumbsItem("Grid / Formularis", ""));
          pc.addContent(navbar, ContentColumns.MAIN);
-            
+
          HeaderControl header = new HeaderControl(getWorkspace(), CTRL_HEADER);
          header.setTitle(app.getTitle());
          header.setDescription(app.getDescription());
          pc.addContent(header, ContentColumns.MAIN);
-         
+
          DynamicMessageControl msg = new DynamicMessageControl(getWorkspace(), CTRL_MESSAGE);
          msg.setVisible(false);
          pc.addContent(msg, ContentColumns.MAIN);
@@ -79,7 +79,7 @@ public class OrmDataService extends Page
       {
          pc.showException(getWorkspace(), ex);
       }
-      
+
       return pc;
    }
 
@@ -93,11 +93,11 @@ public class OrmDataService extends Page
       try 
       {
          // Obtiene la definición de la aplicación y genera la estructura de página
-         app = getWorkspace().getProperties().getOrmApplication(getApplicationId(request));
-         
+         app = getWorkspace().getProperties().getOrmProperties().getOrmApplication(getApplicationId(request));
+
          // Obtiene la referencia a la clase CORM objeto de la aplicación
          cls = Class.forName(app.getClassName());
-         
+
          // Obtiene la instancia del Request
          Object instance = OrmFactory.getObjectFromRequest(cls, request);
 
@@ -114,12 +114,12 @@ public class OrmDataService extends Page
          {
             ormp.delete(instance);
          }
-         
+
          // Genera la URL para mostrar el listado
          URL url = new URL(URL_BASE);
          url.addParameter(PARAMETER_APPID, HttpRequestUtils.getValue(request, PARAMETER_APPID));
          url.addParameter(PARAMETER_COMMAND, COMMAND_REPORT);
-         
+
          // Redirige el flujo de la aplicació al listado
          response.sendRedirect(url.toString());
          return null;
@@ -131,7 +131,7 @@ public class OrmDataService extends Page
          msg.setType(DynamicMessageControl.MessageTypes.Error);
          msg.setMessage("ERROR: " + ex.getMessage());
       }
-      
+
       return pc;
    }
 
@@ -140,12 +140,12 @@ public class OrmDataService extends Page
    {
       OrmApplication app;
       Class<?> cls;
-      
+
       try
       {
          // Obtiene la definición de la aplicación y genera la estructura de página
-         app = getWorkspace().getProperties().getOrmApplication(getApplicationId(request));
-         
+         app = getWorkspace().getProperties().getOrmProperties().getOrmApplication(getApplicationId(request));
+
          // Obtiene la referencia a la clase CORM objeto de la aplicación
          cls = Class.forName(app.getClassName());
 
@@ -155,9 +155,9 @@ public class OrmDataService extends Page
             Object instance = OrmFactory.getObjectFromRequest(cls, request);
 
             OrmFactory ormp = new OrmFactory(app.getConnectionId(), getWorkspace());
-            ormp.delete(instance);            
+            ormp.delete(instance);
          }
-         
+
          // Según el comando, realiza una acción. Si no hay comando, muestra el grid
          if (HttpRequestUtils.getValue(request, PARAMETER_COMMAND, "").equals(COMMAND_CREATE))
          {
@@ -208,19 +208,19 @@ public class OrmDataService extends Page
    {
       return pc;
    }
-   
-   
+
+
    //==============================================
    // Private members
    //==============================================
-   
+
    /**
     * Obtiene el identificador de la aplicación
     */
    private String getApplicationId(HttpServletRequest request)
    {
       String appId = HttpRequestUtils.getValue(request, PARAMETER_APPID);
-      
+
       if (appId == null || appId.trim().isEmpty())
       {
          return "";
@@ -230,28 +230,28 @@ public class OrmDataService extends Page
          return appId;
       }
    }
-   
+
    /**
     * Genera una URL de comando para una determinada acción y registro.
     */
    private String createActionUrl(OrmApplication app, Class<?> ormClass, String command, boolean idNeeded)
    {
       String url = "";
-      
+
       url = URL_BASE + "?";
       url += PARAMETER_APPID + "=" + app.getId() + "&";
       url += PARAMETER_COMMAND + "=" + command;
-      
+
       if (idNeeded)
       {
          url += "&" + GridRowAction.TOKEN_ROW_ID;
       }
-      
+
       if (command.equals(COMMAND_DELETE))
       {
          url = "javascript:deleteConfirm('" + url + "');";
       }
-      
+
       return url;
    }
 

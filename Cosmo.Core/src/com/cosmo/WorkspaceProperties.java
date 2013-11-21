@@ -3,7 +3,6 @@ package com.cosmo;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
 import java.util.HashMap;
 
 import javax.servlet.ServletContext;
@@ -19,101 +18,35 @@ import org.xml.sax.SAXException;
 
 import com.cosmo.comm.CommServiceProperties;
 import com.cosmo.data.DataServiceProperties;
-import com.cosmo.data.DataSource;
-import com.cosmo.data.lists.DynamicList;
-import com.cosmo.data.lists.List;
-import com.cosmo.data.lists.ListItem;
-import com.cosmo.data.lists.StaticList;
-import com.cosmo.data.orm.apps.OrmApplication;
+import com.cosmo.data.orm.OrmServiceProperties;
 import com.cosmo.security.SecurityServiceProperties;
 import com.cosmo.structures.PluginProperties;
 import com.cosmo.ui.UIServiceProperties;
 import com.cosmo.util.IOUtils;
-import com.cosmo.util.StringUtils;
 
 /**
  * Representa la configuración del workspace.
+ * 
+ * @author Gerard Llort
  */
 public class WorkspaceProperties 
 {
    public static final String PROPERTIES_FILENAME = "cosmo.config.xml";
 
-   // Literales para los nodos del archivo de configuración
-   // private static final String XML_TAG_DATA_CONNECTIONS = "connections";
-   // private static final String XML_ATT_DATA_DEFAULTCONN = "default-connection";
-   // private static final String XML_TAG_CONNECTION = "connection";
-   private static final String XML_ATT_ID = "id";
-   // private static final String XML_ATT_JDBC_DRIVER = "jdbc.driver";
-   // private static final String XML_ATT_CORM_DRIVER = "corm.driver";
-   // private static final String XML_ATT_SERVER = "server";
-   // private static final String XML_ATT_PORT = "port";
-   // private static final String XML_ATT_SCHEMA = "schema";
-   // private static final String XML_ATT_USER = "user";
-   // private static final String XML_ATT_PASSWORD = "pwd";
-   // private static final String XML_ATT_KEY = "key";
-   // private static final String XML_ATT_VALUE = "value";
-   // private static final String XML_TAG_AUTHENTICATION = "authentication-agent";
-   // private static final String XML_TAG_AUTHORIZATION = "authorization-agent";
-   private static final String XML_ATT_DRIVER = "driver";
    private static final String XML_TAG_PARAMETER = "param";
-   //private static final String XML_TAG_SECURITY = "security";
-   //private static final String XML_ATT_AUTHENTICATIONAGENT = "authentication-agent";
-   //private static final String XML_ATT_AUTHORIZATIONAGENT = "authorization-agent";
-   //private static final String XML_ATT_LOGINPAGE = "login-page";
-   private static final String XML_TAG_CORM_APPS = "corm-apps";
-   private static final String XML_TAG_CORM_APP = "corm-app";
-   private static final String XML_ATT_CLASS = "class";
-   // private static final String XML_ATT_CONNECTION = "connection";
-   private static final String XML_TAG_APPACTION = "app-action";
-   private static final String XML_ATT_TYPE = "type";
-   // private static final String XML_ATT_TITLE = "title";
-   private static final String XML_ATT_DESCRIPTION = "description";
-   // private static final String XML_TAG_DATALISTS = "data-lists";
-   // private static final String XML_TAG_STATICLIST = "static-list";
-   // private static final String XML_TAG_DYNAMICLIST = "dynamic-list";
-   // private static final String XML_TAG_STATICLISTITEM = "static-list-item";
-   // private static final String XML_ATT_DEFAULTVALUE = "default-value";
-   // private static final String XML_TAG_SQLSTATEMENT = "sql-statement";
 
-   // Definición de tags y atributos para Communication Services
-   // private static final String XML_TAG_COMM_AGENTS = "communications";
-   // private static final String XML_TAG_COMM_AGENT = "comm-agent";
-   // private static final String XML_ATT_COMM_DEFAULTDRIVER = "communication-agent";
+   private static final String XML_ATT_ID = "id";
+   private static final String XML_ATT_KEY = "key";
+   private static final String XML_ATT_DRIVER = "driver";
+   private static final String XML_ATT_VALUE = "value";
 
-   // Definición de tags y atributos para UI Services
-   // private static final String XML_UI_TAG = "ui";
-   // private static final String XML_UI_TAG_TEMPLATE_RULE = "template-rule";
-   // private static final String XML_UI_ATT_DEFAULTTEMPLATE = "default-template";
-   // private static final String XML_UI_ATT_RULE_CONTAINS = "contains";
-   // private static final String XML_UI_ATT_RULE_TEMPLATE = "template";
-
-   // Declaración de variables locales (genérico)
+   // Declaración de variables locales
    private HashMap<String, String> properties;
-   private HashMap<String, OrmApplication> ormApps;
-   // private HashMap<String, List> ormLists;
    private UIServiceProperties uiProps;
    private SecurityServiceProperties securityProps;
    private DataServiceProperties dataProps;
    private CommServiceProperties commProps;
-
-   // Declaración de variables locales para Data Services
-   // private String serverDatasource;
-   // private HashMap<String, DataSource> dataSources;
-
-   // Declaración de variables locales para UI Services
-   // private String uiDefaultTemplateId;
-   // private ArrayList<Rule> uiTemplateRules;
-
-   // Declaración de variables locales para Security Services
-   // private String authenticationAgentId;
-   // private String authorizationAgentId;
-   // private String loginPage;
-   // private HashMap<String, PluginProperties> authenticationAgents;
-   // private HashMap<String, PluginProperties> authorizationAgents;
-
-   // Declaración de variables locales para Communication Services
-   // private String commAgentId;
-   // private HashMap<String, PluginProperties> commAgents;
+   private OrmServiceProperties ormProps;
 
 
    //==============================================
@@ -169,16 +102,15 @@ public class WorkspaceProperties
    {
       return commProps;
    }
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
+
+   /**
+    * Devuelve las propiedades de configuración de ORM Services.
+    */
+   public OrmServiceProperties getOrmProperties()
+   {
+      return ormProps;
+   }
+
    /**
     * Devuelve el número de propiedades de configuración leídas.
     */
@@ -186,12 +118,6 @@ public class WorkspaceProperties
    {
       return this.properties.size();
    }
-
-   
-   
-   
-   
-   
 
 
    //==============================================
@@ -241,28 +167,6 @@ public class WorkspaceProperties
       return Boolean.valueOf(snum);
    }
 
-   /**
-    * Obtiene todas las aplicaciones CORM registradas.
-    *
-    * @return Una colección de instancias de {@link OrmApplication}.
-    */
-   public Collection<OrmApplication> getOrmApplications()
-   {
-      return this.ormApps.values();
-   }
-
-   /**
-    * Obtiene la definición de una aplicación CORM.
-    *
-    * @param appId Identificador de la aplicación.
-    *
-    * @return Una instancia de {@link OrmApplication} que representa la aplicación.
-    */
-   public OrmApplication getOrmApplication(String appId)
-   {
-      return this.ormApps.get(appId);
-   }
-
 
    //==============================================
    // static members
@@ -309,7 +213,7 @@ public class WorkspaceProperties
                                   attribElement.getAttribute(WorkspaceProperties.XML_ATT_VALUE));
                }
             }
-            
+
             plugins.put(plugin.getId(), plugin);
          }
       }
@@ -372,11 +276,8 @@ public class WorkspaceProperties
          // Lectura de la configuración de Communication Services
          commProps = new CommServiceProperties(doc);
 
-         // Obtiene las listas de datos
-         this.ormLists = readDataLists(doc);
-
-         // Obtiene la configuración de las aplicaciones ORM
-         this.ormApps = readOrmApps(doc);
+         // Lectura de la configuración de Communication Services
+         ormProps = new OrmServiceProperties(doc);
 
          iStream.close();
       }
@@ -398,79 +299,6 @@ public class WorkspaceProperties
       }
    }
 
-   
-
-   /**
-    * Lee todas las definiciones de plugin de un determinado tipo.
-    *
-    * @param doc Una instancia de {@link Document} que representa el documento XML.
-    * @param pluginTag Una cadena que contiene el nombre del TAG que reciben todas las definiciones del tipo de plugin a leer.
-    *
-    * @return Una instancia de {@link HashMap} que contiene las definiciones de plugin recopiladas.
-    */
-   private HashMap<String, OrmApplication> readOrmApps(Document doc)
-   {
-      Node actionNode;
-      NodeList appsList;
-      NodeList attribList;
-      Element appElement;
-      Element actionElement;
-      OrmApplication oa;
-
-      HashMap<String, OrmApplication> apps = new HashMap<String, OrmApplication>();
-
-      // Comprueba si existe la definición
-      attribList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_CORM_APPS);
-      if (attribList.getLength() < 1)
-      {
-         return apps;
-      }
-
-      appsList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_CORM_APP);
-      for (int pidx = 0; pidx < appsList.getLength(); pidx++)
-      {
-         Node appNode = appsList.item(pidx);
-         if (appNode.getNodeType() == Node.ELEMENT_NODE)
-         {
-            appElement = (Element) appNode;
-
-            oa = new OrmApplication();
-            oa.setId(appElement.getAttribute(WorkspaceProperties.XML_ATT_ID));
-            oa.setClassName(appElement.getAttribute(WorkspaceProperties.XML_ATT_CLASS));
-            oa.setConnectionId(appElement.getAttribute(WorkspaceProperties.XML_ATT_CONNECTION));
-            oa.setTitle(appElement.getAttribute(WorkspaceProperties.XML_ATT_TITLE));
-            oa.setDescription(appElement.getAttribute(WorkspaceProperties.XML_ATT_DESCRIPTION));
-
-            attribList = appElement.getElementsByTagName(WorkspaceProperties.XML_TAG_APPACTION);
-            for (int aidx = 0; aidx < attribList.getLength(); aidx++) 
-            {
-               actionNode = attribList.item(aidx);
-               if (actionNode.getNodeType() == Node.ELEMENT_NODE)
-               {
-                  actionElement = (Element) actionNode;
-
-                  if (actionElement.getAttribute(WorkspaceProperties.XML_ATT_TYPE).toLowerCase().trim().equals("delete"))
-                  {
-                     oa.setDeleteEnabled(true);
-                  }
-                  else if (actionElement.getAttribute(WorkspaceProperties.XML_ATT_TYPE).toLowerCase().trim().equals("create"))
-                  {
-                     oa.setCreateEnabled(true);
-                  }
-                  else if (actionElement.getAttribute(WorkspaceProperties.XML_ATT_TYPE).toLowerCase().trim().equals("edit"))
-                  {
-                     oa.setEditEnabled(true);
-                  }
-               }
-            }
-
-            apps.put(oa.getId(), oa);
-         }
-      }
-
-      return apps;
-   }
-
    /**
     * Inicializa la instancia.
     */
@@ -480,8 +308,8 @@ public class WorkspaceProperties
       this.securityProps = null;
       this.dataProps = null;
       this.commProps = null;
-      
+      this.ormProps = null;
+
       properties = new HashMap<String, String>();
-      ormApps = new HashMap<String, OrmApplication>();
    }
 }

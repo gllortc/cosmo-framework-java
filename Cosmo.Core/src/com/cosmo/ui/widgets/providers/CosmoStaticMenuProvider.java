@@ -41,11 +41,12 @@ public class CosmoStaticMenuProvider extends MenuProvider
    private static final String XML_ATT_TYPE = "type";
    private static final String XML_NODE_MENUSECTION = "menusection";
    private static final String XML_ATT_SOURCE = "source";
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Obtiene los elementos de menú del workspace.
     * 
@@ -68,7 +69,7 @@ public class CosmoStaticMenuProvider extends MenuProvider
       NodeList nList;
       MenuItem menuitem;
       ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
-      
+
       try
       {
          is = new FileInputStream(workspace.getServerContext().getRealPath("/" + WorkspaceProperties.PROPERTIES_FILENAME));
@@ -103,17 +104,17 @@ public class CosmoStaticMenuProvider extends MenuProvider
                                                    eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_NAME), 
                                                    eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_HREF),
                                                    eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_PARENT));
-                           
+
                            // Si existe icono especificado, lo agrega
                            if (eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_ICON) != null)
                            {
                               menuitem.setIcon(eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_ICON));
                            }
-                           
+
                            menuItems.add(menuitem);
                         }
                      }
-                     
+
                      // Obtiene las secciones dinámicas
                      String source;
                      nList = menuElement.getElementsByTagName(CosmoStaticMenuProvider.XML_NODE_MENUSECTION);
@@ -129,19 +130,19 @@ public class CosmoStaticMenuProvider extends MenuProvider
                            {
                               if (source.equalsIgnoreCase("corm-apps"))
                               {
-                                 for (OrmApplication app : workspace.getProperties().getOrmApplications())
+                                 for (OrmApplication app : workspace.getProperties().getOrmProperties().getOrmApplications())
                                  {
                                     menuitem = new MenuItem(app.getId(),
                                                             app.getTitle(), 
                                                             app.getApplicationUrl(workspace),
                                                             "");
-                                    
+
                                     // Si existe icono especificado, lo agrega
                                     if (!StringUtils.isNullOrEmptyTrim(eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_ICON)))
                                     {
                                        menuitem.setIcon(eElement.getAttribute(CosmoStaticMenuProvider.XML_ATT_ICON));
                                     }
-                                    
+
                                     menuItems.add(menuitem);
                                  }
                               }
@@ -152,7 +153,7 @@ public class CosmoStaticMenuProvider extends MenuProvider
                }
             }
          }
-         
+
          return menuItems;
       }
       catch (FileNotFoundException ex)

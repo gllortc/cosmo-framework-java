@@ -21,10 +21,15 @@ import com.cosmo.util.StringUtils;
 public class DataServiceProperties
 {
    // Definición de tags y atributos para Data Services
-   private static final String XML_TAG_DATA_CONNECTIONS = "connections";
+   private static final String XML_TAG_CONNECTIONS = "connections";
    private static final String XML_TAG_CONNECTION = "connection";
+   private static final String XML_TAG_DATALISTS = "data-lists";
+   private static final String XML_TAG_STATICLIST = "static-list";
+   private static final String XML_TAG_DYNAMICLIST = "dynamic-list";
+   private static final String XML_TAG_STATICLISTITEM = "static-list-item";
+   private static final String XML_TAG_SQLSTATEMENT = "sql-statement";
 
-   private static final String XML_ATT_DATA_DEFAULTCONN = "default-connection";
+   private static final String XML_ATT_DEFAULTCONN = "default-connection";
    private static final String XML_ATT_ID = "id";
    private static final String XML_ATT_JDBC_DRIVER = "jdbc.driver";
    private static final String XML_ATT_CORM_DRIVER = "corm.driver";
@@ -33,13 +38,7 @@ public class DataServiceProperties
    private static final String XML_ATT_SCHEMA = "schema";
    private static final String XML_ATT_USER = "user";
    private static final String XML_ATT_PASSWORD = "pwd";
-
-   private static final String XML_TAG_DATALISTS = "data-lists";
-   private static final String XML_TAG_STATICLIST = "static-list";
-   private static final String XML_TAG_DYNAMICLIST = "dynamic-list";
-   private static final String XML_TAG_STATICLISTITEM = "static-list-item";
    private static final String XML_ATT_DEFAULTVALUE = "default-value";
-   private static final String XML_TAG_SQLSTATEMENT = "sql-statement";
    private static final String XML_ATT_CONNECTION = "connection";
    private static final String XML_ATT_TITLE = "title";
    private static final String XML_ATT_VALUE = "value";
@@ -138,14 +137,14 @@ public class DataServiceProperties
       NodeList nList;
       DataSource ds;
 
-      nList = doc.getElementsByTagName(DataServiceProperties.XML_TAG_DATA_CONNECTIONS);
+      nList = doc.getElementsByTagName(DataServiceProperties.XML_TAG_CONNECTIONS);
       if (nList.getLength() >= 1)
       {
          nNode = nList.item(0);
          if (nNode.getNodeType() == Node.ELEMENT_NODE)
          {
             eElement = (Element) nNode;
-            this.serverDatasource = eElement.getAttribute(DataServiceProperties.XML_ATT_DATA_DEFAULTCONN);
+            this.serverDatasource = eElement.getAttribute(DataServiceProperties.XML_ATT_DEFAULTCONN);
          }
 
          nList = doc.getElementsByTagName(DataServiceProperties.XML_TAG_CONNECTION);
@@ -170,7 +169,7 @@ public class DataServiceProperties
             }
          }
       }
-      
+
       // Obtiene las listas de datos
       this.ormLists = readDataLists(doc);
    }
