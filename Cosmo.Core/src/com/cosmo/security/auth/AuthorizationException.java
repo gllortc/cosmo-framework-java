@@ -54,7 +54,9 @@ public class AuthorizationException extends Exception
    //==============================================
 
    /**
-    * Devuelve una instancia de {@link Exception} que contiene la información del orígen del problema.
+    * Devuelve la excepción original que ocasionó el lanzamiento de la excepción actual.
+    * 
+    * @return Una instancia de {@link Exception}.
     */
    public Exception getInnerException()
    {
