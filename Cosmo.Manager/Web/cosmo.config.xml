@@ -32,43 +32,86 @@
    </settings>
 
    <!-- USER INTERFACE SERVICES -->
-   <ui default-template="3">
+   <ui-services>
 
-      <!-- Navegadores móbiles -->
-      <template-rule contains="iphone" template="1" javascript="1" download="1" upload="1"  />
-      <template-rule contains="android" template="1" javascript="1" download="1" upload="1" />
-      <template-rule contains="blackberry" template="1" javascript="0" download="0" upload="0" />
+      <template-rules default-template="3">
+         <!-- Navegadores móbiles -->
+         <template-rule contains="iphone" template="1" javascript="1" download="1" upload="1"  />
+         <template-rule contains="android" template="1" javascript="1" download="1" upload="1" />
+         <template-rule contains="blackberry" template="1" javascript="0" download="0" upload="0" />
+         <!-- Navegadores estándar de escritorio -->
+         <template-rule contains="mozilla" template="3" javascript="1" download="1" upload="1" />
+      </template-rules>
 
-      <!-- Navegadores estándar de escritorio -->
-      <template-rule contains="mozilla" template="3" javascript="1" download="1" upload="1" />
+      <menu type="lateral">
+         <menuitem id="mnuHome"     name="Home"           href="HomePage"            parent="" />
+         <menuitem id="mnuContent"  name="Users"          href="UserManagerPage"     parent="" />
+         <menuitem id="mnuListView" name="Activities"     href="ActivityManagerPage" parent="" />
+         <menuitem id="mnuSlider"   name="Roles"          href="RolesManagerPage"    parent="" />
+         <menuitem id="mnuDrivers"  name="Security info"  href="SecurityInfoPage"    parent="" icon="icon-lock" />
+         <menuitem id="mnuTests"    name="Security tests" href="SecurityTestsPage"   parent="" icon="icon-lock" />
+         <!-- <menusection name="Apps" source="corm-apps" icon="icon-cog" /> -->
+      </menu>
+      <menu type="top">
+         <menuitem id="mnuHome"  name="Home"      href="/HomePage"  parent="" />
+         <menuitem id="mnuForm"  name="Form"      href=""           parent="" />
+         <menuitem id="mnuForm1" name="LoginPage" href="/LoginPage" parent="mnuForm" />
+      </menu>
 
-   </ui>
+   </ui-services>
 
    <!-- DATA SERVICES -->
-   <connections default-connection="cosmo.server">
+   <data-services>
 
-      <connection id="cosmo.server" 
-                  corm.driver="com.cosmo.data.orm.impl.OrmDriverPostgreSqlImpl"
-                  jdbc.driver="org.postgresql.Driver" 
-                  server="jdbc:postgresql:cosmo-test" 
-                  port="5432" 
-                  schema="public" 
-                  user="postgres" 
-                  pwd="esfacil" />
+      <connections default-connection="cosmo.server">
+         <connection id="cosmo.server" 
+                     corm.driver="com.cosmo.data.orm.impl.OrmDriverPostgreSqlImpl"
+                     jdbc.driver="org.postgresql.Driver" 
+                     server="jdbc:postgresql:cosmo-test" 
+                     port="5432" 
+                     schema="public" 
+                     user="postgres" 
+                     pwd="esfacil" />
+         <connection id="rwm" 
+                     corm.driver="com.cosmo.data.orm.impl.OrmDriverPostgreSqlImpl"
+                     jdbc.driver="org.postgresql.Driver" 
+                     server="jdbc:postgresql:rwm" 
+                     port="5432" 
+                     schema="public" 
+                     user="postgres" 
+                     pwd="esfacil" />
+      </connections>
 
-      <connection id="rwm" 
-                  corm.driver="com.cosmo.data.orm.impl.OrmDriverPostgreSqlImpl"
-                  jdbc.driver="org.postgresql.Driver" 
-                  server="jdbc:postgresql:rwm" 
-                  port="5432" 
-                  schema="public" 
-                  user="postgres" 
-                  pwd="esfacil" />
+      <data-lists>
+         <static-list id="sex">
+            <static-list-item value="0" title="Masculino" default-value="true" />
+            <static-list-item value="1" title="Femenino" />
+            <static-list-item value="2" title="Empresa" />
+         </static-list>
+         <static-list id="personIdType">
+            <static-list-item value="0" title="NIF" default-value="true" />
+            <static-list-item value="1" title="CIF" />
+            <static-list-item value="2" title="NIE" />
+         </static-list>
+         <static-list id="travelStatus">
+            <static-list-item value="0" title="Propuesta" default-value="true" />
+            <static-list-item value="1" title="Inscripción abierta" />
+            <static-list-item value="2" title="Inscripción cerrada" />
+            <static-list-item value="3" title="Realizado" />
+         </static-list>
+         <dynamic-list id="cities" connection="cosmo.server" value="code" title="name" cache="none">
+            <sql-statement>SELECT code, name FROM v_cities ORDER BY name Asc</sql-statement>
+         </dynamic-list>
+         <dynamic-list id="users" connection="cosmo.server" value="usrlogin" title="usrname" cache="none">
+            <sql-statement>SELECT usrlogin, usrname FROM cosmo_users ORDER BY usrname Asc</sql-statement>
+         </dynamic-list>
+      </data-lists>
 
-   </connections>
+   </data-services>
+
 
    <!-- COMMUNICATION SERVICES -->
-   <communications communication-agent="mailServer">
+   <comm-services communication-agent="mailServer">
 
       <comm-agent id="mailServer" driver="com.cosmo.comm.impl.JavaMailAgentImpl">
          <param key="transport.protocol" value="smtp" />
@@ -91,10 +134,11 @@
          <param key="SMSC_DEFAULT_CHARSET" value="UCS2" />
       </comm-agent>
 
-   </communications>
+   </comm-services>
+
 
    <!-- SECURITY SERVICES -->
-   <security authentication-agent="rdbms" authorization-agent="rdbms" login-page="LoginPage">
+   <security-services authentication-agent="rdbms" authorization-agent="rdbms" login-page="LoginPage">
 
       <authentication-agent id="rdbms" driver="com.cosmo.security.auth.impl.PostgreSqlAuthenticationImpl">
          <param key="connection"   value="cosmo.server" />
@@ -125,42 +169,11 @@
          <param key="connection" value="cosmo.server" />
       </authorization-agent>
 
-   </security>
+   </security-services>
 
-   <!-- LISTAS DE DATOS -->
-   <data-lists>
 
-      <static-list id="sex">
-         <static-list-item value="0" title="Masculino" default-value="true" />
-         <static-list-item value="1" title="Femenino" />
-         <static-list-item value="2" title="Empresa" />
-      </static-list>
-      
-      <static-list id="personIdType">
-         <static-list-item value="0" title="NIF" default-value="true" />
-         <static-list-item value="1" title="CIF" />
-         <static-list-item value="2" title="NIE" />
-      </static-list>
-      
-      <static-list id="travelStatus">
-         <static-list-item value="0" title="Propuesta" default-value="true" />
-         <static-list-item value="1" title="Inscripción abierta" />
-         <static-list-item value="2" title="Inscripción cerrada" />
-         <static-list-item value="3" title="Realizado" />
-      </static-list>
-      
-      <dynamic-list id="cities" connection="cosmo.server" value="code" title="name" cache="none">
-         <sql-statement>SELECT code, name FROM v_cities ORDER BY name Asc</sql-statement>
-      </dynamic-list>
-      
-      <dynamic-list id="users" connection="cosmo.server" value="usrlogin" title="usrname" cache="none">
-         <sql-statement>SELECT usrlogin, usrname FROM cosmo_users ORDER BY usrname Asc</sql-statement>
-      </dynamic-list>
-
-   </data-lists>
-   
-   <!-- ORM uAPPLICATIONS -->
-   <corm-apps>
+   <!-- ORM SERVICES -->
+   <orm-services>
 
       <corm-app id="appWeather" class="com.cosmo.web.sample.Weather" connection="cosmo.server" title="Gestió del temps" description="Gestiona els registres meteorològics de les ciutats catalanes.">
 	      <app-action type="list" activitiesAllowed="weather.list" rolesAllowed="" />
@@ -179,23 +192,6 @@
          <app-action type="create" activitiesAllowed="convenios.create" rolesAllowed="" />
       </corm-app>
 
-   </corm-apps>
-   
-   <!-- STATIC MENUS -->
-   <menu type="lateral">
-      <menuitem id="mnuHome"     name="Home"                    href="HomePage"            parent="" />
-      <menuitem id="mnuContent"  name="Users"                   href="UserManagerPage"     parent="" />
-      <menuitem id="mnuListView" name="Activities"              href="ActivityManagerPage" parent="" />
-      <menuitem id="mnuSlider"   name="Roles"                   href="RolesManagerPage"    parent="" />
-      <menuitem id="mnuDrivers"  name="Security info"           href="SecurityInfoPage"    parent="" icon="icon-lock" />
-      <menuitem id="mnuTests"    name="Security tests"          href="SecurityTestsPage"   parent="" icon="icon-lock" />
-      <!-- <menusection name="Apps" source="corm-apps" icon="icon-cog" /> -->
-   </menu>
-   
-   <menu type="top">
-      <menuitem id="mnuHome"  name="Home"      href="/HomePage"  parent="" />
-      <menuitem id="mnuForm"  name="Form"      href=""           parent="" />
-      <menuitem id="mnuForm1" name="LoginPage" href="/LoginPage" parent="mnuForm" />
-   </menu>
+   </orm-services>
    
 </cosmo-settings>
