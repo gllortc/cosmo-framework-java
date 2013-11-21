@@ -63,17 +63,17 @@ public class WorkspaceProperties
    private static final String XML_TAG_CORM_APPS = "corm-apps";
    private static final String XML_TAG_CORM_APP = "corm-app";
    private static final String XML_ATT_CLASS = "class";
-   private static final String XML_ATT_CONNECTION = "connection";
+   // private static final String XML_ATT_CONNECTION = "connection";
    private static final String XML_TAG_APPACTION = "app-action";
    private static final String XML_ATT_TYPE = "type";
-   private static final String XML_ATT_TITLE = "title";
+   // private static final String XML_ATT_TITLE = "title";
    private static final String XML_ATT_DESCRIPTION = "description";
-   private static final String XML_TAG_DATALISTS = "data-lists";
-   private static final String XML_TAG_STATICLIST = "static-list";
-   private static final String XML_TAG_DYNAMICLIST = "dynamic-list";
-   private static final String XML_TAG_STATICLISTITEM = "static-list-item";
-   private static final String XML_ATT_DEFAULTVALUE = "default-value";
-   private static final String XML_TAG_SQLSTATEMENT = "sql-statement";
+   // private static final String XML_TAG_DATALISTS = "data-lists";
+   // private static final String XML_TAG_STATICLIST = "static-list";
+   // private static final String XML_TAG_DYNAMICLIST = "dynamic-list";
+   // private static final String XML_TAG_STATICLISTITEM = "static-list-item";
+   // private static final String XML_ATT_DEFAULTVALUE = "default-value";
+   // private static final String XML_TAG_SQLSTATEMENT = "sql-statement";
 
    // Definición de tags y atributos para Communication Services
    // private static final String XML_TAG_COMM_AGENTS = "communications";
@@ -90,7 +90,7 @@ public class WorkspaceProperties
    // Declaración de variables locales (genérico)
    private HashMap<String, String> properties;
    private HashMap<String, OrmApplication> ormApps;
-   private HashMap<String, List> ormLists;
+   // private HashMap<String, List> ormLists;
    private UIServiceProperties uiProps;
    private SecurityServiceProperties securityProps;
    private DataServiceProperties dataProps;
@@ -263,18 +263,6 @@ public class WorkspaceProperties
       return this.ormApps.get(appId);
    }
 
-   /**
-    * Obtiene una lista de datos.
-    *
-    * @param id Identificador único de la lista.
-    *
-    * @return Una instancia de {@link List} que representa la lista de opciones.
-    */
-   public List getDataList(String id)
-   {
-      return this.ormLists.get(id);
-   }
-
 
    //==============================================
    // static members
@@ -410,97 +398,7 @@ public class WorkspaceProperties
       }
    }
 
-   /**
-    * Lee todas las definiciones de listas de datos.
-    *
-    * @param doc Una instancia de {@link Document} que representa el documento XML.
-    *
-    * @return Una instancia de {@link HashMap} que contiene las definiciones de listas de datos recopiladas.
-    */
-   private HashMap<String, List> readDataLists(Document doc)
-   {
-      Node attribNode;
-      Node listNode;
-      NodeList attribList;
-      NodeList listDefs;
-      Element listElement;
-      Element attribElement;
-      StaticList sList = null;
-      DynamicList dList = null;
-      ListItem item;
-
-      // Inicializa el contenedor de listas
-      HashMap<String, List> lists = new HashMap<String, List>();
-
-      // Comprueba si existe la definición
-      attribList = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_DATALISTS);
-      if (attribList.getLength() < 1)
-      {
-         return lists;
-      }
-
-      // Carga las listas estáticas
-      listDefs = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_STATICLIST);
-      for (int pidx = 0; pidx < listDefs.getLength(); pidx++)
-      {
-         listNode = listDefs.item(pidx);
-         if (listNode.getNodeType() == Node.ELEMENT_NODE)
-         {
-            listElement = (Element) listNode;
-
-            sList = new StaticList(listElement.getAttribute(WorkspaceProperties.XML_ATT_ID));
-
-            attribList = listElement.getElementsByTagName(WorkspaceProperties.XML_TAG_STATICLISTITEM);
-            for (int aidx = 0; aidx < attribList.getLength(); aidx++) 
-            {
-               attribNode = attribList.item(aidx);
-               if (attribNode.getNodeType() == Node.ELEMENT_NODE)
-               {
-                  attribElement = (Element) attribNode;
-                  item = new ListItem(attribElement.getAttribute(WorkspaceProperties.XML_ATT_VALUE),
-                                      attribElement.getAttribute(WorkspaceProperties.XML_ATT_TITLE));
-
-                  if (!StringUtils.isNullOrEmptyTrim(attribElement.getAttribute(WorkspaceProperties.XML_ATT_DEFAULTVALUE)))
-                  {
-                     item.setDefault(attribElement.getAttribute(WorkspaceProperties.XML_ATT_DEFAULTVALUE).equals("true") ||
-                                     attribElement.getAttribute(WorkspaceProperties.XML_ATT_DEFAULTVALUE).equals("1"));
-                  }
-
-                  sList.addListItem(item);
-               }
-            }
-
-            lists.put(sList.getId(), sList);
-         }
-      }
-
-      // Carga las listas dinámicas SQL
-      listDefs = doc.getElementsByTagName(WorkspaceProperties.XML_TAG_DYNAMICLIST);
-      for (int pidx = 0; pidx < listDefs.getLength(); pidx++)
-      {
-         listNode = listDefs.item(pidx);
-         if (listNode.getNodeType() == Node.ELEMENT_NODE)
-         {
-            listElement = (Element) listNode;
-
-            dList = new DynamicList(listElement.getAttribute(WorkspaceProperties.XML_ATT_ID));
-            dList.setConnection(listElement.getAttribute(WorkspaceProperties.XML_ATT_CONNECTION));
-            dList.setValueFieldName(listElement.getAttribute(WorkspaceProperties.XML_ATT_VALUE));
-            dList.setTitleFieldName(listElement.getAttribute(WorkspaceProperties.XML_ATT_TITLE));
-
-            attribList = listElement.getElementsByTagName(WorkspaceProperties.XML_TAG_SQLSTATEMENT);
-            if (attribList.getLength() > 0)
-            {
-               attribNode = attribList.item(0);
-               dList.setSqlStatement(attribNode.getFirstChild().getNodeValue());
-
-               lists.put(dList.getId(), dList);
-            }
-         }
-      }
-
-      return lists;
-   }
+   
 
    /**
     * Lee todas las definiciones de plugin de un determinado tipo.

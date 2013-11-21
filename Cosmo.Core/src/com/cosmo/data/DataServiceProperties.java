@@ -7,6 +7,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.cosmo.data.lists.DynamicList;
+import com.cosmo.data.lists.List;
+import com.cosmo.data.lists.ListItem;
+import com.cosmo.data.lists.StaticList;
 import com.cosmo.util.StringUtils;
 
 /**
@@ -30,11 +34,20 @@ public class DataServiceProperties
    private static final String XML_ATT_USER = "user";
    private static final String XML_ATT_PASSWORD = "pwd";
 
+   private static final String XML_TAG_DATALISTS = "data-lists";
+   private static final String XML_TAG_STATICLIST = "static-list";
+   private static final String XML_TAG_DYNAMICLIST = "dynamic-list";
+   private static final String XML_TAG_STATICLISTITEM = "static-list-item";
+   private static final String XML_ATT_DEFAULTVALUE = "default-value";
+   private static final String XML_TAG_SQLSTATEMENT = "sql-statement";
+   private static final String XML_ATT_CONNECTION = "connection";
+   private static final String XML_ATT_TITLE = "title";
+   private static final String XML_ATT_VALUE = "value";
 
    // Declaración de variables locales para UI Services
    private String serverDatasource;
    private HashMap<String, DataSource> dataSources;
-   
+   private HashMap<String, List> ormLists;
 
 
    //==============================================
@@ -87,6 +100,18 @@ public class DataServiceProperties
       }
 
       return getDataSource(this.serverDatasource);
+   }
+
+   /**
+    * Obtiene una lista de datos.
+    *
+    * @param id Identificador único de la lista.
+    *
+    * @return Una instancia de {@link List} que representa la lista de opciones.
+    */
+   public List getDataList(String id)
+   {
+      return this.ormLists.get(id);
    }
 
    /**
@@ -145,5 +170,105 @@ public class DataServiceProperties
             }
          }
       }
+      
+      // Obtiene las listas de datos
+      this.ormLists = readDataLists(doc);
+   }
+
+
+   //==============================================
+   // Private members
+   //==============================================
+
+   /**
+    * Lee todas las definiciones de listas de datos.
+    *
+    * @param doc Una instancia de {@link Document} que representa el documento XML.
+    *
+    * @return Una instancia de {@link HashMap} que contiene las definiciones de listas de datos recopiladas.
+    */
+   private HashMap<String, List> readDataLists(Document doc)
+   {
+      Node attribNode;
+      Node listNode;
+      NodeList attribList;
+      NodeList listDefs;
+      Element listElement;
+      Element attribElement;
+      StaticList sList = null;
+      DynamicList dList = null;
+      ListItem item;
+
+      // Inicializa el contenedor de listas
+      HashMap<String, List> lists = new HashMap<String, List>();
+
+      // Comprueba si existe la definición
+      attribList = doc.getElementsByTagName(DataServiceProperties.XML_TAG_DATALISTS);
+      if (attribList.getLength() < 1)
+      {
+         return lists;
+      }
+
+      // Carga las listas estáticas
+      listDefs = doc.getElementsByTagName(DataServiceProperties.XML_TAG_STATICLIST);
+      for (int pidx = 0; pidx < listDefs.getLength(); pidx++)
+      {
+         listNode = listDefs.item(pidx);
+         if (listNode.getNodeType() == Node.ELEMENT_NODE)
+         {
+            listElement = (Element) listNode;
+
+            sList = new StaticList(listElement.getAttribute(DataServiceProperties.XML_ATT_ID));
+
+            attribList = listElement.getElementsByTagName(DataServiceProperties.XML_TAG_STATICLISTITEM);
+            for (int aidx = 0; aidx < attribList.getLength(); aidx++) 
+            {
+               attribNode = attribList.item(aidx);
+               if (attribNode.getNodeType() == Node.ELEMENT_NODE)
+               {
+                  attribElement = (Element) attribNode;
+                  item = new ListItem(attribElement.getAttribute(DataServiceProperties.XML_ATT_VALUE),
+                                      attribElement.getAttribute(DataServiceProperties.XML_ATT_TITLE));
+
+                  if (!StringUtils.isNullOrEmptyTrim(attribElement.getAttribute(DataServiceProperties.XML_ATT_DEFAULTVALUE)))
+                  {
+                     item.setDefault(attribElement.getAttribute(DataServiceProperties.XML_ATT_DEFAULTVALUE).equals("true") ||
+                                     attribElement.getAttribute(DataServiceProperties.XML_ATT_DEFAULTVALUE).equals("1"));
+                  }
+
+                  sList.addListItem(item);
+               }
+            }
+
+            lists.put(sList.getId(), sList);
+         }
+      }
+
+      // Carga las listas dinámicas SQL
+      listDefs = doc.getElementsByTagName(DataServiceProperties.XML_TAG_DYNAMICLIST);
+      for (int pidx = 0; pidx < listDefs.getLength(); pidx++)
+      {
+         listNode = listDefs.item(pidx);
+         if (listNode.getNodeType() == Node.ELEMENT_NODE)
+         {
+            listElement = (Element) listNode;
+
+            dList = new DynamicList(listElement.getAttribute(DataServiceProperties.XML_ATT_ID));
+            dList.setConnection(listElement.getAttribute(DataServiceProperties.XML_ATT_CONNECTION));
+            dList.setValueFieldName(listElement.getAttribute(DataServiceProperties.XML_ATT_VALUE));
+            dList.setTitleFieldName(listElement.getAttribute(DataServiceProperties.XML_ATT_TITLE));
+
+            attribList = listElement.getElementsByTagName(DataServiceProperties.XML_TAG_SQLSTATEMENT);
+            if (attribList.getLength() > 0)
+            {
+               attribNode = attribList.item(0);
+               dList.setSqlStatement(attribNode.getFirstChild().getNodeValue());
+
+               lists.put(dList.getId(), dList);
+            }
+         }
+      }
+
+      return lists;
    }
 }
