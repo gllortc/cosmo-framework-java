@@ -17,7 +17,7 @@ import com.cosmo.ui.templates.Rule;
 public class UIServiceProperties
 {
    // Definición de tags y atributos para UI Services
-   private static final String XML_UI_TAG = "ui";
+   private static final String XML_UI_TAG = "ui-services";
    private static final String XML_UI_TAG_TEMPLATE_RULE = "template-rule";
    private static final String XML_UI_ATT_DEFAULTTEMPLATE = "default-template";
    private static final String XML_UI_ATT_RULE_CONTAINS = "contains";
@@ -33,8 +33,16 @@ public class UIServiceProperties
    // Constructors
    //==============================================
    
+   /**
+    * Constructor de la clase {@link UIServiceProperties}.
+    * 
+    * @param xmlDocument Una instancia de {@link Document} que representa el documento XML de configuración de Cosmo.
+    */
    public UIServiceProperties(Document xmlDocument)
    {
+      this.defaultTemplateId = "";
+      this.templateRules = new ArrayList<Rule>();
+
       loadProperties(xmlDocument);
    }
 
@@ -42,7 +50,11 @@ public class UIServiceProperties
    //==============================================
    // Properties
    //==============================================
-   
+
+   /**
+    * Devuelve el identificador de la plantilla a usar por defecto 
+    * (cuando no se encuentra ninguna regla de presentación aplicable).
+    */
    public String getDefaultTemplateId()
    {
       return this.defaultTemplateId;
@@ -92,6 +104,8 @@ public class UIServiceProperties
       Node nNode;
       Element eElement;
       NodeList nList;
+
+      this.templateRules = new ArrayList<Rule>();
 
       nList = doc.getElementsByTagName(UIServiceProperties.XML_UI_TAG);
       if (nList.getLength() >= 1)
