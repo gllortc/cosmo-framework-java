@@ -21,6 +21,7 @@ import com.cosmo.util.StringUtils;
 public class DataServiceProperties
 {
    // Definición de tags y atributos para Data Services
+   // private static final String XML_TAG_DATA = "data-services";
    private static final String XML_TAG_CONNECTIONS = "connections";
    private static final String XML_TAG_CONNECTION = "connection";
    private static final String XML_TAG_DATALISTS = "data-lists";
@@ -55,6 +56,8 @@ public class DataServiceProperties
    
    public DataServiceProperties(Document xmlDocument)
    {
+      initialize();
+
       loadProperties(xmlDocument);
    }
 
@@ -136,6 +139,8 @@ public class DataServiceProperties
       Element eElement;
       NodeList nList;
       DataSource ds;
+
+      initialize();
 
       nList = doc.getElementsByTagName(DataServiceProperties.XML_TAG_CONNECTIONS);
       if (nList.getLength() >= 1)
@@ -269,5 +274,15 @@ public class DataServiceProperties
       }
 
       return lists;
+   }
+   
+   /**
+    * Inicializa la instancia.
+    */
+   private void initialize()
+   {
+      this.serverDatasource = "";
+      this.dataSources = new HashMap<String, DataSource>();
+      this.ormLists = new HashMap<String, List>();
    }
 }

@@ -18,13 +18,14 @@ import com.cosmo.util.StringUtils;
  */
 public class SecurityServiceProperties
 {
-   private static final String XML_SECURITY_TAG_AUTHENTICATION = "authentication-agent";
-   private static final String XML_SECURITY_TAG_AUTHORIZATION = "authorization-agent";
-   private static final String XML_SECURITY_TAG = "security";
-   private static final String XML_SECURITY_ATT_AUTHENTICATIONAGENT = "authentication-agent";
-   private static final String XML_SECURITY_ATT_AUTHORIZATIONAGENT = "authorization-agent";
-   private static final String XML_SECURITY_ATT_LOGINPAGE = "login-page";
-   
+   private static final String XML_TAG = "security-services";
+   private static final String XML_TAG_AUTHENTICATION = "authentication-agent";
+   private static final String XML_TAG_AUTHORIZATION = "authorization-agent";
+
+   private static final String XML_ATT_AUTHENTICATIONAGENT = "authentication-agent";
+   private static final String XML_ATT_AUTHORIZATIONAGENT = "authorization-agent";
+   private static final String XML_ATT_LOGINPAGE = "login-page";
+
    // Declaración de variables locales para Security Services
    private String authenticationAgentId;
    private String authorizationAgentId;
@@ -36,9 +37,16 @@ public class SecurityServiceProperties
    //==============================================
    // Constructors
    //==============================================
-   
+
+   /**
+    * Constructor de la clase {@link SecurityServiceProperties}.
+    * 
+    * @param xmlDocument Una instancia de {@link Document} que representa el documento XML de configuración de Cosmo.
+    */
    public SecurityServiceProperties(Document xmlDocument)
    {
+      initialize();
+
       loadProperties(xmlDocument);
    }
 
@@ -47,16 +55,25 @@ public class SecurityServiceProperties
    // Properties
    //==============================================
 
+   /**
+    * Devuelve el identificador del agente de autenticación a usar.
+    */
    public String getAuthenticationAgentId()
    {
       return authenticationAgentId;
    }
 
+   /**
+    * Devuelve el identificador del agente de autorización a usar.
+    */
    public String getAuthorizationAgentId()
    {
       return authorizationAgentId;
    }
 
+   /**
+    * Nombre de la página (servlet) que implementa la página de <em>login</em>.
+    */
    public String getLoginPage()
    {
       return loginPage;
@@ -70,7 +87,8 @@ public class SecurityServiceProperties
    /**
     * Obtiene el agente de autenticación.
     * 
-    * @return Una instancia de {@link PluginProperties} que contiene la información del agente de autenticación a usar o {@code null} si no se ha configurado.
+    * @return Una instancia de {@link PluginProperties} que contiene la información del agente de autenticación a 
+    *    usar o {@code null} si no se ha configurado.
     */
    public PluginProperties getAuthenticationAgent()
    {
@@ -85,7 +103,8 @@ public class SecurityServiceProperties
    /**
     * Obtiene el agente de autorización.
     *
-    * @return Una instancia de {@link PluginProperties} que contiene la información del agente de autorización a usar o {@code null} si no se ha configurado.
+    * @return Una instancia de {@link PluginProperties} que contiene la información del agente de autorización a 
+    *    usar o {@code null} si no se ha configurado.
     */
    public PluginProperties getAuthorizationAgent()
    {
@@ -108,7 +127,9 @@ public class SecurityServiceProperties
       Element eElement;
       NodeList nList;
 
-      nList = doc.getElementsByTagName(SecurityServiceProperties.XML_SECURITY_TAG);
+      initialize();
+
+      nList = doc.getElementsByTagName(SecurityServiceProperties.XML_TAG);
       if (nList.getLength() >= 1)
       {
          nNode = nList.item(0);
@@ -116,16 +137,33 @@ public class SecurityServiceProperties
          {
             eElement = (Element) nNode;
 
-            this.authenticationAgentId = eElement.getAttribute(SecurityServiceProperties.XML_SECURITY_ATT_AUTHENTICATIONAGENT);
-            this.authorizationAgentId = eElement.getAttribute(SecurityServiceProperties.XML_SECURITY_ATT_AUTHORIZATIONAGENT);
-            this.loginPage = eElement.getAttribute(SecurityServiceProperties.XML_SECURITY_ATT_LOGINPAGE);
+            this.authenticationAgentId = eElement.getAttribute(SecurityServiceProperties.XML_ATT_AUTHENTICATIONAGENT);
+            this.authorizationAgentId = eElement.getAttribute(SecurityServiceProperties.XML_ATT_AUTHORIZATIONAGENT);
+            this.loginPage = eElement.getAttribute(SecurityServiceProperties.XML_ATT_LOGINPAGE);
          }
 
          // Obtiene todos los agentes de autenticación
-         this.authenticationAgents = WorkspaceProperties.readPluginsByType(doc, SecurityServiceProperties.XML_SECURITY_TAG_AUTHENTICATION);
+         this.authenticationAgents = WorkspaceProperties.readPluginsByType(doc, SecurityServiceProperties.XML_TAG_AUTHENTICATION);
 
          // Obtiene todos los agentes de autorización
-         this.authorizationAgents = WorkspaceProperties.readPluginsByType(doc, SecurityServiceProperties.XML_SECURITY_TAG_AUTHORIZATION);
+         this.authorizationAgents = WorkspaceProperties.readPluginsByType(doc, SecurityServiceProperties.XML_TAG_AUTHORIZATION);
       }
+   }
+
+
+   //==============================================
+   // Methods
+   //==============================================
+
+   /**
+    * Inicializa la instancia.
+    */
+   private void initialize()
+   {
+      this.authenticationAgentId = "";
+      this.authorizationAgentId = "";
+      this.loginPage = "";
+      this.authenticationAgents = new HashMap<String, PluginProperties>();
+      this.authorizationAgents = new HashMap<String, PluginProperties>();
    }
 }

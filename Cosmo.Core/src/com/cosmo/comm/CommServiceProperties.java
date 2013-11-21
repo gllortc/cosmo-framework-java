@@ -19,9 +19,10 @@ import com.cosmo.util.StringUtils;
 public class CommServiceProperties
 {
    // Definición de tags y atributos para Communication Services
-   private static final String XML_TAG_COMM_AGENTS = "communications";
-   private static final String XML_TAG_COMM_AGENT = "comm-agent";
-   private static final String XML_ATT_COMM_DEFAULTDRIVER = "communication-agent";
+   private static final String XML_TAG_AGENTS = "communications-service";
+   private static final String XML_TAG_AGENT = "comm-agent";
+
+   private static final String XML_ATT_DEFAULTDRIVER = "communication-agent";
 
    // Declaración de variables locales para Communication Services
    private String commAgentId;
@@ -95,7 +96,7 @@ public class CommServiceProperties
       Element eElement;
       NodeList nList;
 
-      nList = doc.getElementsByTagName(CommServiceProperties.XML_TAG_COMM_AGENTS);
+      nList = doc.getElementsByTagName(CommServiceProperties.XML_TAG_AGENTS);
       if (nList.getLength() >= 1)
       {
          nNode = nList.item(0);
@@ -103,11 +104,11 @@ public class CommServiceProperties
          {
             eElement = (Element) nNode;
 
-            this.commAgentId = eElement.getAttribute(CommServiceProperties.XML_ATT_COMM_DEFAULTDRIVER);
+            this.commAgentId = eElement.getAttribute(CommServiceProperties.XML_ATT_DEFAULTDRIVER);
          }
 
          // Obtiene todos los agentes de comunicaciones
-         this.commAgents = WorkspaceProperties.readPluginsByType(doc, CommServiceProperties.XML_TAG_COMM_AGENT);
+         this.commAgents = WorkspaceProperties.readPluginsByType(doc, CommServiceProperties.XML_TAG_AGENT);
       }
    }
 }

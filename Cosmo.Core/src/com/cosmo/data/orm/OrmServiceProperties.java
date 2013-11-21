@@ -18,7 +18,7 @@ import com.cosmo.data.orm.apps.OrmApplication;
 public class OrmServiceProperties
 {
    // Definición de tags y atributos para ORM Services
-   private static final String XML_TAG_CORM_APPS = "corm-apps";
+   private static final String XML_TAG_SERVICE = "orm-services";
    private static final String XML_TAG_CORM_APP = "corm-app";
    private static final String XML_TAG_APPACTION = "app-action";
 
@@ -91,7 +91,7 @@ public class OrmServiceProperties
       this.ormApps = new HashMap<String, OrmApplication>();
 
       // Comprueba si existe la definición
-      attribList = doc.getElementsByTagName(OrmServiceProperties.XML_TAG_CORM_APPS);
+      attribList = doc.getElementsByTagName(OrmServiceProperties.XML_TAG_SERVICE);
       if (attribList.getLength() < 1)
       {
          return;
