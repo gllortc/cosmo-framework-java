@@ -1,9 +1,9 @@
 package com.cosmo.web.sample;
 
-import com.cosmo.data.orm.annotations.CormObjectField;
-import com.cosmo.data.orm.annotations.CormObjectField.FieldSortType;
-import com.cosmo.data.orm.annotations.CormFieldSetter;
-import com.cosmo.data.orm.annotations.CormObject;
+import com.cosmo.orm.annotations.CormObjectField;
+import com.cosmo.orm.annotations.CormObjectField.FieldSortType;
+import com.cosmo.orm.annotations.CormFieldSetter;
+import com.cosmo.orm.annotations.CormObject;
 import com.cosmo.ui.controls.FormFieldInteger;
 import com.cosmo.ui.controls.FormFieldText;
 
