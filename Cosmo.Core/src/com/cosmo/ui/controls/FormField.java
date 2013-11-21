@@ -24,15 +24,15 @@ public abstract class FormField
       /** Lista de opciones */
       ListBox
    }
-   
+
    private ArrayList<KeyValue> listOptions = new ArrayList<KeyValue>();
    private FieldType fieldType = FieldType.Editable;
-   
-   
+
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
     * Constructor de la clase.
     */
@@ -41,28 +41,28 @@ public abstract class FormField
       this.listOptions = new ArrayList<KeyValue>();
       this.fieldType = FieldType.Editable;
    }
-   
-   
+
+
    //==============================================
    // Abstract members
    //==============================================
-   
+
    /**
     * Obtiene el nombre (identificador único) del campo.
     */
    public abstract String getName();
-   
+
    /**
     * Establece el valor del campo.
     */
    public abstract void setValue(Object value);
-   
+
    /**
     * Convierte la instancia en una cadena XHTML que representa el elemento en una página web.
     */
    public abstract String render(Workspace workspace);
-   
-   
+
+
    //==============================================
    // Properties
    //==============================================
@@ -82,12 +82,12 @@ public abstract class FormField
    {
       this.fieldType = fieldType;
    }
-   
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Agrega un valor a la lista de valores posibles que puede adoptar el campo.
     * 
@@ -97,7 +97,7 @@ public abstract class FormField
    {
       listOptions.add(keyvalue);
    }
-   
+
    /**
     * Elimina todos los elementos de la lista de valores posibles que puede adoptar el campo.
     */

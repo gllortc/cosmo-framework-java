@@ -12,7 +12,7 @@ import java.util.Date;
 public class ListViewItem 
 {
    private static final String CPART_ITEM = "object-list-item";
-   
+
    private static final String TAG_CAPTION = "CAPTION";
    private static final String TAG_DESCRIPTION = "DESCRIPTION";
    private static final String TAG_HREF = "HREF";
@@ -21,7 +21,7 @@ public class ListViewItem
    private static final String TAG_AUTHOR = "AUTHOR";
    private static final String TAG_WIDTH = "WIDTH";
    private static final String TAG_HEIGHT = "HEIGHT";
-   
+
    private String caption;
    private String description;
    private String href;
@@ -30,25 +30,29 @@ public class ListViewItem
    private Date date;
    private Integer width;
    private Integer height;
-   
+
+
    //==============================================
    // Contructors
    //==============================================
-   
+
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link ListViewItem}.
     */
    public ListViewItem()
    {
       initialize();
    }
-   
+
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link ListViewItem}.
     * 
-    * @param caption
-    * @param description
-    * @param href 
+    * @param caption Texto descriptivo del elemento.
+    * @param description Descripción larga del elemento.
+    * @param href URL que se invocará al hacer clic encima del elemento.
+    * @param thumbSrc URL de la imagen miniatura que acompaña el elemento.
+    * @param width Ancho (en píxels).
+    * @param height Alto (en píxels).
     */
    public ListViewItem(String caption, String description, String href, String thumbSrc, Integer width, Integer height)
    {
@@ -61,15 +65,18 @@ public class ListViewItem
       this.width = width;
       this.height = height;
    }
-   
+
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link ListViewItem}.
     * 
-    * @param caption
-    * @param description
-    * @param href
-    * @param author
-    * @param date 
+    * @param caption Texto descriptivo del elemento.
+    * @param description Descripción larga del elemento.
+    * @param href URL que se invocará al hacer clic encima del elemento.
+    * @param thumbSrc URL de la imagen miniatura que acompaña el elemento.
+    * @param width Ancho (en píxels).
+    * @param height Alto (en píxels).
+    * @param author Texto que describe la autoría del elemento.
+    * @param date Fecha que acompaña cada elemento (publicación, modificación, etc).
     */
    public ListViewItem(String caption, String description, String href, String thumbSrc, Integer width, Integer height, String author, Date date)
    {
@@ -85,10 +92,11 @@ public class ListViewItem
       this.date = date;
    }
 
+
    //==============================================
    // Properties
    //==============================================
-   
+
    public String getCaption()
    {
       return caption;
@@ -168,11 +176,12 @@ public class ListViewItem
    {
       this.date = date;
    }
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Convierte la instancia en una cadena en formato XHTML a partir de la estructura de la plantilla.
     */
@@ -180,7 +189,7 @@ public class ListViewItem
    {
       String xhtml;
       SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-      
+
       xhtml = tc.getElement(CPART_ITEM);
       xhtml = Control.replaceTag(xhtml, TAG_CAPTION, this.caption);
       xhtml = Control.replaceTag(xhtml, TAG_DESCRIPTION, this.description);
@@ -190,14 +199,15 @@ public class ListViewItem
       xhtml = Control.replaceTag(xhtml, TAG_HEIGHT, this.height.toString());
       xhtml = Control.replaceTag(xhtml, TAG_DATE, sdf.format(this.date));
       xhtml = Control.replaceTag(xhtml, TAG_AUTHOR, this.author);
-      
+
       return xhtml;
    }
-   
+
+
    //==============================================
    // Private members
    //==============================================
-   
+
    /**
     * Inicializa la instancia.
     */

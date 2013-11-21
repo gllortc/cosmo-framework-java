@@ -2,26 +2,49 @@ package com.cosmo.ui.controls;
 
 import com.cosmo.ui.templates.TemplateControl;
 
+/**
+ * Representa una acción de fila para el {@link GridControl}.
+ * 
+ * @author Gerard Llort
+ *
+ */
 public class GridRowAction 
 {
    public static final String TOKEN_ROW_ID = "[@ID]";
 
    private static final String CPART_ROW_ACTION_ITEM = "grid-row-action-item";
-   
+
    private static final String TAG_HREF = "IHREF";
    private static final String TAG_ICON = "ICON";
    private static final String TAG_TITLE = "FTITLE";
-   
+
    private String caption;
    private String href;
    private String icon;
 
+
+   //==============================================
+   // Contructors
+   //==============================================
+
+   /**
+    * Contructor de la clase {@link GridRowAction}.
+    * 
+    * @param caption Texto que acompaña a la acción.
+    * @param href URL que se invocará al ejecutar la acción.
+    * @param icon URL del icono que representará la acción.
+    */
    public GridRowAction(String caption, String href, String icon)
    {
       this.caption = caption;
       this.href = href;
       this.icon = icon;
    }
+
+
+   //==============================================
+   // Properties
+   //==============================================
 
    public String getCaption()
    {
@@ -52,7 +75,12 @@ public class GridRowAction
    {
       this.icon = icon;
    }
-   
+
+
+   //==============================================
+   // Methods
+   //==============================================
+
    /**
     * Renderiza el elemento y lo convierte a una cadena en formato XHTML.
     * 
@@ -64,13 +92,13 @@ public class GridRowAction
    public String render(TemplateControl tc, String rowId)
    {
       String xhtml;
-      
+
       xhtml = tc.getElement(CPART_ROW_ACTION_ITEM);
       xhtml = Control.replaceTag(xhtml, TAG_HREF, this.getHref());
       xhtml = Control.replaceTag(xhtml, TAG_TITLE, this.getCaption());
       xhtml = Control.replaceTag(xhtml, TAG_ICON, this.getIcon());
       xhtml = xhtml.replace(GridRowAction.TOKEN_ROW_ID, rowId);
-      
+
       return xhtml;
    }
 }

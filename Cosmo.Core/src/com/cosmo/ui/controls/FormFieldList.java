@@ -21,11 +21,12 @@ public class FormFieldList extends FormField
    private String description;
    private ListType listType;
    private List list;
-   
+
+
    //==============================================
    // Enumerations
    //==============================================
-   
+
    /**
     * Enumera los tipos de lista admitidos por el control <em>FormFieldList</em>.
     */
@@ -38,11 +39,12 @@ public class FormFieldList extends FormField
       /** Conjunto de controles <em>radio buttons</em>. */
       RadioButtons
    }
-   
+
+
    //==============================================
    // Contructors
    //==============================================
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -58,7 +60,7 @@ public class FormFieldList extends FormField
       this.listType = ListType.ComboBox;
       this.list = new StaticList();
    }
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -76,10 +78,11 @@ public class FormFieldList extends FormField
       this.list = list;
    }
 
+
    //==============================================
    // Properties
    //==============================================
-   
+
    @Override
    public String getName() 
    {
@@ -121,7 +124,7 @@ public class FormFieldList extends FormField
    {
       this.description = description;
    }
-   
+
    public ListType getListType() 
    {
       return listType;
@@ -136,8 +139,8 @@ public class FormFieldList extends FormField
    {
       this.list = list;
    }
-   
-   
+
+
    //==============================================
    // Methods
    //==============================================
@@ -155,7 +158,7 @@ public class FormFieldList extends FormField
       {
          // Obtiene los elementos del menú
          ArrayList<ListItem> items = list.getListItems(workspace);
-         
+
          switch (this.listType)
          {
             case ListBox:
@@ -170,12 +173,12 @@ public class FormFieldList extends FormField
                   {
                      selected = (item.getValue().equals(this.getValue()));
                   }
-                  
+
                   sb.append("  <option value=\"" + item.getValue() + "\"" + (selected ? " selected=\"selected\"" : "") + ">" + item.getCaption() + "</option>\n");
                }
                sb.append("</select>\n");
                break;
-               
+
             case RadioButtons:
                for (ListItem item : items)
                {
@@ -185,7 +188,7 @@ public class FormFieldList extends FormField
                   sb.append("</label>\n");
                }
                break;
-         
+
             default:
                sb.append("<select name=\"" + this.getName() + "\" id=\"" + this.getName() + "\">\n");
                for (ListItem item : items)
@@ -198,21 +201,21 @@ public class FormFieldList extends FormField
                   {
                      selected = (item.getValue().equals(this.getValue()));
                   }
-                  
+
                   sb.append("   <option value=\"" + item.getValue() + "\"" + (selected ? " selected=\"selected\"" : "") + ">" + item.getCaption() + "</option>\n");
                }
                sb.append("</select>\n");
                break;
          }
-      } 
+      }
       catch (Exception e) 
       {
          e.printStackTrace();
       }
-      
+
       return sb.toString();
    }
-   
+
    /**
     * Convierte la instancia en una cadena de texto.
     */
@@ -220,14 +223,14 @@ public class FormFieldList extends FormField
    public String toString()
    {
       StringBuilder sb = new StringBuilder();
-      
+
       sb.append("    <div>").append("\n");
       sb.append("      <label for=\"").append(this.name).append("\">"); 
       sb.append(this.label).append(" ");
       // sb.append("<input type=\"").append(password ? "password" : "text").append("\" id=\"").append(this.name).append("\" name=\"").append(this.name).append("\" value=\"").append(this.value).append("\" />");
       sb.append("</label>").append("\n");
       sb.append("    </div>");
-      
+
       return sb.toString();
    }
 }

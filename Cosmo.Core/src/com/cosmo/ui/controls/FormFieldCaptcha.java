@@ -11,17 +11,18 @@ import com.cosmo.Workspace;
 public class FormFieldCaptcha extends FormField
 {
    public static final String CAPTCHA_SERVLET = "CosmoCaptcha";
-   
+
    private String name;
    private String value;
    private String label;
    private String description;
    private int maxLength;
-   
+
+
    //==============================================
    // Contructors
    //==============================================
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -36,7 +37,7 @@ public class FormFieldCaptcha extends FormField
       this.value = "";
       this.maxLength = -1;
    }
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -53,10 +54,11 @@ public class FormFieldCaptcha extends FormField
       this.maxLength = maxLength;
    }
 
+
    //==============================================
    // Properties
    //==============================================
-   
+
    @Override
    public String getName() 
    {
@@ -108,11 +110,12 @@ public class FormFieldCaptcha extends FormField
    {
       this.maxLength = maxLength;
    }
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Convierte el campo en un TAG XHTML.
     */
@@ -126,7 +129,7 @@ public class FormFieldCaptcha extends FormField
       
       return sb.toString();
    }
-   
+
    /**
     * Convierte la instancia en una cadena de texto.
     */

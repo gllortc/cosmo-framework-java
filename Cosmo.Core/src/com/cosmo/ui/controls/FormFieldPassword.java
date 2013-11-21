@@ -13,11 +13,12 @@ public class FormFieldPassword extends FormField
    private String value;
    private String label;
    private int maxLength;
-   
+
+
    //==============================================
    // Contructors
    //==============================================
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -31,7 +32,7 @@ public class FormFieldPassword extends FormField
       this.value = "";
       this.maxLength = -1;
    }
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -47,10 +48,11 @@ public class FormFieldPassword extends FormField
       this.maxLength = maxLength;
    }
 
+
    //==============================================
    // Properties
    //==============================================
-   
+
    @Override
    public String getName() 
    {
@@ -91,29 +93,30 @@ public class FormFieldPassword extends FormField
    {
       this.maxLength = maxLength;
    }
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    @Override
    public String render(Workspace workspace)
    {
       return toString();
    }
-   
+
    @Override
    public String toString()
    {
       StringBuilder sb = new StringBuilder();
-      
+
       sb.append("    <div>").append("\n");
       sb.append("      <label for=\"").append(this.name).append("\">");
       sb.append(this.label).append(" ");
       sb.append("<input type=\"password\" id=\"").append(this.name).append("\" name=\"").append(this.name).append("\" value=\"").append(this.value).append("\" />");
       sb.append("</label>").append("\n");
       sb.append("    </div>");
-      
+
       return sb.toString();
    }
 }

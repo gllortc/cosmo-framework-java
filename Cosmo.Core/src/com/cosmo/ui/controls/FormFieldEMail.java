@@ -15,11 +15,12 @@ public class FormFieldEMail extends FormField
    private String label;
    private String description;
    private int maxLength;
-   
+
+
    //==============================================
    // Contructors
    //==============================================
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -35,7 +36,7 @@ public class FormFieldEMail extends FormField
       this.value = "";
       this.maxLength = -1;
    }
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -51,7 +52,7 @@ public class FormFieldEMail extends FormField
       this.maxLength = -1;
       this.required = required;
    }
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -68,7 +69,7 @@ public class FormFieldEMail extends FormField
       this.maxLength = maxLength;
       this.required = false;
    }
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -87,10 +88,11 @@ public class FormFieldEMail extends FormField
       this.required = required;
    }
 
+
    //==============================================
    // Properties
    //==============================================
-   
+
    @Override
    public String getName() 
    {
@@ -152,11 +154,12 @@ public class FormFieldEMail extends FormField
    {
       this.required = required;
    }
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Convierte el campo en un TAG XHTML.
     */
@@ -174,7 +177,7 @@ public class FormFieldEMail extends FormField
 
       return sb.toString();
    }
-   
+
    /**
     * Convierte la instancia en una cadena de texto.
     */
@@ -182,14 +185,14 @@ public class FormFieldEMail extends FormField
    public String toString()
    {
       StringBuilder sb = new StringBuilder();
-      
+
       sb.append("    <div>").append("\n");
       sb.append("      <label for=\"").append(this.name).append("\">"); 
       sb.append(this.label).append(" ");
       sb.append("<input type=\"email\" id=\"").append(this.name).append("\" name=\"").append(this.name).append("\" value=\"").append(this.value).append("\" />");
       sb.append("</label>").append("\n");
       sb.append("    </div>");
-      
+
       return sb.toString();
    }
 }

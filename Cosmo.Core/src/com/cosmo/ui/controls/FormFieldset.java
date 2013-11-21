@@ -17,10 +17,11 @@ public class FormFieldset extends FormField
    // private FormControl control;
    private boolean haveCaptcha;
 
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
     * Constructor de la clase.
     * 
@@ -34,7 +35,7 @@ public class FormFieldset extends FormField
       // this.control = control;
       this.haveCaptcha = false;
    }
-   
+
    /**
     * Constructor de la clase.
     * 
@@ -50,6 +51,7 @@ public class FormFieldset extends FormField
       // this.control = control;
       this.haveCaptcha = false;
    }
+
 
    //==============================================
    // Properties
@@ -90,7 +92,7 @@ public class FormFieldset extends FormField
    {
       return this.haveCaptcha;
    }
-   
+
    /**
     * Devuelve un iterador que permite recorrer los campos de un grupo.
     */
@@ -98,11 +100,12 @@ public class FormFieldset extends FormField
    {
       return this.fields.iterator();
    }
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Establece el valor del campo.
     */
@@ -112,7 +115,7 @@ public class FormFieldset extends FormField
       // No aplica en este tipo de control
       // Se omite la llamada a este método
    }
-   
+
    /**
     * Agrega un nuevo campo al formulario.<br />
     * NOTA: Un grupo (y formulario) sólo puede contener un control {@link FormFieldCaptcha}.
@@ -137,7 +140,7 @@ public class FormFieldset extends FormField
 
       fields.add(field);
    }
-   
+
    /**
     * Convierte la instancia en una cadena XHTML que representa el elemento en una página web.
     */
@@ -146,12 +149,12 @@ public class FormFieldset extends FormField
    {
       return toString();
    }
-   
+
    @Override
    public String toString()
    {
       StringBuilder str = new StringBuilder();
-      
+
       str.append("    <fieldset name=\"").append(this.name).append("\">").append("\n");
       str.append("    <legend>").append(this.title).append("</legend>").append("\n");
       for (FormField field : this.fields)
@@ -169,7 +172,7 @@ public class FormFieldset extends FormField
          }
       }
       str.append("    </fieldset>");
-      
+
       return str.toString();
    }
 }

@@ -17,11 +17,11 @@ public abstract class Control
    private String uuid;
    private Workspace workspace;
 
-   
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
     * Constructor de la clase.<br />
     * Usar este constructor si el control es estático y no modifica sus valores nunca.
@@ -31,7 +31,7 @@ public abstract class Control
       this.id = this.uuid = UUID.randomUUID().toString();
       this.workspace = workspace;
    }
-   
+
    /**
     * Constructor de la clase.<br />
     * Usar este constructor si el control es dinámico y puede alterar sus valores (por ejemplo, los valores de un GRID).
@@ -45,17 +45,17 @@ public abstract class Control
       this.uuid = UUID.randomUUID().toString();
       this.workspace = workspace;
    }
-   
-   
+
+
    //==============================================
    // Properties
    //==============================================
-   
+
    /**
     * Devuelve un identificador único del tipo de control.
     */
    public abstract String getControlTypeId();
-   
+
    /**
     * Devuelve un identificador único de control.
     * Cada control de una página tendrá un ID único.
@@ -72,7 +72,7 @@ public abstract class Control
    {
       this.id = id;
    }
-   
+
    /**
     * Devuelve un UUID único para el control.
     */
@@ -80,7 +80,7 @@ public abstract class Control
    {
       return this.uuid;
    }
-   
+
    /**
     * Devuelve la instancia de {@link Workspace} usada para generar el control.
     */
@@ -88,8 +88,8 @@ public abstract class Control
    {
       return this.workspace;
    }
-   
-   
+
+
    //==============================================
    // Methods
    //==============================================
@@ -100,7 +100,7 @@ public abstract class Control
     * @return Devuelve una cadena en formato XHTML que representa el control. 
     */
    public abstract String render();
-   
+
    /**
     * Genera una clave para almacenar/recuperar los datos de un control en caché de sessión de usuario.
     * 
@@ -110,12 +110,12 @@ public abstract class Control
    {
       return Cosmo.KEY_CACHE_SESSION_CTRLDATA + this.uuid;
    }
-   
-   
+
+
    //==============================================
    // Static members
    //==============================================
-   
+
    /**
     * Reemplaza un TAG de contenido.
     * Soporta TAGs condicionales.
@@ -130,54 +130,54 @@ public abstract class Control
       String cTag = getTag(tag);
       String cTagBegin = getConditionalTagBegin(tag);
       String cTagEnd = getConditionalTagEnd(tag);
-      
+
       idx = sb.indexOf(cTagBegin);
-      
+
       // Evita contenido nulo
       if (replaceWith == null)
       {
          replaceWith = "";
       }
-      
+
       // Existe condicional y hay contenido
       if (idx >= 0 && !StringUtils.isNullOrEmpty(replaceWith))
       {
          sb.delete(idx, idx + cTagBegin.length());
-         
+
          idx = sb.indexOf(cTagEnd);
          if (idx >= 0)
          {
             sb.delete(idx, idx + cTagEnd.length());
          }
-         
+
          idx = sb.indexOf(cTag);
          {
             sb.replace(idx, idx + cTag.length(), replaceWith);
          }
-         
+
          return;
       }
-      
+
       // Existe condicional y NO hay contenido
       if (idx >= 0 && StringUtils.isNullOrEmpty(replaceWith))
       {
          sb.delete(idx, idx + cTagBegin.length());
-         
+
          idx = sb.indexOf(cTagEnd);
          if (idx >= 0)
          {
             sb.delete(idx, idx + cTagEnd.length());
          }
-         
+
          idx = sb.indexOf(cTagEnd);
          if (idx >= 0)
          {
             sb.delete(idx, idx + cTag.length());
          }
-         
+
          return;
       }
-      
+
       // No existe condicional (el contenido se reemplaza tanto si lo hay como si no)
       idx = sb.indexOf(cTag);
       if (idx >= 0)
@@ -185,7 +185,7 @@ public abstract class Control
          sb.replace(idx, idx + cTag.length(), replaceWith);
       }
    }
-   
+
    /**
     * Reemplaza un TAG de contenido.
     * Soporta TAGs condicionales.
@@ -213,9 +213,9 @@ public abstract class Control
       {
          replaceWith = "";
       }
-      
+
       StringBuilder sb = new StringBuilder(xhtml);
-      
+
       // Existe condicional y hay contenido
       if (xhtml.contains(cTagBegin) && !StringUtils.isNullOrEmpty(replaceWith))
       {
@@ -239,26 +239,25 @@ public abstract class Control
 
          return sb.toString();
       }
-      
+
       // Existe condicional y NO hay contenido
       if (xhtml.contains(cTagBegin) && StringUtils.isNullOrEmpty(replaceWith))
       {
          sb.delete(sb.indexOf(cTagBegin), sb.indexOf(cTagEnd) + cTagEnd.length());
          return sb.toString();
       }
-      
+
       // No existe condicional (el contenido se reemplaza tanto si lo hay como si no)
       if (xhtml.contains(cTag))
       {
          xhtml = xhtml.replace(cTag, replaceWith);
-         
          return xhtml;
       }
-      
+
       return xhtml;
    }
-   
-   
+
+
    //==============================================
    // Private members
    //==============================================
@@ -277,7 +276,7 @@ public abstract class Control
    {
       return "[@" + name.trim().toUpperCase() + "]";
    }
-   
+
    /**
     * Genera un TAG condicional de inicio (formato {@code [#IF TAG]}).
     * <br /><br />
@@ -292,7 +291,7 @@ public abstract class Control
    {
       return "[#IF " + name.trim().toUpperCase() + "]";
    }
-   
+
    /**
     * Genera un TAG condicional de cierre (formato {@code [#ENDIF TAG]}).
     * <br /><br />

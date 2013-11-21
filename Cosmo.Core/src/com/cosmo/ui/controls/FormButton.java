@@ -13,7 +13,7 @@ public class FormButton  extends FormField
    private String label;
    private String href = "";
    private ButtonType type;
-   
+
    /**
     * Enumera los distintos tipos de botón de formulario soportados.
     */
@@ -28,11 +28,12 @@ public class FormButton  extends FormField
       /** NO SOPORTADO: Ejecuta una acción JavaScript */ 
       JsAction
    }
-   
+
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
     * Constructor de la clase.
     * 
@@ -46,7 +47,7 @@ public class FormButton  extends FormField
       this.href = "";
       this.type = type;
    }
-   
+
    /**
     * Constructor de la clase.
     * 
@@ -61,7 +62,8 @@ public class FormButton  extends FormField
       this.href = href;
       this.type = ButtonType.Link;
    }
-   
+
+
    //==============================================
    // Properties
    //==============================================
@@ -76,7 +78,7 @@ public class FormButton  extends FormField
    {
       this.name = name;
    }
-   
+
    public String getLabel() 
    {
       return label;
@@ -96,7 +98,7 @@ public class FormButton  extends FormField
    {
       this.type = type;
    }
-   
+
    public String getHref()
    {
       return href;
@@ -106,8 +108,8 @@ public class FormButton  extends FormField
    {
       this.href = href;
    }
-   
-   
+
+
    //==============================================
    // Methods
    //==============================================
@@ -121,7 +123,7 @@ public class FormButton  extends FormField
       // No aplica en este tipo de control
       // Se omite la llamada a este método
    }
-   
+
    /**
     * Convierte la instancia en una cadena XHTML que representa el elemento en una página web.
     */
@@ -130,13 +132,13 @@ public class FormButton  extends FormField
    {
       return toString();
    }
-   
+
    @Override
    public String toString()
    {
       String btnType = "";
       StringBuilder sb = new StringBuilder();
-      
+
       if (this.type == ButtonType.JsAction || this.type == ButtonType.Submit || this.type == ButtonType.Reset)
       {      
          switch (this.type)
@@ -145,14 +147,14 @@ public class FormButton  extends FormField
             case Reset:    btnType = "reset";   break;
             default:       btnType = "button";  break;
          }
-         
+
          sb.append("<input type=\"").append(btnType).append("\" id=\"").append(this.name).append("\" name=\"").append(this.name).append("\" value=\"").append(this.label).append("\" />");
       }
       else
       {
          sb.append("<a class=\"button\" href=\"").append(this.href).append("\">").append(this.label).append("</a>");
       }
-      
+
       return sb.toString();
    }
 }

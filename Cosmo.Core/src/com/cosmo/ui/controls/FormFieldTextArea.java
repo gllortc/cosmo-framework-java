@@ -15,11 +15,12 @@ public class FormFieldTextArea extends FormField
    private String description;
    private int maxLength;
    private boolean password;
-   
+
+
    //==============================================
    // Contructors
    //==============================================
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -35,7 +36,7 @@ public class FormFieldTextArea extends FormField
       this.maxLength = -1;
       this.password = false;
    }
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -51,7 +52,7 @@ public class FormFieldTextArea extends FormField
       this.maxLength = -1;
       this.password = isPassword; 
    }
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -68,7 +69,7 @@ public class FormFieldTextArea extends FormField
       this.maxLength = maxLength;
       this.password = false;
    }
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -87,10 +88,11 @@ public class FormFieldTextArea extends FormField
       this.password = isPassword;
    }
 
+
    //==============================================
    // Properties
    //==============================================
-   
+
    @Override
    public String getName() 
    {
@@ -152,11 +154,12 @@ public class FormFieldTextArea extends FormField
    {
       this.password = password;
    }
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Convierte el campo en un TAG XHTML.
     */
@@ -173,7 +176,7 @@ public class FormFieldTextArea extends FormField
 
       return sb.toString();
    }
-   
+
    /**
     * Convierte la instancia en una cadena de texto.
     */
@@ -181,14 +184,14 @@ public class FormFieldTextArea extends FormField
    public String toString()
    {
       StringBuilder sb = new StringBuilder();
-      
+
       sb.append("    <div>").append("\n");
       sb.append("      <label for=\"").append(this.name).append("\">"); 
       sb.append(this.label).append(" ");
       sb.append("<input type=\"").append(password ? "password" : "text").append("\" id=\"").append(this.name).append("\" name=\"").append(this.name).append("\" value=\"").append(this.value).append("\" />");
       sb.append("</label>").append("\n");
       sb.append("    </div>");
-      
+
       return sb.toString();
    }
 }

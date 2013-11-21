@@ -10,19 +10,20 @@ import com.cosmo.ui.templates.TemplateControl;
 public class ButtonBarItem 
 {
    private static final String CPART_ITEM = "buttonbar-item";
-         
+
    private static final String TAG_TITLE = "FTITLE";
    private static final String TAG_HREF = "HREF";
    private static final String TAG_ICON = "ICON";
-   
+
    private String title;
    private String href;
    private String icon;
-   
+
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
     * Constructor de la clase.
     */
@@ -32,7 +33,7 @@ public class ButtonBarItem
       this.href = "";
       this.icon = "";
    }
-   
+
    /**
     * Constructor de la clase.
     * 
@@ -45,7 +46,7 @@ public class ButtonBarItem
       this.href = href;
       this.icon = "";
    }
-   
+
    /**
     * Constructor de la clase.
     * 
@@ -60,10 +61,11 @@ public class ButtonBarItem
       this.icon = icon;
    }
 
+
    //==============================================
    // Properties
    //==============================================
-   
+
    /**
     * Devuelve el título del botón.
     */
@@ -111,18 +113,19 @@ public class ButtonBarItem
    {
       this.icon = icon;
    }
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Convierte la instancia en una cadena en formato XHTML a partir de la estructura de la plantilla.
     */
    public String render(TemplateControl tc)
    {
       String xhtml;
-      
+
       xhtml = tc.getElement(CPART_ITEM);
       xhtml = Control.replaceTag(xhtml, TAG_ICON, this.icon);
       xhtml = Control.replaceTag(xhtml, TAG_TITLE, this.title);

@@ -20,10 +20,11 @@ public class FormFieldDate extends FormField
    private Date min;
    private boolean required;
 
+
    //==============================================
    // Contructors
    //==============================================
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -40,7 +41,7 @@ public class FormFieldDate extends FormField
       this.max = null;
       this.required = false;
    }
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -59,10 +60,11 @@ public class FormFieldDate extends FormField
       this.required = required;
    }
 
+
    //==============================================
    // Properties
    //==============================================
-   
+
    @Override
    public String getName() 
    {
@@ -134,7 +136,8 @@ public class FormFieldDate extends FormField
    {
       this.required = required;
    }   
-   
+
+
    //==============================================
    // Methods
    //==============================================
@@ -159,7 +162,7 @@ public class FormFieldDate extends FormField
 
       return sb.toString();
    }
-   
+
    /**
     * Convierte la instancia en una cadena de texto.
     */
@@ -167,14 +170,14 @@ public class FormFieldDate extends FormField
    public String toString()
    {
       StringBuilder sb = new StringBuilder();
-      
+
       sb.append("    <div>").append("\n");
       sb.append("      <label for=\"").append(this.name).append("\">"); 
       sb.append(this.label).append(" ");
       sb.append("<input type=\"").append("number").append("\" id=\"").append(this.name).append("\" name=\"").append(this.name).append("\" value=\"").append(this.value).append("\" />");
       sb.append("</label>").append("\n");
       sb.append("    </div>");
-      
+
       return sb.toString();
    }
 }

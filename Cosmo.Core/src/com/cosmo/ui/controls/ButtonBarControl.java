@@ -17,13 +17,14 @@ public class ButtonBarControl extends Control
 
    private static final String CPART_HEADER = "buttonbar-header";
    private static final String CPART_FOOTER = "buttonbar-footer";
-   
+
    private ArrayList<ButtonBarItem> buttons;
-   
+
+
    //==============================================
    // Contructors
    //==============================================
-   
+
    /**
     * Contructor de la clase.
     */
@@ -32,7 +33,7 @@ public class ButtonBarControl extends Control
       super(workspace);
       initialize();
    }
-   
+
    /**
     * Contructor de la clase.
     */
@@ -41,11 +42,12 @@ public class ButtonBarControl extends Control
       super(workspace, id);
       initialize();
    }
-   
+
+
    //==============================================
    // Properties
    //==============================================
-   
+
    /**
     * Devuelve un identificador único del tipo de control.
     */
@@ -54,7 +56,8 @@ public class ButtonBarControl extends Control
    {
       return ButtonBarControl.CONTROL_ID;
    }
-   
+
+
    //==============================================
    // Methods
    //==============================================
@@ -68,7 +71,7 @@ public class ButtonBarControl extends Control
    {
       this.buttons.add(button);
    }
-   
+
    /**
     * Elimina todos los botones de la barra.
     */
@@ -76,7 +79,7 @@ public class ButtonBarControl extends Control
    {
       this.buttons.clear();
    }
-   
+
    /**
     * Renderiza el control y genera el código XHTML de representación.
     *
@@ -87,7 +90,7 @@ public class ButtonBarControl extends Control
    {
       TemplateControl ctrl;
       StringBuilder str = new StringBuilder();
-      
+
       // Si no tiene elementos, no representa el control (deja una traza)
       if (this.buttons.isEmpty())
       {
@@ -99,22 +102,23 @@ public class ButtonBarControl extends Control
 
       // Genera la cabecera de la barra de navegación
       str.append(ctrl.getElement(CPART_HEADER));
-      
+
       for (ButtonBarItem item : this.buttons)
       {
          str.append(item.render(ctrl));
       }
-      
+
       // Genera el pie de la barra de navegación
       str.append(ctrl.getElement(CPART_FOOTER));
-      
+
       return str.toString();
    }
-   
+
+
    //==============================================
    // Private members
    //==============================================
-   
+
    /**
     * Inicializa la instancia.
     */

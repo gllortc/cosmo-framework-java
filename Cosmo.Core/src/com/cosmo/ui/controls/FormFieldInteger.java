@@ -17,10 +17,11 @@ public class FormFieldInteger extends FormField
    private Integer min;
    private boolean required;
 
+
    //==============================================
    // Contructors
    //==============================================
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -37,7 +38,7 @@ public class FormFieldInteger extends FormField
       this.max = null;
       this.required = false;
    }
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -56,10 +57,11 @@ public class FormFieldInteger extends FormField
       this.required = required;
    }
 
+
    //==============================================
    // Properties
    //==============================================
-   
+
    @Override
    public String getName() 
    {
@@ -130,8 +132,9 @@ public class FormFieldInteger extends FormField
    public void setRequired(boolean required) 
    {
       this.required = required;
-   }   
-   
+   }
+
+
    //==============================================
    // Methods
    //==============================================
@@ -143,7 +146,7 @@ public class FormFieldInteger extends FormField
    public String render(Workspace workspace)
    {
       StringBuilder sb = new StringBuilder();
-      
+
       sb.append("<input type=\"number\" ").
          append("id=\"").append(this.name).append("\" ").
          append("name=\"").append(this.name).append("\" ").
@@ -157,7 +160,7 @@ public class FormFieldInteger extends FormField
 
       return sb.toString();
    }
-   
+
    /**
     * Convierte la instancia en una cadena de texto.
     */
@@ -165,14 +168,14 @@ public class FormFieldInteger extends FormField
    public String toString()
    {
       StringBuilder sb = new StringBuilder();
-      
+
       sb.append("    <div>").append("\n");
       sb.append("      <label for=\"").append(this.name).append("\">"); 
       sb.append(this.label).append(" ");
       sb.append("<input type=\"").append("number").append("\" id=\"").append(this.name).append("\" name=\"").append(this.name).append("\" value=\"").append(this.value).append("\" />");
       sb.append("</label>").append("\n");
       sb.append("    </div>");
-      
+
       return sb.toString();
    }
 }

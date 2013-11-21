@@ -14,7 +14,7 @@ public class FieldNotFoundException extends Exception
    {
       super();
    }
-   
+
    public FieldNotFoundException(String msg)
    {
       super(msg);

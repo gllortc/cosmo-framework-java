@@ -16,14 +16,15 @@ public class BreadcrumbsControl extends Control
 
    private static final String CPART_HEADER = "navbar-top-header";
    private static final String CPART_FOOTER = "navbar-top-footer";
-   
+
    // Variables privadas
    private ArrayList<BreadcrumbsItem> items;
-   
+
+
    //==============================================
    // Contructors
    //==============================================
-   
+
    /**
     * Contructor de la clase.
     */
@@ -32,7 +33,7 @@ public class BreadcrumbsControl extends Control
       super(workspace);
       initialize();
    }
-   
+
    /**
     * Contructor de la clase.
     */
@@ -42,10 +43,11 @@ public class BreadcrumbsControl extends Control
       initialize();
    }
 
+
    //==============================================
    // Properties
    //==============================================
-   
+
    /**
     * Devuelve un identificador único del tipo de control.
     */
@@ -55,10 +57,11 @@ public class BreadcrumbsControl extends Control
       return BreadcrumbsControl.CONTROL_ID;
    }
 
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Elimina todos los elementos de la barra de bavegación.
     */
@@ -66,7 +69,7 @@ public class BreadcrumbsControl extends Control
    {
       this.items.clear();
    }
-   
+
    /**
     * Agrega un nuevo elemento en la barra de navegación.
     * 
@@ -76,7 +79,7 @@ public class BreadcrumbsControl extends Control
    {
       this.items.add(item);
    }
-   
+
    /**
     * Renderiza el control y genera el código XHTML de representación.
     *
@@ -87,34 +90,35 @@ public class BreadcrumbsControl extends Control
    {
       TemplateControl ctrl;
       StringBuilder str = new StringBuilder();
-      
+
       // Si no tiene elementos, no representa el control
       if (items.isEmpty())
       {
          return "<-- BradcrumbsControl placeholder (void) -->\n";
       }
-      
+
       // Obtiene la plantilla y la parte del control
       ctrl = getWorkspace().getTemplate().getControl(BreadcrumbsControl.CONTROL_ID);
 
       // Genera la cabecera de la barra de navegación
       str.append(ctrl.getElement(CPART_HEADER));
-      
+
       for (BreadcrumbsItem item : this.items)
       {
          str.append(item.render(ctrl));
       }
-      
+
       // Genera el pie de la barra de navegación
       str.append(ctrl.getElement(CPART_FOOTER));
-      
+
       return str.toString();
    }
-   
+
+
    //==============================================
    // Private members
    //==============================================
-   
+
    /**
     * Inicializa la instancia.
     */

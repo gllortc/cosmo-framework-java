@@ -31,14 +31,14 @@ public class GridControl extends Control
    private static final String CPART_ROWTITLE_CELL = "grid-rowtitle-cell";
    private static final String CPART_ROW_BODY = "grid-row-body";
    private static final String CPART_ROW_CELL = "grid-row-cell";
-         
+
    private static final String TAG_TITLE = "FTITLE";
    private static final String TAG_DESCRIPTION = "FDESC";
    private static final String TAG_TITLE_ROW = "TITLEROW";
    private static final String TAG_DATA_ROWS = "DATAROWS";
    private static final String TAG_CELLS = "CELLS";
    private static final String TAG_VALUE = "VALUE";
-   
+
    private String title;
    private String description;
    private boolean firstRowTitles;
@@ -46,11 +46,12 @@ public class GridControl extends Control
    private ArrayList<GridRowAction> rowActions;
    private ArrayList<Integer> rowIds;
    private GridData gridData;
-   
+
+
    //==============================================
    // Contructors
    //==============================================
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -60,7 +61,7 @@ public class GridControl extends Control
    public GridControl(Workspace workspace, String id)
    {
       super(workspace, id);
-      
+
       this.firstRowTitles = false;
       this.title = "";
       this.description = "";
@@ -68,7 +69,8 @@ public class GridControl extends Control
       this.rowActions = new ArrayList<GridRowAction>();
       this.gridData = new GridData();
    }
-   
+
+
    //==============================================
    // Properties
    //==============================================
@@ -129,7 +131,7 @@ public class GridControl extends Control
    {
       this.firstRowTitles = firstRowTitles;
    }
-   
+
    /**
     * Devuelve el título de la columna de acciones.
     */
@@ -145,7 +147,7 @@ public class GridControl extends Control
    {
       this.rowActionsCaption = rowActionsCaption;
    }
-   
+
    /**
     * Devuelve la lista de índices de columnas que contienen los indicadores de clave primaria (base 0).
     */
@@ -161,8 +163,8 @@ public class GridControl extends Control
    {
       this.rowIds = rowIds;
    }
-   
-   
+
+
    //==============================================
    // Methods
    //==============================================
@@ -177,7 +179,7 @@ public class GridControl extends Control
    {
       this.gridData = data;
    }
-   
+
    /**
     * Establece los datos del grid a partir de una consulta a una tabla de datos ORM.
     * 
@@ -195,18 +197,18 @@ public class GridControl extends Control
 
       // Limpia los IDs
       this.rowIds = new ArrayList<Integer>();
-      
+
       // Obtiene el ResultSet
       OrmFactory ormp = new OrmFactory(dataSourceId, getWorkspace());
       rs = ormp.select(ormClass, showAllColumns);
-      
+
       // Establece los datos en el grid
       this.gridData.setCells(rs, true);
-      
+
       // Establece los índices de las columnas que contienen las claves principales
       setGridMetaData(ormClass, showAllColumns);
    }
-   
+
    /**
     * Obtiene los datos de la tabla en función del usuario/caché.
     * 
@@ -218,7 +220,7 @@ public class GridControl extends Control
    {
       return this.gridData;
    }
-   
+
    /**
     * Agrega una acción a la columna de acciones de fila.
     * 
@@ -228,7 +230,7 @@ public class GridControl extends Control
    {
       this.rowActions.add(action);
    }
-   
+
    /**
     * Elimina la columna de acciones de fila.
     */
@@ -236,7 +238,7 @@ public class GridControl extends Control
    {
       this.rowActions.clear();
    }
-   
+
    /**
     * Renderiza el control y genera el código XHTML de representación.
     *
@@ -250,7 +252,7 @@ public class GridControl extends Control
       String actions;
       String xrowtitle, xrow, xrowdata, xcell, xhead;
       TemplateControl ctrl;
-      
+
       // Obtiene la plantilla y la parte del control
       ctrl = getWorkspace().getTemplate().getControl(CONTROL_ID);
 
@@ -289,10 +291,10 @@ public class GridControl extends Control
          }
          xhead = ctrl.getElement(CPART_ROW_BODY);
          xhead = Control.replaceTag(xhead, TAG_CELLS, xrowdata);
-         
+
          xrow += xhead;
       }
-      
+
       // Genera la cabecera del grid
       xitem = ctrl.getElement(CPART_TITLE);
       xitem = Control.replaceTag(xitem, TAG_TITLE, this.getTitle());
@@ -304,11 +306,11 @@ public class GridControl extends Control
       xitem = Control.replaceTag(xitem, TAG_TITLE_ROW, xrowtitle);
       xitem = Control.replaceTag(xitem, TAG_DATA_ROWS, xrow);
       xhtml += xitem;
-      
+
       return xhtml;
    }
-   
-   
+
+
    //==============================================
    // Methods
    //==============================================
@@ -322,15 +324,15 @@ public class GridControl extends Control
    {
       int idx = 0;
       CormObjectField cfg;
-      
+
       this.rowIds = new ArrayList<Integer>();
-      
+
       for (Method method : ormClass.getMethods())
       {
          if (method.isAnnotationPresent(CormObjectField.class))
          {
             cfg = method.getAnnotation(CormObjectField.class);
-            
+
             if (showAllColumns || (!showAllColumns && cfg.showInObjectListGrid()))
             {
                cfg = method.getAnnotation(CormObjectField.class);
@@ -341,7 +343,7 @@ public class GridControl extends Control
          }
       }
    }
-   
+
    /**
     * Obtiene un ID compuesto por todos los valores de las columnas identioficador de fila.
     * <br /><br />

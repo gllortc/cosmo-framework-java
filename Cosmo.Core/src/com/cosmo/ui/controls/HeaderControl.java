@@ -11,37 +11,44 @@ import com.cosmo.ui.templates.TemplateControl;
 public class HeaderControl extends Control
 {
    private static final String CONTROL_ID = "CosmoUiCtrlHeader";
-   
+
    private String title;
    private String description;
    private String author;
 
+
    //==============================================
    // Contructors
    //==============================================
-   
+
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link HeaderControl}.
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     */
    public HeaderControl(Workspace workspace)
    {
       super(workspace);
       initialize();
    }
-   
+
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link HeaderControl}.
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
+    * @param id Una cadena que contiene el identificador único del control.
     */
    public HeaderControl(Workspace workspace, String id)
    {
       super(workspace, id);
       initialize();
    }
-   
+
+
    //==============================================
    // Properties
    //==============================================
-   
+
    /**
     * Devuelve un identificador único del tipo de control.
     */
@@ -98,19 +105,20 @@ public class HeaderControl extends Control
    {
       this.author = author;
    }
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    private static final String CPART_TITLE = "page-title";
    private static final String CPART_UTILITIES = "page-utilities";
-   
+
    private static final String TAG_TITLE = "TITLE";
    private static final String TAG_UTILITIES = "UTILITIES";
    private static final String TAG_DESCRIPTION = "DESCRIPTION";
    private static final String TAG_AUTHOR = "AUTHOR";
-   
+
    /**
     * Renderiza el control y genera el código XHTML de representación.
     *
@@ -122,10 +130,10 @@ public class HeaderControl extends Control
       String xhtml;
       String xitem;
       TemplateControl ctrl;
-      
+
       // Obtiene la plantilla y la parte del control
       ctrl = getWorkspace().getTemplate().getControl(HeaderControl.CONTROL_ID);
-      
+
       // Genera la cabecera del formulario
       xhtml = "";
       xitem = ctrl.getElement(CPART_TITLE);
@@ -134,7 +142,7 @@ public class HeaderControl extends Control
       xitem = Control.replaceTag(xitem, TAG_DESCRIPTION, this.getDescription());
       xitem = Control.replaceTag(xitem, TAG_UTILITIES, ctrl.getElement(CPART_UTILITIES));
       xhtml += xitem;
-      
+
       return xhtml;
    }
 
@@ -150,10 +158,10 @@ public class HeaderControl extends Control
          str.append("  <p>").append(this.description).append("</p>").append("\n");
       }
       str.append("</div>").append("\n");
-      
+
       return str.toString();
    }
-   
+
    private void initialize()
    {
       this.title = "";

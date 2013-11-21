@@ -17,20 +17,21 @@ import com.cosmo.ui.templates.TemplateControl;
 public class ErrorMessageControl extends Control
 {
    private static final String CONTROL_ID = "CosmoUiCtrlErrMsg";
-   
+
    private static final String CPART_BODY = "errmsg-body";
-   
+
    private static final String TAG_TITLE = "TITLE";
    private static final String TAG_ICON = "ICON";
    private static final String TAG_MESSAGE = "MSG";
    private static final String TAG_TRACE = "TRACE";
-   
+
    private Exception exception;
-   
+
+
    //==============================================
    // Constructor
    //==============================================
-   
+
    /**
     * Constructor de la clase.
     * 
@@ -43,7 +44,8 @@ public class ErrorMessageControl extends Control
       
       this.exception = exception;
    }
-   
+
+
    //==============================================
    // properties
    //==============================================
@@ -63,12 +65,12 @@ public class ErrorMessageControl extends Control
    {
       this.exception = exception;
    }
-   
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Renderiza el widget y genera el código XHTML de representación.
     *
@@ -82,7 +84,7 @@ public class ErrorMessageControl extends Control
       String title;
       String trace;
       TemplateControl ctrl;
-      
+
       // Determina el título y el icono a mostrar
       if (this.getException() instanceof NotAuthorizedException ||
           this.getException() instanceof AuthorizationException ||
@@ -113,7 +115,7 @@ public class ErrorMessageControl extends Control
       xhtml = Control.replaceTag(xhtml, TAG_ICON, icon);
       xhtml = Control.replaceTag(xhtml, TAG_MESSAGE, this.getException().getMessage());
       xhtml = Control.replaceTag(xhtml, TAG_TRACE, trace);
-      
+
       return xhtml;
    }
 }

@@ -10,19 +10,20 @@ import com.cosmo.ui.templates.TemplateControl;
 public class BreadcrumbsItem 
 {
    private static final String CPART_ITEM = "navbar-top-item";
-         
+
    private static final String TAG_TITLE = "FTITLE";
    private static final String TAG_HREF = "HREF";
    private static final String TAG_ICON = "ICON";
-   
+
    private String title;
    private String href;
    private String icon;
-   
+
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
     * Constructor de la clase.
     */
@@ -32,7 +33,7 @@ public class BreadcrumbsItem
       this.href = "";
       this.icon = "";
    }
-   
+
    /**
     * Constructor de la clase.
     * 
@@ -44,7 +45,7 @@ public class BreadcrumbsItem
       this.href = "";
       this.icon = "";
    }
-   
+
    /**
     * Constructor de la clase.
     * 
@@ -57,7 +58,7 @@ public class BreadcrumbsItem
       this.href = href;
       this.icon = "";
    }
-   
+
    /**
     * Constructor de la clase.
     * 
@@ -71,10 +72,11 @@ public class BreadcrumbsItem
       this.icon = icon;
    }
 
+
    //==============================================
    // Properties
    //==============================================
-   
+
    public String getTitle() 
    {
       return title;
@@ -104,18 +106,19 @@ public class BreadcrumbsItem
    {
       this.icon = icon;
    }
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Convierte la instancia en una cadena en formato XHTML a partir de la estructura de la plantilla.
     */
    public String render(TemplateControl tc)
    {
       String xhtml;
-      
+
       xhtml = tc.getElement(CPART_ITEM);
       xhtml = Control.replaceTag(xhtml, TAG_ICON, Icon.render(this.icon, Icon.ICON_SIZE_DEFAULT));
       xhtml = Control.replaceTag(xhtml, TAG_TITLE, this.title);

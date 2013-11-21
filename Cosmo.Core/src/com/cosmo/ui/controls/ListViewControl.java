@@ -25,33 +25,40 @@ public class ListViewControl extends Control
    private String caption;
    private String description;
    private ArrayList<ListViewItem> items;
-   
+
+
    //==============================================
    // Contructors
    //==============================================
-   
+
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link ListViewControl}.
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     */
    public ListViewControl(Workspace workspace)
    {
       super(workspace);
       initialize();
    }
-   
+
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link ListViewControl}.
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
+    * @param id Una cadena que contiene el identificador único del control.
     */
    public ListViewControl(Workspace workspace, String id)
    {
       super(workspace, id);
       initialize();
    }
-   
+
+
    //==============================================
    // Properties
    //==============================================
-   
+
    /**
     * Devuelve un identificador único del tipo de control.
     */
@@ -61,10 +68,11 @@ public class ListViewControl extends Control
       return ListViewControl.CONTROL_ID;
    }
 
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Agrega 
     * 
@@ -74,7 +82,7 @@ public class ListViewControl extends Control
    {
       items.add(item);
    }
-   
+
    /**
     * Renderiza el control y genera el código XHTML de representación.
     *
@@ -87,12 +95,12 @@ public class ListViewControl extends Control
       String xitem;
       TemplateControl ctrl = getWorkspace().getTemplate().getControl(ListViewControl.CONTROL_ID);
       StringBuilder sb = new StringBuilder();
-      
+
       xitem = ctrl.getElement(CPART_TITLE);
       xitem = Control.replaceTag(xitem, TAG_TITLE, this.caption);
       xitem = Control.replaceTag(xitem, TAG_DESCRIPTION, this.description);
       sb.append(xitem);
-      
+
       sb.append(ctrl.getElement(CPART_HEADER));
       
       for (ListViewItem item : this.items)
@@ -100,18 +108,19 @@ public class ListViewControl extends Control
          sb.append(item.render(ctrl));
          nitems++;
       }
-      
+
       xitem = ctrl.getElement(CPART_FOOTER);
       xitem = Control.replaceTag(xitem, TAG_ITEMS, "" + nitems);
       sb.append(xitem);
 
       return sb.toString();
    }
-   
+
+
    //==============================================
    // Private members
    //==============================================
-   
+
    /**
     * Inicializa la instancia.
     */

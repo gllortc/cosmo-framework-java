@@ -13,11 +13,12 @@ public class FormFieldBoolean extends FormField
    private boolean value;
    private String label;
    private String description;
-   
+
+
    //==============================================
    // Contructors
    //==============================================
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -31,12 +32,12 @@ public class FormFieldBoolean extends FormField
       this.description = "";
       this.value = false;
    }
-   
+
 
    //==============================================
    // Properties
    //==============================================
-   
+
    @Override
    public String getName() 
    {
@@ -78,12 +79,12 @@ public class FormFieldBoolean extends FormField
    {
       this.description = description;
    }
-   
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Convierte el campo en un TAG XHTML.
     */
@@ -92,10 +93,10 @@ public class FormFieldBoolean extends FormField
    {
       StringBuilder sb = new StringBuilder();
       sb.append("<input type=\"checkbox\" id=\"").append(this.name).append("\" name=\"").append(this.name).append("\" value=\"true\" ").append(this.value ? " checked=\"checked\"" : "").append(" />");
-      
+
       return sb.toString();
    }
-   
+
    /**
     * Convierte la instancia en una cadena de texto.
     */
@@ -103,14 +104,14 @@ public class FormFieldBoolean extends FormField
    public String toString()
    {
       StringBuilder sb = new StringBuilder();
-      
+
       sb.append("    <div>").append("\n");
       sb.append("<label for=\"").append(this.name).append("\">"); 
       sb.append(this.label).append(" ");
       sb.append("<input type=\"checkbox\" id=\"").append(this.name).append("\" name=\"").append(this.name).append("\" value=\"true\" ").append(this.value ? " checked=\"checked\"" : "").append(" />");
       sb.append("</label>").append("\n");
       sb.append("    </div>");
-      
+
       return sb.toString();
    }
 }

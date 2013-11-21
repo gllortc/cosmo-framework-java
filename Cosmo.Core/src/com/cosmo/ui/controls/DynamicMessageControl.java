@@ -11,13 +11,13 @@ import com.cosmo.ui.templates.TemplateControl;
 public class DynamicMessageControl extends Control 
 {
    private static final String CONTROL_ID = "CosmoUiCtrlDynamicMsg";
-   
+
    private static final String CPART_MSG_INFORMATION = "info-box-info";
    private static final String CPART_MSG_WARNING = "info-box-warning";
    private static final String CPART_MSG_ERROR = "info-box-error";
-         
+
    private static final String TAG_TEXT = "TEXT";
-   
+
    private String message;
    private MessageTypes type;
    private boolean visible;
@@ -31,11 +31,12 @@ public class DynamicMessageControl extends Control
       Warning,
       Error
    }
-   
+
+
    //==============================================
    // Contructors
    //==============================================
-   
+
    /**
     * Contructor de la clase.
     */
@@ -44,7 +45,7 @@ public class DynamicMessageControl extends Control
       super(workspace, id);
       initialize();
    }
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -57,12 +58,12 @@ public class DynamicMessageControl extends Control
    {
       super(workspace, id);
       initialize();
-      
+
       this.message = message;
       this.visible = visible;
       this.type = type;
    }
-   
+
    @Override
    public String getControlTypeId() 
    {
@@ -98,7 +99,7 @@ public class DynamicMessageControl extends Control
    {
       this.visible = visible;
    }
-   
+
    /**
     * Renderiza el control y genera el código XHTML de representación.
     *
@@ -109,39 +110,39 @@ public class DynamicMessageControl extends Control
    {
       String xhtml = "";
       TemplateControl ctrl = getWorkspace().getTemplate().getControl(DynamicMessageControl.CONTROL_ID);
-      
+
       // Si no es visible, no se renderiza
       if (!this.visible)
       {
          return "<!-- Dynamic label placeholder [" + this.getId() + "] -->";
       }
-      
+
       switch (this.type)
       {
          case Information:
             xhtml = ctrl.getElement(DynamicMessageControl.CPART_MSG_INFORMATION);
             xhtml = Control.replaceTag(xhtml, DynamicMessageControl.TAG_TEXT, this.message);
             break;
-            
+
          case Warning:
             xhtml = ctrl.getElement(DynamicMessageControl.CPART_MSG_WARNING);
             xhtml = Control.replaceTag(xhtml, DynamicMessageControl.TAG_TEXT, this.message);
             break;
-               
+
          case Error:
             xhtml = ctrl.getElement(DynamicMessageControl.CPART_MSG_ERROR);
             xhtml = Control.replaceTag(xhtml, DynamicMessageControl.TAG_TEXT, this.message);
             break;
       }
-      
+
       return xhtml;
    }
-   
+
    @Override
    public String toString()
    {
       StringBuilder sb = new StringBuilder();
-      
+
       if (this.visible)
       {
          sb.append("<p style=\"border:1px;background-color:rgb(175,175,175);\">").append(this.message).append("</p>").append("\n");
@@ -150,10 +151,10 @@ public class DynamicMessageControl extends Control
       {
          sb.append("<!-- dynamic label hided -->").append("\n");
       }
-      
+
       return sb.toString();
    }
-   
+
    private void initialize()
    {
       this.message = "";
