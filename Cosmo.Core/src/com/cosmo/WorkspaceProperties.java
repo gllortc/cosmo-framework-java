@@ -2,8 +2,8 @@ package com.cosmo;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 import javax.xml.parsers.DocumentBuilder;
@@ -54,16 +54,68 @@ public class WorkspaceProperties
    //==============================================
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link WorkspaceProperties}.
     * 
-    * @param context Contexto del servidor web.
+    * @param context Una instancia de {@link ServletContext} que representa el contexto del servlet.
     * 
     * @throws WorkspaceLoadException
     */
    public WorkspaceProperties(ServletContext context) throws WorkspaceLoadException
    {
+      FileInputStream iStream = null;
+      
+      // Inicializa la instancia
       initialize();
-      loadConfig(context);
+
+      // Abre el archivo de configuración en el server
+      try
+      {
+         iStream = new FileInputStream(context.getRealPath("/" + WorkspaceProperties.PROPERTIES_FILENAME));
+         loadConfig(iStream);
+         iStream.close();
+      }
+      catch (IOException ex)
+      {
+         throw new WorkspaceLoadException(ex.getMessage(), ex);
+      }
+      finally
+      {
+         if (iStream != null)
+         {
+            IOUtils.closeStream(iStream);
+         }
+      }
+   }
+
+   /**
+    * Constructor de la clase {@link WorkspaceProperties}.
+    * 
+    * @param context Una instancia de {@link FileInputStream} que representa el archivo de configuración que se desea cargar.
+    * 
+    * @throws WorkspaceLoadException
+    */
+   public WorkspaceProperties(FileInputStream inputStream) throws WorkspaceLoadException
+   {
+      // Inicializa la instancia
+      initialize();
+
+      // Abre el archivo de configuración en el server
+      try
+      {
+         loadConfig(inputStream);
+         inputStream.close();
+      }
+      catch (IOException ex)
+      {
+         throw new WorkspaceLoadException(ex.getMessage(), ex);
+      }
+      finally
+      {
+         if (inputStream != null)
+         {
+            IOUtils.closeStream(inputStream);
+         }
+      }
    }
 
 
@@ -123,6 +175,11 @@ public class WorkspaceProperties
    //==============================================
    // Methods
    //==============================================
+   
+   public Set<String> getKeySet()
+   {
+      return properties.keySet();
+   }
    
    /**
     * Obtiene el valor de configuración asociado a una clave.
@@ -233,20 +290,18 @@ public class WorkspaceProperties
     *
     * @throws WorkspaceLoadException
     */
-   private void loadConfig(ServletContext context) throws WorkspaceLoadException
+   private void loadConfig(FileInputStream inputStream) throws WorkspaceLoadException
    {
       Node nNode;
       Element eElement;
       NodeList nList;
-      InputStream iStream = null;
+      // InputStream iStream = null;
 
       try
       {
-         iStream = new FileInputStream(context.getRealPath("/" + WorkspaceProperties.PROPERTIES_FILENAME));
-
          DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
          DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-         Document doc = dBuilder.parse(iStream);
+         Document doc = dBuilder.parse(inputStream);
          doc.getDocumentElement().normalize();
 
          // Obtiene los valores de configuración clave/valor
@@ -278,8 +333,6 @@ public class WorkspaceProperties
 
          // Lectura de la configuración de Communication Services
          ormProps = new OrmServiceProperties(doc);
-
-         iStream.close();
       }
       catch (ParserConfigurationException ex)
       {
@@ -292,10 +345,6 @@ public class WorkspaceProperties
       catch (IOException ex)
       {
          throw new WorkspaceLoadException(ex.getMessage(), ex);
-      }
-      finally
-      {
-         IOUtils.closeStream(iStream);
       }
    }
 
