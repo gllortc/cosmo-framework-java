@@ -21,9 +21,9 @@ import com.cosmo.comm.CommServiceProperties;
 import com.cosmo.data.DataServiceProperties;
 import com.cosmo.orm.OrmServiceProperties;
 import com.cosmo.security.SecurityServiceProperties;
-import com.cosmo.structures.KeyValue;
 import com.cosmo.ui.UIServiceProperties;
 import com.cosmo.util.IOUtils;
+import com.cosmo.util.KeyValue;
 import com.cosmo.util.PluginProperties;
 
 /**

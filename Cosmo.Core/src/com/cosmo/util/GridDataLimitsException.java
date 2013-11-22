@@ -1,4 +1,4 @@
-package com.cosmo.structures;
+package com.cosmo.util;
 
 /**
  * Se produce cuando se intenta acceder a celdas fuera de los límites de la tabla.

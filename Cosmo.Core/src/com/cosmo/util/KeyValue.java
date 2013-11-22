@@ -1,4 +1,4 @@
-package com.cosmo.structures;
+package com.cosmo.util;
 
 /**
  * Implementa un par clave/valor para uso genérico.

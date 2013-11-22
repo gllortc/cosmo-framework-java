@@ -1,8 +1,9 @@
-package com.cosmo.structures;
+package com.cosmo.util;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+
 
 /**
  * Implementa una estructura de tabla que permite albergar los datos para un <em>grid</em> o <em>report</em>.

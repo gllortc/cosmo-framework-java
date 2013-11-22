@@ -12,8 +12,8 @@ import com.cosmo.data.DataException;
 import com.cosmo.orm.InvalidMappingException;
 import com.cosmo.orm.OrmFactory;
 import com.cosmo.orm.annotations.CormObjectField;
-import com.cosmo.structures.GridData;
 import com.cosmo.ui.templates.TemplateControl;
+import com.cosmo.util.GridData;
 import com.cosmo.util.StringUtils;
 
 /**

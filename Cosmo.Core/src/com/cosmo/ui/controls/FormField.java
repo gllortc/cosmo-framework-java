@@ -3,7 +3,7 @@ package com.cosmo.ui.controls;
 import java.util.ArrayList;
 
 import com.cosmo.Workspace;
-import com.cosmo.structures.KeyValue;
+import com.cosmo.util.KeyValue;
 
 /**
  * Clase abstracta que deben implementar los controles de formulario.
