@@ -14,9 +14,9 @@ import com.cosmo.orm.InvalidMappingException;
 import com.cosmo.orm.OrmFactory;
 import com.cosmo.orm.annotations.CormObject;
 import com.cosmo.orm.annotations.CormObjectField;
-import com.cosmo.structures.FormData;
 import com.cosmo.ui.controls.FormButton.ButtonType;
 import com.cosmo.ui.templates.TemplateControl;
+import com.cosmo.util.FormData;
 
 /**
  * Implementa un formulario representable en una página de Cosmo.
