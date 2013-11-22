@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import com.cosmo.Workspace;
 import com.cosmo.security.annotations.LoginGatewayAgent;
-import com.cosmo.structures.PluginProperties;
+import com.cosmo.util.PluginProperties;
 import com.cosmo.util.StringUtils;
 
 /**

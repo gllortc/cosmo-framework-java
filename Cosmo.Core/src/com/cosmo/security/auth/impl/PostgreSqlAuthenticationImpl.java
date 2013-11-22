@@ -17,8 +17,8 @@ import com.cosmo.security.UserNotFoundException;
 import com.cosmo.security.auth.Authentication;
 import com.cosmo.security.auth.AuthenticationException;
 import com.cosmo.security.auth.AuthenticationFactory;
-import com.cosmo.structures.PluginProperties;
 import com.cosmo.util.CryptoUtils;
+import com.cosmo.util.PluginProperties;
 
 /**
  * Implementa el proveedor de autenticación nativo de Cosmo (versión para JDBC/PostgreSQL).

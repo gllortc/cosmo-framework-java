@@ -4,7 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import com.cosmo.Workspace;
-import com.cosmo.structures.PluginProperties;
+import com.cosmo.util.PluginProperties;
 import com.cosmo.util.StringUtils;
 
 /**

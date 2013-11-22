@@ -10,7 +10,12 @@ public class KeyValue
    private String key;
    private Object value;
    private boolean defaultOption;
-   
+
+
+   //==============================================
+   // Constructors
+   //==============================================
+
    /**
     * Constructor de la clase.
     */
@@ -20,7 +25,20 @@ public class KeyValue
       this.value = null;
       this.defaultOption = false;
    }
-   
+
+   /**
+    * Constructor de la clase.
+    * 
+    * @param key Una cadena que contiene la clave del par.
+    * @param value Un objeto que contiene el valor del par.
+    */
+   public KeyValue(String key, Object value)
+   {
+      this.key = key;
+      this.value = value;
+      this.defaultOption = false;
+   }
+
    /**
     * Constructor de la clase.
     * 
@@ -34,6 +52,11 @@ public class KeyValue
       this.value = value;
       this.defaultOption = isDefaultValue;
    }
+
+
+   //==============================================
+   // Properties
+   //==============================================
 
    public String getKey()
    {
@@ -64,6 +87,11 @@ public class KeyValue
    {
       this.defaultOption = defaultOption;
    }
+
+
+   //==============================================
+   // Methods
+   //==============================================
 
    @Override
    public String toString()

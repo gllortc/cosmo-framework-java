@@ -2,8 +2,9 @@ package com.cosmo;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.xml.parsers.DocumentBuilder;
@@ -20,9 +21,10 @@ import com.cosmo.comm.CommServiceProperties;
 import com.cosmo.data.DataServiceProperties;
 import com.cosmo.orm.OrmServiceProperties;
 import com.cosmo.security.SecurityServiceProperties;
-import com.cosmo.structures.PluginProperties;
+import com.cosmo.structures.KeyValue;
 import com.cosmo.ui.UIServiceProperties;
 import com.cosmo.util.IOUtils;
+import com.cosmo.util.PluginProperties;
 
 /**
  * Representa la configuración del workspace.
@@ -63,7 +65,7 @@ public class WorkspaceProperties
    public WorkspaceProperties(ServletContext context) throws WorkspaceLoadException
    {
       FileInputStream iStream = null;
-      
+
       // Inicializa la instancia
       initialize();
 
@@ -175,12 +177,23 @@ public class WorkspaceProperties
    //==============================================
    // Methods
    //==============================================
-   
-   public Set<String> getKeySet()
+
+   /**
+    * Devuelve una lista de todos los valores de configuración de la aplicación.
+    * 
+    * @return Una lista de instancias de {@link KeyValue} que representan los valores de la configuración.
+    */
+   public List<KeyValue> getPropertiesList()
    {
-      return properties.keySet();
+      List<KeyValue> values = new ArrayList<KeyValue>();
+      for (String key : properties.keySet())
+      {
+         values.add(new KeyValue(key, this.properties.get(key)));
+      }
+
+      return values;
    }
-   
+
    /**
     * Obtiene el valor de configuración asociado a una clave.
     * 
@@ -191,14 +204,14 @@ public class WorkspaceProperties
    {
       return properties.get(key);
    }
-   
+
    /**
     * Obtiene el valor de configuración asociado a una clave.
     * 
     * @param key Clave asociada al valor deseado.
     * @return Devuelve una cadena de texto que corresponde al valor asociado a la clave especificada.
     */
-   public Integer getInteger(String key, Integer defaultNum)
+   public Integer getInt(String key, Integer defaultNum)
    {
       String snum = properties.get(key);
 
@@ -207,7 +220,7 @@ public class WorkspaceProperties
          return Integer.valueOf(snum);
       }
       catch (NumberFormatException ex)
-      {      
+      {
          return defaultNum;
       }
    }
@@ -221,6 +234,7 @@ public class WorkspaceProperties
    public Boolean getBoolean(String key)
    {
       String snum = properties.get(key);
+
       return Boolean.valueOf(snum);
    }
 

@@ -8,7 +8,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.cosmo.WorkspaceProperties;
-import com.cosmo.structures.PluginProperties;
+import com.cosmo.util.PluginProperties;
 import com.cosmo.util.StringUtils;
 
 /**

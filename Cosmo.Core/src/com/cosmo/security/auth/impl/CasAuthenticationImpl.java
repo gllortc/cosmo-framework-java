@@ -28,7 +28,7 @@ import com.cosmo.security.UserNotFoundException;
 import com.cosmo.security.annotations.LoginGatewayAgent;
 import com.cosmo.security.auth.Authentication;
 import com.cosmo.security.auth.AuthenticationException;
-import com.cosmo.structures.PluginProperties;
+import com.cosmo.util.PluginProperties;
 import com.cosmo.util.StringUtils;
 
 /**

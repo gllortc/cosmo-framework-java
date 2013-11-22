@@ -1,6 +1,6 @@
 package com.cosmo.comm;
 
-import com.cosmo.structures.PluginProperties;
+import com.cosmo.util.PluginProperties;
 
 /**
  * Interface que deben implementar todos los agentes de comunicaciones de Cosmo.

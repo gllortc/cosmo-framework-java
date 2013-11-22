@@ -15,7 +15,7 @@ import javax.mail.internet.MimeMultipart;
 
 import com.cosmo.comm.CommAgent;
 import com.cosmo.comm.CommunicationsException;
-import com.cosmo.structures.PluginProperties;
+import com.cosmo.util.PluginProperties;
 import com.cosmo.util.StringUtils;
 
 /**

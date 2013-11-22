@@ -13,7 +13,7 @@ import com.cosmo.security.Role;
 import com.cosmo.security.UserSecurityPolicy;
 import com.cosmo.security.auth.Authorization;
 import com.cosmo.security.auth.AuthorizationException;
-import com.cosmo.structures.PluginProperties;
+import com.cosmo.util.PluginProperties;
 
 /**
  * Implementa el proveedor de autorización nativo de Cosmo (versión para JDBC/PostgreSQL).

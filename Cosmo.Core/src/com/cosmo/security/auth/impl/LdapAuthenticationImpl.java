@@ -21,7 +21,7 @@ import com.cosmo.security.User;
 import com.cosmo.security.UserNotFoundException;
 import com.cosmo.security.auth.Authentication;
 import com.cosmo.security.auth.AuthenticationException;
-import com.cosmo.structures.PluginProperties;
+import com.cosmo.util.PluginProperties;
 
 /**
  * Implementación del agente de autenticación para LDAP.

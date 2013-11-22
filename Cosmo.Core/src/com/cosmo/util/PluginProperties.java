@@ -1,8 +1,7 @@
-package com.cosmo.structures;
+package com.cosmo.util;
 
 import java.util.HashMap;
 
-import com.cosmo.util.StringUtils;
 
 /**
  * Implementa un agente de configuración de seguridad.
