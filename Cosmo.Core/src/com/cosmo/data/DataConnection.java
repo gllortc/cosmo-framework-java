@@ -13,17 +13,16 @@ import java.sql.Statement;
  */
 public class DataConnection
 {
-   // public static final String CONNECTION_SERVER = "cosmo.server";
-   
    private DataSource pds;
    private Connection conn = null;
    private String lastSqlStatement = "";
-   private Boolean autoCommit = true; 
-   
+   private Boolean autoCommit = true;
+
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
     * Constructor de la clase.
     * 
@@ -31,7 +30,7 @@ public class DataConnection
     * 
     * @throws Exception
     */
-   public DataConnection(DataSource datasource) 
+   public DataConnection(DataSource datasource)
    {
       this.pds = datasource;
    }
@@ -54,25 +53,26 @@ public class DataConnection
    // Properties
    //==============================================
 
-   public Boolean isAutoCommit() 
+   public Boolean isAutoCommit()
    {
       return autoCommit;
    }
 
-   public void setAutoCommit(Boolean autoCommit) 
+   public void setAutoCommit(Boolean autoCommit)
    {
       this.autoCommit = autoCommit;
    }
-   
+
    public String getLastSQLStatement()
    {
       return this.lastSqlStatement;
    }
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Obre una connexió amb la base de dades seleccionada.
     * 
@@ -86,15 +86,15 @@ public class DataConnection
       {
          throw new DataException("Impossible connectar a BBDD: No hi ha cap DataSource seleccioant");
       }
-      
+
       try 
       {
          Class.forName(pds.getJdbcDriver());
-         
+
          conn = DriverManager.getConnection(pds.getConnectionUrl() + ":" + pds.getPort(), pds.getLogin(), pds.getPassword());
          conn.setAutoCommit(this.autoCommit);
       } 
-      catch (SQLException e) 
+      catch (SQLException e)
       {
          throw e;
       }
@@ -107,20 +107,20 @@ public class DataConnection
    {
       if (conn != null)
       {
-         try 
+         try
          {
-            if (!conn.isClosed()) 
+            if (!conn.isClosed())
             {
                conn.close();
             }
          } 
-         catch (SQLException e) 
+         catch (SQLException e)
          {
             // Nothing to do here
          }
       }
    }
-   
+
    /**
     * Indica si la connexión está abierta y disponible.
     * 
@@ -128,21 +128,21 @@ public class DataConnection
     */
    public boolean isOpened()
    {
-      if (conn == null) 
+      if (conn == null)
       {
          return false;
       }
-      
-      try 
+
+      try
       {
          return !conn.isClosed();
       } 
-      catch (SQLException e) 
+      catch (SQLException e)
       {
          return false;
       }
    }
-   
+
    /**
     * Envia els canvis a la base de dades.
     * 
@@ -152,22 +152,23 @@ public class DataConnection
    {
       conn.commit();
    }
-   
+
    public ResultSet executeSql(String sql) throws SQLException, ClassNotFoundException, DataException
    {
-      // Memoritza la senténcia SQL
+      // Memoriza la senténcia SQL
       this.lastSqlStatement = sql;
-      
+
       // Obliga a tener la conexión abierta
       if (conn == null)
       {
          this.connect();
       }
-      
+
       Statement st = conn.createStatement();
+
       return st.executeQuery(sql);
    }
-   
+
    /**
     * Executa una senténcia SQL de la que no s'espera cap resultat (p. ex. INSERT, UPDATE, DELETE).
     * 
@@ -179,17 +180,18 @@ public class DataConnection
    {
       // Memoritza la senténcia SQL
       this.lastSqlStatement = sql;
-      
+
       // Obliga a tener la conexión abierta
       if (conn == null)
       {
          this.connect();
       }
-      
+
       Statement st = conn.createStatement();
+
       return st.execute(sql);
    }
-   
+
    /**
     * Executa una consulta SQL i retorna el valor enter ({@link Integer} de la primera fila i primera columna.
     * 
@@ -201,23 +203,23 @@ public class DataConnection
    {
       // Memoritza la senténcia SQL
       this.lastSqlStatement = sql;
-      
+
       // Obliga a tener la conexión abierta
       if (conn == null)
       {
          this.connect();
       }
-      
+
       Statement st = conn.createStatement();
       ResultSet rs = st.executeQuery(sql);
       if (!rs.next())
       {
          throw new Exception("ERROR: No es pot obtenir un ID vàlid per la nova relació.");
       }
-      
+
       return rs.getInt(1);
    }
-   
+
    /**
     * Ejecuta una consulta SQL y devuelve la cadena de texto (o el valor en formato {@link String}) de la primera fila y primera columna.
     * 
@@ -229,27 +231,28 @@ public class DataConnection
    {
       // Memoritza la senténcia SQL
       this.lastSqlStatement = sql;
-      
+
       // Obliga a tener la conexión abierta
       if (conn == null)
       {
          this.connect();
       }
-      
+
       Statement st = conn.createStatement();
       ResultSet rs = st.executeQuery(sql);
       if (!rs.next())
       {
          throw new Exception("ERROR: No es pot obtenir un ID vàlid per la nova relació.");
       }
-      
+
       return rs.getString(1);
    }
-   
+
+
    //==============================================
    // Static members
    //==============================================
-   
+
    /**
     * Permet recuperar una cadena d'una fila d'un {@link ResultSet} convertint a cadena buida els valors {@code NULL}.
     * 
@@ -261,9 +264,10 @@ public class DataConnection
    public static String getNotNullString(ResultSet rs, int column) throws SQLException
    {
       String value = rs.getString(column);
+
       return (value == null ? "" : value);
    }
-   
+
    /**
     * Formatea una cadena de texto pera ser usada en una senténcia SQL.
     * 
@@ -273,12 +277,14 @@ public class DataConnection
     */
    public static String sqlFormatTextValue(String text)
    {
-	   String ftext = text.trim().replace("'", "''");
-	   return ftext;
+      String ftext = text.trim().replace("'", "''");
+
+      return ftext;
    }
+
 
    //==============================================
    // Private members
    //==============================================
-   
+
 }
