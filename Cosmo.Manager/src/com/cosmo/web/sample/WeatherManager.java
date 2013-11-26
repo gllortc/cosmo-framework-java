@@ -2,13 +2,14 @@ package com.cosmo.web.sample;
 
 import java.sql.ResultSet;
 
+import com.cosmo.data.DataAgent;
 import com.cosmo.data.DataConnection;
 
 public class WeatherManager 
 {
-   private DataConnection conn;
+   private DataAgent conn;
    
-   public WeatherManager(DataConnection connection)
+   public WeatherManager(DataAgent connection)
    {
       this.conn = connection;
    }
