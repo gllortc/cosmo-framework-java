@@ -16,7 +16,7 @@ public class DataConnection
    private DataSource pds;
    private Connection conn = null;
    private String lastSqlStatement = "";
-   private Boolean autoCommit = true;
+   private boolean autoCommit = true;
 
 
    //==============================================
@@ -53,12 +53,12 @@ public class DataConnection
    // Properties
    //==============================================
 
-   public Boolean isAutoCommit()
+   public boolean isAutoCommit()
    {
       return autoCommit;
    }
 
-   public void setAutoCommit(Boolean autoCommit)
+   public void setAutoCommit(boolean autoCommit)
    {
       this.autoCommit = autoCommit;
    }
