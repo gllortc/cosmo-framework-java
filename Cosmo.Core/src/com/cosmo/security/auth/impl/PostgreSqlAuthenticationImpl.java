@@ -9,8 +9,10 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 
 import com.cosmo.Workspace;
+import com.cosmo.data.DataAgent;
 import com.cosmo.data.DataConnection;
-import com.cosmo.data.DataSource;
+import com.cosmo.data.DataException;
+import com.cosmo.data.DataFactory;
 import com.cosmo.security.User;
 import com.cosmo.security.UserAlreadyExistsException;
 import com.cosmo.security.UserNotFoundException;
@@ -89,8 +91,8 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    {
       String sql;
       User user = null;
-      DataSource ds;
-      DataConnection conn = null;
+      // DataSource ds;
+      DataAgent conn = null;
       
       // Comprobación de cuenta bloqueada
       if (agent.getParamBoolean(PARAM_LOCKCONTROL, false))
@@ -98,24 +100,25 @@ public class PostgreSqlAuthenticationImpl implements Authentication
          // Obtiene la configuración del agente
          int attemps = agent.getParamInteger(PARAM_ATTEMPTS, 5);
          int timeout = agent.getParamInteger(PARAM_TIMEOUT, 30);
-         
+
          // Determina si la cuenta del usuario está o no bloqueada
          if (isLocked(login, attemps, timeout))
          {
             throw new AuthenticationException("La cuenta " + login + " está bloqueada.");
          }
       }
-      
-      try 
+
+      try
       {
          sql = "SELECT * " +
                "FROM  " + TABLE_NAME + " " +
                "WHERE Lower(usrlogin) = '" + login.trim().toLowerCase() + "' And " +
                "      usrpwd = '" + CryptoUtils.encrypt(password) + "'";
 
-         ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         conn = new DataConnection(ds);
-         conn.connect();
+         conn = DataFactory.getInstance(workspace);
+         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
+         // conn = new DataConnection(ds);
+         // conn.connect();
          ResultSet rs = conn.executeSql(sql);
          if (rs.next())
          {
@@ -134,17 +137,17 @@ public class PostgreSqlAuthenticationImpl implements Authentication
             {
                loginFail(login);
             }
-            
+
             throw new UserNotFoundException();
          }
-         
+
          // Actualiza los datos estadÃ­sticos y de control del usuario
          sql = "UPDATE " + TABLE_NAME + " " +
                "SET usrlastlogin  = current_timestamp, " +
                "    usrlogoncount = usrlogoncount + 1 " +
                "WHERE Lower(usrlogin) = '" + login.trim().toLowerCase() + "'";
          conn.execute(sql);
-         
+
          // Confirma los cambios en la bbdd
          if (!conn.isAutoCommit()) conn.commit();
       } 
@@ -171,7 +174,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
 
       return user;
    }
-   
+
    /**
     * Elimina la información de autenticación actual.
     */
@@ -181,17 +184,17 @@ public class PostgreSqlAuthenticationImpl implements Authentication
       // Este driver no informa al SGBD de la salida del usuario
       return;
    }
-   
+
    /**
     * Revalida la sesión de usuario.
     */
    @Override
    public void validate() 
    {
-   // Este driver no revalida la sesión
+      // Este driver no revalida la sesión
       return;   
    };
-   
+
    /**
     * Indica si el servicio usa un gateway para la autenticación de usuarios.
     */
@@ -199,7 +202,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    {
       return false;
    }
-   
+
    /**
     * Indica si una respuesta corresponde al retorno de la acción de login.
     * 
@@ -211,7 +214,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    {
       return false;
    }
-   
+
    /**
     * Detecta si una autenticación delegada (Login Gateway) ha sido exitosa.<br />
     * Las clases que extiendan a {@link AuthenticationFactory} serán responsables de obtener los datos del usuario 
@@ -225,7 +228,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    {
       return null;
    }
-   
+
    /**
     * Devuelve la URL usada para la autenticación de usuarios.
     */
@@ -233,12 +236,12 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    {
       return null;
    }
-   
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Comprueba si un determinado login existe.
     * 
@@ -251,20 +254,22 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    public boolean loginExist(String login) throws AuthenticationException
    {
       String sSQL;
-      DataSource ds;
-      DataConnection conn = null;
-      
+      // DataSource ds;
+      // DataConnection conn = null;
+      DataAgent conn = null;
+
       try 
       {
          // Comprueba si existe el usuario
          sSQL = "SELECT Count(*) " +
                 "FROM " + TABLE_NAME + " " +
                 "WHERE Lower(usrlogin) = '" + login.trim().toLowerCase() + "'";
-         
-         ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         conn = new DataConnection(ds);
-         conn.connect();
-         
+
+         conn = DataFactory.getInstance(workspace);
+         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
+         // conn = new DataConnection(ds);
+         // conn.connect();
+
          return (conn.executeScalar(sSQL) > 0);
       }
       catch (Exception ex)
@@ -276,7 +281,7 @@ public class PostgreSqlAuthenticationImpl implements Authentication
          conn.disconnect();
       }
    }
-   
+
    /**
     * Crea una nueva cuenta de usuario.
     * 
@@ -289,9 +294,10 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    {
       String sSQL;
       ResultSet rs;
-      DataSource ds;
-      DataConnection conn = null;
-      
+      // DataSource ds;
+      // DataConnection conn = null;
+      DataAgent conn;
+
       try 
       {
          // Comprueba si existe algún usuario con mismo LOGIN o CORREO
@@ -299,16 +305,17 @@ public class PostgreSqlAuthenticationImpl implements Authentication
                 "FROM " + TABLE_NAME + " " +
                 "WHERE Lower(usrlogin) = '" + user.getLogin().trim().toLowerCase() + "' Or " +
                 "      Lower(usrmail)  = '" + user.getMail().trim().toLowerCase()  + "'";
-         
-         ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         conn = new DataConnection(ds);
-         conn.connect();
+
+         conn = DataFactory.getInstance(workspace);
+         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
+         // conn = new DataConnection(ds);
+         // conn.connect();
          rs = conn.executeSql(sSQL);
          if (rs.next() && rs.getInt(1) > 0)
          {
             throw new UserAlreadyExistsException();
          }
-         
+
          sSQL = "INSERT INTO " + TABLE_NAME + " (usrlogin, usrmail, usrpwd, usrname, usrcreated, usrlastlogin, usrlogoncount) " +
                 "VALUES ('" + user.getLogin() + "', " +
                 "        '" + user.getMail() + "', " +
@@ -319,20 +326,20 @@ public class PostgreSqlAuthenticationImpl implements Authentication
                 "         " + 0 + ")";
 
          conn.execute(sSQL);
-         
+
          // Confirma los cambios en la bbdd
          if (!conn.isAutoCommit()) conn.commit();
-      } 
+      }
       catch (Exception ex)
       {
          throw new AuthenticationException(ex.getMessage(), ex);
       }
       finally
       {
-         conn.disconnect();
+         // conn.disconnect();
       }
    }
-   
+
    /**
     * Actualiza los datos de un usuario (el login no se puede modificar y la contraseña no se actualiza mediante este método).
     * 
@@ -344,15 +351,16 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    public void update(User user) throws UserNotFoundException, AuthenticationException
    {
       String sSQL;
-      DataSource ds;
-      DataConnection conn = null;
-      
+      // DataSource ds;
+      // DataConnection conn = null;
+      DataAgent conn;
+
       // Comprueba si existe el usuario especificado
       if (!loginExist(user.getLogin()))
       {
          throw new UserNotFoundException();
       }
-      
+
       try 
       {
          sSQL = "UPDATE " + TABLE_NAME + " " +
@@ -360,24 +368,25 @@ public class PostgreSqlAuthenticationImpl implements Authentication
                 "      usrname = '" + DataConnection.sqlFormatTextValue(user.getName()) + "' " +
                 "WHERE Lower(usrlogin) = '" + user.getLogin().trim().toLowerCase() + "'";
 
-         ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         conn = new DataConnection(ds);
-         conn.connect();
+         conn = DataFactory.getInstance(workspace);
+         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
+         // conn = new DataConnection(ds);
+         // conn.connect();
          conn.execute(sSQL);
 
          // Confirma los cambios en la bbdd
          if (!conn.isAutoCommit()) conn.commit();
-      } 
+      }
       catch (Exception ex)
       {
          throw new AuthenticationException(ex.getMessage(), ex);
       }
       finally
       {
-         conn.disconnect();
+         // conn.disconnect();
       }
    }
-   
+
    /**
     * Elimina una cuenta de usuario.
     * 
@@ -389,39 +398,41 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    public void delete(String login) throws UserNotFoundException, AuthenticationException
    {
       String sSQL;
-      DataSource ds;
-      DataConnection conn = null;
-      
+      // DataSource ds;
+      // DataConnection conn = null;
+      DataAgent conn;
+
       // Comprueba si existe el usuario especificado
       if (!loginExist(login))
       {
          throw new UserNotFoundException();
       }
-      
+
       try 
       {
          // Elimina el usuario
          sSQL = "DELETE FROM " + TABLE_NAME + " " +
                 "WHERE Lower(usrlogin) = '" + login.trim().toLowerCase() + "'";
 
-         ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         conn = new DataConnection(ds);
-         conn.connect();
+         conn = DataFactory.getInstance(workspace);
+         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
+         // conn = new DataConnection(ds);
+         // conn.connect();
          conn.execute(sSQL);
 
          // Confirma los cambios en la bbdd
          if (!conn.isAutoCommit()) conn.commit();
-      } 
+      }
       catch (Exception ex)
       {
          throw new AuthenticationException(ex.getMessage(), ex);
       }
       finally
       {
-         conn.disconnect();
+         // conn.disconnect();
       }
    }
-   
+
    /**
     * Actualiza el password de un determinado usuario.
     * 
@@ -435,9 +446,10 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    public void setUserPassword(String login, String oldPassword, String newPassword) throws UserNotFoundException, AuthenticationException
    {
       String sSQL;
-      DataSource ds;
-      DataConnection conn = null;
-      
+      // DataSource ds;
+      // DataConnection conn = null;
+      DataAgent conn;
+
       try 
       {
          // Comprueba que exista el usuario y que el password actual sea el correcto
@@ -446,34 +458,35 @@ public class PostgreSqlAuthenticationImpl implements Authentication
                 "WHERE Lower(usrlogin) = '" + login.trim().toLowerCase() + "' And " +
                 "      usrpwd = '" + CryptoUtils.encrypt(oldPassword) + "'";
 
-         ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         conn = new DataConnection(ds);
-         conn.connect();
+         conn = DataFactory.getInstance(workspace);
+         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
+         // conn = new DataConnection(ds);
+         // conn.connect();
          if (conn.executeScalar(sSQL) <= 0)
          {
             throw new UserNotFoundException();
          }
-         
+
          // Actualiza la contraseña del usuario
          sSQL = "UPDATE " + TABLE_NAME + " " +
                 "SET   usrpwd = '" + CryptoUtils.encrypt(newPassword) + "' " +
                 "WHERE Lower(usrlogin) = '" + login.trim().toLowerCase() + "'";
-         
+
          conn.execute(sSQL);
-         
+
          // Confirma los cambios en la bbdd
          if (!conn.isAutoCommit()) conn.commit();
-      } 
+      }
       catch (Exception ex)
       {
          throw new AuthenticationException(ex.getMessage(), ex);
       }
       finally
       {
-         conn.disconnect();
+         // conn.disconnect();
       }
    }
-   
+
    /**
     * Obtiene un listado con todos los usuarios.
     * 
@@ -484,28 +497,30 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    public ArrayList<User> getUsers() throws AuthenticationException
    {
       String sSQL;
-      DataSource ds;
-      DataConnection conn = null;
+      // DataSource ds;
+      // DataConnection conn = null;
       ResultSet rs;
+      DataAgent conn;
 
       ArrayList<User> users = new ArrayList<User>();
-      
+
       try 
       {
          sSQL = "SELECT   * " +
                 "FROM     " + TABLE_NAME + " " +
                 "ORDER BY usrlogin Asc";
-         
-         ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         conn = new DataConnection(ds);
-         conn.connect();
+
+         conn = DataFactory.getInstance(workspace);
+         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
+         // conn = new DataConnection(ds);
+         // conn.connect();
 
          rs = conn.executeSql(sSQL);
          while (rs.next())
          {
             users.add(readUser(rs));
          }
-         
+
          return users;
       }
       catch (Exception ex)
@@ -514,10 +529,10 @@ public class PostgreSqlAuthenticationImpl implements Authentication
       }
       finally
       {
-         conn.disconnect();
+         // conn.disconnect();
       }
    }
-   
+
    /**
     * Obtiene una lista de usuario cuyo perfil contiene determinado texto.<br />
     * Los campos dónde se efectúa la búsqueda son: {@code usrlogin}, {@code usrmail} y {@code usrname}.
@@ -531,12 +546,13 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    public ArrayList<User> findUsers(String filter) throws AuthenticationException
    {
       String sSQL;
-      DataSource ds;
-      DataConnection conn = null;
+      // DataSource ds;
+      // DataConnection conn = null;
       ResultSet rs;
+      DataAgent conn;
 
       ArrayList<User> users = new ArrayList<User>();
-      
+
       try 
       {
          sSQL = "SELECT   * " +
@@ -545,17 +561,18 @@ public class PostgreSqlAuthenticationImpl implements Authentication
                 "      usrname  LIKE '%" + DataConnection.sqlFormatTextValue(filter) + "%' Or " +
                 "      usrmail  LIKE '%" + DataConnection.sqlFormatTextValue(filter) + "%' " +
                 "ORDER BY usrlogin Asc";
-         
-         ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         conn = new DataConnection(ds);
-         conn.connect();
+
+         conn = DataFactory.getInstance(workspace);
+         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
+         // conn = new DataConnection(ds);
+         // conn.connect();
 
          rs = conn.executeSql(sSQL);
          while (rs.next())
          {
             users.add(readUser(rs));
          }
-         
+
          return users;
       }
       catch (Exception ex)
@@ -564,10 +581,10 @@ public class PostgreSqlAuthenticationImpl implements Authentication
       }
       finally
       {
-         conn.disconnect();
+         // conn.disconnect();
       }
    }
-   
+
    /**
     * Obtiene un listado con todos los usuarios.
     * 
@@ -578,9 +595,10 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    public ResultSet getUsersList() throws AuthenticationException
    {
       String sSQL;
-      DataSource ds;
-      DataConnection conn = null;
-      
+      // DataSource ds;
+      // DataConnection conn = null;
+      DataAgent conn;
+
       try 
       {
          sSQL = "SELECT   usrlogin   As Login, " +
@@ -589,11 +607,12 @@ public class PostgreSqlAuthenticationImpl implements Authentication
                 "         usrcreated As Creat " +
                 "FROM " + TABLE_NAME + " " +
                 "ORDER BY usrlogin Asc";
-         
-         ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         conn = new DataConnection(ds);
-         conn.connect();
-         
+
+         conn = DataFactory.getInstance(workspace);
+         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
+         // conn = new DataConnection(ds);
+         // conn.connect();
+
          return conn.executeSql(sSQL);
       }
       catch (Exception ex)
@@ -602,15 +621,15 @@ public class PostgreSqlAuthenticationImpl implements Authentication
       }
       finally
       {
-         conn.disconnect();
+         // conn.disconnect();
       }
    }
-   
-   
+
+
    //==============================================
    // Private members
    //==============================================
-   
+
    /**
     * Lee un usuario de un registro en una instancia de {@link ResultSet}.
     * 
@@ -629,10 +648,10 @@ public class PostgreSqlAuthenticationImpl implements Authentication
       user.setCreated(rs.getDate("usrcreated"));
       user.setLastLogin(rs.getDate("usrlastlogin"));
       user.setLogonCount(rs.getInt("usrlogoncount"));
-      
+
       return user;
    }
-   
+
    /**
     * Determina si la cuenta de usuario se encuentra bloqueada (por exceso de intentos fallidos de login).
     * <br /><br />
@@ -650,23 +669,25 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    private boolean isLocked(String login, int attempts, int timeout) throws AuthenticationException
    {
       String sql;
-      DataSource ds;
-      DataConnection conn = null;
-      
+      // DataSource ds;
+      // DataConnection conn = null;
+      DataAgent conn;
+
       try 
       {
          // Obtiene y abre la conexión a BBDD
-         ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         conn = new DataConnection(ds);
-         conn.connect();
-         
+         conn = DataFactory.getInstance(workspace);
+         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
+         // conn = new DataConnection(ds);
+         // conn.connect();
+
          // Limpia bloqueos caducados (de más de [timeout] minutos)
          sql = "DELETE FROM " + TABLE_LOCKS + " " +
                "WHERE ((DATE_PART('day', CURRENT_TIMESTAMP - lastattempt) * 24 + " +
                "        DATE_PART('hour', CURRENT_TIMESTAMP - lastattempt)) * 60 + " +
                "        DATE_PART('minute', CURRENT_TIMESTAMP - lastattempt) >= " + timeout + ")";
          conn.execute(sql);
-         
+
          // Consulta si el usuario dispone de un registro bloqueado:
          // Dispone de N intentos (o más) y el último intento hace menos de M minutos que se produjo
          sql = "SELECT Count(*) " +
@@ -677,14 +698,10 @@ public class PostgreSqlAuthenticationImpl implements Authentication
                "        lower(login) = '" + DataConnection.sqlFormatTextValue(login) + "' And " +
                "        fails >= " + attempts;
          int nregs = conn.executeScalar(sql);
-         
+
          return (nregs > 0);
       } 
-      catch (SQLException ex) 
-      {
-         throw new AuthenticationException(ex.getMessage(), ex);
-      }
-      catch (GeneralSecurityException ex)
+      catch (DataException ex) 
       {
          throw new AuthenticationException(ex.getMessage(), ex);
       }
@@ -694,10 +711,10 @@ public class PostgreSqlAuthenticationImpl implements Authentication
       }
       finally
       {
-         conn.disconnect();
+         // conn.disconnect();
       }
    }
-   
+
    /**
     * Registra un fallo de login, actualizando los datos de registro para evitar intentos de acceso mediante fuerza bruta.
     * 
@@ -708,22 +725,24 @@ public class PostgreSqlAuthenticationImpl implements Authentication
    private void loginFail(String login) throws AuthenticationException
    {
       String sql;
-      DataSource ds;
-      DataConnection conn = null;
-      
+      // DataSource ds;
+      // DataConnection conn = null;
+      DataAgent conn;
+
       try 
       {
          // Obtiene y abre la conexión a BBDD
-         ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         conn = new DataConnection(ds);
-         conn.connect();
-         
+         conn = DataFactory.getInstance(workspace);
+         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
+         // conn = new DataConnection(ds);
+         // conn.connect();
+
          // Consulta si el login tiene un registro asociado
          sql = "SELECT Count(*) " +
                "FROM  " + TABLE_LOCKS + " " +
                "WHERE lower(login) = '" + DataConnection.sqlFormatTextValue(login) + "'";
          int nregs = conn.executeScalar(sql);
-         
+
          if (nregs > 0)
          {
             sql = "UPDATE " + TABLE_LOCKS + " " +
@@ -740,26 +759,25 @@ public class PostgreSqlAuthenticationImpl implements Authentication
                conn.execute(sql);
             }
          }
-         
+
          // Confirma los cambios en la bbdd
          if (!conn.isAutoCommit()) conn.commit();
-      } 
-      catch (SQLException ex) 
+      }
+      catch (DataException ex) 
       {
          throw new AuthenticationException(ex.getMessage(), ex);
       }
-      catch (GeneralSecurityException ex)
+      /*catch (GeneralSecurityException ex)
       {
          throw new AuthenticationException(ex.getMessage(), ex);
-      }
+      }*/
       catch (Exception ex)
       {
          throw new AuthenticationException(ex.getMessage(), ex);
       }
       finally
       {
-         conn.disconnect();
+         // conn.disconnect();
       }
    }
-   
 }
