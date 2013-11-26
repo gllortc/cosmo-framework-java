@@ -10,9 +10,9 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import com.cosmo.Workspace;
-import com.cosmo.data.DataConnection;
+import com.cosmo.data.DataAgent;
 import com.cosmo.data.DataException;
-import com.cosmo.data.DataSource;
+import com.cosmo.data.DataFactory;
 import com.cosmo.net.HttpRequestUtils;
 import com.cosmo.orm.annotations.CormFieldSetter;
 import com.cosmo.orm.annotations.CormObject;
@@ -372,47 +372,53 @@ public class OrmFactory
    private static OrmDriver loadDriver(String dataSourceId, Workspace workspace) throws OrmDriverException
    {
       OrmDriver provider;
-      DataSource ds = null;
-      DataConnection conn;
+      // DataSource ds = null;
+      DataAgent conn = null;
 
       try 
       {
          // Genera la instancia
-         ds = workspace.getProperties().getDataProperties().getDataSource(dataSourceId);
-         if (ds == null)
+         // ds = workspace.getProperties().getDataProperties().getDataSource(dataSourceId);
+         
+         conn = DataFactory.getInstance(workspace, dataSourceId);
+         /*if (ds == null)
          {
             throw new OrmDriverException("Datasource " + dataSourceId + " not found");
-         }
+         }*/
 
          // Genera la conexión
-         conn = new DataConnection(ds);
+         // conn = new DataConnection(ds);
 
          // Invoca el constructor del driver
-         Class<?> cls = Class.forName(ds.getCormDriver());
-         Constructor<?> cons = cls.getConstructor(DataConnection.class);
+         Class<?> cls = Class.forName(conn.getCompatibleOrmDriver());
+         Constructor<?> cons = cls.getConstructor(DataAgent.class);
          provider = (OrmDriver) cons.newInstance(conn);
 
          return provider;
       }
       catch (NoSuchMethodException ex)
       {
-         throw new OrmDriverException("CORM driver loader: NoSuchMethodException: " + ds.getCormDriver(), ex);
+         throw new OrmDriverException("CORM driver loader: NoSuchMethodException: " + (conn != null ? conn.getCompatibleOrmDriver() : "[unknown ORM driver]"), ex);
       }
       catch (InvocationTargetException ex) 
       {
-         throw new OrmDriverException("CORM driver loader: InvocationTargetException: " + ds.getCormDriver(), ex);
+         throw new OrmDriverException("CORM driver loader: InvocationTargetException: " + (conn != null ? conn.getCompatibleOrmDriver() : "[unknown ORM driver]"), ex);
       }
       catch (ClassNotFoundException ex) 
       {
-         throw new OrmDriverException("CORM driver loader: ClassNotFoundException: " + ds.getCormDriver(), ex);
+         throw new OrmDriverException("CORM driver loader: ClassNotFoundException: " + (conn != null ? conn.getCompatibleOrmDriver() : "[unknown ORM driver]"), ex);
       }
       catch (InstantiationException ex)
       {
-         throw new OrmDriverException("CORM driver loader: InstantiationException: " + ds.getCormDriver(), ex);
+         throw new OrmDriverException("CORM driver loader: InstantiationException: " + (conn != null ? conn.getCompatibleOrmDriver() : "[unknown ORM driver]"), ex);
       }
       catch (IllegalAccessException ex)
       {
-         throw new OrmDriverException("CORM driver loader: IllegalAccessException: " + ds.getCormDriver(), ex);
+         throw new OrmDriverException("CORM driver loader: IllegalAccessException: " + (conn != null ? conn.getCompatibleOrmDriver() : "[unknown ORM driver]"), ex);
+      }
+      catch (DataException ex)
+      {
+         throw new OrmDriverException("CORM driver loader: " + (conn != null ? conn.getCompatibleOrmDriver() : "[unknown ORM driver]"), ex);
       }
    }
 }

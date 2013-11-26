@@ -7,6 +7,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.cosmo.WorkspaceProperties;
 import com.cosmo.data.lists.DynamicList;
 import com.cosmo.data.lists.List;
 import com.cosmo.data.lists.ListItem;
@@ -47,7 +48,7 @@ public class DataServiceProperties
 
    // Declaración de variables locales para UI Services
    private String serverDatasource;
-   private HashMap<String, DataSource> dataSources;
+   // private HashMap<String, DataSource> dataSources;
    private HashMap<String, PluginProperties> agents;
    private HashMap<String, List> ormLists;
 
@@ -67,13 +68,13 @@ public class DataServiceProperties
    //==============================================
    // Properties
    //==============================================
-   
+
    /**
-    * Devuelve el número de DataSources leídos.
+    * Devuelve el número de agentes de conexión configurados.
     */
-   public int getNumDatasources()
+   public int getNumDataAgents()
    {
-      return this.dataSources.size();
+      return this.agents.size();
    }
 
    /**
@@ -81,7 +82,7 @@ public class DataServiceProperties
     * 
     * @return Una cadena que contiene el nombre del datasource definido como servidor Cosmo.
     */
-   public String getDefaultDataSourceId()
+   public String getDefaultDataAgentId()
    {
       return this.serverDatasource;
    }
@@ -96,7 +97,7 @@ public class DataServiceProperties
     *
     * @return Una instancia de {@link DataSource} que contiene los parámetros de conexión a la base de datos.
     */
-   public DataSource getDataSource()
+   /*public DataSource getDataSource()
    {
       if (StringUtils.isNullOrEmptyTrim(this.serverDatasource))
       {
@@ -104,7 +105,7 @@ public class DataServiceProperties
       }
 
       return getDataSource(this.serverDatasource);
-   }
+   }*/
 
    /**
     * Obtiene una lista de datos.
@@ -125,10 +126,10 @@ public class DataServiceProperties
     * 
     * @return Una instancia de {@link DataSource} que contiene los parámetros de conexión a la base de datos.
     */
-   public DataSource getDataSource(String key)
+   /*public DataSource getDataSource(String key)
    {
-      return this.dataSources.get(key);
-   }
+      return this.agents.get(key);
+   }*/
 
    /**
     * Obtiene la conexión a datos configurada por defecto.
@@ -167,11 +168,29 @@ public class DataServiceProperties
       Node nNode;
       Element eElement;
       NodeList nList;
-      DataSource ds;
+      // DataSource ds;
 
       initialize();
 
       nList = doc.getElementsByTagName(DataServiceProperties.XML_TAG_CONNECTIONS);
+      if (nList.getLength() >= 1)
+      {
+         nNode = nList.item(0);
+         if (nNode.getNodeType() == Node.ELEMENT_NODE)
+         {
+            eElement = (Element) nNode;
+
+            this.serverDatasource = eElement.getAttribute(DataServiceProperties.XML_ATT_DEFAULTCONN);
+         }
+
+         // Obtiene todos los agentes de comunicaciones
+         this.agents = WorkspaceProperties.readPluginsByType(doc, DataServiceProperties.XML_TAG_CONNECTION);
+
+         // Obtiene las listas de datos
+         this.ormLists = readDataLists(doc);
+      }
+
+      /*nList = doc.getElementsByTagName(DataServiceProperties.XML_TAG_CONNECTIONS);
       if (nList.getLength() >= 1)
       {
          nNode = nList.item(0);
@@ -202,10 +221,10 @@ public class DataServiceProperties
                this.dataSources.put(ds.getId(), ds);
             }
          }
-      }
+      }*/
 
       // Obtiene las listas de datos
-      this.ormLists = readDataLists(doc);
+      // this.ormLists = readDataLists(doc);
    }
 
 
@@ -311,7 +330,7 @@ public class DataServiceProperties
    private void initialize()
    {
       this.serverDatasource = "";
-      this.dataSources = new HashMap<String, DataSource>();
+      // this.dataSources = new HashMap<String, DataSource>();
       this.agents = new HashMap<String, PluginProperties>();
       this.ormLists = new HashMap<String, List>();
    }

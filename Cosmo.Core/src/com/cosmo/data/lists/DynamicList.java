@@ -4,7 +4,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import com.cosmo.Workspace;
+import com.cosmo.data.DataAgent;
 import com.cosmo.data.DataConnection;
+import com.cosmo.data.DataFactory;
 
 /**
  * Implementa una lista dinámica cuidos elementos se obtienen de una consulta SQL
@@ -241,9 +243,12 @@ public class DynamicList implements List
       {
          items.clear();
 
-         connection = new DataConnection(workspace.getProperties().getDataProperties().getDataSource(this.connection));
+         /*connection = new DataConnection(workspace.getProperties().getDataProperties().getDataSource(this.connection));
          connection.connect();
-         rs = connection.executeSql(this.sql);
+         rs = connection.executeSql(this.sql);*/
+
+         DataAgent conn = DataFactory.getInstance(workspace, this.connection);
+         rs = conn.executeSql(sql);
          while (rs.next())
          {
             item = new ListItem(rs.getString(this.valueFieldName), 

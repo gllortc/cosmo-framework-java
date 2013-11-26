@@ -3,7 +3,7 @@ package com.cosmo.orm;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.cosmo.data.DataConnection;
+import com.cosmo.data.DataAgent;
 import com.cosmo.data.DataException;
 
 /**
@@ -14,7 +14,7 @@ import com.cosmo.data.DataException;
 public abstract class OrmDriver 
 {
    private String lastSqlSentence;
-   private DataConnection connection;
+   private DataAgent connection;
    
    
    //==============================================
@@ -26,7 +26,7 @@ public abstract class OrmDriver
     * 
     * @param connection Un objeto de conexión a datos.
     */
-   public OrmDriver(DataConnection connection)
+   public OrmDriver(DataAgent connection)
    {
       this.lastSqlSentence = "";
       this.connection = connection;
@@ -158,7 +158,7 @@ public abstract class OrmDriver
    /**
     * Devuelve la conexión a BBDD usada por la instancia.
     */
-   public DataConnection getConnection() 
+   public DataAgent getConnection() 
    {
       return connection;
    }   

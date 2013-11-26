@@ -10,7 +10,6 @@ import com.cosmo.util.PluginProperties;
 
 public class JdbcDataSourceImpl extends DataAgent
 {
-   // private static final String DATASOURCE_CORM_DRIVER = "corm.driver";
    private static final String DATASOURCE_JDBC_DRIVER = "db.jdbc.driver";
    private static final String DATASOURCE_DB_HOST = "db.server";
    private static final String DATASOURCE_DB_PORT = "db.port";
@@ -40,7 +39,6 @@ public class JdbcDataSourceImpl extends DataAgent
       super(properties);
 
       this.jdbcDriver = getProperties().getParamString(DATASOURCE_JDBC_DRIVER);
-      // this.cormDriver = getProperties().getParamString(DATASOURCE_CORM_DRIVER);
       this.host = getProperties().getParamString(DATASOURCE_DB_HOST);
       this.port = getProperties().getParamString(DATASOURCE_DB_PORT);
       this.schema = getProperties().getParamString(DATASOURCE_DB_SCHEMA);

@@ -13,7 +13,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.cosmo.data.DataConnection;
+import com.cosmo.data.DataAgent;
 import com.cosmo.data.DataException;
 import com.cosmo.orm.InvalidMappingException;
 import com.cosmo.orm.OrmDriver;
@@ -32,34 +32,34 @@ public class OrmDriverPostgreSqlImpl extends OrmDriver
    private final static String PROVIDER_NAME = "PostgreSQL CORM Driver";
    private final static String JDBC_DRIVER_CLASS = "org.postgresql.Driver";
 
-   
+
    //==============================================
    // Constructors
    //==============================================
    
-   public OrmDriverPostgreSqlImpl(DataConnection connection)
+   public OrmDriverPostgreSqlImpl(DataAgent connection)
    {
       super(connection);
    }
-   
-   
+
+
    //==============================================
    // Properties
    //==============================================
-   
+
    @Override
    public String getProviderName() 
    {
       return OrmDriverPostgreSqlImpl.PROVIDER_NAME;
    }
-   
+
    @Override
    public String getJdbcDriver() 
    {
       return OrmDriverPostgreSqlImpl.JDBC_DRIVER_CLASS;
    }
-   
-   
+
+
    //==============================================
    // Methods
    //==============================================
@@ -89,7 +89,7 @@ public class OrmDriverPostgreSqlImpl extends OrmDriver
       {
          throw new InvalidMappingException(ormClass.getName() + " is not a CORM object.");
       }
-      
+
       // Configura la cláusula SELECT
       sql.append(SQL_SELECT);
       sql.append(" ");
@@ -109,7 +109,7 @@ public class OrmDriverPostgreSqlImpl extends OrmDriver
          }
       }
       sql.append(" ");
-      
+
       // Configura la cláusula FROM
       sql.append(SQL_FROM);
       sql.append(" ");
@@ -118,10 +118,10 @@ public class OrmDriverPostgreSqlImpl extends OrmDriver
 
       // Configura la cláusula ORDER BY
       if (OrmFactory.haveSortedFields(ormClass))
-      {      
+      {
          sql.append(SQL_ORDERBY);
          sql.append(" ");
-         
+
          // Obtiene la lista de campos
          first = true;
          for (Method method : ormClass.getMethods())
@@ -134,7 +134,7 @@ public class OrmDriverPostgreSqlImpl extends OrmDriver
                   sql.append((first ? "" : ", "));
                   sql.append(cf.dbTableColumn() + " ");
                   sql.append(SQL_ORDERBY_ASC);
-                  
+
                   first = false;
                }
                else if (cf.sort() == FieldSortType.Descending)
@@ -142,24 +142,24 @@ public class OrmDriverPostgreSqlImpl extends OrmDriver
                   sql.append((first ? "" : ", "));
                   sql.append(cf.dbTableColumn() + " ");
                   sql.append(SQL_ORDERBY_DESC);
-                  
+
                   first = false;
                }
             }
          }
       }
-      
+
       // Memoriza la senténcia SQL generada
       this.setLastSqlSentence(sql.toString());
-      
+
       // Ejecuta la senténcia SQL
       this.getConnection().connect();
       rs = this.getConnection().executeSql(sql.toString());
       this.getConnection().disconnect();
-      
+
       return rs;
    }
-   
+
    /**
     * Genera una senténcia SELECT a partir de una instancia de un objeto CORM.
     * 
@@ -611,15 +611,15 @@ public class OrmDriverPostgreSqlImpl extends OrmDriver
 
       return "";
    }
-   
+
    private String getFilter(Object data) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException
    {
       boolean first;
       StringBuilder sql = new StringBuilder();
-      
+
       sql.append(SQL_WHERE);
       sql.append(" ");
-      
+
       first = true;
       for (Method method : data.getClass().getMethods())
       {
@@ -636,7 +636,7 @@ public class OrmDriverPostgreSqlImpl extends OrmDriver
             }
          }
       }
-      
+
       return sql.toString();
    }
 }

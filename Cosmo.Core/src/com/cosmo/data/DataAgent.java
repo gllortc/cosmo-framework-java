@@ -15,6 +15,8 @@ import com.cosmo.util.PluginProperties;
  */
 public abstract class DataAgent
 {
+   private static final String DATASOURCE_CORM_DRIVER = "corm.driver";
+
    // Declaración de variables locales
    private boolean autoCommit;
    private String lastSqlStatement;
@@ -70,6 +72,14 @@ public abstract class DataAgent
    public String getLastSQLStatement()
    {
       return this.lastSqlStatement;
+   }
+
+   /**
+    * Devuelve el nombre cualificado de la clase (<em>driver</em>) de Cosmo ORM que es compatible con el agente.
+    */
+   public String getCompatibleOrmDriver()
+   {
+      return properties.getParamString(DATASOURCE_CORM_DRIVER);
    }
 
 
