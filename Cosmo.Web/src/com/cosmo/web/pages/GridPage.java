@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cosmo.data.DataConnection;
-import com.cosmo.structures.GridData;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.PageContext;
 import com.cosmo.ui.PageContext.ContentColumns;
@@ -18,6 +17,7 @@ import com.cosmo.ui.controls.DynamicMessageControl;
 import com.cosmo.ui.controls.GridControl;
 import com.cosmo.ui.controls.HeaderControl;
 import com.cosmo.ui.controls.Icon;
+import com.cosmo.util.GridData;
 import com.cosmo.web.sample.WeatherManager;
 
 /**

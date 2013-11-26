@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.cosmo.security.annotations.ActivitiesAllowed;
 import com.cosmo.security.auth.AuthenticationFactory;
 import com.cosmo.security.auth.impl.PostgreSqlAuthenticationImpl;
-import com.cosmo.structures.GridData;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.PageContext;
 import com.cosmo.ui.PageContext.ContentColumns;
@@ -21,6 +20,7 @@ import com.cosmo.ui.controls.GridControl;
 import com.cosmo.ui.controls.GridRowAction;
 import com.cosmo.ui.controls.HeaderControl;
 import com.cosmo.ui.controls.Icon;
+import com.cosmo.util.GridData;
 
 /**
  * Página de prova.
