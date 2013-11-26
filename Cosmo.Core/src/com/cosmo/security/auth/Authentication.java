@@ -16,17 +16,17 @@ public interface Authentication
 {
    public static String TOKEN_LOGIN_VALIDATED = "cosmo.authentication.logingateway.success";
 
-   
+
    //------------------------------------------
    // Properties
    //------------------------------------------
-   
+
    /**
     * Devuelve un {@code hash} que contiene los parámetros de configuración del agente de seguridad.
     */
    public HashMap<String, String> getParameters();
-   
-   
+
+
    //------------------------------------------
    // Standard authentication methods
    //------------------------------------------
@@ -53,21 +53,22 @@ public interface Authentication
     * Revalida la sesión de usuario.
     */
    public void validate();
-   
+
+
    //------------------------------------------
    // Login Gateway authentication methods
    //------------------------------------------
-   
+
    /**
     * Indica si el servicio usa un gateway para la autenticación de usuarios.
     */
    // public boolean isLoginGatewayRequired();
-   
+
    /**
     * Devuelve la URL usada para la autenticación de usuarios.
     */
    public String getLoginGatewayUrl();
-   
+
    /**
     * Indica si una respuesta corresponde al retorno de la acción de login.
     * 
@@ -76,7 +77,7 @@ public interface Authentication
     * @return {@code true} si la petición corresponde al retorno de la pantalla de login o {@code false} en cualquier otro caso.
     */
    public boolean isLoginGatewayResponse(HttpServletRequest request);
-   
+
    /**
     * Detecta si una autenticación delegada (Login Gateway) ha sido exitosa.<br />
     * Las clases que extiendan a {@link AuthenticationFactory} serán responsables de obtener los datos del usuario 

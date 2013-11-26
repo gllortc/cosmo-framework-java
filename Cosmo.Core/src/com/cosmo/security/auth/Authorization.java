@@ -11,20 +11,21 @@ import com.cosmo.security.UserSecurityPolicy;
  */
 public interface Authorization 
 {
+
    //------------------------------------------
    // Properties
    //------------------------------------------
-   
+
    /**
     * Devuelve un {@code hash} que contiene los parámetros de configuración del agente de seguridad.
     */
    public HashMap<String, String> getParameters();
-   
-   
+
+
    //------------------------------------------
    // Methods
    //------------------------------------------
-   
+
    /**
     * Carga la información de autorización de un usuario determinado.
     * 
