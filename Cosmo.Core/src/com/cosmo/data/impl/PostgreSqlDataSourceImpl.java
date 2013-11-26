@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import org.postgresql.ds.PGPoolingDataSource;
 
-import com.cosmo.structures.PluginProperties;
+import com.cosmo.util.PluginProperties;
 
 public class PostgreSqlDataSourceImpl
 {

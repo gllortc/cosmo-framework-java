@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 import com.cosmo.data.DataAgent;
 import com.cosmo.data.DataException;
-import com.cosmo.structures.PluginProperties;
+import com.cosmo.util.PluginProperties;
 
 public class JdbcDataSourceImpl extends DataAgent
 {

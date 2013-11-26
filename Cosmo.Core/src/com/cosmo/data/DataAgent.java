@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.cosmo.structures.PluginProperties;
+import com.cosmo.util.PluginProperties;
 
 /**
  * Implementa la estructura abstracta de un agente de conexión a datos.<br />
