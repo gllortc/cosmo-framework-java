@@ -11,6 +11,7 @@ import com.cosmo.data.lists.DynamicList;
 import com.cosmo.data.lists.List;
 import com.cosmo.data.lists.ListItem;
 import com.cosmo.data.lists.StaticList;
+import com.cosmo.util.PluginProperties;
 import com.cosmo.util.StringUtils;
 
 /**
@@ -47,6 +48,7 @@ public class DataServiceProperties
    // Declaración de variables locales para UI Services
    private String serverDatasource;
    private HashMap<String, DataSource> dataSources;
+   private HashMap<String, PluginProperties> agents;
    private HashMap<String, List> ormLists;
 
 
@@ -126,6 +128,33 @@ public class DataServiceProperties
    public DataSource getDataSource(String key)
    {
       return this.dataSources.get(key);
+   }
+
+   /**
+    * Obtiene la conexión a datos configurada por defecto.
+    *
+    * @return Una instancia de {@link PluginProperties} que contiene los parámetros de conexión a la base de datos.
+    */
+   public PluginProperties getDataAgent()
+   {
+      if (StringUtils.isNullOrEmptyTrim(this.serverDatasource))
+      {
+         return null;
+      }
+
+      return getDataAgent(this.serverDatasource);
+   }
+
+   /**
+    * Obtiene una conxeión a un orígen de datos.
+    *
+    * @param key Clave identificativa de la conexión.
+    * 
+    * @return Una instancia de {@link PluginProperties} que contiene los parámetros de conexión a la base de datos.
+    */
+   public PluginProperties getDataAgent(String key)
+   {
+      return this.agents.get(key);
    }
 
    /**
@@ -283,6 +312,7 @@ public class DataServiceProperties
    {
       this.serverDatasource = "";
       this.dataSources = new HashMap<String, DataSource>();
+      this.agents = new HashMap<String, PluginProperties>();
       this.ormLists = new HashMap<String, List>();
    }
 }

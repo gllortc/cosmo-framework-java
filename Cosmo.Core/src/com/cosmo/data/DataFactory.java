@@ -78,7 +78,7 @@ public class DataFactory
       }
       else
       {
-         PluginProperties agent = workspace.getProperties().getCommProperties().getCommunicationAgent(agentId);
+         PluginProperties agent = workspace.getProperties().getDataProperties().getDataAgent(agentId);
 
          className = agent.getModuleClass();
          if (StringUtils.isNullOrEmptyTrim(className))
