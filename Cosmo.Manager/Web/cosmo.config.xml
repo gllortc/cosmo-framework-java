@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <cosmo-settings ver="1.0" app-id="Cosmo.Manager">
-   
+
+   <application>
+      <title>Cosmo Manager</title>
+      <url>http://localhost:8080/Cosmo.Manager/</url>
+      <mail>gllort@dipta.cat</mail>
+      <charset>ISO-8859-1</charset>
+      <language>es</language>
+   </application>
+
    <!-- SETTINGS -->
    <settings>
 
       <param key="ws.title" value="Cosmo Manager" />
       <param key="ws.url" value="http://localhost:8080/Cosmo.Manager/" />
       <param key="ws.mail" value="gllort@dipta.cat" />
-      
       <param key="ws.ui.charset" value="ISO-8859-1" />
       <param key="ws.ui.lang" value="es" />
+
       <param key="ws.ui.render.provider" value="com.cosmo.ui.render.impl.CosmoPageRenderImpl" />
-      
       <param key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoStaticMenuProvider" />
       <!-- value key="ws.menu.provider" value="com.cosmo.ui.widgets.providers.CosmoDynamicMenuProvider" / -->
-
       <param key="ws.logger.provider" value="com.cosmo.logging.impl.JdkLogFactory" />
 
-      <param key="ws.data.serverId" value="cosmo.server" />
+      <!-- <param key="ws.data.serverId" value="cosmo.server" />
       
       <param key="ws.comm.mail.transport.protocol" value="smtp" />
       <param key="ws.comm.mail.smtp.host" value="smtp.gmail.com" />
@@ -27,7 +33,7 @@
       <param key="ws.comm.mail.smtp.login" value="XXXXXX@gmail.com" />
       <param key="ws.comm.mail.smtp.password" value="XXXXXXX" />
       <param key="ws.comm.mail.smtp.from.name" value="Cosmo Communications Server" />
-      <param key="ws.comm.mail.smtp.from.address" value="XXXXXXX" />
+      <param key="ws.comm.mail.smtp.from.address" value="XXXXXXX" />  -->
 
    </settings>
 
@@ -61,10 +67,20 @@
    </ui-services>
 
    <!-- DATA SERVICES -->
-   <data-services>
+   <data-services default-connection="cosmo.server">
+
+      <connection id="cosmo.server" driver="com.cosmo.data.impl.JdbcDataSourceImpl">
+         <param key="corm.driver" value="com.cosmo.data.orm.impl.OrmDriverPostgreSqlImpl" />
+         <param key="db.jdbc.driver" value="org.postgresql.Driver" />
+         <param key="db.server" value="jdbc:postgresql:cosmo-test" />
+         <param key="db.port" value="5432" />
+         <param key="db.schema" value="public" />
+         <param key="db.user.login" value="postgres" />
+         <param key="db.user.password" value="esfacil" />
+      </connection>
 
       <connections default-connection="cosmo.server">
-         <connection id="cosmo.server" 
+         <connectioxn id="cosmo.server" 
                      corm.driver="com.cosmo.data.orm.impl.OrmDriverPostgreSqlImpl"
                      jdbc.driver="org.postgresql.Driver" 
                      server="jdbc:postgresql:cosmo-test" 
@@ -72,7 +88,7 @@
                      schema="public" 
                      user="postgres" 
                      pwd="esfacil" />
-         <connection id="rwm" 
+         <connectioxn id="rwm" 
                      corm.driver="com.cosmo.data.orm.impl.OrmDriverPostgreSqlImpl"
                      jdbc.driver="org.postgresql.Driver" 
                      server="jdbc:postgresql:rwm" 
