@@ -24,7 +24,7 @@ public class CommServiceProperties
 
    private static final String XML_ATT_DEFAULTDRIVER = "communication-agent";
 
-   // Declaración de variables locales para Communication Services
+   // Declaración de variables locales
    private String commAgentId;
    private HashMap<String, PluginProperties> commAgents;
 
@@ -32,7 +32,12 @@ public class CommServiceProperties
    //==============================================
    // Constructors
    //==============================================
-   
+
+   /**
+    * Constructor de la clase {@link CommServiceProperties}.
+    *  
+    * @param xmlDocument Una instancia de {@link Document} que representa el archivo XML de configuración.
+    */
    public CommServiceProperties(Document xmlDocument)
    {
       loadProperties(xmlDocument);
@@ -69,7 +74,7 @@ public class CommServiceProperties
       {
          return null;
       }
-      
+
       return this.getCommunicationAgent(this.commAgentId);
    }
 

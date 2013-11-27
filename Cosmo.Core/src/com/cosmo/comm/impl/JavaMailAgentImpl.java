@@ -37,7 +37,7 @@ public class JavaMailAgentImpl extends CommAgent
 
    private static final int DEFAULT_SMTP_PORT = 25;
 
-   // private Workspace workspace;
+   // Declaración de variables locales
    private String transportProtocol;
    private String host;
    private int port;
@@ -193,14 +193,14 @@ public class JavaMailAgentImpl extends CommAgent
          }
          msg.setSubject(message.getSubject());
          msg.setText(message.getBody());
-   
+
          // Si el mensaje tiene cuerpo en formato HTML, lo agrega como adjunto al correo electrónico
          if (!StringUtils.isNullOrEmptyTrim(message.getHtmlBody()))
          {
             MimeBodyPart attachment = new MimeBodyPart();
             attachment.setContent(message.getHtmlBody(), "text/html");
             multiPart.addBodyPart(attachment);
-   
+
             isMultipart = true;
          }
          
@@ -208,16 +208,16 @@ public class JavaMailAgentImpl extends CommAgent
          for (MimeBodyPart attachment : message.getAttachments())
          {
             multiPart.addBodyPart(attachment);
-   
+
             isMultipart = true;
          }
-   
+
          // Establece el contenido adjunto al correo electrónico
          if (isMultipart)
          {
             msg.setContent(multiPart);
          }
-   
+
          // Realiza el envio del correo electrónico
          Transport transport = session.getTransport(transportProtocol);
          transport.connect(host, login, password);

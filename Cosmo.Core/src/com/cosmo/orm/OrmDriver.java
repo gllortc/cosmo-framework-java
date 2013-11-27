@@ -13,16 +13,17 @@ import com.cosmo.data.DataException;
  */
 public abstract class OrmDriver 
 {
+   // Declaración de variables locales
    private String lastSqlSentence;
    private DataAgent connection;
-   
-   
+
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link OrmDriver}.
     * 
     * @param connection Un objeto de conexión a datos.
     */
@@ -31,8 +32,8 @@ public abstract class OrmDriver
       this.lastSqlSentence = "";
       this.connection = connection;
    }
-   
-   
+
+
    //==============================================
    // Abstract members
    //==============================================
@@ -42,12 +43,12 @@ public abstract class OrmDriver
     * Debe especificar claramente para qué gestor de BBDD está implementado (nombre del producto).
     */
    public abstract String getProviderName();
-   
+
    /**
     * Devuelve el nombre cualificado de la clase que actúa de driver para la conexión JDBC.
     */
    public abstract String getJdbcDriver();
-   
+
    /**
     * Genera una senténcia SELECT a partir de un objeto CORM que selecciona todos los registros.
     * 
@@ -63,7 +64,7 @@ public abstract class OrmDriver
     * @throws Exception 
     */
    public abstract ResultSet select(Class<?> ormObject, boolean showAllColumns) throws InvalidMappingException, SQLException, DataException, Exception;
-   
+
    /**
     * Genera una senténcia SELECT que devuelve un listado de objetos del tipo apuntado por el objeto CORM proporcionado.
     * 
@@ -81,7 +82,7 @@ public abstract class OrmDriver
    {
       return select(ormObject, true);
    }
-   
+
    /**
     * Obtiene un registro a partir de una instancia de un objeto CORM.
     * 
@@ -96,7 +97,7 @@ public abstract class OrmDriver
     * @throws Exception 
     */
    public abstract Object get(Object data) throws InvalidMappingException, SQLException, DataException, Exception;
-   
+
    /**
     * Genera una senténcia INSERT INTO a partir de una instancian de un objeto CORM.
     * 
@@ -108,7 +109,7 @@ public abstract class OrmDriver
     * @throws Exception 
     */
    public abstract void insert(Object data) throws InvalidMappingException, SQLException, DataException, Exception;
-   
+
    /**
     * Elimina el registro de la tabla de datos que indica el valor asociado a/los campo/s identificador/es.
     * 
@@ -120,7 +121,7 @@ public abstract class OrmDriver
     * @throws InvalidMappingException 
     */
    public abstract void delete(Object data) throws InvalidMappingException, SQLException, DataException, Exception;
-   
+
    /**
     * Actualiza la información del registro de la tabla de datos que indica el valor asociado a/los campo/s identificador/es.
     * 
@@ -132,12 +133,12 @@ public abstract class OrmDriver
     * @throws InvalidMappingException 
     */
    public abstract void update(Object data) throws InvalidMappingException, SQLException, DataException, Exception;
-   
-   
+
+
    //==============================================
    // Properties
    //==============================================
-   
+
    /**
     * Devuelve la última senténcia SQL generada y ejecutada.
     */
@@ -145,7 +146,7 @@ public abstract class OrmDriver
    {
       return lastSqlSentence;
    }
-   
+
    /**
     * Establece la última senténcia SQL generada y ejecutada.<br />
     * Este método sólo será usado por las implementaciones de los distintos ORM.
@@ -154,12 +155,12 @@ public abstract class OrmDriver
    {
       this.lastSqlSentence = sql;
    }
-   
+
    /**
     * Devuelve la conexión a BBDD usada por la instancia.
     */
    public DataAgent getConnection() 
    {
       return connection;
-   }   
+   }
 }

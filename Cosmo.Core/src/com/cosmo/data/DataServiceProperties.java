@@ -46,7 +46,12 @@ public class DataServiceProperties
    //==============================================
    // Constructors
    //==============================================
-   
+
+   /**
+    * Constructor de la clase {@link DataServiceProperties}.
+    * 
+    * @param xmlDocument Una instancia de {@link Document} que representa el archivo XML de configuración.
+    */
    public DataServiceProperties(Document xmlDocument)
    {
       initialize();

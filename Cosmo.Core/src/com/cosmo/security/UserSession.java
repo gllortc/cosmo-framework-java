@@ -18,17 +18,19 @@ import com.cosmo.security.auth.AuthorizationFactory;
  */
 public class UserSession 
 {
+   // Declaración de variables locales
    private Workspace workspace;
    private User currentUser;
    private Date created;
    private UserSecurityPolicy securityInfo;
-   
+
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link UserSession}.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     * @param login Una cadena que contiene el login del usuario.
@@ -42,24 +44,24 @@ public class UserSession
    {
       Authentication authenticator = null;
       Authorization authorizator = null;
-      
+
       initialize();
-      
+
       this.workspace = workspace;
       
       // Instancia el proveedor de autenticación
       authenticator = AuthenticationFactory.getInstance(workspace);
-      
+
       if (authenticator != null)
       {
          // Autenticación
          this.currentUser = authenticator.login(login, pwd);
-         
+
          try
-         {         
+         {
             // Instancia el proveedor de seguridad
             authorizator = AuthorizationFactory.getInstance(workspace);
-            
+
             // Obtiene las políticas de autorización para el usuario autenticado
             this.securityInfo = authorizator.getAuthorizationData(login);
          }
@@ -74,9 +76,9 @@ public class UserSession
          throw new AuthenticationException("La seguridad no está habilitada para este workspace.");
       }
    }
-   
+
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link UserSession}.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     * @param user Una instancia de {@link User} que representa el usuario para el que se desea crear la sesión.
@@ -88,19 +90,19 @@ public class UserSession
    public UserSession(Workspace workspace, User user) throws UserNotFoundException, AuthenticationException, AuthorizationException
    {
       initialize();
-      
+
       this.workspace = workspace;
-      
+
       // Verifica que la seguridad se encuentre habilitada
       Authentication authenticator = AuthenticationFactory.getInstance(workspace);
       if (authenticator == null)
       {
          throw new AuthenticationException("La seguridad no está habilitada para este workspace.");
       }
-      
+
       // Establece el usuario actual
       this.currentUser = user;
-         
+
       // Obtiene la información sobre autorización del usuario
       Authorization authorizator = AuthorizationFactory.getInstance(workspace);
       if (authorizator != null)
@@ -109,7 +111,8 @@ public class UserSession
          this.securityInfo = authorizator.getAuthorizationData(user.getLogin());
       }
    }
-   
+
+
    //==============================================
    // Properties
    //==============================================
@@ -129,10 +132,10 @@ public class UserSession
       {
          return false;
       }
-      
+
       return true;
    }
-   
+
    /**
     * Indica si el usuario, según la información de los roles, tiene rango de Super Usuario (tiene accesoa  todo).
     */
@@ -140,7 +143,7 @@ public class UserSession
    {
       return this.securityInfo.isSuperUser();      
    }
-   
+
    /**
     * Devuelve una instancia de {@link User} que representa el usuario propietario de la sesión.
     */
@@ -164,8 +167,8 @@ public class UserSession
    {
       return workspace;
    }
-   
-   
+
+
    //==============================================
    // Methods
    //==============================================
@@ -194,7 +197,7 @@ public class UserSession
          this.securityInfo = null;
       }
    }
-   
+
    /**
     * Obtiene el número de minutos desde que se creó la sesión de usuario.
     * 
@@ -204,13 +207,13 @@ public class UserSession
    {
       long diffInSeconds;
       Date now;
-      
+
       now = new Date();
       diffInSeconds = (now.getTime() - this.created.getTime()) / 1000;
 
       return (diffInSeconds = (diffInSeconds / 60)) >= 60 ? diffInSeconds % 60 : diffInSeconds;
    }
-   
+
    /**
     * Devuelve un vector con todos los roles assignados al usuario.
     */
@@ -218,7 +221,7 @@ public class UserSession
    {
       return this.securityInfo.getRoles();
    }
-   
+
    /**
     * Determina si el usuario propietario de la sesión tiene asignado un determinado rol.
     * 
@@ -243,7 +246,7 @@ public class UserSession
    {
       return this.securityInfo.isInRole(roleList);
    }
-   
+
    /**
     * Devuelve un vector con todos los permisos sobre actividades del usuario.
     */
@@ -251,7 +254,7 @@ public class UserSession
    {
       return this.securityInfo.getPermissions();
    }
-   
+
    /**
     * Determina si el usuario propietario de la sesión tiene permiso para ejecutar determinada actividad.
     * 
@@ -263,7 +266,7 @@ public class UserSession
    {
       return this.securityInfo.isActivityGranted(activityId);
    }
-   
+
    /**
     * Determina si el usuario propietario de la sesión tiene permiso para ejecutar como mínimo una determinada actividad
     * de las contenidas en una lista.
@@ -276,11 +279,12 @@ public class UserSession
    {
       return this.securityInfo.isActivityGranted(activityList);
    }
-   
+
+
    //==============================================
    // Private members
    //==============================================
-   
+
    /**
     * Inicializa la instancia.
     */
@@ -291,5 +295,4 @@ public class UserSession
       this.created = new Date();
       this.securityInfo = null;
    }
-   
 }

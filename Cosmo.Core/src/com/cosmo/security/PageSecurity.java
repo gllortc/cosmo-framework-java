@@ -20,17 +20,28 @@ import com.cosmo.security.auth.AuthorizationException;
 import com.cosmo.ui.Page;
 
 /**
- * Implementa los mecanismos de seguridad de las páginas de Cosmo.
+ * Implementa los mecanismos de seguridad de las páginas de UI Services de Cosmo.
  * 
  * @author Gerard Llort
   */
 public class PageSecurity 
 {
+
+
+   //==============================================
+   // Contructors
+   //==============================================
+
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link PageSecurity}.
     */
    public PageSecurity() { }
-   
+
+
+   //==============================================
+   // Methods
+   //==============================================
+
    /**
     * Chequea la seguridad de una página y activa los mecanismos necesarios.
     * 
@@ -47,11 +58,11 @@ public class PageSecurity
    {
       // Obtiene el agente de autenticación
       Authentication auth = AuthenticationFactory.getInstance(workspace);
-      
+
       //----------------------
       // Sesión de usuario
       //----------------------
-      
+
       // Realiza el chequeo particular para cada tipo de mecanismo de login.
       if (AuthenticationFactory.isLoginGatewayAgent(auth))
       {
@@ -61,14 +72,14 @@ public class PageSecurity
       {
          checkSession(request, response, workspace, auth, page);
       }
-      
+
       //----------------------
       // Anotaciones
       //----------------------
-      
+
       // NOTA: No se comprueba la anotación AuthenticationRequired debido a que ya va implícita 
       // a la llamada al método isSessionRequired(page)-
-      
+
       // Comprueba si existe la anotación RolesAllowed y efectúa las comporbaciones de seguridad
       if (isRoleAllowed(page))
       {
@@ -78,7 +89,7 @@ public class PageSecurity
                                              " no puede ejecutar la acción solicitada debido a que no tiene ningún rol con permiso.");
          }
       }
-      
+
       // Comprueba si existe la anotación ActivitiesAllowed y efectúa las comporbaciones de seguridad
       if (isActivityAllowed(page))
       {
@@ -88,19 +99,19 @@ public class PageSecurity
                                              " no puede ejecutar la acción solicitada debido a que no tiene permisos sobre la(s) actividad(es) solicitada(s).");
          }
       }
-      
+
       /*
       // Comprueba si la llamada es una respuesta de autenticación (retorno de login)
       if (auth.isLoginGatewayResponse(request))
       {
          // Obtiene el usuario y genera una nueva sesión
          User user = auth.getLoginGatewayUser(request);
-         
+
          if (user == null)
          {
             throw new AuthenticationException("El proveedor de seguridad no pudo obtener las credenciales del usuario autenticado. La autenticación ha fallado.");
          }
-         
+
          workspace.createSession(user);
       }
       
@@ -109,13 +120,13 @@ public class PageSecurity
       {
          return;
       }
-      
+
       // Si es la página de login termina la comprobación
       if (isAuthenticationForm(page) && !AuthenticationFactory.isLoginGatewayAgent(auth))
       {
          return;
       }
-      
+
       // Comprueba si existe autenticación (obligatorio)
       if (!workspace.isValidUserSession())
       {
@@ -126,12 +137,12 @@ public class PageSecurity
             {
                // Obtiene el usuario y genera una nueva sesión
                User user = auth.getLoginGatewayUser(request);
-               
+
                if (user == null)
                {
                   throw new AuthenticationException("El proveedor de seguridad no pudo obtener las credenciales del usuario autenticado. La autenticación ha fallado.");
                }
-               
+
                workspace.createSession(user);
             }
             else
@@ -145,7 +156,7 @@ public class PageSecurity
             // Redirige hacia la pantalla de login
             sendLoginRedirect(workspace, response);
          }
-         
+
          return;
       }
       */
@@ -175,7 +186,7 @@ public class PageSecurity
          sendLoginRedirect(workspace, response);
       }
    }
-   
+
    /**
     * <p>Comprueba la autenticación (no autorización) para una determinada página usando el mecanismo de <em>Login Gateway</em>.
     * El guión del chequeo es el siguiente:</p>
@@ -207,14 +218,14 @@ public class PageSecurity
       {
          // Obtiene el usuario y genera una nueva sesión
          User user = auth.getLoginGatewayUser(request);
-         
+
          if (user == null)
          {
             throw new AuthenticationException("El proveedor de seguridad no pudo obtener las credenciales del usuario autenticado. La autenticación ha fallado.");
          }
-         
+
          workspace.createUserSession(user);
-         
+
          if (isAuthenticationForm(page))
          {
             // PATCH: Cuando el usuario se autentica mediante <em>Login Widget</em>, para evitar que se muestre el formualrio de login 
@@ -229,7 +240,7 @@ public class PageSecurity
          sendLoginGatewayRedirect(workspace, auth, response);
       }
    }
-   
+
    /**
     * Redirecciona el flujo hacia la pantalla (o mecanismo) de login mediante <em>Login Gateway</em>.
     * 
@@ -243,7 +254,7 @@ public class PageSecurity
    {
       response.sendRedirect(auth.getLoginGatewayUrl());
    }
-   
+
    /**
     * Envia una redirección hacia el mecanismo de authenticación (login).
     * 
@@ -254,14 +265,14 @@ public class PageSecurity
    private void sendLoginRedirect(Workspace workspace, HttpServletResponse response) throws IOException
    {
       URL url;
-      
+
       url = new URL(workspace.getProperties().getSecurityProperties().getLoginPage());
       url.addParameter(Cosmo.URL_PARAM_TOURL, workspace.getRequestedUrl());
-      
+
       // Redirecciona la página al servlet de LOGIN.
       response.sendRedirect(url.build(workspace.getCharset()));
    }
-   
+
    /**
     * Indica si la página requiere sesión de usuario (contiene alguna anotación de seguridad) para ser accedida.
     * 
@@ -272,14 +283,14 @@ public class PageSecurity
    private boolean isSessionRequired(Page page)
    {
       boolean sessionRequired = false;
-      
+
       sessionRequired = sessionRequired || (page.getClass().isAnnotationPresent(AuthenticationRequired.class));
       sessionRequired = sessionRequired || (page.getClass().isAnnotationPresent(RolesAllowed.class));
       sessionRequired = sessionRequired || (page.getClass().isAnnotationPresent(ActivitiesAllowed.class));
-      
+
       return sessionRequired;
    }
-   
+
    /**
     * Indica si la página implementa el formulario de autenticación (<em>login</em>).
     * 
@@ -291,7 +302,7 @@ public class PageSecurity
    {
       return page.getClass().isAnnotationPresent(AuthenticationForm.class);
    }
-   
+
    /**
     * Indica si la página requiere uno de los roles especificados para ser accedida. 
     */
@@ -299,7 +310,7 @@ public class PageSecurity
    {
       return page.getClass().isAnnotationPresent(RolesAllowed.class);
    }
-   
+
    /**
     * Obtiene la lista de roles admitidos para ejecutar determinada página.<br />
     * El usuario debe disponer de una de ellas para ejecutar la página.
@@ -310,18 +321,18 @@ public class PageSecurity
    {
       RolesAllowed ra;
       ArrayList<String> list;
-      
+
       list = new ArrayList<String>();
       ra = page.getClass().getAnnotation(RolesAllowed.class);
-      
+
       for (String str : ra.value())
       {
          list.add(str);
       }
-      
+
       return list;
    }
-   
+
    /**
     * Indica si la página requiere permisos sobre una o varias actividades para ser accedida. 
     */
@@ -329,7 +340,7 @@ public class PageSecurity
    {
       return page.getClass().isAnnotationPresent(ActivitiesAllowed.class);
    }
-   
+
    /**
     * Obtiene una lista de las actividades requeridas para ejecutar determinada página.<br />
     * El usuario debe disponer de permiso sobre una de ellas para ejecutar la página.
@@ -340,15 +351,15 @@ public class PageSecurity
    {
       ActivitiesAllowed aa;
       ArrayList<String> list;
-      
+
       list = new ArrayList<String>();
       aa = page.getClass().getAnnotation(ActivitiesAllowed.class);
-      
+
       for (String str : aa.value())
       {
          list.add(str);
       }
-      
+
       return list;
    }
 }

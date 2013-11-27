@@ -12,10 +12,11 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class HttpRequestUtils 
 {
+
    //==============================================
    // Static members
    //==============================================
-   
+
    /**
     * Obtiene un valor pasado por GET o POST.
     * 
@@ -27,7 +28,7 @@ public class HttpRequestUtils
    {
       return getValue(request, fieldName, "");
    }
-   
+
    /**
     * Obtiene un valor pasado por GET o POST.
     * 
@@ -51,7 +52,7 @@ public class HttpRequestUtils
          return request.getParameter(fieldName);
       }
    }
-   
+
    /**
     * Obtiene un valor pasado por GET o POST.
     * 
@@ -63,7 +64,7 @@ public class HttpRequestUtils
    {
       return Integer.valueOf(getValue(request, fieldName, "0"));
    }
-   
+
    /**
     * Obtiene un valor pasado por GET o POST.
     * 
@@ -81,10 +82,10 @@ public class HttpRequestUtils
       {
          return defaultValue;
       }
-      
+
       return Integer.valueOf(getValue(request, fieldName, "" + defaultValue));
    }
-   
+
    /**
     * Obtiene un valor pasado por GET o POST de tipo {@code Double}.
     * 
@@ -97,7 +98,7 @@ public class HttpRequestUtils
    {
       return Double.valueOf(getValue(request, fieldName, "0"));
    }
-   
+
    /**
     * Obtiene un valor pasado por GET o POST de tipo {@code Double}.
     * 
@@ -117,10 +118,10 @@ public class HttpRequestUtils
       {
          return defaultValue;
       }
-      
+
       return Double.valueOf(getValue(request, fieldName, "" + defaultValue));
    }
-   
+
    /**
     * Obtiene un valor pasado por GET o POST de tipo {@code Boolean}.<br />
     * El formato aceptado por éste método es {@code 0} / {@code false} y {@code 1} / {@code true}.
@@ -135,7 +136,7 @@ public class HttpRequestUtils
    {
       return getBoolean(request, fieldName, false);
    }
-   
+
    /**
     * Obtiene un valor pasado por GET o POST de tipo {@code Boolean}.<br />
     * El formato aceptado por éste método es {@code 0} / {@code false} y {@code 1} / {@code true}.
@@ -168,10 +169,10 @@ public class HttpRequestUtils
             return true;
          }
       }
-      
+
       return defaultValue;
    }
-   
+
    /**
     * Obtiene un valor pasado por GET o POST de tipo {@code Date}.<br />
     * El formato aceptado por éste método es {@code yyyy-mm-dd}.
@@ -196,10 +197,10 @@ public class HttpRequestUtils
       {
          return null;
       }
-      
+
       return Date.valueOf(getValue(request, fieldName));
    }
-   
+
    /**
     * Indica si un parÃ¡metro ha sido proporcionado por el servidor.
     *  
@@ -222,7 +223,7 @@ public class HttpRequestUtils
          return StringUtils.isNullOrEmpty(request.getParameter(fieldName));
       }
    }
-   
+
    /**
     * Determina si dos parÃ¡metros contienen el mismo valor.
     * 

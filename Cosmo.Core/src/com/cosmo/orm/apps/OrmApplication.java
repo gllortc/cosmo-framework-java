@@ -10,6 +10,7 @@ import com.cosmo.net.URL;
  */
 public class OrmApplication 
 {
+   // Declaración de variables locales
    private String id;
    private String className;
    private String connectionId;
@@ -18,13 +19,14 @@ public class OrmApplication
    private boolean canCreate;
    private boolean canDelete;
    private boolean canEdit;
-   
+
+
    //==============================================
    // Constructors
    //==============================================
    
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link OrmApplication}.
     */
    public OrmApplication()
    { 
@@ -33,7 +35,7 @@ public class OrmApplication
       this.canEdit = false;
    }
 
-   
+
    //==============================================
    // Properties
    //==============================================
@@ -118,6 +120,7 @@ public class OrmApplication
       this.canEdit = enabled;
    }
 
+
    //==============================================
    // Methods
    //==============================================
@@ -133,7 +136,7 @@ public class OrmApplication
    {
       URL url = new URL(workspace.getUrl() + OrmDataService.URL_BASE);
       url.addParameter("appid", this.id);
-      
+
       return url.toString();
    }
 }

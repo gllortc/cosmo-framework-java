@@ -36,7 +36,12 @@ public class OrmServiceProperties
    //==============================================
    // Constructors
    //==============================================
-   
+
+   /**
+    * Constructor de la clase {@link OrmServiceProperties}.
+    * 
+    * @param xmlDocument Una instancia de {@link Document} que representa el archivo XML de configuración.
+    */
    public OrmServiceProperties(Document xmlDocument)
    {
       loadProperties(xmlDocument);

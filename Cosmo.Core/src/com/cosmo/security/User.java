@@ -1,28 +1,27 @@
 package com.cosmo.security;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * Representa un usuario de Cosmo.
  * 
- * @author gerard llort
+ * @author Gerard Llort
  */
 public class User implements java.security.Principal
 {
-   // private int id;
    private String login;
-   // private String pwd;
    private String mail;
    private String name;
    private Date created;
    private Date lastLogon;
    private int logonCount;
 
-   
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
     * Constructor de la clase.
     */
@@ -30,7 +29,7 @@ public class User implements java.security.Principal
    {
       initialize();
    }
-   
+
    /**
     * Constructor de la clase.
     * 
@@ -41,25 +40,16 @@ public class User implements java.security.Principal
    public User(String login, String mail, String name)
    {
       initialize();
-      
+
       this.login = login;
       this.mail = mail;
       this.name = name;
    }
-   
+
+
    //==============================================
    // Properties
    //==============================================
-   
-   /*public int getId() 
-   {
-      return id;
-   }
-
-   public void setId(int id) 
-   {
-      this.id = id;
-   }*/
 
    public String getLogin() 
    {
@@ -111,11 +101,17 @@ public class User implements java.security.Principal
       this.lastLogon = lastLogon;
    }
 
+   /**
+    * Devuelve el número de veces que el usuario se ha autenticado.
+    */
    public int getLogonCount() 
    {
       return logonCount;
    }
 
+   /**
+    * Establece el número de veces que el usuario se ha autenticado.
+    */
    public void setLogonCount(int logonCount) 
    {
       this.logonCount = logonCount;
@@ -123,9 +119,30 @@ public class User implements java.security.Principal
 
 
    //==============================================
+   // Methods
+   //==============================================
+
+   /**
+    * Transforma la información de la instancia en una cadena con información comprensible. 
+    */
+   @Override
+   public String toString()
+   {
+      SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+      
+      return "[login       : " + this.login + "\n" +
+             " mail        : " + this.mail + "\n" +
+             " name        : " + this.name + "\n" +
+             " created     : " + sdf.format(this.created) + "\n" +
+             " last logon  : " + sdf.format(this.lastLogon) + "\n" +
+             " logon count : " + this.logonCount + "]";
+   }
+
+
+   //==============================================
    // Private members
    //==============================================
-   
+
    /**
     * Inicializa la instancia.
     */

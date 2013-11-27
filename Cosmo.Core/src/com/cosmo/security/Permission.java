@@ -8,17 +8,22 @@ package com.cosmo.security;
 public class Permission extends Activity
 {
    private boolean isGranted;
-   
+
+
+   //==============================================
+   // Contructors
+   //==============================================
+
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link Permission}.
     */
    public Permission()
    {
       super();
-      
+
       this.isGranted = false;
    }
-   
+
    /**
     * Constructor de la clase.
     * 
@@ -28,13 +33,18 @@ public class Permission extends Activity
    public Permission(Activity activity, boolean isGranted)
    {
       super();
-      
+
       this.setId(activity.getId());
       this.setDescription(activity.getDescription());
       this.setGrantedByDefault(activity.isGrantedByDefault());
       this.setEnabled(activity.isEnabled());
       this.isGranted = isGranted;
    }
+
+
+   //==============================================
+   // Properties
+   //==============================================
 
    /**
     * Indica si la actividad asociada está permitida.
@@ -55,7 +65,12 @@ public class Permission extends Activity
    {
       this.isGranted = isGranted;
    }
-   
+
+
+   //==============================================
+   // Methods
+   //==============================================
+
    /**
     * Transforma la información de la instancia en una cadena con información comprensible. 
     */

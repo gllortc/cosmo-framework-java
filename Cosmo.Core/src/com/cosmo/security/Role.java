@@ -11,9 +11,14 @@ public class Role
    private String description;
    private String applicationId;
    private boolean superUser;
-   
+
+
+   //==============================================
+   // Contructors
+   //==============================================
+
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link Role}.
     */
    public Role() 
    {
@@ -22,7 +27,12 @@ public class Role
       this.applicationId = "";
       this.superUser = false;
    }
-   
+
+
+   //==============================================
+   // Properties
+   //==============================================
+
    /**
     * Devuelve el identificador del rol.
     */
@@ -30,7 +40,7 @@ public class Role
    {
       return id;
    }
-   
+
    /**
     * Establece el identificador del rol.
     */
@@ -38,7 +48,7 @@ public class Role
    {
       this.id = id;
    }
-   
+
    /**
     * Devuelve la descripción del rol.
     */
@@ -46,7 +56,7 @@ public class Role
    {
       return description;
    }
-   
+
    /**
     * Establece la descripción del rol.
     */
@@ -54,7 +64,7 @@ public class Role
    {
       this.description = description;
    }
-   
+
    /**
     * Devuelve el identificador de la aplicación.
     * <br /><br />
@@ -65,7 +75,7 @@ public class Role
    {
       return applicationId;
    }
-   
+
    /**
     * Establece el identificador de la aplicación a la que pertenece el rol.
     * <br /><br />
@@ -76,7 +86,7 @@ public class Role
    {
       this.applicationId = applicationId;
    }
-   
+
    /**
     * Indica si el rol es de super usuario (tiene permiso sobre todo).
     */
@@ -93,8 +103,13 @@ public class Role
       this.superUser = superUser;
    }
 
+
+   //==============================================
+   // Methods
+   //==============================================
+
    /**
-    * Transforma la información de la instancia en una cadena con información comprensible. 
+    * Transforma la información de la instancia en una cadena con información comprensible.
     */
    @Override
    public String toString()

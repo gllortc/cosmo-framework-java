@@ -181,7 +181,7 @@ public class Message
    public void addAttachment(String fileName, String mimeType) throws MessagingException
    {
       DataSource source = new FileDataSource(fileName);
-      
+
       MimeBodyPart attachment = new MimeBodyPart();
       attachment.setFileName("manual.pdf");
       attachment.setDataHandler(new DataHandler(source));

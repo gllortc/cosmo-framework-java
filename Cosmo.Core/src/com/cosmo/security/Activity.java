@@ -11,9 +11,14 @@ public class Activity
    private String description;
    private boolean isGrantedByDefault;
    private boolean enabled;
-   
+
+
+   //==============================================
+   // Contructors
+   //==============================================
+
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link Activity}.
     */
    public Activity()
    {
@@ -22,9 +27,9 @@ public class Activity
       this.isGrantedByDefault = false;
       this.enabled = true;
    }
-   
+
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link Activity}.
     * 
     * @param id Identificador de la actividad.
     */
@@ -35,7 +40,12 @@ public class Activity
       this.isGrantedByDefault = false;
       this.enabled = true;
    }
-   
+
+
+   //==============================================
+   // Properties
+   //==============================================
+
    /**
     * Devuelve el identificador de la actividad.
     */
@@ -43,7 +53,7 @@ public class Activity
    {
       return id;
    }
-   
+
    /**
     * Establece el identificador de la actividad.
     */
@@ -51,7 +61,7 @@ public class Activity
    {
       this.id = id;
    }
-   
+
    /**
     * Devuelve la descripción de la actividad.
     */
@@ -59,7 +69,7 @@ public class Activity
    {
       return description;
    }
-   
+
    /**
     * Establece la descripción de la actividad.
     */
@@ -67,39 +77,44 @@ public class Activity
    {
       this.description = description;
    }
-   
+
    /**
     * Indica si la actividad está permitida por defecto.
     * <br /><br />
-    * {@code true} indica que todos los usuarios puede ejecutar la actividad salvo que el rol establezca la denegación.
+    * {@code true} indica que todos los usuarios puede ejecutar la actividad salvo que el rol establezca la denegación.<br />
     * {@code false} (valor por defecto) indica que ningún usuario puede ejecutar la actividad salvo aquellos cuyo rol lo permita.
     */
    public boolean isGrantedByDefault() 
    {
       return isGrantedByDefault;
    }
-   
+
    public void setGrantedByDefault(boolean isGrantedByDefault) 
    {
       this.isGrantedByDefault = isGrantedByDefault;
    }
-   
+
    /**
     * Indica si la actividad está activa.
     * * <br /><br />
-    * {@code true} indica que la actividad está activa y se puede ejecutar (según permisos de rol).
+    * {@code true} indica que la actividad está activa y se puede ejecutar (según permisos de rol).<br />
     * {@code false} indica que nadie (excepto super-usuarios) pueden ejecutar la actividad.
     */
    public boolean isEnabled() 
    {
       return enabled;
    }
-   
+
    public void setEnabled(boolean enabled) 
    {
       this.enabled = enabled;
    }
-   
+
+
+   //==============================================
+   // Methods
+   //==============================================
+
    /**
     * Transforma la información de la instancia en una cadena con información comprensible. 
     */

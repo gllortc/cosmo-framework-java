@@ -10,6 +10,7 @@ import java.util.HashMap;
  */
 public class UserSecurityPolicy 
 {
+   // Declaración de variables locales
    private boolean superUser;
    private HashMap<String, Role> roles;
    private HashMap<String, Permission> permissions;
@@ -18,9 +19,9 @@ public class UserSecurityPolicy
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link UserSecurityPolicy}.
     */
    public UserSecurityPolicy()
    {
@@ -33,7 +34,7 @@ public class UserSecurityPolicy
    //==============================================
    // Properties
    //==============================================
-   
+
    /**
     * Indica si el usuario, según la información de los roles, tiene rango de Super Usuario (tiene accesoa  todo).
     */
@@ -41,12 +42,12 @@ public class UserSecurityPolicy
    {
       return this.superUser;
    }
-   
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Devuelve un vector con todos los roles assignados al usuario.
     */
@@ -54,7 +55,7 @@ public class UserSecurityPolicy
    {
       return new ArrayList<Role>(this.roles.values());
    }
-   
+
    /**
     * Agrega un rol a la información de seguridad de una sesión de usuario.
     * 
@@ -64,7 +65,7 @@ public class UserSecurityPolicy
    {
       // Añade el rol
       this.roles.put(role.getId(), role);
-      
+
       // Refresca el indicador de Super Usuario
       this.superUser = this.superUser || role.isSuperUser();
    }
@@ -77,13 +78,13 @@ public class UserSecurityPolicy
    public void addRoles(ArrayList<Role> roles)
    {
       this.roles = new HashMap<String, Role>();
-      
+
       for (Role role : roles)
       {
          addRole(role);
       }
    }
-   
+
    /**
     * Devuelve un vector con todos los roles assignados al usuario.
     */
@@ -91,7 +92,7 @@ public class UserSecurityPolicy
    {
       return new ArrayList<Permission>(this.permissions.values());
    }
-   
+
    /**
     * Agrega un permiso sobre una actividad a la información de seguridad de una sesión de usuario.
     * <br /><br />
@@ -103,7 +104,7 @@ public class UserSecurityPolicy
    public void addPermission(Permission permission)
    {
       Permission perm = this.permissions.get(permission.getId());
-      
+
       if (perm == null)
       {
          this.permissions.put(permission.getId(), permission);
@@ -113,7 +114,7 @@ public class UserSecurityPolicy
          this.permissions.put(permission.getId(), permission);
       }
    }
-   
+
    /**
     * Agrega un conjunto de permisos a la información de seguridad de una sesión de usuario.
     * 
@@ -122,13 +123,13 @@ public class UserSecurityPolicy
    public void addPermissions(ArrayList<Permission> permissions)
    {
       this.permissions = new HashMap<String, Permission>();
-      
+
       for (Permission permission : permissions)
       {
          addPermission(permission);
       }
    }
-   
+
    /**
     * Determina si el usuario propietario de la sesión tiene asignado un determinado rol.
     * 
@@ -142,11 +143,11 @@ public class UserSecurityPolicy
       {
          return true;
       }
-      
+
       Role role = this.roles.get(roleId);
       return (role != null);
    }
-   
+
    /**
     * Determina si el usuario propietario de la sesión tiene asignado como mínimo un rol de entre la lista 
     * de roles proporcionada.
@@ -161,21 +162,21 @@ public class UserSecurityPolicy
       {
          return true;
       }
-      
+
       Role role;
       for (String roleId : roleList)
       {
          role = this.roles.get(roleId);
-         
+
          if (role != null)
          {
             return true;
          }
       }
-      
+
       return false;
    }
-   
+
    /**
     * Determina si el usuario propietario de la sesión tiene permiso para ejecutar determinada actividad.
     * 
@@ -189,7 +190,7 @@ public class UserSecurityPolicy
       {
          return true;
       }
-      
+
       Permission permission = this.permissions.get(activityId);
       if (permission == null)
       {
@@ -200,7 +201,7 @@ public class UserSecurityPolicy
          return permission.isGranted();
       }
    }
-   
+
    /**
     * Determina si el usuario propietario de la sesión tiene permiso para ejecutar como mínimo una determinada actividad
     * de las contenidas en una lista.
@@ -220,13 +221,13 @@ public class UserSecurityPolicy
       for (String activityId : activityList)
       {
          permission = this.permissions.get(activityId);
-         
+
          if (permission != null && permission.isGranted())
          {
             return true;
          }
       }
-      
+
       return false;
    }
 }

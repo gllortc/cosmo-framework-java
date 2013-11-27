@@ -27,14 +27,16 @@ import com.cosmo.orm.annotations.CormObjectField.FieldSortType;
  */
 public class OrmFactory 
 {
+   // Declaración de variables locales
    OrmDriver driver;
+
 
    //==============================================
    // Constructors
    //==============================================
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link OrmFactory}.
     * 
     * @param dataSourceId Una cadena que contiene el identificador del DataSource definido en la configuración.
     * @param workspace Una instancia de {@link Workspace} que representa el contexto actual de la aplicación.
@@ -44,10 +46,11 @@ public class OrmFactory
       this.driver = loadDriver(dataSourceId, workspace);
    }
 
+
    //==============================================
    // Properties
    //==============================================
-   
+
    /**
     * Devuelve el nombre del proveedor.<br />
     * Debe especificar claramente para qué gestor de BBDD está implementado (nombre del producto).
@@ -219,7 +222,7 @@ public class OrmFactory
          for (Method method : ormClass.getMethods())
          {
             if (method.isAnnotationPresent(CormFieldSetter.class))
-            {               
+            {
                method.setAccessible(true);
                cfs = method.getAnnotation(CormFieldSetter.class);
                paramType = method.getParameterTypes()[0];
@@ -372,22 +375,12 @@ public class OrmFactory
    private static OrmDriver loadDriver(String dataSourceId, Workspace workspace) throws OrmDriverException
    {
       OrmDriver provider;
-      // DataSource ds = null;
       DataAgent conn = null;
 
       try 
       {
-         // Genera la instancia
-         // ds = workspace.getProperties().getDataProperties().getDataSource(dataSourceId);
-         
-         conn = DataFactory.getInstance(workspace, dataSourceId);
-         /*if (ds == null)
-         {
-            throw new OrmDriverException("Datasource " + dataSourceId + " not found");
-         }*/
-
          // Genera la conexión
-         // conn = new DataConnection(ds);
+         conn = DataFactory.getInstance(workspace, dataSourceId);
 
          // Invoca el constructor del driver
          Class<?> cls = Class.forName(conn.getCompatibleOrmDriver());

@@ -52,7 +52,7 @@ public class OrmDataService extends Page
    public PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       OrmApplication app;
-      
+
       try
       {
          // Obtiene la definición de la aplicación y genera la estructura de página
@@ -170,10 +170,10 @@ public class OrmDataService extends Page
          else if (HttpRequestUtils.getValue(request, PARAMETER_COMMAND, "").equals(COMMAND_EDIT))
          {
             Object instance = OrmFactory.getObjectFromRequest(cls, request);
-            
+
             OrmFactory ormp = new OrmFactory(app.getConnectionId(), getWorkspace());
             instance = ormp.get(instance);
-            
+
             FormControl form = new FormControl(getWorkspace(), app.getId());
             form.addGroup(instance);
             form.addHiddenValue(new FormFieldHidden(PARAMETER_APPID, HttpRequestUtils.getValue(request, PARAMETER_APPID)));
@@ -187,7 +187,7 @@ public class OrmDataService extends Page
             btnBar.addButton(new ButtonBarItem("Nou registre", createActionUrl(app, cls, COMMAND_CREATE, false), Icon.ICON_IMAGE_PLUS));
             btnBar.addButton(new ButtonBarItem("Refrescar", createActionUrl(app, cls, COMMAND_REPORT, false), Icon.ICON_IMAGE_REFRESH));
             pc.addContent(btnBar, ContentColumns.MAIN);
-            
+
             GridControl grid = new GridControl(getWorkspace(), CTRL_GRID);
             grid.addRowAction(new GridRowAction("", createActionUrl(app, cls, COMMAND_EDIT, true), "icon-pencil"));
             grid.addRowAction(new GridRowAction("", createActionUrl(app, cls, COMMAND_DELETE, true), "icon-remove-circle"));

@@ -20,17 +20,19 @@ public class URL
    private static final String TOKEN_PARAM_INIT = "?";
    private static final String TOKEN_PARAM_SEPARATOR = "&";
    private static final String TOKEN_ANCHOR = "#";
-   
+
+   // Declaración de variables locales
    private String url;
    private String anchor;
    private ArrayList<UrlParameter> params;
-   
+
+
    //==============================================
    // Constructors
    //==============================================
    
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link URL}.
     * 
     * @param url Una cadena que representa la URL base (p. ej. www.ibm.es o http://www.microsoft.com).
     */
@@ -41,10 +43,11 @@ public class URL
       this.params = new ArrayList<URL.UrlParameter>();
    }
 
+
    //==============================================
    // Properties
    //==============================================
-   
+
    /**
     * Devuelve la URL base.
     */
@@ -60,7 +63,7 @@ public class URL
    {
       this.url = url;
    }
-   
+
    /**
     * Devuelve el nombre del enlace interno (<em>anchor</em>).
     */
@@ -77,8 +80,9 @@ public class URL
    public void setAnchor(String anchor)
    {
       this.anchor = anchor;
-   }   
-   
+   }
+
+
    //==============================================
    // Methods
    //==============================================
@@ -92,7 +96,7 @@ public class URL
    {
       this.url += (this.url.endsWith("/") ? "" : "/") + name;
    }
-   
+
    /**
     * Agrega un nuevo parámetro a la URL.
     * 
@@ -103,7 +107,7 @@ public class URL
    {
       this.params.add(new UrlParameter(name, value));
    }
-   
+
    /**
     * Agrega un nuevo parámetro a la URL.
     * 
@@ -114,7 +118,7 @@ public class URL
    {
       this.params.add(new UrlParameter(name, value.toString()));
    }
-   
+
    /**
     * Obtiene el valor de un parámetro de tipo {@link String}.
     * 
@@ -126,7 +130,7 @@ public class URL
    {
       return getParameterString(name, "");
    }
-   
+
    /**
     * Obtiene el valor de un parámetro de tipo {@link String}.
     * 
@@ -138,7 +142,7 @@ public class URL
    public String getParameterString(String name, String defaultValue)
    {
       name = name.trim().toLowerCase();
-      
+
       for (UrlParameter param : this.params)
       {
          if (name.equals(param.name))
@@ -146,10 +150,10 @@ public class URL
             return param.value;
          }
       }
-      
+
       return defaultValue;
    }
-   
+
    /**
     * Obtiene el valor de un parámetro de tipo {@link Integer}.
     * 
@@ -161,7 +165,7 @@ public class URL
    {
       return getParameterInt(name, 0);
    }
-   
+
    /**
     * Obtiene el valor de un parámetro de tipo {@link Integer}.
     * 
@@ -173,7 +177,7 @@ public class URL
    public Integer getParameterInt(String name, Integer defaultValue)
    {
       name = name.trim().toLowerCase();
-      
+
       for (UrlParameter param : this.params)
       {
          if (name.equals(param.name))
@@ -188,10 +192,10 @@ public class URL
             }
          }
       }
-      
+
       return defaultValue;
    }
-   
+
    /**
     * Convierte la URL en una cadena de texto para usar.
     * 
@@ -204,9 +208,9 @@ public class URL
       boolean first = true;
       String url = "";
       String encodedValue;
-      
+
       url = this.url;
-      
+
       if (!this.params.isEmpty())
       {
          url += URL.TOKEN_PARAM_INIT;
@@ -220,12 +224,12 @@ public class URL
             {
                encodedValue =  param.value;
             }
-            
+
             url += (first ? "" : URL.TOKEN_PARAM_SEPARATOR) + param.name + "=" + encodedValue;
             first = false;
          }
       }
-      
+
       if (!this.anchor.isEmpty())
       {
          try 
@@ -236,13 +240,13 @@ public class URL
          {
             encodedValue =  anchor;
          }
-         
+
          url += URL.TOKEN_ANCHOR + encodedValue;
       }
-      
+
       return url;
    }
-   
+
    /**
     * Convierte la URL en una cadena de texto para usar.
     * 
@@ -252,7 +256,7 @@ public class URL
    {
       return build(Cosmo.CHARSET_UTF_8);
    }
-   
+
    /**
     * Convierte la URL en una cadena de texto para usar.
     * 
@@ -263,11 +267,12 @@ public class URL
    {
       return build(Cosmo.CHARSET_UTF_8);
    }
-   
+
+
    //==============================================
    // Subclasses
    //==============================================
-   
+
    /**
     * Implementa un parámetro de URL.
     */
@@ -275,7 +280,7 @@ public class URL
    {
       private String name;
       private String value;
-      
+
       // Constructors
       
       public UrlParameter(String name, String value)

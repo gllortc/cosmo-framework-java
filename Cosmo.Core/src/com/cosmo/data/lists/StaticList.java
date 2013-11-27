@@ -11,39 +11,40 @@ import com.cosmo.Workspace;
  */
 public class StaticList implements List
 {
+   // Declaración de variables locales
    private String id;
    private ArrayList<ListItem> items;
 
-   
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link StaticList}.
     */
    public StaticList()
    {
       initialize();
    }
-   
+
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link StaticList}.
     *
     * @param id Una cadena que contiene el identificador único de la lista.
     */
    public StaticList(String id)
    {
       initialize();
-      
+
       this.id = id;
    }
-   
+
 
    //==============================================
    // Properties
    //==============================================
-  
+
    /**
     * Devuelve el identificador único de la lista.
     */
@@ -59,7 +60,7 @@ public class StaticList implements List
    {
       this.id = id;
    }
-   
+
    /**
     * Devuelve el valor seleccionado por defecto en la lista.
     * 
@@ -74,11 +75,11 @@ public class StaticList implements List
             return item.getValue();
          }
       }
-      
+
       return null;
    }
-   
-   
+
+
    //==============================================
    // Methods
    //==============================================
@@ -95,10 +96,10 @@ public class StaticList implements List
       {
          clearDefaultValue();
       }
-      
+
       items.add(item);
    }
-   
+
    /**
     * Elimina un elemento de la lista.
     * 
@@ -108,7 +109,7 @@ public class StaticList implements List
    public void removeListItem(String value) 
    {
       int idx = 0;
-      
+
       for (ListItem item : items)
       {
          if (item.getValue().equals(value))
@@ -116,11 +117,11 @@ public class StaticList implements List
             removeListItem(idx);
             return;
          }
-         
+
          idx++;
       }
    }
-   
+
    /**
     * Elimina un elemento de la lista.
     * 
@@ -151,12 +152,12 @@ public class StaticList implements List
    {
       return items;
    }
-   
-   
+
+
    //==============================================
    // Private members
    //==============================================
-   
+
    /**
     * Inicializa la instancia.
     */
@@ -165,7 +166,7 @@ public class StaticList implements List
       this.id = "";
       this.items = new ArrayList<ListItem>();
    }
-   
+
    /**
     * Elimina cualquier valor por defecto definido.
     */

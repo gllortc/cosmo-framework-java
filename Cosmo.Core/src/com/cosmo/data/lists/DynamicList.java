@@ -28,6 +28,7 @@ public class DynamicList implements List
       Application
    }
 
+   // Declaración de variables locales
    private boolean isLoaded;
    private String id;
    private String connection;
@@ -43,7 +44,7 @@ public class DynamicList implements List
    //==============================================
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link DynamicList}.
     *
     * @param id Una cadena que contiene el identificador único de la lista.
     */
