@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import com.cosmo.Workspace;
 import com.cosmo.data.DataAgent;
-import com.cosmo.data.DataConnection;
 import com.cosmo.data.DataFactory;
 import com.cosmo.security.Activity;
 import com.cosmo.security.Permission;
@@ -106,19 +105,13 @@ public class PostgreSqlAuthorizationImpl implements Authorization
    public ArrayList<Role> getRoles() throws AuthorizationException 
    {
       String sql;
-      // DataSource ds;
-      // DataConnection conn = null;
-      DataAgent conn;
-      
+      DataAgent conn = null;
       ArrayList<Role> roles = new ArrayList<Role>();
-      
+
       try
       {
          // Obtiene la conexión
          conn = DataFactory.getInstance(workspace);
-         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         // conn = new DataConnection(ds);
-         // conn.connect();
 
          // Obtiene la lista de roles
          sql = "SELECT * " +
@@ -150,24 +143,18 @@ public class PostgreSqlAuthorizationImpl implements Authorization
    public ArrayList<Role> getRolesByUser(String login) throws AuthorizationException
    {
       String sql;
-      // DataSource ds;
-      // DataConnection conn = null;
-      DataAgent conn;
-      
+      DataAgent conn = null;
       ArrayList<Role> roles = new ArrayList<Role>();
-      
+
       try
       {
          // Obtiene la conexión
          conn = DataFactory.getInstance(workspace);
-         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         // conn = new DataConnection(ds);
-         // conn.connect();
-         
+
          // Obtiene la lista de roles del usuario
          sql = "SELECT * " +
                "FROM     " + TABLE_ROLES + " Inner Join " + TABLE_USER_ROLES + " On (" + TABLE_ROLES + ".roleid=" + TABLE_USER_ROLES + ".roleid) " +
-               "WHERE    " + TABLE_USER_ROLES + ".usrlogin='" + DataConnection.sqlFormatTextValue(login) + "' " + 
+               "WHERE    " + TABLE_USER_ROLES + ".usrlogin='" + DataAgent.sqlFormatTextValue(login) + "' " + 
                "ORDER BY " + TABLE_ROLES + ".roleid";
          ResultSet rs = conn.executeSql(sql);
          while (rs.next())
@@ -179,10 +166,10 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       {
          throw new AuthorizationException(ex.getMessage(), ex);
       }
-      
+
       return roles;
    }
-   
+
    /**
     * Agrega un nuevo rol.
     * 
@@ -193,23 +180,18 @@ public class PostgreSqlAuthorizationImpl implements Authorization
    public void addRole(Role role) throws AuthorizationException
    {
       String sql;
-      // DataSource ds;
-      // DataConnection conn = null;
-      DataAgent conn;
-      
+      DataAgent conn = null;
+
       try
       {
          // Obtiene la conexión
          conn = DataFactory.getInstance(workspace);
-         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         // conn = new DataConnection(ds);
-         // conn.connect();
-         
+
          // Agrega el nuevo rol
          sql = "INSERT INTO " + TABLE_ROLES + " (roleid, roledescription, roleappid, rolesu) " +
-               "VALUES ('" + DataConnection.sqlFormatTextValue(role.getId()) + "', " +
-                       "'" + DataConnection.sqlFormatTextValue(role.getDescription()) + "', " +
-                       "'" + DataConnection.sqlFormatTextValue(role.getApplicationId()) + "', " +
+               "VALUES ('" + DataAgent.sqlFormatTextValue(role.getId()) + "', " +
+                       "'" + DataAgent.sqlFormatTextValue(role.getDescription()) + "', " +
+                       "'" + DataAgent.sqlFormatTextValue(role.getApplicationId()) + "', " +
                              (role.isSuperUser() ? "true" : "false") + ")";
          conn.execute(sql);
       }
@@ -219,10 +201,13 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       }
       finally
       {
-         // conn.disconnect();
+         if (conn != null)
+         {
+            conn.disconnect();
+         }
       }
    }
-   
+
    /**
     * Elimina un rol y todas sus asociaciones (usuarios asignados y acitivades asignadas).
     * 
@@ -233,31 +218,26 @@ public class PostgreSqlAuthorizationImpl implements Authorization
    public void deleteRole(String roleId) throws AuthorizationException
    {
       String sql;
-      // DataSource ds;
-      // DataConnection conn = null;
-      DataAgent conn;
-      
+      DataAgent conn = null;
+
       try
       {
          // Obtiene la conexión
          conn = DataFactory.getInstance(workspace);
-         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         // conn = new DataConnection(ds);
-         // conn.connect();
-         
+
          // Elimina las asociaciones con actividades 
          sql = "DELETE FROM " + TABLE_ROLE_ACTIVITIES + " " +
-               "WHERE roleid='" + DataConnection.sqlFormatTextValue(roleId) + "'";
+               "WHERE roleid='" + DataAgent.sqlFormatTextValue(roleId) + "'";
          conn.execute(sql);
-         
+
          // Elimina las asociaciones con usuarios
          sql = "DELETE FROM " + TABLE_USER_ROLES + " " +
-               "WHERE roleid='" + DataConnection.sqlFormatTextValue(roleId) + "'";
+               "WHERE roleid='" + DataAgent.sqlFormatTextValue(roleId) + "'";
          conn.execute(sql);
-         
+
          // Elimina el rol
          sql = "DELETE FROM " + TABLE_ROLES + " " +
-               "WHERE roleid='" + DataConnection.sqlFormatTextValue(roleId) + "'";
+               "WHERE roleid='" + DataAgent.sqlFormatTextValue(roleId) + "'";
          conn.execute(sql);
       }
       catch (Exception ex) 
@@ -266,10 +246,13 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       }
       finally
       {
-         // conn.disconnect();
+         if (conn != null)
+         {
+            conn.disconnect();
+         }
       }
    }
-   
+
    /**
     * Actualiza los datos de un rol.<br />
     * La modificación del identificador no está permitido.
@@ -281,24 +264,19 @@ public class PostgreSqlAuthorizationImpl implements Authorization
    public void updateRole(Role role) throws AuthorizationException
    {
       String sql;
-      // DataSource ds;
-      // DataConnection conn = null;
-      DataAgent conn;
+      DataAgent conn = null;
 
       try
       {
          // Obtiene la conexión
          conn = DataFactory.getInstance(workspace);
-         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         // conn = new DataConnection(ds);
-         // conn.connect();
-         
+
          // Agrega el nuevo rol
          sql = "UPDATE " + TABLE_ROLES + " " +
-               "SET roledescription = '" + DataConnection.sqlFormatTextValue(role.getDescription()) + "', " +
-               "    roleappid       = '" + DataConnection.sqlFormatTextValue(role.getApplicationId()) + "', " +
+               "SET roledescription = '" + DataAgent.sqlFormatTextValue(role.getDescription()) + "', " +
+               "    roleappid       = '" + DataAgent.sqlFormatTextValue(role.getApplicationId()) + "', " +
                "    rolesu          =  " + (role.isSuperUser() ? "true" : "false") + " " +
-               "WHERE roleid = '" + DataConnection.sqlFormatTextValue(role.getId()) + "'";
+               "WHERE roleid = '" + DataAgent.sqlFormatTextValue(role.getId()) + "'";
          conn.execute(sql);
       }
       catch (Exception ex) 
@@ -307,15 +285,18 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       }
       finally
       {
-         // conn.disconnect();
+         if (conn != null)
+         {
+            conn.disconnect();
+         }
       }
    }
-   
-   
+
+
    //---------------------
    // ACTIVITY MANAGEMENT
    //---------------------
-   
+
    /**
     * Devuelve una lista completa de actividades definidas en el esquema.
     * 
@@ -326,19 +307,13 @@ public class PostgreSqlAuthorizationImpl implements Authorization
    public ArrayList<Activity> getActivities() throws AuthorizationException
    {
       String sql;
-      // DataSource ds;
-      // DataConnection conn = null;
-
-      DataAgent conn;
+      DataAgent conn = null;
       ArrayList<Activity> activities = new ArrayList<Activity>();
 
       try
       {
          // Obtiene la conexión
          conn = DataFactory.getInstance(workspace);
-         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         // conn = new DataConnection(ds);
-         // conn.connect();
 
          // Obtiene la lista de actividades
          sql = "SELECT * " +
@@ -368,24 +343,19 @@ public class PostgreSqlAuthorizationImpl implements Authorization
    public ArrayList<Activity> getActivitiesByRole(String roleId) throws AuthorizationException
    {
       String sql;
-      // DataSource ds;
-      // DataConnection conn = null;
-      DataAgent conn;
+      DataAgent conn = null;
       ArrayList<Activity> activities = new ArrayList<Activity>();
 
       try
       {
          // Obtiene la conexión
          conn = DataFactory.getInstance(workspace);
-         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         // conn = new DataConnection(ds);
-         // conn.connect();
-         
+
          // Obtiene la lista de actividades del rol especificado
          sql = "SELECT   " + TABLE_ACTIVITIES + ".* " +
                "FROM     " + TABLE_ROLES + " Inner Join " + TABLE_ROLE_ACTIVITIES + " On (" + TABLE_ROLES + ".roleid=" + TABLE_ROLE_ACTIVITIES + ".roleid) " +
                "                             Inner Join " + TABLE_ACTIVITIES + " On (" + TABLE_ROLE_ACTIVITIES + ".actid=" + TABLE_ACTIVITIES + ".actid) " +
-               "WHERE    " + TABLE_ROLES + ".roleid = '" + DataConnection.sqlFormatTextValue(roleId) + "' " +
+               "WHERE    " + TABLE_ROLES + ".roleid = '" + DataAgent.sqlFormatTextValue(roleId) + "' " +
                "ORDER BY " + TABLE_ACTIVITIES + ".actid";
          ResultSet rs = conn.executeSql(sql);
          while (rs.next())
@@ -400,7 +370,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
 
       return activities;
    }
-   
+
    /**
     * Obtiene todas las actividades con permisos otorgados (o denegados) asociadas a los roles asociados al usuario.
     * 
@@ -413,27 +383,22 @@ public class PostgreSqlAuthorizationImpl implements Authorization
    public ArrayList<Permission> getActivitiesByUser(String login) throws AuthorizationException
    {
       String sql;
-      // DataSource ds;
-      // DataConnection conn = null;
-      DataAgent conn;
+      DataAgent conn = null;
       ArrayList<Permission> permissions = new ArrayList<Permission>();
 
       try
       {
          // Obtiene la conexión
          conn = DataFactory.getInstance(workspace);
-         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         // conn = new DataConnection(ds);
-         // conn.connect();
 
          // Obtiene la lista de actividades del usuario
          sql = "SELECT   " + TABLE_ACTIVITIES + ".*, " + TABLE_ROLE_ACTIVITIES + ".isgranted " +
                "FROM     " + TABLE_USER_ROLES + " Inner Join " + TABLE_ROLES + "           On (" + TABLE_ROLES + ".roleid = " + TABLE_USER_ROLES + ".roleid) " +
                "                                  Inner Join " + TABLE_ROLE_ACTIVITIES + " On (" + TABLE_ROLES + ".roleid = " + TABLE_ROLE_ACTIVITIES + ".roleid) " +
                "                                  Inner Join " + TABLE_ACTIVITIES + "      On (" + TABLE_ROLE_ACTIVITIES + ".actid = " + TABLE_ACTIVITIES + ".actid) " +
-               "WHERE    " + TABLE_USER_ROLES + ".usrlogin = '" + DataConnection.sqlFormatTextValue(login) + "' " +
+               "WHERE    " + TABLE_USER_ROLES + ".usrlogin = '" + DataAgent.sqlFormatTextValue(login) + "' " +
                "ORDER BY " + TABLE_ROLE_ACTIVITIES + ".actid";
-         
+
          ResultSet rs = conn.executeSql(sql);
          while (rs.next())
          {
@@ -458,22 +423,17 @@ public class PostgreSqlAuthorizationImpl implements Authorization
    public void addActivity(Activity activity) throws AuthorizationException
    {
       String sql;
-      // DataSource ds;
-      // DataConnection conn = null;
-      DataAgent conn;
+      DataAgent conn = null;
 
       try
       {
          // Obtiene la conexión
          conn = DataFactory.getInstance(workspace);
-         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         // conn = new DataConnection(ds);
-         // conn.connect();
 
          // Agrega la nueva actividad
          sql = "INSERT INTO " + TABLE_ACTIVITIES + " (actid, actdescription, actdefaultgrant, actenabled) " +
-               "VALUES ('" + DataConnection.sqlFormatTextValue(activity.getId()) + "', " +
-                       "'" + DataConnection.sqlFormatTextValue(activity.getDescription()) + "', " +
+               "VALUES ('" + DataAgent.sqlFormatTextValue(activity.getId()) + "', " +
+                       "'" + DataAgent.sqlFormatTextValue(activity.getDescription()) + "', " +
                              (activity.isGrantedByDefault() ? "true" : "false") + ", " +
                              (activity.isEnabled() ? "true" : "false") + ")";
          conn.execute(sql);
@@ -484,7 +444,10 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       }
       finally
       {
-         // conn.disconnect();
+         if (conn != null)
+         {
+            conn.disconnect();
+         }
       }
    }
 
@@ -498,26 +461,21 @@ public class PostgreSqlAuthorizationImpl implements Authorization
    public void deleteActivity(String activityId) throws AuthorizationException
    {
       String sql;
-      // DataSource ds;
-      // DataConnection conn = null;
-      DataAgent conn;
+      DataAgent conn = null;
 
       try
       {
          // Obtiene la conexión
          conn = DataFactory.getInstance(workspace);
-         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         // conn = new DataConnection(ds);
-         // conn.connect();
 
          // Elimina las asociaciones con roles
          sql = "DELETE FROM " + TABLE_ROLE_ACTIVITIES + " " +
-               "WHERE actid='" + DataConnection.sqlFormatTextValue(activityId) + "'";
+               "WHERE actid='" + DataAgent.sqlFormatTextValue(activityId) + "'";
          conn.execute(sql);
 
          // Elimina el rol
          sql = "DELETE FROM " + TABLE_ACTIVITIES + " " +
-               "WHERE actid='" + DataConnection.sqlFormatTextValue(activityId) + "'";
+               "WHERE actid='" + DataAgent.sqlFormatTextValue(activityId) + "'";
          conn.execute(sql);
       }
       catch (Exception ex) 
@@ -526,7 +484,10 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       }
       finally
       {
-         // conn.disconnect();
+         if (conn != null)
+         {
+            conn.disconnect();
+         }
       }
    }
 
@@ -541,24 +502,19 @@ public class PostgreSqlAuthorizationImpl implements Authorization
    public void updateActivity(Activity activity) throws AuthorizationException
    {
       String sql;
-      // DataSource ds;
-      // DataConnection conn = null;
-      DataAgent conn;
+      DataAgent conn = null;
 
       try
       {
          // Obtiene la conexión
          conn = DataFactory.getInstance(workspace);
-         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         // conn = new DataConnection(ds);
-         // conn.connect();
 
          // Agrega el nuevo rol
          sql = "UPDATE " + TABLE_ACTIVITIES + " " +
-               "SET actdescription  = '" + DataConnection.sqlFormatTextValue(activity.getDescription()) + "', " +
+               "SET actdescription  = '" + DataAgent.sqlFormatTextValue(activity.getDescription()) + "', " +
                "    actdefaultgrant =  " + (activity.isGrantedByDefault() ? "true" : "false") + ", " +
                "    actenabled      =  " + (activity.isEnabled() ? "true" : "false") + " " +
-               "WHERE actid = '" + DataConnection.sqlFormatTextValue(activity.getId()) + "'";
+               "WHERE actid = '" + DataAgent.sqlFormatTextValue(activity.getId()) + "'";
          conn.execute(sql);
       }
       catch (Exception ex) 
@@ -567,10 +523,13 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       }
       finally
       {
-         // conn.disconnect();
+         if (conn != null)
+         {
+            conn.disconnect();
+         }
       }
    }
-   
+
    /**
     * Asocia una actividad a un rol.
     * 
@@ -584,25 +543,20 @@ public class PostgreSqlAuthorizationImpl implements Authorization
    public void assignActivityToRole(String activityId, String roleId, boolean isGranted) throws AuthorizationException
    {
       String sql;
-      // DataSource ds;
-      // DataConnection conn = null;
-      DataAgent conn;
+      DataAgent conn = null;
 
       // Si existe esta asociación, la elimina
       unassignActivityFromRole(activityId, roleId);
-      
+
       try
       {
          // Obtiene la conexión
          conn = DataFactory.getInstance(workspace);
-         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         // conn = new DataConnection(ds);
-         // conn.connect();
-         
+
          // Agrega la nueva asociación
          sql = "INSERT INTO " + TABLE_ROLE_ACTIVITIES + " (actid, roleid, isgranted) " +
-               "VALUES ('" + DataConnection.sqlFormatTextValue(activityId) + "', " +
-                       "'" + DataConnection.sqlFormatTextValue(roleId) + "', " +
+               "VALUES ('" + DataAgent.sqlFormatTextValue(activityId) + "', " +
+                       "'" + DataAgent.sqlFormatTextValue(roleId) + "', " +
                              (isGranted ? "true" : "false") + ")";
          conn.execute(sql);
       }
@@ -612,10 +566,13 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       }
       finally
       {
-         // conn.disconnect();
+         if (conn != null)
+         {
+            conn.disconnect();
+         }
       }
    }
-   
+
    /**
     * Rompe una asociación entre una actividad y un rol.
     * 
@@ -627,22 +584,17 @@ public class PostgreSqlAuthorizationImpl implements Authorization
    public void unassignActivityFromRole(String activityId, String roleId) throws AuthorizationException
    {
       String sql;
-      // DataSource ds;
-      // DataConnection conn = null;
-      DataAgent conn;
+      DataAgent conn = null;
 
       try
       {
          // Obtiene la conexión
          conn = DataFactory.getInstance(workspace);
-         // ds = this.workspace.getProperties().getDataProperties().getDataSource();
-         // conn = new DataConnection(ds);
-         // conn.connect();
-         
+
          // Si existe esta asociación, la elimina
          sql = "DELETE FROM " + TABLE_ROLE_ACTIVITIES + " " +
-               "WHERE  actid  = '" + DataConnection.sqlFormatTextValue(activityId) + "' And " +
-               "       roleid = '" + DataConnection.sqlFormatTextValue(roleId) + "'";
+               "WHERE  actid  = '" + DataAgent.sqlFormatTextValue(activityId) + "' And " +
+               "       roleid = '" + DataAgent.sqlFormatTextValue(roleId) + "'";
          conn.execute(sql);
       }
       catch (Exception ex) 
@@ -651,22 +603,25 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       }
       finally
       {
-         // conn.disconnect();
+         if (conn != null)
+         {
+            conn.disconnect();
+         }
       }
    }
-   
-   
+
+
    //==============================================
    // Private members
    //==============================================
-   
+
    /**
     * Lee un rol desde una consulta (ResultSet) que contenga todos los campos de ROLES.
     */
    private Role readRole(ResultSet rs) throws Exception
    {
       Role role = new Role();
-      
+
       try
       {
          role.setId(rs.getString("roleid"));
@@ -678,17 +633,17 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       {
          throw ex;
       }
-      
+
       return role;
    }
-   
+
    /**
     * Lee una actividad desde una consulta (ResultSet) que contenga todos los campos de ACTIVITIES.
     */
    private Activity readActivity(ResultSet rs) throws Exception
    {
       Activity activity = new Activity();
-      
+
       try
       {
          activity.setId(rs.getString("actid"));
@@ -700,7 +655,7 @@ public class PostgreSqlAuthorizationImpl implements Authorization
       {
          throw ex;
       }
-      
+
       return activity;
    }
 }
