@@ -11,11 +11,12 @@ public class FormData
 {
    private String formId;
    private HashMap<String, String> map;
-   
+
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
     * Constructor de la clase.
     * 
@@ -27,10 +28,11 @@ public class FormData
       this.map = null;
    }
 
+
    //==============================================
    // Properties
    //==============================================
-   
+
    /**
     * Devuelve el identificador único del formulario.
     */
@@ -39,10 +41,11 @@ public class FormData
       return formId;
    }
 
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Almacena el valor de un campo del formulario.
     * 
@@ -56,11 +59,11 @@ public class FormData
       {
          this.map = new HashMap<String, String>();
       }
-      
+
       // Almacena el valor
       this.map.put(name, value);
    }
-   
+
    /**
     * Obtiene el valor de un campo del formulario.
     * 
@@ -74,11 +77,11 @@ public class FormData
       {
          return "";
       }
-      
+
       // Devuelve el valor
       return this.map.get(name);
    }
-   
+
    /**
     * Devuelve una cadena de texto que representa los valores contenidos en la instancia.
     */
@@ -86,14 +89,14 @@ public class FormData
    public String toString()
    {
       String val = "";
-      
+
       val += "[";
       for (String str : this.map.keySet())
       {
          val += "[" + str + ": " + this.map.get(str) + "]";
       }
       val += "]";
-      
+
       return val;
    }
 }

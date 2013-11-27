@@ -12,7 +12,7 @@ public class PluginProperties
    private String id;
    private String moduleClass;
    private HashMap<String, String> params;
-   
+
    /**
     * Constructor de la clase.
     */
@@ -22,7 +22,7 @@ public class PluginProperties
       this.moduleClass = "";
       this.params = new HashMap<String, String>();
    }
-   
+
    /**
     * Constructor de la clase.
     * 
@@ -35,7 +35,7 @@ public class PluginProperties
       this.moduleClass = moduleClass;
       this.params = new HashMap<String, String>();
    }
-   
+
    /**
     * Devuelve el identificador del agente.
     */
@@ -43,7 +43,7 @@ public class PluginProperties
    {
       return id;
    }
-   
+
    /**
     * Establece el identificador del agente.
     */
@@ -51,7 +51,7 @@ public class PluginProperties
    {
       this.id = id;
    }
-   
+
    /**
     * Devuelve el nombre completo de la clase (incluyendo el package) del agente. 
     */
@@ -75,7 +75,7 @@ public class PluginProperties
    {
       return params;
    }
-   
+
    /**
     * Establece un valor de confioguración del agente.
     * 
@@ -86,7 +86,7 @@ public class PluginProperties
    {
       params.put(key, value);
    }
-   
+
    /**
     * Permite obtener el valor asociado a una clave de configuración.
     * 
@@ -98,7 +98,7 @@ public class PluginProperties
    {
       return params.get(key);
    }
-   
+
    /**
     * Permite obtener el valor asociado a una clave de configuración de tipo numérico (entero).
     * 
@@ -110,7 +110,7 @@ public class PluginProperties
    public int getParamInteger(String key, int defaultValue)
    {
       String sval;
-      
+
       sval = params.get(key);
       if (sval != null && StringUtils.isNumeric(sval))
       {
@@ -121,7 +121,7 @@ public class PluginProperties
          return defaultValue;
       }
    }
-   
+
    /**
     * Permite obtener el valor asociado a una clave de configuración de tipo booleano.
     * 
@@ -133,13 +133,13 @@ public class PluginProperties
    public boolean getParamBoolean(String key, boolean defaultValue)
    {
       String sval;
-      
+
       sval = params.get(key);
       if (sval == null)
       {
          return defaultValue;
       }
-      
+
       if (StringUtils.isNumeric(sval))
       {
          return (Integer.parseInt(params.get(key)) > 0);
@@ -147,7 +147,7 @@ public class PluginProperties
       else
       {
          sval = sval.trim().toLowerCase();
-         
+
          if (sval.trim().toLowerCase().equals("true"))
          {
             return true;
@@ -162,7 +162,7 @@ public class PluginProperties
          }
       }
    }
-   
+
    /**
     * Permite obtener el valor asociado a una clave de configuración.<br />
     * Si la clave no tiene un valor asociado, devuelve 0.
@@ -175,7 +175,7 @@ public class PluginProperties
    {
       return getParamInteger(key, 0);
    }
-   
+
    /**
     * Transforma la información de la instancia en una cadena con información comprensible. 
     */

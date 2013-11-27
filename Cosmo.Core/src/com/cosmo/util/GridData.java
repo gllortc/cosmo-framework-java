@@ -19,12 +19,12 @@ public class GridData
    private Object[][] map;       // row, col
    private String[] colFields;   // contiene nombres de campo (utilidad opcional)
    private Boolean[] colKeys;    // indica que columnas son parte de la clave primaria (identificador de fila)
-   
-   
+
+
    //==============================================
    // Contructors
    //==============================================
-   
+
    /**
     * Contructor de la clase.
     */
@@ -38,7 +38,7 @@ public class GridData
       this.colFields = new String[10];
       this.colKeys = new Boolean[10];
    }
-   
+
    /**
     * Contructor de la clase.
     * 
@@ -55,8 +55,8 @@ public class GridData
       this.colFields = new String[cols];
       this.colKeys = new Boolean[cols];
    }
-   
-   
+
+
    //==============================================
    // Properties
    //==============================================
@@ -76,12 +76,12 @@ public class GridData
    {
       return rows + 1;
    }
-   
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Establece el valor de una celda de la tabla.
     * 
@@ -100,7 +100,7 @@ public class GridData
       {
          this.cols = col;
       }
-      
+
       if (this.width <= col || this.height <= row)
       {
          this.width = (this.width <= col ? col + 10 : this.width);
@@ -111,7 +111,7 @@ public class GridData
 
       map[row][col] = value;
    }
-   
+
    /**
     * Obtiene el contenido de una celda.
     * 
@@ -124,7 +124,7 @@ public class GridData
    {
       return map[row][col];
    }
-   
+
    /**
     * Obtiene el contenido de una celda.
     * 
@@ -145,7 +145,7 @@ public class GridData
          return map[row][col];
       }
    }
-   
+
    /**
     * Establece los valores de una tabla a partir de una consulta a base de datos.<br />
     * Este método no sabe reconocer los campos ID y por ello no marca los campos que forman la clave primaria.
@@ -156,10 +156,10 @@ public class GridData
    public void setCells(ResultSet rs, boolean useColNameAsHeadTitle) throws SQLException
    {
       int row;
-      
+
       // Obtiene los metadatos de la estructura
       ResultSetMetaData md = rs.getMetaData();
-      
+
       // Agrega la fila de títulos y nombres de campo
       if (useColNameAsHeadTitle)
       {
@@ -195,7 +195,7 @@ public class GridData
          row++;
       }
    }
-   
+
    /**
     * Vacía la tabla de todos sus datos.
     */
@@ -203,7 +203,7 @@ public class GridData
    {
       initialize();
    }
-   
+
    /**
     * Establece el nombre de un campo (columna).
     * <br /><br />
@@ -217,7 +217,7 @@ public class GridData
    {
       this.colFields[col] = fieldName;
    }
-   
+
    /**
     * Obtiene el nombre de un campo (columna).
     * <br /><br />
@@ -232,7 +232,7 @@ public class GridData
    {
       return this.colFields[col];
    }
-   
+
    /**
     * Establece si una columna forma parte de la clave primaria.
     * <br /><br />
@@ -246,7 +246,7 @@ public class GridData
    {
       this.colKeys[col] = isPrimaryKey;
    }
-   
+
    /**
     * Indica si una columna forma parte de la clave primaria.
     * <br /><br />
@@ -261,7 +261,7 @@ public class GridData
    {
       return this.colKeys[col];
    }
-   
+
    /**
     * Obtiene un ID compuesto por todos los valores de las columnas identificador de fila.
     * <br /><br />
@@ -276,21 +276,21 @@ public class GridData
    {
       boolean first = true;
       String id = "";
-      
+
       for (int i = 0; i < this.cols; i++)
       {
          if ((this.colKeys[i] != null) && this.colKeys[i] == true)
          {
             id += (first ? "" : "&");
             id += this.colFields[i] + "=" + map[row][i].toString();
-            
+
             first = false;
          }
       }
-      
+
       return id;
    }
-   
+
    /**
     * Convierte la instancia en una cadena de texto que representa la tabla de datos.
     */
@@ -298,7 +298,7 @@ public class GridData
    public String toString()
    {
       String str = "";
-      
+
       str += "[";
       for (int row = 0; row <= this.rows; row++)
       {
@@ -310,15 +310,15 @@ public class GridData
          str += "]";
       }
       str += "]";
-      
+
       return str;
    }
 
-   
+
    //==============================================
    // Private members
    //==============================================
-   
+
    /**
     * Inicializa la instancia.
     */
@@ -331,7 +331,7 @@ public class GridData
       colFields = new String[10];
       colKeys = new Boolean[10];
    }
-   
+
    /**
     * Redimensiona la tabla de datos sin pérdida de los datos.<br />
     * Este método también redimensiona el array de nombres de campo.
@@ -373,12 +373,12 @@ public class GridData
       Class elementType = oldArray.getClass().getComponentType();
       Object newArray = java.lang.reflect.Array.newInstance(elementType, newSize);
       int preserveLength = Math.min(oldSize, newSize);
-      
+
       if (preserveLength > 0)
       {
          System.arraycopy(oldArray, 0, newArray, 0, preserveLength);
       }
-      
+
       return newArray; 
    }
 }

@@ -19,11 +19,12 @@ public class CryptoUtils
                                         (byte) 0xde, (byte) 0x33, (byte) 0x10, (byte) 0x12 };
 
    private static final String SECRET_KEY_FACTORY = "PBEWithMD5AndDES";
-   
+
+
    //==============================================
    // Static members
    //==============================================
-   
+
    /**
     * Encripta una cadena de texto.
     * Como clave secreta se usará una clave interna.
@@ -37,7 +38,7 @@ public class CryptoUtils
    {
       return encrypt(text, CryptoUtils.PASSWORD);
    }
-   
+
    /**
     * Encripta una cadena de texto.
     * 
@@ -53,7 +54,7 @@ public class CryptoUtils
       SecretKey key = keyFactory.generateSecret(new PBEKeySpec(secretKey.toCharArray()));
       Cipher pbeCipher = Cipher.getInstance(CryptoUtils.SECRET_KEY_FACTORY);
       pbeCipher.init(Cipher.ENCRYPT_MODE, key, new PBEParameterSpec(SALT, 20));
-      
+
       // return base64Encode(pbeCipher.doFinal(text.getBytes()));
       return DatatypeConverter.printBase64Binary(pbeCipher.doFinal(text.getBytes()));
    }
@@ -72,7 +73,7 @@ public class CryptoUtils
    {
       return decrypt(text, CryptoUtils.PASSWORD);
    }
-   
+
    /**
     * Desencripta una cadena de texto.
     * 
@@ -93,16 +94,17 @@ public class CryptoUtils
       // return new String(pbeCipher.doFinal(base64Decode(text)));
       return new String(pbeCipher.doFinal(DatatypeConverter.parseBase64Binary(text)));
    }
-   
+
+
    //==============================================
    // Private members
    //==============================================
-   
+
    /*private static String base64Encode(byte[] bytes) 
    {
       return new BASE64Encoder().encode(bytes);
    }
-   
+
    private static byte[] base64Decode(String text) throws IOException 
    {
       return new BASE64Decoder().decodeBuffer(text);

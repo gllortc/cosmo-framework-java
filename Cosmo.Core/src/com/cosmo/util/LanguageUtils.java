@@ -14,7 +14,7 @@ public class LanguageUtils
 {
    // Configuration file name 
    // private final static String CONFIG_FILE_NAME = "/i18n/message_ca_ES.properties";
-   
+
    // Configuration path
    private final static String CONFIG_FILE_PATH = "/i18n/";
 
@@ -43,7 +43,7 @@ public class LanguageUtils
       loadFile(languageCode);
       setActiveLanguage(languageCode);
    }
-   
+
    /**
     * Constructor de la clase.
     */
@@ -82,7 +82,7 @@ public class LanguageUtils
    public String getActiveLanguage() 
    {
       String lang = null;
-      
+
       if (this.activeLanguage == 0) 
       {
          lang = LanguageUtils.LANG_SPANISH;
@@ -95,7 +95,7 @@ public class LanguageUtils
       {
          lang = LanguageUtils.LANG_ENGLISH;
       }
-      
+
       return lang;
    }
 
@@ -109,7 +109,7 @@ public class LanguageUtils
    {
       return this.properties.getProperty(key);
    }
-   
+
    private void loadFile(String languageCode) 
    {
       this.properties = new Properties();
