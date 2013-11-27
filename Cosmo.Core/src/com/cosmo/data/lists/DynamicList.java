@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import com.cosmo.Workspace;
 import com.cosmo.data.DataAgent;
-import com.cosmo.data.DataConnection;
 import com.cosmo.data.DataFactory;
 
 /**
@@ -231,7 +230,7 @@ public class DynamicList implements List
    {
       ListItem item;
       ResultSet rs;
-      DataConnection connection = null;
+      DataAgent conn = null;
 
       // Si existe caché y ya está cargada la lista la devuelve.
       if (this.cacheMode != CacheMode.None && this.isLoaded)
@@ -243,11 +242,7 @@ public class DynamicList implements List
       {
          items.clear();
 
-         /*connection = new DataConnection(workspace.getProperties().getDataProperties().getDataSource(this.connection));
-         connection.connect();
-         rs = connection.executeSql(this.sql);*/
-
-         DataAgent conn = DataFactory.getInstance(workspace, this.connection);
+         conn = DataFactory.getInstance(workspace, this.connection);
          rs = conn.executeSql(sql);
          while (rs.next())
          {
@@ -266,7 +261,7 @@ public class DynamicList implements List
       {
          if (connection != null)
          {
-            connection.disconnect();
+            conn.disconnect();
          }
       }
 
