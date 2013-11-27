@@ -5,6 +5,7 @@ import java.util.UUID;
 /**
  * Representa un origen de datos (base de datos).
  */
+@Deprecated
 public class DataSource 
 {
    private String id;
