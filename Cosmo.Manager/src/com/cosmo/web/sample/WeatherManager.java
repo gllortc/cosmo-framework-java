@@ -3,7 +3,6 @@ package com.cosmo.web.sample;
 import java.sql.ResultSet;
 
 import com.cosmo.data.DataAgent;
-import com.cosmo.data.DataConnection;
 
 public class WeatherManager 
 {
@@ -21,7 +20,7 @@ public class WeatherManager
          conn.connect();
          
          String sql = "INSERT INTO weather (city, temp_lo, temp_hi, prcp) " +
-                      "VALUES ('" + DataConnection.sqlFormatTextValue(weather.getCityName()) + "', " +
+                      "VALUES ('" + DataAgent.sqlFormatTextValue(weather.getCityName()) + "', " +
                       "         " + weather.getTempMin() + ", " +
                       "         " + weather.getTempMax() + ", " +
                       "         " + weather.getPrecipitation() + ")";
