@@ -11,6 +11,7 @@ import java.sql.Statement;
  * 
  * @author Gerard Llort
  */
+@Deprecated
 public class DataConnection
 {
    private DataSource pds;
