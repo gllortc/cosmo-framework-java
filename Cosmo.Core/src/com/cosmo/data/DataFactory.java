@@ -69,7 +69,7 @@ public class DataFactory
       // Si no se proporciona un identificador de agente, se usa el especificado por defecto en la configuración.
       if (StringUtils.isNullOrEmptyTrim(agentId))
       {
-         agentId = workspace.getProperties().getCommProperties().getDefaultCommunicationsAgentId();
+         agentId = workspace.getProperties().getDataProperties().getDefaultDataAgentId();
       }
 
       if (agents.containsKey(agentId))

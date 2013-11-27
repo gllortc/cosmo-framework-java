@@ -22,8 +22,6 @@ import com.cosmo.util.StringUtils;
  */
 public class DataServiceProperties
 {
-   // Definición de tags y atributos para Data Services
-   // private static final String XML_TAG_DATA = "data-services";
    private static final String XML_TAG_CONNECTIONS = "connections";
    private static final String XML_TAG_CONNECTION = "connection";
    private static final String XML_TAG_DATALISTS = "data-lists";
@@ -34,13 +32,6 @@ public class DataServiceProperties
 
    private static final String XML_ATT_DEFAULTCONN = "default-connection";
    private static final String XML_ATT_ID = "id";
-   private static final String XML_ATT_JDBC_DRIVER = "jdbc.driver";
-   private static final String XML_ATT_CORM_DRIVER = "corm.driver";
-   private static final String XML_ATT_SERVER = "server";
-   private static final String XML_ATT_PORT = "port";
-   private static final String XML_ATT_SCHEMA = "schema";
-   private static final String XML_ATT_USER = "user";
-   private static final String XML_ATT_PASSWORD = "pwd";
    private static final String XML_ATT_DEFAULTVALUE = "default-value";
    private static final String XML_ATT_CONNECTION = "connection";
    private static final String XML_ATT_TITLE = "title";
@@ -48,7 +39,6 @@ public class DataServiceProperties
 
    // Declaración de variables locales para UI Services
    private String serverDatasource;
-   // private HashMap<String, DataSource> dataSources;
    private HashMap<String, PluginProperties> agents;
    private HashMap<String, List> ormLists;
 
@@ -93,21 +83,6 @@ public class DataServiceProperties
    //==============================================
 
    /**
-    * Obtiene la conexión a datos configurada por defecto.
-    *
-    * @return Una instancia de {@link DataSource} que contiene los parámetros de conexión a la base de datos.
-    */
-   /*public DataSource getDataSource()
-   {
-      if (StringUtils.isNullOrEmptyTrim(this.serverDatasource))
-      {
-         return null;
-      }
-
-      return getDataSource(this.serverDatasource);
-   }*/
-
-   /**
     * Obtiene una lista de datos.
     *
     * @param id Identificador único de la lista.
@@ -118,18 +93,6 @@ public class DataServiceProperties
    {
       return this.ormLists.get(id);
    }
-
-   /**
-    * Obtiene una conxeión a un orígen de datos.
-    *
-    * @param key Clave identificativa de la conexión.
-    * 
-    * @return Una instancia de {@link DataSource} que contiene los parámetros de conexión a la base de datos.
-    */
-   /*public DataSource getDataSource(String key)
-   {
-      return this.agents.get(key);
-   }*/
 
    /**
     * Obtiene la conexión a datos configurada por defecto.
@@ -168,7 +131,6 @@ public class DataServiceProperties
       Node nNode;
       Element eElement;
       NodeList nList;
-      // DataSource ds;
 
       initialize();
 
@@ -189,42 +151,6 @@ public class DataServiceProperties
          // Obtiene las listas de datos
          this.ormLists = readDataLists(doc);
       }
-
-      /*nList = doc.getElementsByTagName(DataServiceProperties.XML_TAG_CONNECTIONS);
-      if (nList.getLength() >= 1)
-      {
-         nNode = nList.item(0);
-         if (nNode.getNodeType() == Node.ELEMENT_NODE)
-         {
-            eElement = (Element) nNode;
-            this.serverDatasource = eElement.getAttribute(DataServiceProperties.XML_ATT_DEFAULTCONN);
-         }
-
-         nList = doc.getElementsByTagName(DataServiceProperties.XML_TAG_CONNECTION);
-         for (int temp = 0; temp < nList.getLength(); temp++) 
-         {
-            nNode = nList.item(temp);
-            if (nNode.getNodeType() == Node.ELEMENT_NODE)
-            {
-               eElement = (Element) nNode;
-
-               ds = new DataSource();
-               ds.setId(eElement.getAttribute(DataServiceProperties.XML_ATT_ID));
-               ds.setJdbcDriver(eElement.getAttribute(DataServiceProperties.XML_ATT_JDBC_DRIVER));
-               ds.setCormDriver(eElement.getAttribute(DataServiceProperties.XML_ATT_CORM_DRIVER));
-               ds.setHost(eElement.getAttribute(DataServiceProperties.XML_ATT_SERVER));
-               ds.setPort(eElement.getAttribute(DataServiceProperties.XML_ATT_PORT));
-               ds.setSchema(eElement.getAttribute(DataServiceProperties.XML_ATT_SCHEMA));
-               ds.setLogin(eElement.getAttribute(DataServiceProperties.XML_ATT_USER));
-               ds.setPassword(eElement.getAttribute(DataServiceProperties.XML_ATT_PASSWORD));
-
-               this.dataSources.put(ds.getId(), ds);
-            }
-         }
-      }*/
-
-      // Obtiene las listas de datos
-      // this.ormLists = readDataLists(doc);
    }
 
 
@@ -323,14 +249,13 @@ public class DataServiceProperties
 
       return lists;
    }
-   
+
    /**
     * Inicializa la instancia.
     */
    private void initialize()
    {
       this.serverDatasource = "";
-      // this.dataSources = new HashMap<String, DataSource>();
       this.agents = new HashMap<String, PluginProperties>();
       this.ormLists = new HashMap<String, List>();
    }
