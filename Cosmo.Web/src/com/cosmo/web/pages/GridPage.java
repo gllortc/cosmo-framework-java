@@ -4,7 +4,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cosmo.data.DataConnection;
+import com.cosmo.data.DataAgent;
+import com.cosmo.data.DataFactory;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.PageContext;
 import com.cosmo.ui.PageContext.ContentColumns;
@@ -68,12 +69,12 @@ public class GridPage extends Page
    @Override
    public PageContext loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
-      DataConnection conn;
+      DataAgent conn;
       WeatherManager wm;
       
       try 
       {
-         conn = new DataConnection(getWorkspace().getProperties().getDataProperties().getDataSource("cosmo.server"));
+         conn = DataFactory.getInstance(getWorkspace(), "cosmo.server");
          wm = new WeatherManager(conn);
       
          GridData gd = new GridData();
