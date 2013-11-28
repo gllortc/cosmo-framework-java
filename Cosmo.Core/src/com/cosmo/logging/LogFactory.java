@@ -6,6 +6,9 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 
+import com.cosmo.Workspace;
+import com.cosmo.util.PluginProperties;
+
 public class LogFactory 
 {
    public static final String DEFAULT_PATTERN = "> %d [%p|%c|%C{1}] %m%n";
@@ -16,13 +19,18 @@ public class LogFactory
    /**
     * Inicializa el servicio de <em>logger</em> de Cosmo.
     */
-   public static void initialize()
+   public static void initialize(Workspace workspace)
    {
       if (!isLoggingIsInitialized())
       {
          // Realiza un reset del logger Log4J
          Logger.getRootLogger().getLoggerRepository().resetConfiguration();
 
+         for (PluginProperties logger : workspace.getProperties().getLogProperties().getLoggingAgents())
+         {
+            
+         }
+         
          ConsoleAppender console = new ConsoleAppender(); //create appender
          console.setName("ConsoleLogger");
          console.setLayout(new PatternLayout(DEFAULT_PATTERN)); 
