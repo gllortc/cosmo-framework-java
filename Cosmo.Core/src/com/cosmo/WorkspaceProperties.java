@@ -21,6 +21,7 @@ import org.xml.sax.SAXException;
 import com.cosmo.comm.CommServiceProperties;
 import com.cosmo.data.DataServiceProperties;
 import com.cosmo.logging.LogFactory;
+import com.cosmo.logging.LogServiceProperties;
 import com.cosmo.orm.OrmServiceProperties;
 import com.cosmo.security.SecurityServiceProperties;
 import com.cosmo.ui.UIServiceProperties;
@@ -51,6 +52,7 @@ public class WorkspaceProperties
    private DataServiceProperties dataProps;
    private CommServiceProperties commProps;
    private OrmServiceProperties ormProps;
+   private LogServiceProperties logProps;
 
    Logger log = LogFactory.getLogger(getClass());
 
@@ -170,6 +172,14 @@ public class WorkspaceProperties
    public OrmServiceProperties getOrmProperties()
    {
       return ormProps;
+   }
+
+   /**
+    * Devuelve las propiedades de configuración de Logging Services.
+    */
+   public LogServiceProperties getLogProperties()
+   {
+      return this.logProps;
    }
 
    /**
@@ -354,6 +364,9 @@ public class WorkspaceProperties
 
          // Lectura de la configuración de Communication Services
          ormProps = new OrmServiceProperties(doc);
+         
+         // Lectura de la configuración de Logging Services
+         logProps = new LogServiceProperties(doc);
       }
       catch (ParserConfigurationException ex)
       {
@@ -379,6 +392,7 @@ public class WorkspaceProperties
       this.dataProps = null;
       this.commProps = null;
       this.ormProps = null;
+      this.logProps = null;
 
       properties = new HashMap<String, String>();
    }
