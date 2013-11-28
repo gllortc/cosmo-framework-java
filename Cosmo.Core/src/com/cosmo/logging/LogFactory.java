@@ -45,6 +45,8 @@ public class LogFactory
     */
    public static void initialize(Workspace workspace)
    {
+      LogAppender appender;
+      
       if (!isLoggingIsInitialized())
       {
          // Realiza un reset del logger Log4J
@@ -52,7 +54,12 @@ public class LogFactory
 
          for (PluginProperties logger : workspace.getProperties().getLogProperties().getLoggingAgents())
          {
-            Logger.getRootLogger().addAppender(getAppenderInstance(logger).getAppender());
+            appender = getAppenderInstance(logger);
+
+            if (appender != null)
+            {
+               Logger.getRootLogger().addAppender(appender.getAppender());
+            }
          }
 
          /*ConsoleAppender console = new ConsoleAppender(); //create appender
@@ -120,6 +127,25 @@ public class LogFactory
     */
    private static LogAppender getAppenderInstance(PluginProperties properties)
    {
-      return null;
+      String className;
+      Class<?> cls;
+
+      try
+      {
+         // Obtiene la clase
+         className = properties.getModuleClass();
+         cls = Class.forName(className);
+
+         // Configura los tipos y valores de los argumentos
+         Class<?>[] types = { PluginProperties.class };
+         Object[] arguments = { properties };
+
+         // Genera la instancia y la devuelve
+         return (LogAppender) cls.getDeclaredConstructor(types).newInstance(arguments);
+      } 
+      catch (Exception ex)
+      {
+         return null;
+      }
    }
 }
