@@ -26,6 +26,24 @@
 
    </settings>
 
+   <!-- LOGGING SERVICES -->
+   <logging-services>
+
+      <logger id="console" driver="org.apache.log4j.ConsoleAppender">
+         <param key="pattern" value="> %d [%p|%c|%C{1}] %m%n" />
+         <param key="threshold" value="ALL" />
+         <param key="immediateFlush" value="true" />
+      </logger>
+
+      <logger id="console" driver="org.apache.log4j.FileAppender">
+         <param key="file" value="c:\cosmo.log" />
+         <param key="pattern" value="> %d [%p|%c|%C{1}] %m%n" />
+         <param key="threshold" value="ALL" />
+         <param key="immediateFlush" value="true" />
+      </logger>
+
+   </logging-services>
+
    <!-- USER INTERFACE SERVICES -->
    <ui-services>
 
