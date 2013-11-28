@@ -30,6 +30,7 @@ public class FileLoggerImpl extends LogAppender
    private static final String PARAM_IMMEDIATEFLUSH = "immediateFlush";
    private static final String PARAM_FILE = "file";
 
+
    //==============================================
    // Constructors
    //==============================================

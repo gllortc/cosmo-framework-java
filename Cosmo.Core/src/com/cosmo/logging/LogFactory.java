@@ -1,10 +1,6 @@
 package com.cosmo.logging;
 
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.FileAppender;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
 
 import com.cosmo.Workspace;
 import com.cosmo.util.PluginProperties;
@@ -16,8 +12,36 @@ public class LogFactory
    // Declaración de variables locales
    private static boolean loggingIsInitialized = false;
 
+
+   //==============================================
+   // Static Properties
+   //==============================================
+
+   /**
+    * @return the loggingIsInitialized
+    */
+   public static boolean isLoggingIsInitialized()
+   {
+      return loggingIsInitialized;
+   }
+
+   /**
+    * @param loggingIsInitialized the loggingIsInitialized to set
+    */
+   public static void setLoggingIsInitialized(boolean loggingIsInitialized)
+   {
+      LogFactory.loggingIsInitialized = loggingIsInitialized;
+   }
+
+
+   //==============================================
+   // Static Methods
+   //==============================================
+
    /**
     * Inicializa el servicio de <em>logger</em> de Cosmo.
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     */
    public static void initialize(Workspace workspace)
    {
@@ -28,10 +52,10 @@ public class LogFactory
 
          for (PluginProperties logger : workspace.getProperties().getLogProperties().getLoggingAgents())
          {
-            
+            Logger.getRootLogger().addAppender(getAppenderInstance(logger).getAppender());
          }
-         
-         ConsoleAppender console = new ConsoleAppender(); //create appender
+
+         /*ConsoleAppender console = new ConsoleAppender(); //create appender
          console.setName("ConsoleLogger");
          console.setLayout(new PatternLayout(DEFAULT_PATTERN)); 
          console.setThreshold(Level.ALL);
@@ -51,35 +75,51 @@ public class LogFactory
          fa.activateOptions();
 
          //add appender to any Logger (here is root)
-         Logger.getRootLogger().addAppender(fa);
+         Logger.getRootLogger().addAppender(fa);*/
 
          setLoggingIsInitialized(true);
       }
    }
 
    /**
-    * @return the loggingIsInitialized
+    * Obtiene el <em>logger</em> listo para usar.
+    * 
+    * @param className Nombre de la clase a la que se agrega el <em>logger</em>.
+    * 
+    * @return Una instancia de {@link Logger} lista para usar en cualquier clase.
     */
-   public static boolean isLoggingIsInitialized()
-   {
-      return loggingIsInitialized;
-   }
-
-   /**
-    * @param loggingIsInitialized the loggingIsInitialized to set
-    */
-   public static void setLoggingIsInitialized(boolean loggingIsInitialized)
-   {
-      LogFactory.loggingIsInitialized = loggingIsInitialized;
-   }
-
    public static Logger getLogger(String className)
    {
       return Logger.getLogger(className);
    }
 
+   /**
+    * Obtiene el <em>logger</em> listo para usar.
+    * 
+    * @param classObject Una clase que representa la clase dónde se ha invocado el <em>logger</em>.
+    * 
+    * @return Una instancia de {@link Logger} lista para usar en cualquier clase.
+    */
    public static Logger getLogger(Class<?> classObject)
    {
       return Logger.getLogger(classObject);
+   }
+
+
+   //==============================================
+   // Private Members
+   //==============================================
+
+   /**
+    * Genera una instancia del <em>appender</em> a partir de una definición de agente de logging.
+    *  
+    * @param properties Una instancia de {@link PluginProperties} que contiene la definición y configuración
+    *   del <em>appender</em>.
+    * 
+    * @return Una instancia de <em>
+    */
+   private static LogAppender getAppenderInstance(PluginProperties properties)
+   {
+      return null;
    }
 }
