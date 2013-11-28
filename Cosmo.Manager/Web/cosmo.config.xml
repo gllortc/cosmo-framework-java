@@ -29,14 +29,14 @@
    <!-- LOGGING SERVICES -->
    <logging-services>
 
-      <logger id="console" driver="org.apache.log4j.ConsoleAppender">
+      <logger id="console" driver="com.cosmo.logging.impl.ConsoleLoggerImpl">
          <param key="pattern" value="> %d [%p|%c|%C{1}] %m%n" />
          <param key="threshold" value="ALL" />
          <param key="immediateFlush" value="true" />
       </logger>
 
-      <logger id="console" driver="org.apache.log4j.FileAppender">
-         <param key="file" value="c:\cosmo.log" />
+      <logger id="console" driver="com.cosmo.logging.impl.FileLoggerImpl">
+         <param key="file" value="logs\cosmo.log" />
          <param key="pattern" value="> %d [%p|%c|%C{1}] %m%n" />
          <param key="threshold" value="ALL" />
          <param key="immediateFlush" value="true" />
