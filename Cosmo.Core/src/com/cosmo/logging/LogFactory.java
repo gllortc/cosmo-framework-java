@@ -18,32 +18,51 @@ public class LogFactory
     */
    public static void initialize()
    {
-      // Realiza un reset del logger Log4J
-      Logger.getRootLogger().getLoggerRepository().resetConfiguration();
+      if (!isLoggingIsInitialized())
+      {
+         // Realiza un reset del logger Log4J
+         Logger.getRootLogger().getLoggerRepository().resetConfiguration();
 
-      ConsoleAppender console = new ConsoleAppender(); //create appender
-      console.setName("ConsoleLogger");
-      console.setLayout(new PatternLayout(DEFAULT_PATTERN)); 
-      console.setThreshold(Level.ALL);
-      console.setImmediateFlush(true);
-      console.activateOptions();
-      
-      //add appender to any Logger (here is root)
-      Logger.getRootLogger().addAppender(console);
-   
-      FileAppender fa = new FileAppender();
-      fa.setName("FileLogger");
-      fa.setFile("C:\\Users\\usuari\\mylog.log");
-      fa.setLayout(new PatternLayout(DEFAULT_PATTERN));
-      fa.setThreshold(Level.DEBUG);
-      fa.setAppend(true);
-      fa.setImmediateFlush(true);
-      fa.activateOptions();
+         ConsoleAppender console = new ConsoleAppender(); //create appender
+         console.setName("ConsoleLogger");
+         console.setLayout(new PatternLayout(DEFAULT_PATTERN)); 
+         console.setThreshold(Level.ALL);
+         console.setImmediateFlush(true);
+         console.activateOptions();
+         
+         //add appender to any Logger (here is root)
+         Logger.getRootLogger().addAppender(console);
 
-      //add appender to any Logger (here is root)
-      Logger.getRootLogger().addAppender(fa);
+         FileAppender fa = new FileAppender();
+         fa.setName("FileLogger");
+         fa.setFile("C:\\Users\\usuari\\mylog.log");
+         fa.setLayout(new PatternLayout(DEFAULT_PATTERN));
+         fa.setThreshold(Level.DEBUG);
+         fa.setAppend(true);
+         fa.setImmediateFlush(true);
+         fa.activateOptions();
 
-      loggingIsInitialized = true;
+         //add appender to any Logger (here is root)
+         Logger.getRootLogger().addAppender(fa);
+
+         setLoggingIsInitialized(true);
+      }
+   }
+
+   /**
+    * @return the loggingIsInitialized
+    */
+   public static boolean isLoggingIsInitialized()
+   {
+      return loggingIsInitialized;
+   }
+
+   /**
+    * @param loggingIsInitialized the loggingIsInitialized to set
+    */
+   public static void setLoggingIsInitialized(boolean loggingIsInitialized)
+   {
+      LogFactory.loggingIsInitialized = loggingIsInitialized;
    }
 
    public static Logger getLogger(String className)
