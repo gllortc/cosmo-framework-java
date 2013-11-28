@@ -10,7 +10,7 @@ import com.cosmo.util.PluginProperties;
  * 
  * @author Gerard Llort
  */
-public abstract class Logger
+public abstract class LogAppender
 {
    /**
     * Patrón de representación por defecto.<br />
@@ -27,11 +27,11 @@ public abstract class Logger
    //==============================================
 
    /**
-    * Constructor de la clase {@link Logger}.
+    * Constructor de la clase {@link LogAppender}.
     * 
     * @param properties Una instancia de {@link PluginProperties} que contiene los parámetros de configuración del agente de <em>logging</em>.
     */
-   public Logger(PluginProperties properties)
+   public LogAppender(PluginProperties properties)
    {
       this.properties = properties;
    }
