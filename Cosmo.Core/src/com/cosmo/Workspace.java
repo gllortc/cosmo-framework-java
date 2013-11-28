@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.cosmo.logging.LogFactory;
 import com.cosmo.security.User;
 import com.cosmo.security.UserNotFoundException;
 import com.cosmo.security.UserSession;
@@ -295,6 +296,8 @@ public class Workspace
     */
    private void initialize()
    {
+      LogFactory.initialize();
+
       this.template = null;
       this.properties = null;
       this.usrSession = null;

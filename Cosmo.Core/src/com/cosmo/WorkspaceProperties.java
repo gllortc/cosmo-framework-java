@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -19,6 +20,7 @@ import org.xml.sax.SAXException;
 
 import com.cosmo.comm.CommServiceProperties;
 import com.cosmo.data.DataServiceProperties;
+import com.cosmo.logging.LogFactory;
 import com.cosmo.orm.OrmServiceProperties;
 import com.cosmo.security.SecurityServiceProperties;
 import com.cosmo.ui.UIServiceProperties;
@@ -50,6 +52,7 @@ public class WorkspaceProperties
    private CommServiceProperties commProps;
    private OrmServiceProperties ormProps;
 
+   Logger log = LogFactory.getLogger(getClass());
 
    //==============================================
    // Constructors
@@ -72,9 +75,13 @@ public class WorkspaceProperties
       // Abre el archivo de configuración en el server
       try
       {
+         log.debug("Loading application configuration...");
+
          iStream = new FileInputStream(context.getRealPath("/" + WorkspaceProperties.PROPERTIES_FILENAME));
          loadConfig(iStream);
          iStream.close();
+
+         log.debug("Application configuration loaded");
       }
       catch (IOException ex)
       {
