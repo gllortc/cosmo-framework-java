@@ -4,7 +4,7 @@ import org.apache.log4j.Appender;
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.PatternLayout;
 
-import com.cosmo.logging.Logger;
+import com.cosmo.logging.LogAppender;
 import com.cosmo.util.PluginProperties;
 import com.cosmo.util.StringUtils;
 
@@ -23,7 +23,7 @@ import com.cosmo.util.StringUtils;
  * 
  * @author Gerard Llort
  */
-public class FileLoggerImpl extends Logger
+public class FileLoggerImpl extends LogAppender
 {
    private static final String PARAM_PATTERN = "pattern";
    private static final String PARAM_THRESHOLD = "threshold";
@@ -61,7 +61,7 @@ public class FileLoggerImpl extends Logger
       pattern = this.getProperties().getParamString(PARAM_PATTERN);
       if (StringUtils.isNullOrEmptyTrim(pattern))
       {
-         pattern = Logger.DEFAULT_PATTERN;
+         pattern = LogAppender.DEFAULT_PATTERN;
       }
 
       // Crea y configura la instancia del appender
@@ -69,7 +69,7 @@ public class FileLoggerImpl extends Logger
       fa.setName(this.getProperties().getId());
       fa.setFile(this.getProperties().getParamString(PARAM_FILE));
       fa.setLayout(new PatternLayout(pattern));
-      fa.setThreshold(Logger.stringToLevel(this.getProperties().getParamString(PARAM_THRESHOLD)));
+      fa.setThreshold(LogAppender.stringToLevel(this.getProperties().getParamString(PARAM_THRESHOLD)));
       fa.setAppend(true);
       fa.setImmediateFlush(this.getProperties().getParamBoolean(PARAM_IMMEDIATEFLUSH, false));
       fa.activateOptions();

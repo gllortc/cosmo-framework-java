@@ -4,7 +4,7 @@ import org.apache.log4j.Appender;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
 
-import com.cosmo.logging.Logger;
+import com.cosmo.logging.LogAppender;
 import com.cosmo.util.PluginProperties;
 import com.cosmo.util.StringUtils;
 
@@ -22,7 +22,7 @@ import com.cosmo.util.StringUtils;
  * 
  * @author Gerard Llort
  */
-public class ConsoleLoggerImpl extends Logger
+public class ConsoleLoggerImpl extends LogAppender
 {
    private static final String PARAM_PATTERN = "pattern";
    private static final String PARAM_THRESHOLD = "threshold";
@@ -59,14 +59,14 @@ public class ConsoleLoggerImpl extends Logger
       pattern = this.getProperties().getParamString(PARAM_PATTERN);
       if (StringUtils.isNullOrEmptyTrim(pattern))
       {
-         pattern = Logger.DEFAULT_PATTERN;
+         pattern = LogAppender.DEFAULT_PATTERN;
       }
 
       // Crea y configura la instancia del appender
       ConsoleAppender console = new ConsoleAppender();
       console.setName(this.getProperties().getId());
       console.setLayout(new PatternLayout(pattern));
-      console.setThreshold(Logger.stringToLevel(this.getProperties().getParamString(PARAM_THRESHOLD)));
+      console.setThreshold(LogAppender.stringToLevel(this.getProperties().getParamString(PARAM_THRESHOLD)));
       console.setImmediateFlush(this.getProperties().getParamBoolean(PARAM_IMMEDIATEFLUSH, false));
       console.activateOptions();
 
