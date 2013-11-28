@@ -281,11 +281,12 @@ public class Workspace
       this.srvRequest = request;
       this.srvResponse = response;
       this.properties = new WorkspaceProperties(context);
-      this.template = this.properties.getUiProperties().checkRules(context, 
-                                                                   request.getHeader("User-Agent"));
+
+      LogFactory.initialize(this);
+
+      this.template = this.properties.getUiProperties().checkRules(context, request.getHeader("User-Agent"));
 
       this.requestedUrl = getRequestedUrl(request);
-
       this.url = this.properties.getString(Cosmo.PROPERTY_WORKSPACE_URL);
       this.name = this.properties.getString(Cosmo.PROPERTY_WORKSPACE_TITLE);
       this.mail = this.properties.getString(Cosmo.PROPERTY_WORKSPACE_MAIL);
@@ -296,8 +297,6 @@ public class Workspace
     */
    private void initialize()
    {
-      LogFactory.initialize();
-
       this.template = null;
       this.properties = null;
       this.usrSession = null;
