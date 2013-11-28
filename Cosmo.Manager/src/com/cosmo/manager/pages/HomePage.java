@@ -6,8 +6,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cosmo.logging.LogManager;
-import com.cosmo.logging.Logger;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.PageContext;
 import com.cosmo.ui.annotations.CacheScope;
@@ -28,17 +26,10 @@ public class HomePage extends Page
    /** Serial Version UID */
    private static final long serialVersionUID = -539209206006431580L;
 
-   // Habilita el sistema de LOG
-   Logger logger; 
-   
    @Override
    public PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       ArrayList<String> ul;
-      
-      logger = LogManager.getLogger(getWorkspace(), HomePage.class);
-      
-      logger.info("Iniciant pàgina...");
       
       pc.setLayout(PageContext.PageLayout.TwoColumnsLeft);
       pc.setTitle("Cosmo - Inici");
@@ -46,7 +37,7 @@ public class HomePage extends Page
       HeaderControl header = new HeaderControl(getWorkspace());
       header.setTitle("Benvingut a Cosmo Framework!");
       pc.addContent(header, PageContext.ContentColumns.MAIN);
-      
+
       ul = new ArrayList<String>();
       ul.add("'''Contingut''': Exemple de pàgina de contingut (text)");
       ul.add("'''Llistes''': Exemple de llistes (entrades de bloc, documents, etc.)");
@@ -55,23 +46,23 @@ public class HomePage extends Page
       ul.add(Icon.render(Icon.ICON_IMAGE_LOCK) + " '''Informació de seguretat''': Mostra la configuració actual dels agents de seguretat.");
       ul.add(Icon.render(Icon.ICON_IMAGE_LOCK) + " '''Tests de seguretat''': Executa i mostra els resultats dels diferents tests de seguretat per a l'usuari actual.");
       ul.add(Icon.render(Icon.ICON_IMAGE_LOCK) + " '''Gestió d'usuaris''': Exemple de manteniment de comptes d'usuari (només permet crear comptes d'usuari).");
-      
+
       XhtmlControl xhtml = new XhtmlControl(getWorkspace());
       xhtml.appendHeadder(Icon.render(Icon.ICON_IMAGE_TAG) + " Contingut de l'aplicació demo", 4).
             appendParagraph("Aquesta aplicació ''demo'' presenta les diferents funcionalitats de '''Cosmo Framework'''.").
             appendUnorderedList(ul).
             appendParagraph("Les pàgines que contenen la icona " + Icon.render(Icon.ICON_IMAGE_LOCK) + " indiquen que només són accessibles per usuaris autenticats i opcionalment amb un rol o permis determinat.");
       pc.addContent(xhtml, PageContext.ContentColumns.MAIN);
-      
+
       return pc;
    }
-   
+
    @Override
    public PageContext loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       return pc;
    }
-   
+
    @Override
    public PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
@@ -82,7 +73,7 @@ public class HomePage extends Page
    public PageContext pageException(PageContext pc, Exception exception) 
    {
       pc.showException(getWorkspace(), exception);
-      
+
       return pc;
    }
 }
