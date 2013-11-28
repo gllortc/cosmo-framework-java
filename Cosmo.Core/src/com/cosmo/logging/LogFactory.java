@@ -62,28 +62,6 @@ public class LogFactory
             }
          }
 
-         /*ConsoleAppender console = new ConsoleAppender(); //create appender
-         console.setName("ConsoleLogger");
-         console.setLayout(new PatternLayout(DEFAULT_PATTERN)); 
-         console.setThreshold(Level.ALL);
-         console.setImmediateFlush(true);
-         console.activateOptions();
-         
-         //add appender to any Logger (here is root)
-         Logger.getRootLogger().addAppender(console);
-
-         FileAppender fa = new FileAppender();
-         fa.setName("FileLogger");
-         fa.setFile("C:\\Users\\usuari\\mylog.log");
-         fa.setLayout(new PatternLayout(DEFAULT_PATTERN));
-         fa.setThreshold(Level.DEBUG);
-         fa.setAppend(true);
-         fa.setImmediateFlush(true);
-         fa.activateOptions();
-
-         //add appender to any Logger (here is root)
-         Logger.getRootLogger().addAppender(fa);*/
-
          setLoggingIsInitialized(true);
       }
    }
@@ -123,7 +101,8 @@ public class LogFactory
     * @param properties Una instancia de {@link PluginProperties} que contiene la definición y configuración
     *   del <em>appender</em>.
     * 
-    * @return Una instancia de <em>
+    * @return Una instancia de {@link LogAppender} si la definición es correcta o {@code null} si falla la 
+    *   creación de la instancia.
     */
    private static LogAppender getAppenderInstance(PluginProperties properties)
    {
