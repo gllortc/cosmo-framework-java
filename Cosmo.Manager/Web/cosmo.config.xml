@@ -35,7 +35,7 @@
          <param key="immediateFlush" value="true" />
       </logger>
 
-      <logger id="console" driver="com.cosmo.logging.impl.FileLoggerImpl">
+      <logger id="file" driver="com.cosmo.logging.impl.FileLoggerImpl">
          <param key="file" value="logs\cosmo.log" />
          <param key="pattern" value="> %d [%p|%c|%C{1}] %m%n" />
          <param key="threshold" value="ALL" />
