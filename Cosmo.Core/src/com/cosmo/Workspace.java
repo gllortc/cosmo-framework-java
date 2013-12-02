@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import com.cosmo.logging.LogFactory;
 import com.cosmo.security.User;
 import com.cosmo.security.UserNotFoundException;
@@ -257,6 +259,29 @@ public class Workspace
       this.usrSession = null;
    }
 
+   /**
+    * Convierte la instancia en una cadena de texto.
+    */
+   @Override
+   public String toString()
+   {
+      return "[Cosmo Workspace]\n" +
+             " Name    : " + this.name + "\n" +
+             " Services:\n" +
+             "  - Logging        -> " + getProperties().getLogProperties().getLoggingAgentsCount() + " appender(s) listening\n" +
+             "                      status: running\n" +
+             "  - UI             -> template: " + this.template.getName() + "\n" +
+             "                      status: running\n" +
+             "  - Data           -> " + getProperties().getDataProperties().getDataAgentCount() + " datasource(s) loaded\n" +
+             "                      " + getProperties().getDataProperties().getDataListCount() + " datalist(s) loaded\n" +
+             "                      status: running\n" +
+             "  - Communications -> " + getProperties().getCommProperties().getCommunicationsAgentCount() + " agent(s) loaded\n" +
+             "                      status: running\n" +
+             "  - Security       -> authentication module: " + getProperties().getSecurityProperties().getAuthenticationAgent().getId() + " / " + getProperties().getSecurityProperties().getAuthenticationAgent().getModuleClass() + "\n" +
+             "                      authorization module : " + getProperties().getSecurityProperties().getAuthorizationAgent().getId() + " / " + getProperties().getSecurityProperties().getAuthorizationAgent().getModuleClass() + "\n" +
+             "                      status: running\n";
+   }
+
 
    //==============================================
    // Private members
@@ -277,19 +302,30 @@ public class Workspace
     */
    private void reloadContext(ServletContext context, HttpServletRequest request, HttpServletResponse response) throws WorkspaceLoadException, RulesLoadException, TemplateUnavailableException, TemplateLoadException, MenuProviderException
    {
+      Logger log = LogFactory.getLogger("reloadContext");
+
       this.context = context;
       this.srvRequest = request;
       this.srvResponse = response;
+
+      // Lee la configuración del workspace
       this.properties = new WorkspaceProperties(context);
 
       LogFactory.initialize(this);
+      log.info("Loading workspace context (session ID: " + request.getSession().getId() + ")...");
+      log.info("Logging Services: running");
 
       this.template = this.properties.getUiProperties().checkRules(context, request.getHeader("User-Agent"));
+      log.info("UI Services: running (template: " + this.template.getName() + ")");
 
       this.requestedUrl = getRequestedUrl(request);
       this.url = this.properties.getString(Cosmo.PROPERTY_WORKSPACE_URL);
       this.name = this.properties.getString(Cosmo.PROPERTY_WORKSPACE_TITLE);
       this.mail = this.properties.getString(Cosmo.PROPERTY_WORKSPACE_MAIL);
+
+      log.info("Context reloaded for workspace " + this.name);
+      
+      log.info(this.toString());
    }
 
    /**

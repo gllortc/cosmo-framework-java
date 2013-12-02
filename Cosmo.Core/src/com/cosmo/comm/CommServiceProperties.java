@@ -19,7 +19,7 @@ import com.cosmo.util.StringUtils;
 public class CommServiceProperties
 {
    // Definición de tags y atributos para Communication Services
-   private static final String XML_TAG_AGENTS = "communications-service";
+   private static final String XML_TAG_AGENTS = "comm-services";
    private static final String XML_TAG_AGENT = "comm-agent";
 
    private static final String XML_ATT_DEFAULTDRIVER = "communication-agent";
@@ -56,6 +56,14 @@ public class CommServiceProperties
    public String getDefaultCommunicationsAgentId()
    {
       return this.commAgentId;
+   }
+
+   /**
+    * Devuelve el número de agentes de comunicación configurados.
+    */
+   public int getCommunicationsAgentCount()
+   {
+      return this.commAgents.size();
    }
 
 

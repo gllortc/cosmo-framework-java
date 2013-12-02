@@ -51,6 +51,13 @@ public class LogServiceProperties
       return this.loggers.values();
    }
 
+   /**
+    * Devuelve el número de <em>loggers</em> que se deben registrar en el servicio.
+    */
+   public int getLoggingAgentsCount()
+   {
+      return this.loggers.size();
+   }
 
    //==============================================
    // Methods

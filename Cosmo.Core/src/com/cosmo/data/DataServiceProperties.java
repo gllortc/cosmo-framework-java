@@ -22,7 +22,7 @@ import com.cosmo.util.StringUtils;
  */
 public class DataServiceProperties
 {
-   private static final String XML_TAG_CONNECTIONS = "connections";
+   private static final String XML_TAG_CONNECTIONS = "data-services";
    private static final String XML_TAG_CONNECTION = "connection";
    private static final String XML_TAG_DATALISTS = "data-lists";
    private static final String XML_TAG_STATICLIST = "static-list";
@@ -80,6 +80,22 @@ public class DataServiceProperties
    public String getDefaultDataAgentId()
    {
       return this.serverDatasource;
+   }
+
+   /**
+    * Devuelve el número de fuentes de datos configuradas.
+    */
+   public int getDataAgentCount()
+   {
+      return this.agents.size();
+   }
+
+   /**
+    * Devuelve el número de listas de datos configuradas.
+    */
+   public int getDataListCount()
+   {
+      return this.ormLists.size();
    }
 
 
