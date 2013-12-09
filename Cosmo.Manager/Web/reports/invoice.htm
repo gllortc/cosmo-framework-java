@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" style="display: block;">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+   <link href="./invoice_files/css" rel="stylesheet" type="text/css" />
+   <link rel="SHORTCUT ICON" href="https://www.zoho.com/invoice/favicon.ico" />
+   <meta name="description" content="Generate Invoices for FREE with Zoho Invoice. Just Fill in the Invoice Details and Print Unlimited Invoices Online. Get Started Now." />
+   <meta name="keywords" content="invoice generator print PDF" />
+   <link href="https://www.zoho.com/invoice/styles/free-invoice.css" rel="stylesheet" />
+   <link href="https://www.zoho.com/invoice/styles/print.css" rel="stylesheet" media="print" />
+   <title>Cosmo Reports - Invoice Sample Template</title>
+</head>
+
+<body style="visibility: visible;">
+	<div class="b-div">
+		<div class="body-div">
+			<div class="main-div">
+				<div class="rgt-main-div">
+					<div>
+						<table width="100%" cellpadding="0" cellspacing="0">
+							<tbody>
+								<tr>
+									<td width="51%">
+									   <span class="adr bld f20"><%company.salesman%></span><br /> 
+									   <span class="adr"><%company.name%></span><br /> 
+									   <span class="adr"><%company.address%></span><br /> 
+									   <span class="adr"><%company.city%></span><br /> 
+									   <span class="adr"><%company.country%></span><br />
+									</td>
+									<td width="50%" class="vtop tc" colspan="2"><span class="c-name">INVOICE</span></td>
+								</tr>
+							</tbody>
+						</table>
+						<ul style="width: 100%; margin-top: 50px;">
+							<li class="adr-lft">
+							   <span class="adr bill-to bld">Bill To:</span><br /> 
+							   <span class="adr"><%customer.company%></span><br />
+							   <span class="adr"><%customer.address%></span><br />
+							   <span class="adr"><%customer.city%></span><br />
+							   <span class="adr"><%customer.country%></span><br />
+							</li>
+							<li class="adr-rgt">
+								<table width="100%" cellpadding="0" cellspacing="0" class="bill">
+									<tbody>
+										<tr>
+											<td class="lft-txt" width="40%"><span class="bld">Invoice#</span></td>
+											<td><span><%invoice.number%></span></td>
+										</tr>
+										<tr>
+											<td class="lft-txt"><span class="bld">Invoice Date</span></td>
+											<td><span><%invoice.date%></span></td>
+										</tr>
+										<tr>
+										</tr>
+										<tr>
+											<td class="lft-txt"><span class="bld">Due Date</span></td>
+											<td><span><%invoice.duedate%></span></td>
+										</tr>
+									</tbody>
+								</table>
+							</li>
+						</ul>
+					</div>
+					<div style="margin-top: 30px; float: left; width: 99%;">
+					   <span>Dear Client,</span>
+					</div>
+					<div style="clear: both;"></div>
+					<div class="lineItemDIV">
+						<table width="100%" cellpadding="0" cellspacing="0" class="column">
+							<thead>
+								<tr class="hd">
+									<td width="48%" class="desc-col"><span style="text-align:left;color:#FFF;" class="bld">Item Description</span></td>
+									<td width="12%" class="qty-col bld" style="text-align:center;color:#FFF;">Qty</td>
+									<td width="12%" class="rat-col bld" style="text-align:center;color:#FFF;">Rate</td>
+									<td width="13%" class="amo-col bld" style="border-right:none;text-align:right;color:#FFF;">Amount</td>
+								</tr>
+							</thead>
+							<tbody class="lineItems">
+[#FOREACH_ROW]
+								<tr class="row-item">
+									<td class="desc-r"><span style="font-size:0.7em;">[@ROWVAL PRODUCTS.REFID]</span><br />[@ROWVAL PRODUCTS.DESCRIPTION]</td>
+									<td class="qty-r">[@ROWVAL INVOICEDET.NUMITEMS]</td>
+									<td class="rat-r">[@ROWVAL INVOICEDET.RATE]</td>
+									<td class="amo-r">[@ROWVAL INVOICEDET.AMOUNT]</span></td>
+								</tr>
+[#END FOREACH_ROW]
+							</tbody>
+							<tbody>
+								<tr>
+									<td>&nbsp;</td>
+									<td colspan="3" style="border-right: none;">
+										<table width="92%" cellpadding="0" cellspacing="0" style="margin-left: 40px; border-bottom: solid 1px #c7c7c7;">
+											<tbody>
+												<tr class="sav-amo txt-rgt">
+													<td width="40%" class="bdr-non" style="text-align:left;">Sub Total</td>
+													<td class="bdr-non"><span class="amount bld">200.00</span></td>
+												</tr>
+												<tr class="txt-rgt">
+													<td width="40%" style="text-align:left;">VAT (10%)</td>
+													<td><span class="amount bld">20.00</span></td>
+												</tr>
+												<tr class="tot">
+													<td width="40%" style="text-align:left;">TOTAL</td>
+													<td>
+													   <span class="currencycodetxt">$</span>
+														<span class="amount bld">220.00</span>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div style="clear: both; float: left; margin-top: 10px;">
+						<span class="terms" style="margin-top: 5px;">Notes</span><br />
+						<span class="note"><%invoice.notes%></span>
+					</div>
+					<div style="clear: both; float: left; margin-top: 30px;">
+					   <span class="terms" style="margin-top: 5px;">Terms &amp; Conditions</span><br />
+                  <span class="note">Please make the payment by the due date.</span>
+					</div>
+				</div>
+			</div>
+			<div></div>
+		</div>
+
+		<div class="footer">
+			<div class="inr-footer">
+				<span class="copy">© 2013, G2 Software | Av. Carrilet 2, 29007 Tarragona, Catalonia | EU Support: +34 977 297 655 - EU Sales: +34 977 297 655</span>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
