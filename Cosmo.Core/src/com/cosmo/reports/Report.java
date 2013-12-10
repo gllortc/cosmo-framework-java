@@ -2,7 +2,6 @@ package com.cosmo.reports;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 import com.cosmo.data.DataQuery;
 
@@ -12,6 +11,11 @@ public class Report
    private HashMap<String, String> staticValues;
    private HashMap<String, DataQuery> dataQueries;
 
+   public Report(String templateId)
+   {
+      this.templateId = templateId;
+   }
+   
    public String getTemplateId()
    {
       return templateId;
