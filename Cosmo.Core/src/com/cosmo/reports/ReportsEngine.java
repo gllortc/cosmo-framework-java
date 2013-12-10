@@ -2,6 +2,7 @@ package com.cosmo.reports;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import com.cosmo.data.DataException;
 import com.cosmo.data.DataQuery;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.PageContext;
+import com.cosmo.ui.templates.Template;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -21,6 +23,10 @@ import com.itextpdf.tool.xml.XMLWorkerHelper;
 
 public class ReportsEngine
 {
+   public static final String PATH_REPORTS = "reports";
+   
+   public static final String FILENAME_REPORT = "report.htm";
+
    private static final String CMD_FOREACHROW = "FOREACHROW";
    private static final String CMD_ROWVAL = "ROWVAL";
    private static final String CMD_FIRSTROWVAL = "FIRSTROWVAL";
@@ -62,7 +68,14 @@ public class ReportsEngine
          }
 
          // Obtiene el código del archivo
-         template = readTemplate("file.txt");
+         String filename = "";
+         filename += "/";
+         filename += ReportsEngine.PATH_REPORTS;
+         filename += "/";
+         filename += report.getTemplateId();
+         filename += "/";
+         filename += ReportsEngine.FILENAME_REPORT;
+         template = readTemplate(workspace.getServerContext().getRealPath(filename));
 
          // Empieza el análisis carácter a carácter
          isTag = false;
