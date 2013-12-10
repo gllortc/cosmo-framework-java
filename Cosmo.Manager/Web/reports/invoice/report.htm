@@ -63,14 +63,14 @@
                         </tr>
                      </thead>
                      <tbody class="lineItems">
-                        [#FOREACHROW BEGIN invoice]
+                        [#FOREACHROW invoice BEGIN]
                         <tr class="row-item">
-                           <td class="desc-r"><span style="font-size: 0.7em;">[@ROWVAL PRODUCTS.REFID]</span><br />[@ROWVAL PRODUCTS.DESCRIPTION]</td>
-                           <td class="qty-r">[@ROWVAL INVOICEDET.NUMITEMS]</td>
-                           <td class="rat-r">[@ROWVAL INVOICEDET.RATE]</td>
-                           <td class="amo-r">[@ROWVAL INVOICEDET.AMOUNT]</span></td>
+                           <td class="desc-r"><span style="font-size: 0.7em;">[@ROWVAL invoice PRODUCTS.REFID]</span><br />[@ROWVAL PRODUCTS.DESCRIPTION]</td>
+                           <td class="qty-r">[@ROWVAL invoice INVOICEDET.NUMITEMS]</td>
+                           <td class="rat-r">[@ROWVAL invoice INVOICEDET.RATE]</td>
+                           <td class="amo-r">[@ROWVAL invoice INVOICEDET.AMOUNT]</span></td>
                         </tr>
-                        [#FOREACHROW END]
+                        [#FOREACHROW invoice END]
                      </tbody>
                      <tbody>
                         <tr>
