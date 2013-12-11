@@ -69,7 +69,7 @@ public class ReportPage extends Page
                    "FROM weather " + 
                    "ORDER BY city";
 
-      Report rpt = new Report("invoice");
+      Report rpt = new Report(getWorkspace(), "invoice");
       rpt.addDataQuery(new DataQuery("weather", "cosmo.server", sql));
       
       try
