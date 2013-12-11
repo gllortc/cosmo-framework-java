@@ -3,6 +3,8 @@ package com.cosmo.ui.templates;
 import com.cosmo.ui.PageContext.PageLayout;
 import com.cosmo.ui.templates.TemplateScript.ScriptType;
 import com.cosmo.util.IOUtils;
+import com.cosmo.util.XmlUtils;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -75,7 +77,7 @@ public class Template
    //==============================================
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link Template}.
     * 
     * @param context Contexto de la llamada al workspace.
     * @param id Identificador de la plantilla.
@@ -235,10 +237,10 @@ public class Template
 
          // Obtiene las propiedades de la plantilla
          Element root = doc.getDocumentElement();
-         this.name = getTextValue(root, Template.XML_NODE_NAME);
-         this.version = getTextValue(root, Template.XML_NODE_VERSION);
-         this.author = getTextValue(root, Template.XML_NODE_AUTHOR);
-         this.copyright = getTextValue(root, Template.XML_NODE_COPYRIGHT);
+         this.name = XmlUtils.getTextValue(root, Template.XML_NODE_NAME);
+         this.version = XmlUtils.getTextValue(root, Template.XML_NODE_VERSION);
+         this.author = XmlUtils.getTextValue(root, Template.XML_NODE_AUTHOR);
+         this.copyright = XmlUtils.getTextValue(root, Template.XML_NODE_COPYRIGHT);
 
          // Obtiene LINKS que se deben incorporar al HEAD
          nList = doc.getElementsByTagName(Template.XML_NODE_HEADLINK);
@@ -281,8 +283,7 @@ public class Template
                }
                else
                {
-                  this.headScripts.add(new TemplateScript(ScriptType.Code, 
-                                                          eElement.getFirstChild().getNodeValue()));
+                  this.headScripts.add(new TemplateScript(ScriptType.Code, eElement.getFirstChild().getNodeValue()));
                }
             }
          }
@@ -328,8 +329,7 @@ public class Template
                      {
                         if (ePart.hasChildNodes())
                         {
-                           control.addControlPart(ePart.getAttribute(Template.XML_ATT_ID), 
-                                                  ePart.getFirstChild().getNodeValue());
+                           control.addControlPart(ePart.getAttribute(Template.XML_ATT_ID), ePart.getFirstChild().getNodeValue());
                         }
                         else
                         {
@@ -349,8 +349,7 @@ public class Template
                         {
                            if (ePart.hasChildNodes())
                            {
-                              control.addScript(new TemplateScript(TemplateScript.ScriptType.Code, 
-                                                                   ePart.getFirstChild().getNodeValue()));
+                              control.addScript(new TemplateScript(TemplateScript.ScriptType.Code, ePart.getFirstChild().getNodeValue()));
                            }
                         }
                      }
@@ -404,30 +403,5 @@ public class Template
       this.controls = new HashMap<String, TemplateControl>();
       this.headLinks = new ArrayList<TemplateLink>();
       this.headScripts = new ArrayList<TemplateScript>();
-   }
-
-   /**
-    * Obtiene el valor de un determinado nodo.
-    */
-   private String getTextValue(Element doc, String tag) 
-   {
-      return getTextValue(doc, tag, "");
-   }
-
-   /**
-    * Obtiene el valor de un determinado nodo.
-    */
-   private String getTextValue(Element doc, String tag, String defaultValue) 
-   {
-      String value = defaultValue;
-      NodeList nl;
-
-      nl = doc.getElementsByTagName(tag);
-      if (nl.getLength() > 0 && nl.item(0).hasChildNodes()) 
-      {
-        value = nl.item(0).getFirstChild().getNodeValue();
-      }
-
-      return value;
    }
 }

@@ -1,10 +1,7 @@
 package com.cosmo.reports;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.ResultSet;
@@ -15,7 +12,6 @@ import com.cosmo.data.DataException;
 import com.cosmo.data.DataQuery;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.PageContext;
-import com.cosmo.ui.templates.Template;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -23,9 +19,7 @@ import com.itextpdf.tool.xml.XMLWorkerHelper;
 
 public class ReportsEngine
 {
-   public static final String PATH_REPORTS = "reports";
    
-   public static final String FILENAME_REPORT = "report.htm";
 
    private static final String CMD_FOREACHROW = "FOREACHROW";
    private static final String CMD_ROWVAL = "ROWVAL";
@@ -45,18 +39,9 @@ public class ReportsEngine
     */
    public void render(Workspace workspace, Report report) throws DataException
    {
-      boolean isTag;
-      String chr;
-      String line;
-      String tag;
-      StringBuilder template;
-      StringBuilder xhtml;
-      BufferedReader br = null;
       HashMap<String, ResultSet> data;
 
       // Inicializaciones
-      template = new StringBuilder();
-      xhtml = new StringBuilder();
       data = new HashMap<String, ResultSet>();
 
       try
@@ -66,57 +51,13 @@ public class ReportsEngine
          {
             data.put(dq.getName(), dq.execute(workspace));
          }
-
-         // Obtiene el código del archivo
-         String filename = "";
-         filename += "/";
-         filename += ReportsEngine.PATH_REPORTS;
-         filename += "/";
-         filename += report.getTemplateId();
-         filename += "/";
-         filename += ReportsEngine.FILENAME_REPORT;
-         template = readTemplate(workspace.getServerContext().getRealPath(filename));
-
-         // Empieza el análisis carácter a carácter
-         isTag = false;
-         tag = "";
-         
       }
       catch (Exception ex)
       {
-
       }
       finally
       {
-         try
-         {
-            br.close();
-         }
-         catch (IOException e)
-         {
-            // Nothing to do
-         }
       }
-   }
-
-   private StringBuilder readTemplate(String templateFileName) throws IOException
-   {
-      String line;
-      StringBuilder template = new StringBuilder();
-      BufferedReader br;
-
-      // Obtiene el código del archivo
-      br = new BufferedReader(new FileReader(templateFileName));
-      line = br.readLine();
-      while (line != null)
-      {
-         template.append(line);
-         template.append("\n");
-         line = br.readLine();
-      }
-      br.close();
-
-      return template;
    }
 
    private void extractTags(StringBuilder text)

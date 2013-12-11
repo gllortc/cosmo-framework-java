@@ -4,7 +4,8 @@ import java.util.HashMap;
 
 
 /**
- * Implementa un agente de configuración de seguridad.
+ * Implementa un agente configurable.
+ * 
  * @author Gerard Llort
   */
 public class PluginProperties 
@@ -13,8 +14,13 @@ public class PluginProperties
    private String moduleClass;
    private HashMap<String, String> params;
 
+
+   //==============================================
+   // Constructors
+   //==============================================
+
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link PluginProperties}.
     */
    public PluginProperties()
    {
@@ -24,7 +30,7 @@ public class PluginProperties
    }
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link PluginProperties}.
     * 
     * @param id Identificador del agente.
     * @param moduleClass Nombre completo de la clase (incluyendo el package). 
@@ -35,6 +41,11 @@ public class PluginProperties
       this.moduleClass = moduleClass;
       this.params = new HashMap<String, String>();
    }
+
+
+   //==============================================
+   // Properties
+   //==============================================
 
    /**
     * Devuelve el identificador del agente.
@@ -67,6 +78,11 @@ public class PluginProperties
    {
       this.moduleClass = moduleClass;
    }
+
+
+   //==============================================
+   // Methods
+   //==============================================
 
    /**
     * Devuelve un {@link HashMap} con todos los parámetros definidos para el agente.
