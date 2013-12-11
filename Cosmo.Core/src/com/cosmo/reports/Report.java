@@ -198,7 +198,10 @@ public class Report
 
       try
       {
-         is = new FileInputStream(workspace.getServerContext().getRealPath("/" + Report.PATH_REPORTS + "/" + templateId + "/" + Report.FILENAME_REPORT));
+         String filename = "/" + Report.PATH_REPORTS + "/" + templateId + "/" + Report.FILENAME_REPORT;
+         filename = workspace.getServerContext().getRealPath(filename);
+
+         is = new FileInputStream(filename);
 
          DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
          DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -241,6 +244,7 @@ public class Report
                rptDet.setHeader(XmlUtils.getTextValue(eElement, Report.XML_NODE_DETAILHEADER));
                rptDet.setDetail(XmlUtils.getTextValue(eElement, Report.XML_NODE_DETAILROW));
                rptDet.setFooter(XmlUtils.getTextValue(eElement, Report.XML_NODE_DETAILFOOTER));
+               this.groups.put("", rptDet);
             }
          }
       }
