@@ -2,9 +2,20 @@ package com.cosmo.reports;
 
 public class ReportDetail
 {
+   private String id;
    private String header;
    private String detail;
    private String footer;
+   
+   public String getId()
+   {
+      return id;
+   }
+
+   public void setId(String id)
+   {
+      this.id = id;
+   }
 
    public String getHeader()
    {

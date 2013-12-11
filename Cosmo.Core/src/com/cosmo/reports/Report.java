@@ -14,8 +14,6 @@ import org.w3c.dom.NodeList;
 
 import com.cosmo.Workspace;
 import com.cosmo.data.DataQuery;
-import com.cosmo.ui.templates.Template;
-import com.cosmo.ui.templates.TemplateLink;
 import com.cosmo.ui.templates.TemplateLoadException;
 import com.cosmo.util.XmlUtils;
 
@@ -39,6 +37,7 @@ public class Report
    private static final String XML_NODE_DETAILFOOTER = "detail-footer";
 
    private static final String XML_ATT_DEFINITIONVER = "cdt-ver";
+   private static final String XML_ATT_ID = "id";
 
    private String id;
    private String name;
@@ -241,10 +240,11 @@ public class Report
                eElement = (Element) nNode;
 
                rptDet = new ReportDetail();
+               rptDet.setId(eElement.getAttribute(Report.XML_ATT_ID));
                rptDet.setHeader(XmlUtils.getTextValue(eElement, Report.XML_NODE_DETAILHEADER));
                rptDet.setDetail(XmlUtils.getTextValue(eElement, Report.XML_NODE_DETAILROW));
                rptDet.setFooter(XmlUtils.getTextValue(eElement, Report.XML_NODE_DETAILFOOTER));
-               this.groups.put("", rptDet);
+               this.groups.put(rptDet.getId(), rptDet);
             }
          }
       }
