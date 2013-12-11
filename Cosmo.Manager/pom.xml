@@ -32,6 +32,10 @@
 							<directory>Web\templates</directory>
 							<targetPath>templates</targetPath>
 						</resource>
+                  <resource>
+                     <directory>Web\reports</directory>
+                     <targetPath>reports</targetPath>
+                  </resource>
 						<resource>
 							<directory>Web\img</directory>
 							<targetPath>img</targetPath>

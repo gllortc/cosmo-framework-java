@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<report name="invoice">
+<report cdt-ver="1.0">
+
+   <name>Invoice</name>
+   <author>Gerard Llort</author>
+   <version>1.0</version>
+   <copyright>InforGEST</copyright>
+   <description>Based on ZOHO Invoice Template.</description>
 
    <header>
 &lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
@@ -59,9 +65,9 @@
                &lt;div style="clear: both;"&gt;&lt;/div&gt;
    </header>
 
-   <detail>
+   <detail id="invoice-products">
 
-      <head>
+      <detail-head>
                &lt;div class="lineItemDIV"&gt;
                   &lt;table width="100%" cellpadding="0" cellspacing="0" class="column"&gt;
                      &lt;thead&gt;
@@ -73,18 +79,18 @@
                         &lt;/tr&gt;
                      &lt;/thead&gt;
                      &lt;tbody class="lineItems"&gt;
-      </head>
+      </detail-head>
 
-      <row>
+      <detail-row>
                         &lt;tr class="row-item"&gt;
                            &lt;td class="desc-r"&gt;&lt;span style="font-size: 0.7em;"&gt;[@ROWVAL invoice PRODUCTS.REFID]&lt;/span&gt;&lt;br /&gt;[@ROWVAL PRODUCTS.DESCRIPTION]&lt;/td&gt;
                            &lt;td class="qty-r"&gt;[@ROWVAL invoice INVOICEDET.NUMITEMS]&lt;/td&gt;
                            &lt;td class="rat-r"&gt;[@ROWVAL invoice INVOICEDET.RATE]&lt;/td&gt;
                            &lt;td class="amo-r"&gt;[@ROWVAL invoice INVOICEDET.AMOUNT]&lt;/span&gt;&lt;/td&gt;
                         &lt;/tr&gt;
-      </row>
+      </detail-row>
 
-      <foot>
+      <detail-foot>
                      &lt;/tbody&gt;
                         &lt;tbody&gt;
                            &lt;tr&gt;
@@ -111,7 +117,7 @@
                         &lt;/tbody&gt;
                      &lt;/table&gt;
                   &lt;/div&gt;
-      </foot>
+      </detail-foot>
 
    </detail>
 
