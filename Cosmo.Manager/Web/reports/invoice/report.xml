@@ -22,6 +22,12 @@
       select tomnombre
       from v_convenios
    </dataquery>
+   
+   <static-values>
+      <param key="pattern" value="> %d [%p|%c|%C{1}] %m%n" />
+      <param key="threshold" value="ALL" />
+      <param key="immediateFlush" value="true" />
+   </static-values>
 
    <header>
 &lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
