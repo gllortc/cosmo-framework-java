@@ -51,6 +51,54 @@ public class XmlUtils
    }
 
    /**
+    * Lee un mapa de parámetros que se encuentre dentro de un determinado tag:
+    * <br />
+    * {@code <static-values>}<br />
+    * {@code   <param key="pattern" value="value1" />}<br />
+    * {@code   <param key="threshold" value="ALL" />}<br />
+    * {@code   <param key="immediateFlush" value="true" />}<br />
+    * {@code </static-values>}
+    * 
+    * @param doc Una instancia de {@link Document} que representa el archivo XML.
+    * @param tagName Nombre del TAG que contiene el mapa de parámetros a obtener.
+    * 
+    * @return Un mapa de pares clave,valor.
+    */
+   public static HashMap<String, String> readParameterMap(Document doc, String tagName)
+   {
+      Node mapNode;
+      Node paramNode;
+      Element mapElement;
+      Element paramElement;
+      NodeList paramList;
+      HashMap<String, String> params = new HashMap<String, String>();
+
+      NodeList pluginList = doc.getElementsByTagName(tagName);
+      for (int midx = 0; midx < pluginList.getLength(); midx++)
+      {
+         mapNode = pluginList.item(midx);
+         if (mapNode.getNodeType() == Node.ELEMENT_NODE)
+         {
+            mapElement = (Element) mapNode;
+            paramList = mapElement.getElementsByTagName(XmlUtils.XML_TAG_PARAMETER);
+            for (int pidx = 0; pidx < paramList.getLength(); pidx++)
+            {
+               paramNode = paramList.item(pidx);
+               if (paramNode.getNodeType() == Node.ELEMENT_NODE)
+               {
+                  paramElement = (Element) paramNode;
+                  params.put(paramElement.getAttribute(XML_ATT_KEY),
+                             paramElement.getAttribute(XML_ATT_VALUE));
+               }
+            }
+
+         }
+      }
+
+      return params;
+   }
+   
+   /**
     * Obtiene todas las definiciones de <em>DataQuery</em> de un documento XML.
     * 
     * @param doc Una instancia de {@link Document} que representa el archivo XML.

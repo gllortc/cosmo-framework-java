@@ -35,6 +35,7 @@ public class Report
    private static final String XML_NODE_DETAILHEADER = "detail-header";
    private static final String XML_NODE_DETAILROW = "detail-row";
    private static final String XML_NODE_DETAILFOOTER = "detail-footer";
+   private static final String XML_NODE_STATICVALUES = "static-values";
 
    private static final String XML_ATT_DEFINITIONVER = "cdt-ver";
    private static final String XML_ATT_ID = "id";
@@ -236,8 +237,11 @@ public class Report
          this.author = XmlUtils.getTextValue(root, Report.XML_NODE_AUTHOR);
          this.copyright = XmlUtils.getTextValue(root, Report.XML_NODE_COPYRIGHT);
 
-         // Obtiene las definiciones de consulta (si las tiene)
+         // Obtiene las definiciones de consulta (si las tuviése definidas)
          this.dataQueries = XmlUtils.readDataQueries(doc);
+
+         // Obtiene los valores estáticos (si los tuviése definidos)
+         this.staticValues = XmlUtils.readParameterMap(doc, Report.XML_NODE_STATICVALUES);
 
          // Obtiene la cabecera y el pie del informe
          this.header = XmlUtils.getTextValue(root, Report.XML_NODE_HEADER);
