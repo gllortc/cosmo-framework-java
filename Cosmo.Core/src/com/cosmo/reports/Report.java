@@ -61,8 +61,10 @@ public class Report
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     * @param templateId Identificador del informe que se desea cargar.
+    * 
+    * @throws ReportException 
     */
-   public Report(Workspace workspace, String templateId)
+   public Report(Workspace workspace, String templateId) throws ReportException
    {
       initialize();
 
@@ -185,7 +187,15 @@ public class Report
       return this.staticValues.get(key);
    }
 
-   public void loadTemplate(Workspace workspace, String templateId)
+   /**
+    * Carga un informe a partir de una plantilla definida en XML.
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
+    * @param templateId Una cadena que contiene el identificador de la plantilla que se desea cargar.
+    * 
+    * @throws ReportException
+    */
+   public void loadTemplate(Workspace workspace, String templateId) throws ReportException
    {
       Node nNode;
       NodeList nList;
@@ -226,6 +236,9 @@ public class Report
          this.author = XmlUtils.getTextValue(root, Report.XML_NODE_AUTHOR);
          this.copyright = XmlUtils.getTextValue(root, Report.XML_NODE_COPYRIGHT);
 
+         // Obtiene las definiciones de consulta (si las tiene)
+         this.dataQueries = XmlUtils.readDataQueries(doc);
+
          // Obtiene la cabecera y el pie del informe
          this.header = XmlUtils.getTextValue(root, Report.XML_NODE_HEADER);
          this.footer = XmlUtils.getTextValue(root, Report.XML_NODE_FOOTER);
@@ -250,7 +263,7 @@ public class Report
       }
       catch (Exception ex)
       {
-         
+         throw new ReportException(ex.getMessage(), ex);
       }
    }
 

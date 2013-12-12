@@ -7,14 +7,23 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.cosmo.data.DataQuery;
+
+/**
+ * Wrapper para determinadas utilidades de lectura en archivos XML.
+ * 
+ * @author Gerard Llort
+ */
 public class XmlUtils
 {
    private static final String XML_ATT_ID = "id";
    private static final String XML_ATT_KEY = "key";
    private static final String XML_ATT_DRIVER = "driver";
    private static final String XML_ATT_VALUE = "value";
+   private static final String XML_ATT_CONNECTION = "connection";
 
    private static final String XML_TAG_PARAMETER = "param";
+   private static final String XML_TAG_DATAQUERY = "dataquery";
 
    /**
     * Obtiene el valor de un determinado nodo.
@@ -41,6 +50,38 @@ public class XmlUtils
       return value;
    }
 
+   /**
+    * Obtiene todas las definiciones de <em>DataQuery</em> de un documento XML.
+    * 
+    * @param doc Una instancia de {@link Document} que representa el archivo XML.
+    * 
+    * @return Un mapa de instancias {@link DataQuery} que contienen los datos de las consultas.
+    */
+   public static HashMap<String, DataQuery> readDataQueries(Document doc)
+   {
+      Element pluginElement;
+      DataQuery dq;
+      HashMap<String, DataQuery> queries = new HashMap<String, DataQuery>();
+      
+      NodeList pluginList = doc.getElementsByTagName(XmlUtils.XML_TAG_DATAQUERY);
+      for (int pidx = 0; pidx < pluginList.getLength(); pidx++)
+      {
+         Node pluginNode = pluginList.item(pidx);
+         if (pluginNode.getNodeType() == Node.ELEMENT_NODE)
+         {
+            pluginElement = (Element) pluginNode;
+
+            dq = new DataQuery();
+            dq.setId(pluginElement.getAttribute(XML_ATT_ID));
+            dq.setConnectionId(pluginElement.getAttribute(XML_ATT_CONNECTION));
+            dq.setSqlQuery(getTextValue(pluginElement, XmlUtils.XML_TAG_DATAQUERY));
+            queries.put(dq.getId(), dq);
+         }
+      }
+      
+      return queries;
+   }
+   
    /**
     * Lee todas las definiciones de plugin de un determinado tipo.
     *
