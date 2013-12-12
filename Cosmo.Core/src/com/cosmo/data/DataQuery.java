@@ -12,13 +12,23 @@ import com.cosmo.Workspace;
 public class DataQuery
 {
    private String id;
-   private String datasourceId;
+   private String connectionId;
    private String sqlQuery;
 
 
    //==============================================
    // Constructors
    //==============================================
+
+   /**
+    * Constructor de la clase {@link DataQuery}.
+    */
+   public DataQuery()
+   {
+      this.id = "";
+      this.connectionId = "";
+      this.sqlQuery = "";
+   }
 
    /**
     * Constructor de la clase {@link DataQuery}.
@@ -30,7 +40,7 @@ public class DataQuery
    public DataQuery(String id, String connectionId, String sqlQuery)
    {
       this.id = id;
-      this.datasourceId = connectionId;
+      this.connectionId = connectionId;
       this.sqlQuery = sqlQuery;
    }
 
@@ -49,14 +59,14 @@ public class DataQuery
       this.id = id;
    }
 
-   public String getDatasourceId()
+   public String getConnectionId()
    {
-      return datasourceId;
+      return connectionId;
    }
 
-   public void setDatasourceId(String id)
+   public void setConnectionId(String id)
    {
-      this.datasourceId = id;
+      this.connectionId = id;
    }
 
    public String getSqlQuery()
@@ -85,7 +95,7 @@ public class DataQuery
     */
    public ResultSet execute(Workspace workspace) throws DataException
    {
-      DataAgent da = DataFactory.getInstance(workspace, this.datasourceId);
+      DataAgent da = DataFactory.getInstance(workspace, this.connectionId);
       return da.executeSql(this.sqlQuery);
    }
 }
