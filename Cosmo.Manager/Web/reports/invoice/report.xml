@@ -8,6 +8,21 @@
    <copyright>InforGEST</copyright>
    <description>Based on ZOHO Invoice Template.</description>
 
+   <dataquery id="invoice" connection="cosmo.server">
+      SELECT id As "PRODUCTS.REFID", 
+             city As "PRODUCTS.DESCRIPTION",
+             temp_lo As "INVOICEDET.NUMITEMS",
+             temp_hi As "INVOICEDET.RATE",
+             temp_lo + (temp_lo * temp_hi / 100) As "INVOICEDET.AMOUNT"
+      FROM weather
+      ORDER BY city
+   </dataquery>
+
+   <dataquery id="convenios" connection="cosmo.server">
+      select tomnombre
+      from v_convenios
+   </dataquery>
+
    <header>
 &lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
 
@@ -42,17 +57,17 @@
                            &lt;tbody&gt;
                               &lt;tr&gt;
                                  &lt;td class="lft-txt" width="40%"&gt;&lt;span class="bld"&gt;Invoice#&lt;/span&gt;&lt;/td&gt;
-                                 &lt;td&gt;&lt;span&gt;[@FIRSTROWVAL invoice.id]&lt;/span&gt;&lt;/td&gt;
+                                 &lt;td&gt;&lt;span&gt;[@FIRSTROWVALUE invoice invoice.id]&lt;/span&gt;&lt;/td&gt;
                               &lt;/tr&gt;
                               &lt;tr&gt;
                                  &lt;td class="lft-txt"&gt;&lt;span class="bld"&gt;Invoice Date&lt;/span&gt;&lt;/td&gt;
-                                 &lt;td&gt;&lt;span&gt;[@FIRSTROWVAL invoice.date]&lt;/span&gt;&lt;/td&gt;
+                                 &lt;td&gt;&lt;span&gt;[@FIRSTROWVALUE invoice invoice.date]&lt;/span&gt;&lt;/td&gt;
                               &lt;/tr&gt;
                               &lt;tr&gt;
                               &lt;/tr&gt;
                               &lt;tr&gt;
                                  &lt;td class="lft-txt"&gt;&lt;span class="bld"&gt;Due Date&lt;/span&gt;&lt;/td&gt;
-                                 &lt;td&gt;&lt;span&gt;[@FIRSTROWVAL invoice.duedate]&lt;/span&gt;&lt;/td&gt;
+                                 &lt;td&gt;&lt;span&gt;[@FIRSTROWVALUE invoice invoice.duedate]&lt;/span&gt;&lt;/td&gt;
                               &lt;/tr&gt;
                            &lt;/tbody&gt;
                         &lt;/table&gt;
