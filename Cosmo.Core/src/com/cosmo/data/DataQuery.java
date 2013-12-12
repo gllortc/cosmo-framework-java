@@ -4,27 +4,49 @@ import java.sql.ResultSet;
 
 import com.cosmo.Workspace;
 
+/**
+ * Representa una consulta de datos ejecutable mediante Cosmo Data Services.
+ * 
+ * @author Gerard Llort
+ */
 public class DataQuery
 {
-   private String name;
+   private String id;
    private String datasourceId;
    private String sqlQuery;
 
-   public DataQuery(String name, String datasourceId, String sqlQuery)
+
+   //==============================================
+   // Constructors
+   //==============================================
+
+   /**
+    * Constructor de la clase {@link DataQuery}.
+    * 
+    * @param id Identificador único de la consulta.
+    * @param connectionId Identificador de la conexión de datos de Data Services.
+    * @param sqlQuery Una cadena que contiene la senténcia SQL de consulta.
+    */
+   public DataQuery(String id, String connectionId, String sqlQuery)
    {
-      this.name = name;
-      this.datasourceId = datasourceId;
+      this.id = id;
+      this.datasourceId = connectionId;
       this.sqlQuery = sqlQuery;
    }
 
-   public String getName()
+
+   //==============================================
+   // Private Members
+   //==============================================
+
+   public String getId()
    {
-      return name;
+      return id;
    }
 
-   public void setName(String name)
+   public void setId(String id)
    {
-      this.name = name;
+      this.id = id;
    }
 
    public String getDatasourceId()
@@ -46,7 +68,21 @@ public class DataQuery
    {
       this.sqlQuery = sql;
    }
-   
+
+
+   //==============================================
+   // Methods
+   //==============================================
+
+   /**
+    * Ejecuta la consulta.
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
+    * 
+    * @return Una instancia de {@link ResultSet} que contiene los datos devueltos por la consulta.
+    * 
+    * @throws DataException
+    */
    public ResultSet execute(Workspace workspace) throws DataException
    {
       DataAgent da = DataFactory.getInstance(workspace, this.datasourceId);

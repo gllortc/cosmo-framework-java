@@ -162,7 +162,7 @@ public class Report
 
    public void addDataQuery(DataQuery query)
    {
-      this.dataQueries.put(query.getName(), query);
+      this.dataQueries.put(query.getId(), query);
    }
 
    public Collection<DataQuery> getDataQueries()
