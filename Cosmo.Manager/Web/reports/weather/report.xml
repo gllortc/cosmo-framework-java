@@ -2,32 +2,21 @@
 
 <report cdt-ver="1.0">
 
-   <name>Invoice</name>
+   <name>Weather report</name>
    <author>Gerard Llort</author>
    <version>1.0</version>
    <copyright>InforGEST</copyright>
    <description>Based on ZOHO Invoice Template.</description>
 
-   <dataquery id="invoice" connection="cosmo.server">
-      SELECT id As "PRODUCTS.REFID", 
-             city As "PRODUCTS.DESCRIPTION",
-             temp_lo As "INVOICEDET.NUMITEMS",
-             temp_hi As "INVOICEDET.RATE",
-             temp_lo + (temp_lo * temp_hi / 100) As "INVOICEDET.AMOUNT"
+   <dataquery id="weather" connection="cosmo.server">
+      SELECT id, 
+             city,
+             temp_lo,
+             temp_hi,
+             prcp
       FROM weather
       ORDER BY city
    </dataquery>
-
-   <dataquery id="convenios" connection="cosmo.server">
-      select tomnombre
-      from v_convenios
-   </dataquery>
-   
-   <static-values>
-      <param key="pattern" value="> %d [%p|%c|%C{1}] %m%n" />
-      <param key="threshold" value="ALL" />
-      <param key="immediateFlush" value="true" />
-   </static-values>
 
    <header>
 &lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
@@ -36,129 +25,45 @@
 
 &lt;head&gt;
 &lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /&gt;
-&lt;link href="invoice.css" rel="stylesheet" type="text/css" /&gt;
-&lt;title&gt;Cosmo Reports - Invoice Sample Template&lt;/title&gt;
+&lt;title&gt;Cosmo Reports - Weather Report Sample&lt;/title&gt;
 &lt;/head&gt;
 
-&lt;body style="visibility: visible;"&gt;
-   &lt;div class="b-div"&gt;
-      &lt;div class="body-div"&gt;
-         &lt;div class="main-div"&gt;
-            &lt;div class="rgt-main-div"&gt;
-               &lt;div&gt;
-                  &lt;table width="100%" cellpadding="0" cellspacing="0"&gt;
-                     &lt;tbody&gt;
-                        &lt;tr&gt;
-                           &lt;td width="51%"&gt;&lt;span class="adr bld f20"&gt;[%company.salesman%]&lt;/span&gt;&lt;br /&gt; &lt;span class="adr"&gt;[%company.name%]&lt;/span&gt;&lt;br /&gt; &lt;span class="adr"&gt;[%company.address%]&lt;/span&gt;&lt;br /&gt;
-                              &lt;span class="adr"&gt;[%company.city%]&lt;/span&gt;&lt;br /&gt; &lt;span class="adr"&gt;[%company.country%]&lt;/span&gt;&lt;br /&gt;&lt;/td&gt;
-                           &lt;td width="50%" class="vtop tc" colspan="2"&gt;&lt;span class="c-name"&gt;INVOICE&lt;/span&gt;&lt;/td&gt;
-                        &lt;/tr&gt;
-                     &lt;/tbody&gt;
-                  &lt;/table&gt;
-                  &lt;ul style="width: 100%; margin-top: 50px;"&gt;
-                     &lt;li class="adr-lft"&gt;&lt;span class="adr bill-to bld"&gt;Bill To:&lt;/span&gt;&lt;br /&gt; &lt;span class="adr"&gt;[%customer.company%]&lt;/span&gt;&lt;br /&gt; &lt;span class="adr"&gt;[%customer.address%]&lt;/span&gt;&lt;br /&gt;
-                        &lt;span class="adr"&gt;[%customer.city]&lt;/span&gt;&lt;br /&gt; &lt;span class="adr"&gt;[%customer.country%]&lt;/span&gt;&lt;br /&gt;&lt;/li&gt;
-                     &lt;li class="adr-rgt"&gt;
-                        &lt;table width="100%" cellpadding="0" cellspacing="0" class="bill"&gt;
-                           &lt;tbody&gt;
-                              &lt;tr&gt;
-                                 &lt;td class="lft-txt" width="40%"&gt;&lt;span class="bld"&gt;Invoice#&lt;/span&gt;&lt;/td&gt;
-                                 &lt;td&gt;&lt;span&gt;[@FIRSTROWVALUE invoice invoice.id]&lt;/span&gt;&lt;/td&gt;
-                              &lt;/tr&gt;
-                              &lt;tr&gt;
-                                 &lt;td class="lft-txt"&gt;&lt;span class="bld"&gt;Invoice Date&lt;/span&gt;&lt;/td&gt;
-                                 &lt;td&gt;&lt;span&gt;[@FIRSTROWVALUE invoice invoice.date]&lt;/span&gt;&lt;/td&gt;
-                              &lt;/tr&gt;
-                              &lt;tr&gt;
-                              &lt;/tr&gt;
-                              &lt;tr&gt;
-                                 &lt;td class="lft-txt"&gt;&lt;span class="bld"&gt;Due Date&lt;/span&gt;&lt;/td&gt;
-                                 &lt;td&gt;&lt;span&gt;[@FIRSTROWVALUE invoice invoice.duedate]&lt;/span&gt;&lt;/td&gt;
-                              &lt;/tr&gt;
-                           &lt;/tbody&gt;
-                        &lt;/table&gt;
-                     &lt;/li&gt;
-                  &lt;/ul&gt;
-               &lt;/div&gt;
-               &lt;div style="margin-top: 30px; float: left; width: 99%;"&gt;
-                  &lt;span&gt;Dear Client,&lt;/span&gt;
-               &lt;/div&gt;
-               &lt;div style="clear: both;"&gt;&lt;/div&gt;
+&lt;body&gt;
+   &lt;h1&gt;Weather Report&lt;/h1&gt;
    </header>
 
    <detail id="invoice-products">
 
       <detail-head>
-               &lt;div class="lineItemDIV"&gt;
-                  &lt;table width="100%" cellpadding="0" cellspacing="0" class="column"&gt;
-                     &lt;thead&gt;
-                        &lt;tr class="hd"&gt;
-                           &lt;td width="48%" class="desc-col"&gt;&lt;span style="text-align: left; color: #FFF;" class="bld"&gt;Item Description&lt;/span&gt;&lt;/td&gt;
-                           &lt;td width="12%" class="qty-col bld" style="text-align: center; color: #FFF;"&gt;Qty&lt;/td&gt;
-                           &lt;td width="12%" class="rat-col bld" style="text-align: center; color: #FFF;"&gt;Rate&lt;/td&gt;
-                           &lt;td width="13%" class="amo-col bld" style="border-right: none; text-align: right; color: #FFF;"&gt;Amount&lt;/td&gt;
-                        &lt;/tr&gt;
-                     &lt;/thead&gt;
-                     &lt;tbody class="lineItems"&gt;
+         &lt;table style="width: 100%;" border="1" cellspacing="2" cellpadding="2"&gt;
+            &lt;tbody&gt;
+            &lt;tr&gt;
+               &lt;td&gt;&lt;span class="bold"&gt;ID&lt;/span&gt;&lt;/td&gt;
+               &lt;td&gt;&lt;span class="bold"&gt;City&lt;/span&gt;&lt;/td&gt;
+               &lt;td&gt;&lt;span class="bold"&gt;Low temp&lt;/span&gt;&lt;/td&gt;
+               &lt;td&gt;&lt;span class="bold"&gt;High temp&lt;/span&gt;&lt;/td&gt;
+               &lt;td&gt;&lt;span class="bold"&gt;Precip&lt;/span&gt;&lt;/td&gt;
+            &lt;/tr&gt;
       </detail-head>
 
       <detail-row>
-                        &lt;tr class="row-item"&gt;
-                           &lt;td class="desc-r"&gt;&lt;span style="font-size: 0.7em;"&gt;[@ROWVAL invoice PRODUCTS.REFID]&lt;/span&gt;&lt;br /&gt;[@ROWVAL PRODUCTS.DESCRIPTION]&lt;/td&gt;
-                           &lt;td class="qty-r"&gt;[@ROWVAL invoice INVOICEDET.NUMITEMS]&lt;/td&gt;
-                           &lt;td class="rat-r"&gt;[@ROWVAL invoice INVOICEDET.RATE]&lt;/td&gt;
-                           &lt;td class="amo-r"&gt;[@ROWVAL invoice INVOICEDET.AMOUNT]&lt;/span&gt;&lt;/td&gt;
-                        &lt;/tr&gt;
+            &lt;tr&gt;
+               &lt;td&gt;[@ROWVALUE weather id]&lt;/td&gt;
+               &lt;td&gt;[@ROWVALUE weather city]&lt;/td&gt;
+               &lt;td&gt;[@ROWVALUE weather temp_lo]&lt;/td&gt;
+               &lt;td&gt;[@ROWVALUE weather temp_hi]&lt;/td&gt;
+               &lt;td&gt;[@ROWVALUE weather prcp]&lt;/td&gt;
+            &lt;/tr&gt;
       </detail-row>
 
       <detail-foot>
-                     &lt;/tbody&gt;
-                        &lt;tbody&gt;
-                           &lt;tr&gt;
-                              &lt;td&gt;&amp;nbsp;&lt;/td&gt;
-                              &lt;td colspan="3" style="border-right: none;"&gt;
-                                 &lt;table width="92%" cellpadding="0" cellspacing="0" style="margin-left: 40px; border-bottom: solid 1px #c7c7c7;"&gt;
-                                    &lt;tbody&gt;
-                                       &lt;tr class="sav-amo txt-rgt"&gt;
-                                          &lt;td width="40%" class="bdr-non" style="text-align: left;"&gt;Sub Total&lt;/td&gt;
-                                          &lt;td class="bdr-non"&gt;&lt;span class="amount bld"&gt;200.00&lt;/span&gt;&lt;/td&gt;
-                                       &lt;/tr&gt;
-                                       &lt;tr class="txt-rgt"&gt;
-                                          &lt;td width="40%" style="text-align: left;"&gt;VAT (10%)&lt;/td&gt;
-                                          &lt;td&gt;&lt;span class="amount bld"&gt;20.00&lt;/span&gt;&lt;/td&gt;
-                                       &lt;/tr&gt;
-                                       &lt;tr class="tot"&gt;
-                                          &lt;td width="40%" style="text-align: left;"&gt;TOTAL&lt;/td&gt;
-                                          &lt;td&gt;&lt;span class="currencycodetxt"&gt;$&lt;/span&gt; &lt;span class="amount bld"&gt;220.00&lt;/span&gt;&lt;/td&gt;
-                                       &lt;/tr&gt;
-                                    &lt;/tbody&gt;
-                                 &lt;/table&gt;
-                              &lt;/td&gt;
-                           &lt;/tr&gt;
-                        &lt;/tbody&gt;
-                     &lt;/table&gt;
-                  &lt;/div&gt;
+            &lt;/tbody&gt;
+         &lt;/table&gt;
       </detail-foot>
 
    </detail>
 
    <footer>
-               &lt;div style="clear: both; float: left; margin-top: 10px;"&gt;
-                  &lt;span class="terms" style="margin-top: 5px;"&gt;Notes&lt;/span&gt;&lt;br /&gt; &lt;span class="note"&gt;[@FIRSTROWVALUE invoice invoice.notes]&lt;/span&gt;
-               &lt;/div&gt;
-               &lt;div style="clear: both; float: left; margin-top: 30px;"&gt;
-                  &lt;span class="terms" style="margin-top: 5px;"&gt;Terms &amp;amp; Conditions&lt;/span&gt;&lt;br /&gt; &lt;span class="note"&gt;Please make the payment by the due date.&lt;/span&gt;
-               &lt;/div&gt;
-            &lt;/div&gt;
-         &lt;/div&gt;
-         &lt;div&gt;&lt;/div&gt;
-      &lt;/div&gt;
-      &lt;div class="footer"&gt;
-         &lt;div class="inr-footer"&gt;
-            &lt;span class="copy"&gt;Cosmo &amp;copy; 2013, G2 Software | Av. Carrilet 2, 29007 Tarragona, Catalonia | EU Support: +34 977 297 655 - EU Sales: +34 977 297 655&lt;/span&gt;
-         &lt;/div&gt;
-      &lt;/div&gt;
-   &lt;/div&gt;
 &lt;/body&gt;
 &lt;/html&gt;
    </footer>
