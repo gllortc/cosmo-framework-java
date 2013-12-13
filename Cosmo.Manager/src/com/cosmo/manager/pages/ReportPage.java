@@ -14,6 +14,7 @@ import com.cosmo.ui.annotations.CacheScope;
 import com.cosmo.ui.annotations.CacheScope.PageCacheScopes;
 import com.cosmo.ui.controls.FormButton;
 import com.cosmo.ui.controls.FormButton.ButtonType;
+import com.cosmo.ui.controls.DynamicMessageControl;
 import com.cosmo.ui.controls.FormControl;
 import com.cosmo.ui.controls.FormFieldText;
 import com.cosmo.ui.controls.FormFieldset;
@@ -41,6 +42,9 @@ public class ReportPage extends Page
       HeaderControl header = new HeaderControl(getWorkspace());
       header.setTitle("Reporting Service Sample");
       pc.addContent(header, PageContext.ContentColumns.MAIN);
+      
+      DynamicMessageControl message = new DynamicMessageControl(getWorkspace(), "result_msg");
+      pc.addContent(message, ContentColumns.MAIN);
 
       FormControl form = new FormControl(getWorkspace(), "rptForm");
       FormFieldset ffs = new FormFieldset("Report details");
@@ -79,7 +83,10 @@ public class ReportPage extends Page
       }
       catch (Exception ex)
       {
-         
+         DynamicMessageControl msg = (DynamicMessageControl) pc.getControl("result_msg");
+         msg.setVisible(true);
+         msg.setType(DynamicMessageControl.MessageTypes.Error);
+         msg.setMessage("ERROR: " + ex.getMessage());
       }
       
       return pc;
