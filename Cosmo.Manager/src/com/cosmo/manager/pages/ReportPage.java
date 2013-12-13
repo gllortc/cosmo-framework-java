@@ -65,19 +65,9 @@ public class ReportPage extends Page
    @Override
    public PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
-      String sql = "SELECT id As \"PRODUCTS.REFID\", " +
-                   "       city As \"PRODUCTS.DESCRIPTION\", " +
-                   "       temp_lo As \"INVOICEDET.NUMITEMS\", " +
-                   "       temp_hi As \"INVOICEDET.RATE\", " + 
-                   "temp_lo + (temp_lo * temp_hi / 100) As \"INVOICEDET.AMOUNT\" " +
-                   "FROM weather " + 
-                   "ORDER BY city";
-
       try
       {
-         Report rpt = new Report(getWorkspace(), "invoice");
-         rpt.addDataQuery(new DataQuery("weather", "cosmo.server", sql));
-
+         Report rpt = new Report(getWorkspace(), "weather");
          ReportsEngine re = new ReportsEngine();
          re.render(getWorkspace(), rpt);
       }
