@@ -144,7 +144,7 @@
 
    <footer>
                &lt;div style="clear: both; float: left; margin-top: 10px;"&gt;
-                  &lt;span class="terms" style="margin-top: 5px;"&gt;Notes&lt;/span&gt;&lt;br /&gt; &lt;span class="note"&gt;[@FIRSTROWVAL invoice.notes]&lt;/span&gt;
+                  &lt;span class="terms" style="margin-top: 5px;"&gt;Notes&lt;/span&gt;&lt;br /&gt; &lt;span class="note"&gt;[@FIRSTROWVALUE invoice invoice.notes]&lt;/span&gt;
                &lt;/div&gt;
                &lt;div style="clear: both; float: left; margin-top: 30px;"&gt;
                   &lt;span class="terms" style="margin-top: 5px;"&gt;Terms &amp;amp; Conditions&lt;/span&gt;&lt;br /&gt; &lt;span class="note"&gt;Please make the payment by the due date.&lt;/span&gt;
