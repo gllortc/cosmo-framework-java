@@ -121,31 +121,37 @@ public class ReportsEngine
    {
       int curPos = 0;
       String xhtml = report.getHeader();
-      ReportTag rt = null;
+      ReportTag tag = null;
 
       do 
       {
-         rt = getNextTag(xhtml, curPos);
-         curPos = rt.getStartPosition() + 1;
+         tag = getNextTag(xhtml, curPos);
+         curPos = tag.getStartPosition() + 1;
 
-         switch (rt.getTagType())
+         switch (tag.getTagType())
          {
             case STATICVALUE:
+               xhtml = replaceTag(xhtml, tag, report.getStaticValue(tag.getValueName()));
                break;
 
             case FIRSTROWVALUE:
                break;
 
             case ROWVALUE:
-               break;
+               throw new ReportException("Malformed report template (character " + curPos + "): Can't use ROWVALUE TAG outside a detail group");
 
             default:
-               throw new ReportException("Malformed report template: Unknown TAG type '" + rt.getTagType() + "'");
+               throw new ReportException("Malformed report template (character " + curPos + "): Unknown TAG type '" + tag.getTagType() + "'");
          }
       } 
-      while (rt != null);
+      while (tag != null);
 
       return xhtml;
+   }
+
+   private String replaceTag(String text, ReportTag tag, String value)
+   {
+      return text;
    }
 
    /**
@@ -223,6 +229,7 @@ public class ReportsEngine
       private static final String CMD_STATICVALUE = "STATICVALUE";
 
       private int startPosition;
+      private String valueName;
       private String originalTag;
       private ReporTagType tagType;
       
@@ -240,6 +247,16 @@ public class ReportsEngine
          this.originalTag = tag;
 
          getTagProperties();
+      }
+
+      public String getValueName()
+      {
+         return valueName;
+      }
+
+      public void setValueName(String valueName)
+      {
+         this.valueName = valueName;
       }
 
       public int getStartPosition()
@@ -272,14 +289,17 @@ public class ReportsEngine
          if (params[0].equals(ReportTag.CMD_STATICVALUE))
          {
             this.setTagType(ReporTagType.STATICVALUE);
+            this.setValueName(params[1]);
          }
          else if (params[0].equals(ReportTag.CMD_FIRSTROWVALUE))
          {
             this.setTagType(ReporTagType.FIRSTROWVALUE);
+            this.setValueName(params[2]);
          }
          else if (params[0].equals(ReportTag.CMD_ROWVALUE))
          {
             this.setTagType(ReporTagType.ROWVALUE);
+            this.setValueName(params[2]);
          }
          else
          {

@@ -185,7 +185,9 @@ public class Report
 
    public String getStaticValue(String key)
    {
-      return this.staticValues.get(key);
+      String value = this.staticValues.get(key);
+      
+      return (value == null ? "<unknown value>" : value);
    }
 
    /**
