@@ -122,7 +122,7 @@ public class XmlUtils
             dq = new DataQuery();
             dq.setId(pluginElement.getAttribute(XML_ATT_ID));
             dq.setConnectionId(pluginElement.getAttribute(XML_ATT_CONNECTION));
-            dq.setSqlQuery(getTextValue(pluginElement, XmlUtils.XML_TAG_DATAQUERY));
+            dq.setSqlQuery(pluginElement.getFirstChild().getNodeValue());
             queries.put(dq.getId(), dq);
          }
       }

@@ -59,6 +59,14 @@ public class Report
 
    /**
     * Constructor de la clase {@link Report}.
+    */
+   public Report(Workspace workspace)
+   {
+      initialize();
+   }
+
+   /**
+    * Constructor de la clase {@link Report}.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     * @param templateId Identificador del informe que se desea cargar.
@@ -187,7 +195,7 @@ public class Report
    {
       String value = this.staticValues.get(key);
       
-      return (value == null ? "<unknown value>" : value);
+      return (value == null ? "[unknown value]" : value);
    }
 
    /**

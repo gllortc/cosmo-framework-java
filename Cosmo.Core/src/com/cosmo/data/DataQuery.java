@@ -14,6 +14,7 @@ public class DataQuery
    private String id;
    private String connectionId;
    private String sqlQuery;
+   private ResultSet resultSet;
 
 
    //==============================================
@@ -28,6 +29,7 @@ public class DataQuery
       this.id = "";
       this.connectionId = "";
       this.sqlQuery = "";
+      this.resultSet = null;
    }
 
    /**
@@ -42,6 +44,7 @@ public class DataQuery
       this.id = id;
       this.connectionId = connectionId;
       this.sqlQuery = sqlQuery;
+      this.resultSet = null;
    }
 
 
@@ -79,6 +82,11 @@ public class DataQuery
       this.sqlQuery = sql;
    }
 
+   public ResultSet getResultSet()
+   {
+      return resultSet;
+   }
+
 
    //==============================================
    // Methods
@@ -96,6 +104,8 @@ public class DataQuery
    public ResultSet execute(Workspace workspace) throws DataException
    {
       DataAgent da = DataFactory.getInstance(workspace, this.connectionId);
-      return da.executeSql(this.sqlQuery);
+      this.resultSet = da.executeSql(this.sqlQuery);
+
+      return this.resultSet;
    }
 }

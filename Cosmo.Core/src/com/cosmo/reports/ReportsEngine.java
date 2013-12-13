@@ -5,7 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.UUID;
 
 import com.cosmo.Workspace;
 import com.cosmo.data.DataException;
@@ -54,8 +56,9 @@ public class ReportsEngine
     * @param report Una instancia de {@link Report} que contiene todos los datos necesarios para elaborar el informe.
     * 
     * @throws DataException 
+    * @throws ReportException 
     */
-   public void render(Workspace workspace, Report report) throws DataException
+   public void render(Workspace workspace, Report report) throws DataException, ReportException
    {
       HashMap<String, ResultSet> data;
       StringBuilder xhtml;
@@ -76,14 +79,25 @@ public class ReportsEngine
          xhtml.append(renderHeader(report));
 
          // Genera los GRUPOS DE DETALLE
-         
+
          // Genera el FOOTER
+         xhtml.append(renderFooter(report));
+
+         // Descarga el documento PDF
+         String filename = "/" + Report.PATH_REPORTS + "/" + "temp" + "/" +  UUID.randomUUID().toString() + ".pdf";
+         filename = workspace.getServerContext().getRealPath(filename);
+
+         Document document = new Document();
+         InputStream stream = new ByteArrayInputStream(xhtml.toString().getBytes());
+
+         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
+         document.open();
+         XMLWorkerHelper.getInstance().parseXHtml(writer, document, stream);
+         document.close();
       }
       catch (Exception ex)
       {
-      }
-      finally
-      {
+         throw new ReportException(ex.getMessage(), ex);
       }
    }
 
@@ -117,7 +131,7 @@ public class ReportsEngine
    // Private Members
    //==============================================
 
-   private String renderHeader(Report report) throws ReportException
+   private String renderHeader(Report report) throws ReportException, DataException
    {
       int curPos = 0;
       String xhtml = report.getHeader();
@@ -126,22 +140,64 @@ public class ReportsEngine
       do 
       {
          tag = getNextTag(xhtml, curPos);
-         curPos = tag.getStartPosition() + 1;
 
-         switch (tag.getTagType())
+         if (tag != null)
          {
-            case STATICVALUE:
-               xhtml = replaceTag(xhtml, tag, report.getStaticValue(tag.getValueName()));
-               break;
+            curPos = tag.getStartPosition() + 1;
 
-            case FIRSTROWVALUE:
-               break;
+            switch (tag.getTagType())
+            {
+               case STATICVALUE:
+                  xhtml = replaceTag(xhtml, tag, report.getStaticValue(tag.getValueName()));
+                  break;
 
-            case ROWVALUE:
-               throw new ReportException("Malformed report template (character " + curPos + "): Can't use ROWVALUE TAG outside a detail group");
+               case FIRSTROWVALUE:
+                  xhtml = replaceTag(xhtml, tag, getFirstRowValue(report, tag));
+                  break;
 
-            default:
-               throw new ReportException("Malformed report template (character " + curPos + "): Unknown TAG type '" + tag.getTagType() + "'");
+               case ROWVALUE:
+                  throw new ReportException("Malformed report template (character " + curPos + "): Can't use ROWVALUE TAG outside a detail group");
+
+               default:
+                  throw new ReportException("Malformed report template (character " + curPos + "): Unknown TAG type '" + tag.getTagType() + "'");
+            }
+         }
+      } 
+      while (tag != null);
+
+      return xhtml;
+   }
+   
+   private String renderFooter(Report report) throws ReportException, DataException
+   {
+      int curPos = 0;
+      String xhtml = report.getFooter();
+      ReportTag tag = null;
+
+      do 
+      {
+         tag = getNextTag(xhtml, curPos);
+
+         if (tag != null)
+         {
+            curPos = tag.getStartPosition() + 1;
+
+            switch (tag.getTagType())
+            {
+               case STATICVALUE:
+                  xhtml = replaceTag(xhtml, tag, report.getStaticValue(tag.getValueName()));
+                  break;
+
+               case FIRSTROWVALUE:
+                  xhtml = replaceTag(xhtml, tag, getFirstRowValue(report, tag));
+                  break;
+
+               case ROWVALUE:
+                  throw new ReportException("Malformed report template (character " + curPos + "): Can't use ROWVALUE TAG outside a detail group");
+
+               default:
+                  throw new ReportException("Malformed report template (character " + curPos + "): Unknown TAG type '" + tag.getTagType() + "'");
+            }
          }
       } 
       while (tag != null);
@@ -149,9 +205,32 @@ public class ReportsEngine
       return xhtml;
    }
 
+   private String getFirstRowValue(Report report, ReportTag tag) throws DataException
+   {
+      String value = null;
+      
+      try
+      {
+         ResultSet rs = report.getDataQuery(tag.getConnectionId()).getResultSet();
+         if (!rs.next())
+         {
+            throw new DataException("The query has no results.");
+         }
+
+         value = rs.getString(tag.getValueName());
+      }
+      catch (SQLException ex)
+      {
+         value = null;
+         // throw new DataException(ex.getMessage(), ex);
+      }
+
+      return (value == null ? "[unknown value]" : value);
+   }
+   
    private String replaceTag(String text, ReportTag tag, String value)
    {
-      return text;
+      return text.replace(tag.getOriginalTag(), value);
    }
 
    /**
@@ -231,6 +310,7 @@ public class ReportsEngine
       private int startPosition;
       private String valueName;
       private String originalTag;
+      private String connectionId;
       private ReporTagType tagType;
       
       /**
@@ -245,6 +325,7 @@ public class ReportsEngine
       {
          setStartPosition(position);
          this.originalTag = tag;
+         this.connectionId = "";
 
          getTagProperties();
       }
@@ -257,6 +338,21 @@ public class ReportsEngine
       public void setValueName(String valueName)
       {
          this.valueName = valueName;
+      }
+
+      public String getConnectionId()
+      {
+         return connectionId;
+      }
+
+      public void setConnectionId(String connectionId)
+      {
+         this.connectionId = connectionId;
+      }
+
+      public String getOriginalTag()
+      {
+         return originalTag;
       }
 
       public int getStartPosition()
@@ -289,16 +385,19 @@ public class ReportsEngine
          if (params[0].equals(ReportTag.CMD_STATICVALUE))
          {
             this.setTagType(ReporTagType.STATICVALUE);
+            this.setConnectionId("");
             this.setValueName(params[1]);
          }
          else if (params[0].equals(ReportTag.CMD_FIRSTROWVALUE))
          {
             this.setTagType(ReporTagType.FIRSTROWVALUE);
+            this.setConnectionId(params[1]);
             this.setValueName(params[2]);
          }
          else if (params[0].equals(ReportTag.CMD_ROWVALUE))
          {
             this.setTagType(ReporTagType.ROWVALUE);
+            this.setConnectionId(params[1]);
             this.setValueName(params[2]);
          }
          else
