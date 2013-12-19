@@ -1,8 +1,10 @@
 package com.cosmo.reports;
 
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -47,7 +49,7 @@ public class Report
    private String copyright;
    private String description;
    private String header;
-   private HashMap<String, ReportDetail> groups;
+   private ArrayList<ReportDetailGroup> groups;
    private String footer;
    private HashMap<String, String> staticValues;
    private HashMap<String, DataQuery> dataQueries;
@@ -166,6 +168,11 @@ public class Report
       this.footer = footer;
    }
 
+   public List<ReportDetailGroup> getDetailGroups()
+   {
+      return this.groups;
+   }
+
 
    //==============================================
    // Methods
@@ -212,7 +219,7 @@ public class Report
       NodeList nList;
       Element eElement;
       FileInputStream is;
-      ReportDetail rptDet;
+      ReportDetailGroup rptDet;
 
       this.id = templateId;
 
@@ -266,12 +273,12 @@ public class Report
             {
                eElement = (Element) nNode;
 
-               rptDet = new ReportDetail();
+               rptDet = new ReportDetailGroup();
                rptDet.setId(eElement.getAttribute(Report.XML_ATT_ID));
                rptDet.setHeader(XmlUtils.getTextValue(eElement, Report.XML_NODE_DETAILHEADER));
                rptDet.setDetail(XmlUtils.getTextValue(eElement, Report.XML_NODE_DETAILROW));
                rptDet.setFooter(XmlUtils.getTextValue(eElement, Report.XML_NODE_DETAILFOOTER));
-               this.groups.put(rptDet.getId(), rptDet);
+               this.groups.add(rptDet);
             }
          }
       }
@@ -298,7 +305,7 @@ public class Report
       this.copyright = "";
       this.description = "";
       this.header = "";
-      this.groups = new HashMap<String, ReportDetail>();
+      this.groups = new ArrayList<ReportDetailGroup>();
       this.footer = "";
       this.staticValues = new HashMap<String, String>();
       this.dataQueries = new HashMap<String, DataQuery>();

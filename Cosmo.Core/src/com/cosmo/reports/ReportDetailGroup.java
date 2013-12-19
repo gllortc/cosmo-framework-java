@@ -1,6 +1,6 @@
 package com.cosmo.reports;
 
-public class ReportDetail
+public class ReportDetailGroup
 {
    private String id;
    private String header;

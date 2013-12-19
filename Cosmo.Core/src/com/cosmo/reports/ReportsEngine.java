@@ -33,11 +33,36 @@ public class ReportsEngine
       /** Valor estático. */
       STATICVALUE
    }
+   
+   /**
+    * Enumera los tipos de sección de un informe.
+    */
+   public enum ReportSection
+   {
+      /** Valor de la primera fila de una consulta. */
+      HEADER,
+      DETAILGROUPHEADER,
+      DETAILGROUPROW,
+      DETAILGROUPFOOTER,
+      FOOTER
+   }
 
+   // Variables internas
+   private Workspace workspace;
 
    //==============================================
    // Constructors
    //==============================================
+
+   /**
+    * Constructor de la clase {@link ReportsEngine}.
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
+    */
+   public ReportsEngine(Workspace workspace)
+   {
+      this.workspace = workspace;
+   }
 
 
    //==============================================
@@ -52,13 +77,12 @@ public class ReportsEngine
    /**
     * Renderiza un informe.
     * 
-    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     * @param report Una instancia de {@link Report} que contiene todos los datos necesarios para elaborar el informe.
     * 
     * @throws DataException 
     * @throws ReportException 
     */
-   public void render(Workspace workspace, Report report) throws DataException, ReportException
+   public void render(Report report) throws DataException, ReportException
    {
       HashMap<String, ResultSet> data;
       StringBuilder xhtml;
@@ -72,16 +96,20 @@ public class ReportsEngine
          // Ejecuta todas las consultas necesarias para el informe
          for (DataQuery dq : report.getDataQueries())
          {
-            data.put(dq.getId(), dq.execute(workspace));
+            data.put(dq.getId(), dq.execute(this.workspace));
          }
 
          // Genera el HEADER
-         xhtml.append(renderHeader(report));
+         xhtml.append(renderSection(report.getHeader(), report, ReportSection.HEADER));
 
          // Genera los GRUPOS DE DETALLE
+         for (ReportDetailGroup group : report.getDetailGroups())
+         {
+            xhtml.append(renderDetailGroup(report, group));
+         }
 
          // Genera el FOOTER
-         xhtml.append(renderFooter(report));
+         xhtml.append(renderSection(report.getFooter(), report, ReportSection.FOOTER));
 
          // Descarga el documento PDF
          String filename = "/" + Report.PATH_REPORTS + "/" + "temp" + "/" +  UUID.randomUUID().toString() + ".pdf";
@@ -131,10 +159,10 @@ public class ReportsEngine
    // Private Members
    //==============================================
 
-   private String renderHeader(Report report) throws ReportException, DataException
+   private String renderSection(String text, Report report, ReportSection section) throws ReportException, DataException
    {
       int curPos = 0;
-      String xhtml = report.getHeader();
+      String xhtml = text;
       ReportTag tag = null;
 
       do 
@@ -145,21 +173,21 @@ public class ReportsEngine
          {
             curPos = tag.getStartPosition() + 1;
 
-            switch (tag.getTagType())
+            if (tag.getTagType() == ReporTagType.STATICVALUE)
             {
-               case STATICVALUE:
-                  xhtml = replaceTag(xhtml, tag, report.getStaticValue(tag.getValueName()));
-                  break;
-
-               case FIRSTROWVALUE:
-                  xhtml = replaceTag(xhtml, tag, getFirstRowValue(report, tag));
-                  break;
-
-               case ROWVALUE:
-                  throw new ReportException("Malformed report template (character " + curPos + "): Can't use ROWVALUE TAG outside a detail group");
-
-               default:
-                  throw new ReportException("Malformed report template (character " + curPos + "): Unknown TAG type '" + tag.getTagType() + "'");
+               xhtml = replaceTag(xhtml, tag, report.getStaticValue(tag.getValueName()));
+            }
+            else if (tag.getTagType() == ReporTagType.FIRSTROWVALUE)
+            {
+               xhtml = replaceTag(xhtml, tag, getFirstRowValue(report, tag));
+            }
+            else if (section == ReportSection.DETAILGROUPROW && tag.getTagType() == ReporTagType.ROWVALUE)
+            {
+               
+            }
+            else
+            {
+               throw new ReportException("Malformed report template (character " + curPos + "): Can't use ROWVALUE TAG outside a detail group");
             }
          }
       } 
@@ -167,42 +195,38 @@ public class ReportsEngine
 
       return xhtml;
    }
-   
-   private String renderFooter(Report report) throws ReportException, DataException
+
+   /**
+    * Renderiza un determinado grupo de detalle del informe.
+    * 
+    * @param report
+    * @param group
+    * 
+    * @return
+    * 
+    * @throws ReportException
+    * @throws DataException
+    */
+   private String renderDetailGroup(Report report, ReportDetailGroup group) throws ReportException, DataException
    {
       int curPos = 0;
-      String xhtml = report.getFooter();
+      StringBuilder xhtml = new StringBuilder();
       ReportTag tag = null;
 
       do 
       {
-         tag = getNextTag(xhtml, curPos);
+         xhtml.append(renderSection(group.getHeader(), report, ReportSection.DETAILGROUPHEADER));
 
-         if (tag != null)
+         // Genera los GRUPOS DE DETALLE
+         
+         for (ReportDetailGroup group : report.getDetailGroups())
          {
-            curPos = tag.getStartPosition() + 1;
-
-            switch (tag.getTagType())
-            {
-               case STATICVALUE:
-                  xhtml = replaceTag(xhtml, tag, report.getStaticValue(tag.getValueName()));
-                  break;
-
-               case FIRSTROWVALUE:
-                  xhtml = replaceTag(xhtml, tag, getFirstRowValue(report, tag));
-                  break;
-
-               case ROWVALUE:
-                  throw new ReportException("Malformed report template (character " + curPos + "): Can't use ROWVALUE TAG outside a detail group");
-
-               default:
-                  throw new ReportException("Malformed report template (character " + curPos + "): Unknown TAG type '" + tag.getTagType() + "'");
-            }
+            xhtml.append(renderDetailGroup(report, group));
          }
-      } 
-      while (tag != null);
 
-      return xhtml;
+         xhtml.append(renderSection(group.getFooter(), report, ReportSection.DETAILGROUPFOOTER));
+
+      return xhtml.toString();
    }
 
    private String getFirstRowValue(Report report, ReportTag tag) throws DataException
