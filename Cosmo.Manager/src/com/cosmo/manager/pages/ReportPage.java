@@ -4,7 +4,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cosmo.data.DataQuery;
 import com.cosmo.reports.Report;
 import com.cosmo.reports.ReportsEngine;
 import com.cosmo.ui.Page;
@@ -12,9 +11,9 @@ import com.cosmo.ui.PageContext;
 import com.cosmo.ui.PageContext.ContentColumns;
 import com.cosmo.ui.annotations.CacheScope;
 import com.cosmo.ui.annotations.CacheScope.PageCacheScopes;
+import com.cosmo.ui.controls.DynamicMessageControl;
 import com.cosmo.ui.controls.FormButton;
 import com.cosmo.ui.controls.FormButton.ButtonType;
-import com.cosmo.ui.controls.DynamicMessageControl;
 import com.cosmo.ui.controls.FormControl;
 import com.cosmo.ui.controls.FormFieldText;
 import com.cosmo.ui.controls.FormFieldset;
@@ -68,8 +67,8 @@ public class ReportPage extends Page
       try
       {
          Report rpt = new Report(getWorkspace(), "weather");
-         ReportsEngine re = new ReportsEngine();
-         re.render(getWorkspace(), rpt);
+         ReportsEngine re = new ReportsEngine(getWorkspace());
+         re.render(rpt);
       }
       catch (Exception ex)
       {
