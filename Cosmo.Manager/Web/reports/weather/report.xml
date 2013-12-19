@@ -32,7 +32,7 @@
    &lt;h1&gt;Weather Report&lt;/h1&gt;
    </header>
 
-   <detail id="invoice-products">
+   <detail id="invoice-products" dataquery="weather">
 
       <detail-head>
          &lt;table style="width: 100%;" border="1" cellspacing="2" cellpadding="2"&gt;
@@ -48,11 +48,11 @@
 
       <detail-row>
             &lt;tr&gt;
-               &lt;td&gt;[@ROWVALUE weather id]&lt;/td&gt;
-               &lt;td&gt;[@ROWVALUE weather city]&lt;/td&gt;
-               &lt;td&gt;[@ROWVALUE weather temp_lo]&lt;/td&gt;
-               &lt;td&gt;[@ROWVALUE weather temp_hi]&lt;/td&gt;
-               &lt;td&gt;[@ROWVALUE weather prcp]&lt;/td&gt;
+               &lt;td&gt;[@ROWVALUE id]&lt;/td&gt;
+               &lt;td&gt;[@ROWVALUE city]&lt;/td&gt;
+               &lt;td&gt;[@ROWVALUE temp_lo]&lt;/td&gt;
+               &lt;td&gt;[@ROWVALUE temp_hi]&lt;/td&gt;
+               &lt;td&gt;[@ROWVALUE prcp]&lt;/td&gt;
             &lt;/tr&gt;
       </detail-row>
 
