@@ -11,6 +11,7 @@ public class ReportDetailGroup
    private String header;
    private String detail;
    private String footer;
+   private String dataQueryId;
 
 
    //==============================================
@@ -22,10 +23,11 @@ public class ReportDetailGroup
     */
    public ReportDetailGroup()
    {
-      this.id     = "";
-      this.header = "";
-      this.detail = "";
-      this.footer = "";
+      this.id          = "";
+      this.header      = "";
+      this.detail      = "";
+      this.footer      = "";
+      this.dataQueryId = "";
    }
 
 
@@ -47,6 +49,22 @@ public class ReportDetailGroup
    public void setId(String id)
    {
       this.id = id;
+   }
+
+   /**
+    * Devuelve el identificador de la consulta ({@link DataQuery}) que proporciona los datos al grupo de detalle.
+    */
+   public String getDataQueryId()
+   {
+      return dataQueryId;
+   }
+
+   /**
+    * Establece el identificador de la consulta ({@link DataQuery}) que proporciona los datos al grupo de detalle.
+    */
+   public void setDataQueryId(String dataQueryId)
+   {
+      this.dataQueryId = dataQueryId;
    }
 
    /**

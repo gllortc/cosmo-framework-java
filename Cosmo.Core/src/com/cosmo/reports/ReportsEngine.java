@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import com.cosmo.Workspace;
+import com.cosmo.data.DataAgent;
 import com.cosmo.data.DataException;
 import com.cosmo.data.DataQuery;
 import com.cosmo.ui.Page;
@@ -100,7 +101,7 @@ public class ReportsEngine
          }
 
          // Genera el HEADER
-         xhtml.append(renderSection(report.getHeader(), report, ReportSection.HEADER));
+         xhtml.append(renderSection(report.getHeader(), report, ReportSection.HEADER, null));
 
          // Genera los GRUPOS DE DETALLE
          for (ReportDetailGroup group : report.getDetailGroups())
@@ -109,7 +110,7 @@ public class ReportsEngine
          }
 
          // Genera el FOOTER
-         xhtml.append(renderSection(report.getFooter(), report, ReportSection.FOOTER));
+         xhtml.append(renderSection(report.getFooter(), report, ReportSection.FOOTER, null));
 
          // Descarga el documento PDF
          String filename = "/" + Report.PATH_REPORTS + "/" + "temp" + "/" +  UUID.randomUUID().toString() + ".pdf";
@@ -159,7 +160,7 @@ public class ReportsEngine
    // Private Members
    //==============================================
 
-   private String renderSection(String text, Report report, ReportSection section) throws ReportException, DataException
+   private String renderSection(String text, Report report, ReportSection section, ResultSet rs) throws ReportException, DataException
    {
       int curPos = 0;
       String xhtml = text;
@@ -183,7 +184,7 @@ public class ReportsEngine
             }
             else if (section == ReportSection.DETAILGROUPROW && tag.getTagType() == ReporTagType.ROWVALUE)
             {
-               
+               xhtml = replaceTag(xhtml, tag, getRowValue(rs, tag));
             }
             else
             {
@@ -199,32 +200,41 @@ public class ReportsEngine
    /**
     * Renderiza un determinado grupo de detalle del informe.
     * 
-    * @param report
-    * @param group
+    * @param report Una instancia de {@link Report} que representa el informe a generar.
+    * @param group Una instancia de {@link ReportDetailGroup} que representa el grupo de detalle a renderizar.
     * 
-    * @return
+    * @return Una cadena que contiene el código XHTML que representa el grupo de detalle renderizado.
     * 
     * @throws ReportException
     * @throws DataException
     */
    private String renderDetailGroup(Report report, ReportDetailGroup group) throws ReportException, DataException
    {
-      int curPos = 0;
       StringBuilder xhtml = new StringBuilder();
-      ReportTag tag = null;
+      ResultSet rs = null;
 
-      do 
+      xhtml.append(renderSection(group.getHeader(), report, ReportSection.DETAILGROUPHEADER, null));
+
+      try
       {
-         xhtml.append(renderSection(group.getHeader(), report, ReportSection.DETAILGROUPHEADER));
-
          // Genera los GRUPOS DE DETALLE
-         
-         for (ReportDetailGroup group : report.getDetailGroups())
+         DataQuery query = report.getDataQuery(group.getDataQueryId());
+         rs = query.execute(this.workspace);
+         while (!rs.next())
          {
-            xhtml.append(renderDetailGroup(report, group));
+            xhtml.append(renderSection(group.getDetail(), report, ReportSection.DETAILGROUPROW, rs));
          }
+      }
+      catch (SQLException ex)
+      {
+         throw new DataException(ex.getMessage(), ex);
+      }
+      finally 
+      {
+         DataAgent.closeResultSet(rs);
+      }
 
-         xhtml.append(renderSection(group.getFooter(), report, ReportSection.DETAILGROUPFOOTER));
+      xhtml.append(renderSection(group.getFooter(), report, ReportSection.DETAILGROUPFOOTER, null));
 
       return xhtml.toString();
    }
@@ -251,7 +261,24 @@ public class ReportsEngine
 
       return (value == null ? "[unknown value]" : value);
    }
-   
+
+   private String getRowValue(ResultSet rs, ReportTag tag) throws DataException
+   {
+      String value = null;
+      
+      try
+      {
+         value = rs.getString(tag.getValueName());
+      }
+      catch (SQLException ex)
+      {
+         value = null;
+         // throw new DataException(ex.getMessage(), ex);
+      }
+
+      return (value == null ? "[unknown value]" : value);
+   }
+
    private String replaceTag(String text, ReportTag tag, String value)
    {
       return text.replace(tag.getOriginalTag(), value);

@@ -19,6 +19,11 @@ import com.cosmo.data.DataQuery;
 import com.cosmo.ui.templates.TemplateLoadException;
 import com.cosmo.util.XmlUtils;
 
+/**
+ * Representa una plantilla de informe e implementa las funcionalidades básicas de carga.
+ * 
+ * @author Gerard Llort
+ */
 public class Report
 {
    public static final String PATH_REPORTS = "reports";
@@ -41,6 +46,7 @@ public class Report
 
    private static final String XML_ATT_DEFINITIONVER = "cdt-ver";
    private static final String XML_ATT_ID = "id";
+   private static final String XML_ATT_DATAQUERY = "dataquery";
 
    private String id;
    private String name;
@@ -275,6 +281,7 @@ public class Report
 
                rptDet = new ReportDetailGroup();
                rptDet.setId(eElement.getAttribute(Report.XML_ATT_ID));
+               rptDet.setDataQueryId(eElement.getAttribute(Report.XML_ATT_DATAQUERY));
                rptDet.setHeader(XmlUtils.getTextValue(eElement, Report.XML_NODE_DETAILHEADER));
                rptDet.setDetail(XmlUtils.getTextValue(eElement, Report.XML_NODE_DETAILROW));
                rptDet.setFooter(XmlUtils.getTextValue(eElement, Report.XML_NODE_DETAILFOOTER));

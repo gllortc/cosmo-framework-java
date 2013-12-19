@@ -321,4 +321,27 @@ public abstract class DataAgent
 
       return ftext;
    }
+
+   /**
+    * Cierra correctamente un objeto {@link ResultSet}.
+    */
+   public static void closeResultSet(ResultSet rs)
+   {
+      try
+      {
+         if (rs == null)
+         {
+            return;
+         }
+         
+         if (!rs.isClosed())
+         {
+            rs.close();
+         }
+      }
+      catch (Exception ex)
+      {
+         // Descarta la excepción
+      }
+   }
 }
