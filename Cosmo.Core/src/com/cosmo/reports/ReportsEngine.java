@@ -448,8 +448,7 @@ public class ReportsEngine
          else if (params[0].equals(ReportTag.CMD_ROWVALUE))
          {
             this.setTagType(ReporTagType.ROWVALUE);
-            this.setConnectionId(params[1]);
-            this.setValueName(params[2]);
+            this.setValueName(params[1]);
          }
          else
          {
