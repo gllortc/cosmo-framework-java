@@ -32,7 +32,9 @@ public class ReportsEngine
       /** Valor de la fila actual (en un grupo de detalle) de una consulta. */
       ROWVALUE,
       /** Valor estático. */
-      STATICVALUE
+      STATICVALUE,
+      /** Valor del workspace. */
+      WORKSPACE
    }
    
    /**
@@ -357,6 +359,7 @@ public class ReportsEngine
       private static final String CMD_ROWVALUE = "ROWVALUE";
       private static final String CMD_FIRSTROWVALUE = "FIRSTROWVALUE";
       private static final String CMD_STATICVALUE = "STATICVALUE";
+      private static final String CMD_WORKSPACE = "WORKSPACE";
 
       private int startPosition;
       private String valueName;
@@ -448,6 +451,11 @@ public class ReportsEngine
          else if (params[0].equals(ReportTag.CMD_ROWVALUE))
          {
             this.setTagType(ReporTagType.ROWVALUE);
+            this.setValueName(params[1]);
+         }
+         else if (params[0].equals(ReportTag.CMD_WORKSPACE))
+         {
+            this.setTagType(ReporTagType.WORKSPACE);
             this.setValueName(params[1]);
          }
          else
