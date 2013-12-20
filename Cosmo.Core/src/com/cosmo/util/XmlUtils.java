@@ -38,16 +38,20 @@ public class XmlUtils
     */
    public static String getTextValue(Element doc, String tag, String defaultValue) 
    {
-      String value = defaultValue;
+      String value = null;
       NodeList nl;
 
       nl = doc.getElementsByTagName(tag);
       if (nl.getLength() > 0 && nl.item(0).hasChildNodes()) 
       {
-        value = nl.item(0).getFirstChild().getNodeValue();
+         value = nl.item(0).getFirstChild().getNodeValue();
+      }
+      else
+      {
+         value = doc.getFirstChild().getNextSibling().getFirstChild().getNodeValue();
       }
 
-      return value;
+      return (value == null ? defaultValue : value);
    }
 
    /**

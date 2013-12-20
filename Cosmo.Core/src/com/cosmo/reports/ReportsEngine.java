@@ -220,7 +220,7 @@ public class ReportsEngine
          // Genera los GRUPOS DE DETALLE
          DataQuery query = report.getDataQuery(group.getDataQueryId());
          rs = query.execute(this.workspace);
-         while (!rs.next())
+         while (rs.next())
          {
             xhtml.append(renderSection(group.getDetail(), report, ReportSection.DETAILGROUPROW, rs));
          }
