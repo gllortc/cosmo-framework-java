@@ -26,40 +26,66 @@
 &lt;head&gt;
 &lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /&gt;
 &lt;title&gt;Cosmo Reports - Weather Report Sample&lt;/title&gt;
+&lt;style type="text/css"&gt;
+.gridtable {
+   font-family: verdana,arial,sans-serif;
+   font-size:11px;
+   font-weight: bold;
+   color:#333333;
+   border-width: 1px;
+   width:100%;
+   border-collapse:collapse;
+}
+.gridtable-th {
+   border-width: 1px;
+   padding: 8px;
+   border-style: solid;
+   background-color: #dedede;
+}
+.gridtable-td {
+   border-width: 1px;
+   padding: 8px;
+   border-style: solid;
+   font-weight: normal;
+}
+&lt;/style&gt;
 &lt;/head&gt;
 
 &lt;body&gt;
+
+   &lt;div&gt;&lt;img src="[@WORKSPACE url]reports/weather/gcc_fs_logogeneralitat.gif" /&gt;&lt;/div&gt;
    &lt;h1&gt;Weather Report&lt;/h1&gt;
+   &lt;p&gt;Al mapa apareixen les observacions corresponents a la vigilància meteorològica, facilitades pels membres vigilants de la XOM, així com les dades de les superacions dels llindars d'SMP enregistrades amb les Estacions Meteorolòques Automàtiques de l'SMC.&lt;/p&gt;
    </header>
 
    <detail id="invoice-products" dataquery="weather">
 
       <detail-head>
-         &lt;table style="width: 100%;" border="1" cellspacing="2" cellpadding="2"&gt;
+         &lt;table class="gridtable" border="1" cellspacing="2" cellpadding="2"&gt;
             &lt;tbody&gt;
-            &lt;tr&gt;
-               &lt;td&gt;&lt;span class="bold"&gt;ID&lt;/span&gt;&lt;/td&gt;
+            &lt;tr class="gridtable-th"&gt;
+               &lt;td style="text-align:center;"&gt;&lt;span class="bold"&gt;ID&lt;/span&gt;&lt;/td&gt;
                &lt;td&gt;&lt;span class="bold"&gt;City&lt;/span&gt;&lt;/td&gt;
-               &lt;td&gt;&lt;span class="bold"&gt;Low temp&lt;/span&gt;&lt;/td&gt;
-               &lt;td&gt;&lt;span class="bold"&gt;High temp&lt;/span&gt;&lt;/td&gt;
-               &lt;td&gt;&lt;span class="bold"&gt;Precip&lt;/span&gt;&lt;/td&gt;
+               &lt;td style="text-align:center;"&gt;&lt;span class="bold"&gt;Low temp&lt;/span&gt;&lt;/td&gt;
+               &lt;td style="text-align:center;"&gt;&lt;span class="bold"&gt;High temp&lt;/span&gt;&lt;/td&gt;
+               &lt;td style="text-align:center;"&gt;&lt;span class="bold"&gt;Precip&lt;/span&gt;&lt;/td&gt;
             &lt;/tr&gt;
       </detail-head>
 
       <detail-row>
             &lt;tr&gt;
-               &lt;td&gt;[@ROWVALUE id]&lt;/td&gt;
-               &lt;td&gt;[@ROWVALUE city]&lt;/td&gt;
-               &lt;td&gt;[@ROWVALUE temp_lo]&lt;/td&gt;
-               &lt;td&gt;[@ROWVALUE temp_hi]&lt;/td&gt;
-               &lt;td&gt;[@ROWVALUE prcp]&lt;/td&gt;
+               &lt;td class="gridtable-td" style="text-align:center;"&gt;[@ROWVALUE id]&lt;/td&gt;
+               &lt;td class="gridtable-td"&gt;[@ROWVALUE city]&lt;/td&gt;
+               &lt;td class="gridtable-td" style="text-align:center;"&gt;[@ROWVALUE temp_lo]&lt;/td&gt;
+               &lt;td class="gridtable-td" style="text-align:center;"&gt;[@ROWVALUE temp_hi]&lt;/td&gt;
+               &lt;td class="gridtable-td" style="text-align:center;"&gt;[@ROWVALUE prcp]&lt;/td&gt;
             &lt;/tr&gt;
       </detail-row>
 
-      <detail-foot>
+      <detail-footer>
             &lt;/tbody&gt;
          &lt;/table&gt;
-      </detail-foot>
+      </detail-footer>
 
    </detail>
 
