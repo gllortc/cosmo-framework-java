@@ -6,7 +6,7 @@
    <author>Gerard Llort</author>
    <version>1.0</version>
    <copyright>InforGEST</copyright>
-   <description>Based on ZOHO Invoice Template.</description>
+   <description>For testing pourposes.</description>
 
    <dataquery id="weather" connection="cosmo.server">
       SELECT id, 
@@ -27,9 +27,18 @@
 &lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /&gt;
 &lt;title&gt;Cosmo Reports - Weather Report Sample&lt;/title&gt;
 &lt;style type="text/css"&gt;
+body {
+   text-align: justify;
+   font-family: Calibri, verdana, arial, sans-serif;
+   font-size:14px;
+}
+h1, h2, h3, h4, h5, h6 {
+   font-family: times new roman;
+   font-weight: normal;
+}
 .gridtable {
-   font-family: verdana,arial,sans-serif;
-   font-size:11px;
+   font-family: Calibri, verdana, arial, sans-serif;
+   font-size:12px;
    font-weight: bold;
    color:#333333;
    border-width: 1px;
@@ -90,6 +99,7 @@
    </detail>
 
    <footer>
+   &lt;div&gt;&lt;img src="[@WORKSPACE url]reports/weather/mapaCAT.jpg" /&gt;&lt;/div&gt;
 &lt;/body&gt;
 &lt;/html&gt;
    </footer>
