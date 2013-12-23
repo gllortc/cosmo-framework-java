@@ -25,6 +25,11 @@ public class XmlUtils
    private static final String XML_TAG_PARAMETER = "param";
    private static final String XML_TAG_DATAQUERY = "dataquery";
 
+
+   //==============================================
+   // Static Members
+   //==============================================
+
    /**
     * Obtiene el valor de un determinado nodo.
     */

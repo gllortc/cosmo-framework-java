@@ -17,7 +17,7 @@ public class KeyValue
    //==============================================
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link KeyValue}.
     */
    public KeyValue()
    {
@@ -27,7 +27,7 @@ public class KeyValue
    }
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link KeyValue}.
     * 
     * @param key Una cadena que contiene la clave del par.
     * @param value Un objeto que contiene el valor del par.
@@ -40,7 +40,7 @@ public class KeyValue
    }
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link KeyValue}.
     * 
     * @param key Una cadena que contiene la clave del par.
     * @param value Un objeto que contiene el valor del par.

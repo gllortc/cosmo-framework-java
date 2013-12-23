@@ -16,6 +16,11 @@ public class StringUtils
     */
    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
+
+   //==============================================
+   // Static Members
+   //==============================================
+
    /**
     * Permet esbrinar si una cadena está vacía o nula.
     * 

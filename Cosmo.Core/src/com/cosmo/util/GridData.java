@@ -26,7 +26,7 @@ public class GridData
    //==============================================
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link GridData}.
     */
    public GridData()
    {
@@ -40,7 +40,7 @@ public class GridData
    }
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link GridData}.
     * 
     * @param rows Número de filas.
     * @param rows Número de columnas.

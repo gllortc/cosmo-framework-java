@@ -33,8 +33,21 @@ public class LanguageUtils
    private Integer activeLanguage = 0;
    private Properties properties = null;
 
+
+   //==============================================
+   // Constructors
+   //==============================================
+
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link LanguageUtils}.
+    */
+   public LanguageUtils() 
+   {
+      loadFile(LanguageUtils.LANG_ENGLISH);
+   }
+
+   /**
+    * Constructor de la clase {@link LanguageUtils}.
     * 
     * @param languageCode Código de idioma.
     */
@@ -44,18 +57,10 @@ public class LanguageUtils
       setActiveLanguage(languageCode);
    }
 
-   /**
-    * Constructor de la clase.
-    */
-   public LanguageUtils() 
-   {
-      loadFile(LanguageUtils.LANG_ENGLISH);
-   }
 
-   public static String getMessage(String key) 
-   {
-      return new String();
-   }
+   //==============================================
+   // Methods
+   //==============================================
 
    /**
     * Marca el lenguaje activo 
@@ -109,6 +114,21 @@ public class LanguageUtils
    {
       return this.properties.getProperty(key);
    }
+
+
+   //==============================================
+   // Static Members
+   //==============================================
+
+   public static String getMessage(String key) 
+   {
+      return new String();
+   }
+
+
+   //==============================================
+   // Private Members
+   //==============================================
 
    private void loadFile(String languageCode) 
    {

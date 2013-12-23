@@ -18,7 +18,7 @@ public class FormData
    //==============================================
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link FormData}.
     * 
     * @param formId Identificador único del formulario.
     */
