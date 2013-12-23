@@ -20,6 +20,11 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
 
+/**
+ * Implementa el generador de informes de Cosmo Framework.
+ * 
+ * @author Gerard Llort
+ */
 public class ReportsEngine
 {
    /**
@@ -42,16 +47,21 @@ public class ReportsEngine
     */
    public enum ReportSection
    {
-      /** Valor de la primera fila de una consulta. */
+      /** Cabecera del informe. */
       HEADER,
+      /** Cabecera de grupo de detalle. */
       DETAILGROUPHEADER,
+      /** Fila de grupo de detalle. */
       DETAILGROUPROW,
+      /** Pie de grupo de detalle. */
       DETAILGROUPFOOTER,
+      /** Pie del informe. */
       FOOTER
    }
 
    // Variables internas
    private Workspace workspace;
+   private Report report;
 
    //==============================================
    // Constructors
@@ -64,7 +74,19 @@ public class ReportsEngine
     */
    public ReportsEngine(Workspace workspace)
    {
+      initialize();
+
       this.workspace = workspace;
+   }
+
+   public ReportsEngine(Workspace workspace, String reportId) throws ReportException
+   {
+      initialize();
+
+      this.workspace = workspace;
+
+      // Carga la plantilla de informe
+      loadReport(reportId);
    }
 
 
@@ -72,20 +94,56 @@ public class ReportsEngine
    // Properties
    //==============================================
 
+   /**
+    * Devuelve la instancia de {@link Workspace} usada internamente.
+    */
+   public Workspace getWorkspace()
+   {
+      return workspace;
+   }
+
+   /**
+    * Devuelve la instancia de {@link Report} que representa el informe cargado actualmente.
+    */
+   public Report getReport()
+   {
+      return report;
+   }
+
+   /**
+    * Indica si hay un informe cargado en el generador de informes.
+    */
+   public boolean isReportLoaded()
+   {
+      return (this.report != null);
+   }
+
 
    //==============================================
    // Methods
    //==============================================
 
    /**
-    * Renderiza un informe.
+    * Carga una plantilla de informe.
     * 
-    * @param report Una instancia de {@link Report} que contiene todos los datos necesarios para elaborar el informe.
+    * @param reportId Una cadena que contiene el identificador del informe.
+    * 
+    * @throws ReportException 
+    */
+   public void loadReport(String reportId) throws ReportException
+   {
+      initialize();
+
+      this.report = new Report(this.workspace, reportId);
+   }
+
+   /**
+    * Renderiza un informe.
     * 
     * @throws DataException 
     * @throws ReportException 
     */
-   public void render(Report report) throws DataException, ReportException
+   public void render() throws DataException, ReportException
    {
       HashMap<String, ResultSet> data;
       StringBuilder xhtml;
@@ -103,20 +161,20 @@ public class ReportsEngine
          }
 
          // Genera el HEADER
-         xhtml.append(renderSection(report.getHeader(), report, ReportSection.HEADER, null));
+         xhtml.append(renderSection(this.report.getHeader(), ReportSection.HEADER, null));
 
          // Genera los GRUPOS DE DETALLE
-         for (ReportDetailGroup group : report.getDetailGroups())
+         for (ReportDetailGroup group : this.report.getDetailGroups())
          {
-            xhtml.append(renderDetailGroup(report, group));
+            xhtml.append(renderDetailGroup(group));
          }
 
          // Genera el FOOTER
-         xhtml.append(renderSection(report.getFooter(), report, ReportSection.FOOTER, null));
+         xhtml.append(renderSection(this.report.getFooter(), ReportSection.FOOTER, null));
 
          // Descarga el documento PDF
          String filename = "/" + Report.PATH_REPORTS + "/" + "temp" + "/" +  UUID.randomUUID().toString() + ".pdf";
-         filename = workspace.getServerContext().getRealPath(filename);
+         filename = this.workspace.getServerContext().getRealPath(filename);
 
          Document document = new Document();
          InputStream stream = new ByteArrayInputStream(xhtml.toString().getBytes());
@@ -135,8 +193,8 @@ public class ReportsEngine
    /**
     * Imprime una página generada mediante UI Services.
     * 
-    * @param page
-    * @param pc
+    * @param page Una instancia de {@link Page} que representa la página actual.
+    * @param pc Una instancia de {@link PageContext} que representa el contexto de la página actual.
     * 
     * @throws ReportException
     */
@@ -162,7 +220,7 @@ public class ReportsEngine
    // Private Members
    //==============================================
 
-   private String renderSection(String text, Report report, ReportSection section, ResultSet rs) throws ReportException, DataException
+   private String renderSection(String text, ReportSection section, ResultSet rs) throws ReportException, DataException
    {
       int curPos = 0;
       String xhtml = text;
@@ -178,11 +236,15 @@ public class ReportsEngine
 
             if (tag.getTagType() == ReporTagType.STATICVALUE)
             {
-               xhtml = replaceTag(xhtml, tag, report.getStaticValue(tag.getValueName()));
+               xhtml = replaceTag(xhtml, tag, this.report.getStaticValue(tag.getValueName()));
             }
             else if (tag.getTagType() == ReporTagType.FIRSTROWVALUE)
             {
-               xhtml = replaceTag(xhtml, tag, getFirstRowValue(report, tag));
+               xhtml = replaceTag(xhtml, tag, getFirstRowValue(tag));
+            }
+            else if (tag.getTagType() == ReporTagType.WORKSPACE)
+            {
+               xhtml = replaceTag(xhtml, tag, getWorkspaceValue(tag));
             }
             else if (section == ReportSection.DETAILGROUPROW && tag.getTagType() == ReporTagType.ROWVALUE)
             {
@@ -202,7 +264,6 @@ public class ReportsEngine
    /**
     * Renderiza un determinado grupo de detalle del informe.
     * 
-    * @param report Una instancia de {@link Report} que representa el informe a generar.
     * @param group Una instancia de {@link ReportDetailGroup} que representa el grupo de detalle a renderizar.
     * 
     * @return Una cadena que contiene el código XHTML que representa el grupo de detalle renderizado.
@@ -210,21 +271,21 @@ public class ReportsEngine
     * @throws ReportException
     * @throws DataException
     */
-   private String renderDetailGroup(Report report, ReportDetailGroup group) throws ReportException, DataException
+   private String renderDetailGroup(ReportDetailGroup group) throws ReportException, DataException
    {
       StringBuilder xhtml = new StringBuilder();
       ResultSet rs = null;
 
-      xhtml.append(renderSection(group.getHeader(), report, ReportSection.DETAILGROUPHEADER, null));
+      xhtml.append(renderSection(group.getHeader(), ReportSection.DETAILGROUPHEADER, null));
 
       try
       {
          // Genera los GRUPOS DE DETALLE
-         DataQuery query = report.getDataQuery(group.getDataQueryId());
+         DataQuery query = this.report.getDataQuery(group.getDataQueryId());
          rs = query.execute(this.workspace);
          while (rs.next())
          {
-            xhtml.append(renderSection(group.getDetail(), report, ReportSection.DETAILGROUPROW, rs));
+            xhtml.append(renderSection(group.getDetail(), ReportSection.DETAILGROUPROW, rs));
          }
       }
       catch (SQLException ex)
@@ -236,18 +297,27 @@ public class ReportsEngine
          DataAgent.closeResultSet(rs);
       }
 
-      xhtml.append(renderSection(group.getFooter(), report, ReportSection.DETAILGROUPFOOTER, null));
+      xhtml.append(renderSection(group.getFooter(), ReportSection.DETAILGROUPFOOTER, null));
 
       return xhtml.toString();
    }
 
-   private String getFirstRowValue(Report report, ReportTag tag) throws DataException
+   /**
+    * Obtiene un valor de base de datos que se encuentra en la primera fila de una consulta.
+    * 
+    * @param tag Una instancia de {@link ReportTag} que representa el TAG a rellenar.
+    * 
+    * @return El valor a representar.
+    * 
+    * @throws DataException
+    */
+   private String getFirstRowValue(ReportTag tag) throws DataException
    {
       String value = null;
       
       try
       {
-         ResultSet rs = report.getDataQuery(tag.getConnectionId()).getResultSet();
+         ResultSet rs = this.report.getDataQuery(tag.getConnectionId()).getResultSet();
          if (!rs.next())
          {
             throw new DataException("The query has no results.");
@@ -264,6 +334,16 @@ public class ReportsEngine
       return (value == null ? "[unknown value]" : value);
    }
 
+   /**
+    * Obtiene un valor dependiente a una fila de un grupo de detalle.
+    * 
+    * @param rs Una instancia de {@link ResultSet} que contiene los datos. Debe estar correctamente posicionado en la fila adecuada.
+    * @param tag Una instancia de {@link ReportTag} que representa el TAG a rellenar.
+    * 
+    * @return El valor a representar.
+    * 
+    * @throws DataException
+    */
    private String getRowValue(ResultSet rs, ReportTag tag) throws DataException
    {
       String value = null;
@@ -279,6 +359,33 @@ public class ReportsEngine
       }
 
       return (value == null ? "[unknown value]" : value);
+   }
+
+   /**
+    * Obtiene el valor de una TAG de workspace.
+    * 
+    * @param tag Una instancia de {@link ReportTag} que representa el TAG para el que se desea obtener el valor.
+    * 
+    * @return Una cadena de texto que contiene el valor a mostrar.
+    * 
+    * @throws DataException
+    */
+   private String getWorkspaceValue(ReportTag tag) throws DataException
+   {
+      if (tag.getValueName().equals("name"))
+      {
+         return this.workspace.getName();
+      }
+      else if (tag.getValueName().equals("mail"))
+      {
+         return this.workspace.getMail();
+      }
+      else if (tag.getValueName().equals("url"))
+      {
+         return this.workspace.getUrl();
+      }
+      
+      return null;
    }
 
    private String replaceTag(String text, ReportTag tag, String value)
@@ -344,6 +451,15 @@ public class ReportsEngine
        document.close();
 
        System.out.println( "PDF Created!" );
+   }
+
+   /**
+    * Inicializa la instancia.
+    */
+   private void initialize()
+   {
+      this.workspace = null;
+      this.report = null;
    }
 
 
@@ -456,7 +572,7 @@ public class ReportsEngine
          else if (params[0].equals(ReportTag.CMD_WORKSPACE))
          {
             this.setTagType(ReporTagType.WORKSPACE);
-            this.setValueName(params[1]);
+            this.setValueName(params[1].toLowerCase().trim());
          }
          else
          {
