@@ -9,6 +9,7 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -16,6 +17,7 @@ import org.w3c.dom.NodeList;
 
 import com.cosmo.Workspace;
 import com.cosmo.data.DataQuery;
+import com.cosmo.logging.LogFactory;
 import com.cosmo.ui.templates.TemplateLoadException;
 import com.cosmo.util.XmlUtils;
 
@@ -48,6 +50,7 @@ public class Report
    private static final String XML_ATT_ID = "id";
    private static final String XML_ATT_DATAQUERY = "dataquery";
 
+   private boolean generated;
    private String id;
    private String name;
    private String author;
@@ -59,6 +62,9 @@ public class Report
    private String footer;
    private HashMap<String, String> staticValues;
    private HashMap<String, DataQuery> dataQueries;
+   private String url;
+
+   Logger log = LogFactory.getLogger("Reporting Services");
 
 
    //==============================================
@@ -93,6 +99,11 @@ public class Report
    //==============================================
    // Properties
    //==============================================
+
+   public boolean isAvailable()
+   {
+      return this.generated;
+   }
 
    public String getId()
    {
@@ -179,6 +190,17 @@ public class Report
       return this.groups;
    }
 
+   public String getUrl()
+   {
+      return url;
+   }
+
+   public void setUrl(String url)
+   {
+      this.url = url;
+      this.generated = true;
+   }
+
 
    //==============================================
    // Methods
@@ -228,6 +250,8 @@ public class Report
       ReportDetailGroup rptDet;
 
       this.id = templateId;
+
+      log.debug("Loading report template '" + templateId + "'...");
 
       try
       {
@@ -305,6 +329,7 @@ public class Report
     */
    private void initialize()
    {
+      this.generated = false;
       this.id = "";
       this.name = "";
       this.author = "";
@@ -316,5 +341,6 @@ public class Report
       this.footer = "";
       this.staticValues = new HashMap<String, String>();
       this.dataQueries = new HashMap<String, DataQuery>();
+      this.url = "";
    }
 }

@@ -9,10 +9,14 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.apache.log4j.Logger;
+
 import com.cosmo.Workspace;
 import com.cosmo.data.DataAgent;
 import com.cosmo.data.DataException;
 import com.cosmo.data.DataQuery;
+import com.cosmo.logging.LogFactory;
+import com.cosmo.net.URL;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.PageContext;
 import com.itextpdf.text.Document;
@@ -62,6 +66,8 @@ public class ReportsEngine
    // Variables internas
    private Workspace workspace;
    private Report report;
+
+   Logger log = LogFactory.getLogger("Reporting Services");
 
    //==============================================
    // Constructors
@@ -132,13 +138,11 @@ public class ReportsEngine
     */
    public void loadReport(String reportId) throws ReportException
    {
-      initialize();
-
       this.report = new Report(this.workspace, reportId);
    }
 
    /**
-    * Renderiza un informe.
+    * Renderiza el informe cargado en el motor de informes.
     * 
     * @throws DataException 
     * @throws ReportException 
@@ -151,6 +155,8 @@ public class ReportsEngine
       // Inicializaciones
       xhtml = new StringBuilder();
       data = new HashMap<String, ResultSet>();
+
+      log.debug("Start rendering report '" + this.report.getId() + "'...");
 
       try
       {
@@ -173,16 +179,26 @@ public class ReportsEngine
          xhtml.append(renderSection(this.report.getFooter(), ReportSection.FOOTER, null));
 
          // Descarga el documento PDF
-         String filename = "/" + Report.PATH_REPORTS + "/" + "temp" + "/" +  UUID.randomUUID().toString() + ".pdf";
-         filename = this.workspace.getServerContext().getRealPath(filename);
+         String path = "/" + Report.PATH_REPORTS + "/" + "temp" + "/";
+         String filename = UUID.randomUUID().toString() + ".pdf";
+         String fileNamePath = this.workspace.getServerContext().getRealPath(path + filename);
 
          Document document = new Document();
          InputStream stream = new ByteArrayInputStream(xhtml.toString().getBytes());
 
-         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
+         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileNamePath));
          document.open();
          XMLWorkerHelper.getInstance().parseXHtml(writer, document, stream);
          document.close();
+
+         // Actualiza el informe on la URL del nuevo informe generado
+         URL url = new URL(this.workspace.getUrl());
+         url.addFolderOrFile("reports");
+         url.addFolderOrFile("temp");
+         url.addFolderOrFile(filename);
+         this.report.setUrl(url.build());
+
+         log.debug("Report '" + this.report.getId() + "' generated: " + fileNamePath);
       }
       catch (Exception ex)
       {
@@ -572,6 +588,7 @@ public class ReportsEngine
          else if (params[0].equals(ReportTag.CMD_WORKSPACE))
          {
             this.setTagType(ReporTagType.WORKSPACE);
+            this.setConnectionId("");
             this.setValueName(params[1].toLowerCase().trim());
          }
          else

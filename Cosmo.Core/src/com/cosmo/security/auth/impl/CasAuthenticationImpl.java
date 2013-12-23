@@ -166,7 +166,7 @@ public class CasAuthenticationImpl implements Authentication
    public String getLoginGatewayUrl()
    {
       URL url = new URL(agent.getParamString(AGENT_PARAM_CASSERVICE).trim());
-      url.addFolder(LOGIN_URL_PART);
+      url.addFolderOrFile(LOGIN_URL_PART);
       url.addParameter(URL_PARAM_SERVICE, agent.getParamString(AGENT_PARAM_SERVICEURL)); 
       
       return url.toString();
@@ -225,7 +225,7 @@ public class CasAuthenticationImpl implements Authentication
       User user = null;
       
       URL url = new URL(agent.getParamString(AGENT_PARAM_CASSERVICE));
-      url.addFolder(SERVICE_VALIDATE_URL_PART);
+      url.addFolderOrFile(SERVICE_VALIDATE_URL_PART);
       
       String toUrl = url.toString();
       

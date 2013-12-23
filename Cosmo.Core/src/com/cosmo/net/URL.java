@@ -92,7 +92,7 @@ public class URL
     * 
     * @param name Una cadena que contiene el nombre de la carpeta a agregar a la URL.
     */
-   public void addFolder(String name)
+   public void addFolderOrFile(String name)
    {
       this.url += (this.url.endsWith("/") ? "" : "/") + name;
    }
