@@ -1,15 +1,12 @@
 package com.cosmo.ui.templates;
 
 /**
- * Implementa un elemento SCRIPT que se debe incorporar a la pÃ¡gina final.
+ * Implementa un elemento SCRIPT que se debe incorporar a la página final.
  * 
  * @author Gerard Llort
  */
 public class TemplateScript 
 {
-   private ScriptType type;
-   private String script;
-
    /**
     * Enumera los tipos de scripts soportados.
     */
@@ -21,13 +18,21 @@ public class TemplateScript
       Referenced
    }
 
+   // Declaración de variables internas
+   private ScriptType type;
+   private String script;
+
 
    //==============================================
    // Constructors
    //==============================================
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link TemplateScript}.
+    * 
+    * @param type Tipo de script.
+    * @param script Si el tipo es {@code Code} entonces este parámetro contiene el código JavaScript a incorporar. Si el tipo es {@code Referenced}
+    *    entonces contiene la URL al script a incorporar.
     */   
    public TemplateScript(ScriptType type, String script)
    {

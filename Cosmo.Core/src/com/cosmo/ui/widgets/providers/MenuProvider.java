@@ -14,7 +14,8 @@ import java.util.ArrayList;
 public abstract class MenuProvider 
 {
    private static MenuProvider instance = null;
-   
+
+
    //==============================================
    // Methods
    //==============================================
@@ -28,7 +29,8 @@ public abstract class MenuProvider
     * @throws MenuProviderException 
     */
    public abstract ArrayList<MenuItem> loadMenu(Workspace workspace, MenuTypes type) throws MenuProviderException;
-   
+
+
    //==============================================
    // Static members
    //==============================================
@@ -52,11 +54,12 @@ public abstract class MenuProvider
 
       return instance;
    }
-   
+
+
    //==============================================
    // Private members
    //==============================================
-   
+
    /**
     * Carga el controlador de usuarios.
     * 
@@ -66,22 +69,22 @@ public abstract class MenuProvider
    {
       String className = "-- no render provider defined in proprties --";
       MenuProvider provider;
-      
+
       try 
-		{
+      {
          // Recupera el nombre de la clase
          className = workspace.getProperties().getString(Cosmo.PROPERTY_WORKSPACE_MENU_PROVIDER);
-         
+
          // Genera una instancia de la clase
          Class<?> cls = Class.forName(className);
          provider = (MenuProvider) cls.newInstance();
-         
+
          return provider;
-		} 
-		catch (ClassNotFoundException ex) 
-		{
+      } 
+      catch (ClassNotFoundException ex) 
+      {
          throw new MenuProviderException("ClassNotFoundException: " + className, ex);
-		}
+      }
       catch (InstantiationException ex)
       {
          throw new MenuProviderException("InstantiationException: " + className, ex);

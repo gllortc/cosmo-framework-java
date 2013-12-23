@@ -17,17 +17,19 @@ public class MenuItem
    private String parentId;
    private String icon;
    private ArrayList<MenuItem> subitems;
-   
+
+
    //==============================================
    // Constructors
    //==============================================
-   
+
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link MenuItem}.
     * 
     * @param id Identificador único del elemento.
     * @param title Título visible del elemento de menú.
     * @param href URL de acceso a la página.
+    * @param parentId Identificador del elemento de menú del qual cuelga (null o cadena vacía indica elemento raíz).
     */
    public MenuItem(String id, String title, String href, String parentId)
    {
@@ -103,17 +105,18 @@ public class MenuItem
    {
       this.parentId = parentId;
    }
-   
+
    public Iterator<MenuItem> getSubItems()
    {
       return this.subitems.iterator();
    }
-   
+
    public boolean hasSubItems()
    {
       return !this.subitems.isEmpty();
    }
-   
+
+
    //==============================================
    // Methods
    //==============================================

@@ -10,7 +10,7 @@ public class TemplateLoadException extends Exception
    /** Serial Version UID */
    private static final long serialVersionUID = 6717283397611708242L;
 
-   // Declaración de variables locales
+   // Declaración de variables internas
    private Exception innerException;
 
 

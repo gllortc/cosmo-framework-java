@@ -13,6 +13,7 @@ public class TemplateLink
    public static final String LINK_TYPE_CSS = "text/css";
    public static final String LINK_TYPE_ICON = "image/x-icon";
 
+   // Declaración de variables internas
    private String rel;
    private String type;
    private String href;
@@ -23,7 +24,7 @@ public class TemplateLink
    //==============================================
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link TemplateLink}.
     */
    public TemplateLink()
    {
@@ -33,7 +34,11 @@ public class TemplateLink
    }
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link TemplateLink}.
+    * 
+    * @param rel Una cadena que contiene el parámetro <em>rel</em> del <em>tag</em> LINK de HTML.
+    * @param type Una cadena que contiene el tipo de <em>tag</em> LINK de HTML.
+    * @param href Una cadena que contiene la URL asociada al <em>tag</em> LINK de HTML.
     */
    public TemplateLink(String rel, String type, String href)
    {
@@ -43,7 +48,12 @@ public class TemplateLink
    }
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link TemplateLink}.
+    * 
+    * @param rel Una cadena que contiene el parámetro <em>rel</em> del <em>tag</em> LINK de HTML.
+    * @param type Una cadena que contiene el tipo de <em>tag</em> LINK de HTML.
+    * @param href Una cadena que contiene la URL asociada al <em>tag</em> LINK de HTML.
+    * @param media Una cadena que describe el tipo de medio al que se debe aplicar el elemento LINK.
     */
    public TemplateLink(String rel, String type, String href, String media)
    {

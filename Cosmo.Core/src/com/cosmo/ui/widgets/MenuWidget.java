@@ -17,20 +17,21 @@ import java.util.ArrayList;
  */
 public class MenuWidget extends Widget
 {
+   /** Identificador único del tipo de widget */
    private static final String WIDGET_ID = "CosmoUiWdgtMenu";
-   
+
    private static final String WPART_HEADER = "menu-header";
    private static final String WPART_ITEM = "menu-item";
    private static final String WPART_FOOTER = "menu-footer";
-   
+
    private static final String TAG_MENU_NAME = "MNAME";
    private static final String TAG_ITEM_HREF = "IHREF";
    private static final String TAG_ITEM_CAPTION = "ICAPTION";
    private static final String TAG_ITEM_ICON = "ICON";
-   
+
    private MenuTypes type;
    private MenuProvider provider;
-   
+
    /**
     * Enumera los distintos tipos de menú soportados por Cosmo
     */
@@ -40,13 +41,14 @@ public class MenuWidget extends Widget
       Lateral,
       Footer
    }
-   
+
+
    //==============================================
    // Constructor
    //==============================================
-   
+
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link MenuWidget}.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el espacio de aplicación actual.
     * @param type Un valor de {@link MenuTypes} que indica el tipo de menú.
@@ -56,25 +58,30 @@ public class MenuWidget extends Widget
    public MenuWidget(Workspace workspace, MenuTypes type) throws MenuProviderException
    {
       super(workspace);
-      
+
       this.type = type;
       this.provider = MenuProvider.getInstance(workspace);
    }
-   
+
+
    //==============================================
-   // properties
+   // Properties
    //==============================================
 
+   /**
+    * Devuelve un identificador único del tipo de widget.
+    */
    @Override
    public String getWidgetTypeId() 
    {
       return MenuWidget.WIDGET_ID;
    }
 
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * TODO: Limpia la marca de elemento activo en todos los elementos del menú.
     */
@@ -82,7 +89,7 @@ public class MenuWidget extends Widget
    {
       
    }
-   
+
    /**
     * Renderiza el widget y genera el código XHTML de representación.
     *
@@ -96,12 +103,12 @@ public class MenuWidget extends Widget
       ArrayList<MenuItem> menu;
       TemplateControl ctrl;
       Template template;
-      
+
       try
       {
          // Carga el menú a renderizar
          menu = this.provider.loadMenu(this.getWorkspace(), type);
-         
+
          // Obtiene la plantilla y la parte del widget
          template = this.getWorkspace().getTemplate();
          ctrl = template.getControl(WIDGET_ID);
@@ -115,7 +122,7 @@ public class MenuWidget extends Widget
             xitem = xitem.replace(Widget.getTag(TAG_ITEM_HREF), item.getHref());
             xitem = xitem.replace(Widget.getTag(TAG_ITEM_CAPTION), item.getTitle());
             xitem = Control.replaceTag(xitem, TAG_ITEM_ICON, item.getIcon());
-            
+
             xhtml += xitem;
          }
          xhtml += ctrl.getElement(WPART_FOOTER);
@@ -130,11 +137,12 @@ public class MenuWidget extends Widget
          return "<!-- Widget failed -->";
       }
    }
-   
+
+
    //==============================================
    // Static members
    //==============================================
-   
+
    /**
     * Convierte una cadena de texto a un elemento de MenuTypes.
     * 
@@ -146,7 +154,7 @@ public class MenuWidget extends Widget
    public static MenuTypes convertToMenuType(String strType) throws DataTypeException
    {
       strType = strType.trim().toLowerCase();
-      
+
       if (strType.equals(MenuTypes.Lateral.toString().toLowerCase()))
       {
          return MenuTypes.Lateral;
@@ -159,7 +167,7 @@ public class MenuWidget extends Widget
       {
          return MenuTypes.Footer;
       }
-      
+
       throw new DataTypeException(strType + " can't be converted to a MenuTypes enum element");
    }
 }

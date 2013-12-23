@@ -21,7 +21,7 @@ public class TemplateControl
    //==============================================
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link TemplateControl}.
     * 
     * @param id Identificador único del control.
     */

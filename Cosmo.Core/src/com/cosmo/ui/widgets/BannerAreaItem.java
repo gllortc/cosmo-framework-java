@@ -1,8 +1,9 @@
 package com.cosmo.ui.widgets;
 
 /**
+ * Representa un elemento insertable en una área de banners.
  *
- * @author gllort
+ * @author Gerard Llort
  */
 public class BannerAreaItem 
 {
@@ -11,12 +12,13 @@ public class BannerAreaItem
    private String src;
    private String href;
 
+
    //==============================================
    // Constructor
    //==============================================
-   
+
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link BannerAreaItem}.
     */
    public BannerAreaItem()
    {
@@ -25,12 +27,12 @@ public class BannerAreaItem
       this.src = "";
       this.href = "";
    }
-   
+
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link BannerAreaItem}.
     * 
-    * @param id Identificador Ãºnico del elemento.
-    * @param title TÃ­tulo del banner.
+    * @param id Identificador único del elemento.
+    * @param title Título del banner.
     * @param src Nombre (y ruta) del recurso.
     * @param href URL de destino para el enlace asociado.
     */
@@ -41,7 +43,8 @@ public class BannerAreaItem
       this.src = "";
       this.href = "";
    }
-   
+
+
    //==============================================
    // Properties
    //==============================================
@@ -85,20 +88,21 @@ public class BannerAreaItem
    {
       this.href = href;
    }
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    public String render()
    {
       StringBuilder sb = new StringBuilder();
-      
+
       sb.append("<a href=\"").append(this.href).append("\" target=\"_blank\">");
       sb.append("<img src=\"").append(this.src).append("\" alt=\"").append(this.title).append("\" />");
       sb.append("</a>");
       sb.append("\n");
-      
+
       return sb.toString();
    }
 }

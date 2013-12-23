@@ -14,19 +14,20 @@ import com.cosmo.ui.templates.TemplateUnavailableException;
  */
 public class LoginWidget extends Widget
 {
+   /** Identificador único del tipo de widget */
    private static final String WIDGET_ID = "CosmoUiWdgtLogin";
-   
+
    private static final String TAG_HREF = "HREF";
    private static final String TAG_USER = "USER";
-   
+
    private static final String WPART_LOGIN = "log-in";
    private static final String WPART_LOGOUT = "log-out";
 
-   
+
    //==============================================
    // Constructor
    //==============================================
-   
+
    /**
     * Constructor de la clase.
     * 
@@ -36,12 +37,12 @@ public class LoginWidget extends Widget
    {
       super(workspace);
    }
-   
-   
+
+
    //==============================================
    // Methods
    //==============================================
-   
+
    /**
     * Devuelve un identificador único del tipo de widget.
     */
@@ -64,17 +65,17 @@ public class LoginWidget extends Widget
       String xhtml = "";
       TemplateControl ctrl;
       Template template;
-      
+
       // Obtiene la plantilla y la parte del widget
       template = this.getWorkspace().getTemplate();
       ctrl = template.getControl(WIDGET_ID);
-      
+
       if (!getWorkspace().isValidUserSession())
       {
          // Configura la url del login
          URL url = new URL(getWorkspace().getProperties().getSecurityProperties().getLoginPage());
          url.addParameter("tourl", getWorkspace().getRequestedUrl());
-         
+
          // Genera el XHTML del widget
          xhtml += ctrl.getElement(WPART_LOGIN);
          xhtml = Control.replaceTag(xhtml, TAG_HREF, url.build(getWorkspace().getCharset()));
@@ -84,7 +85,7 @@ public class LoginWidget extends Widget
          // Configura la url del login
          URL url = new URL("LogoutPage");
          url.addParameter("tourl", getWorkspace().getRequestedUrl());
-         
+
          // Genera el XHTML del widget
          xhtml += ctrl.getElement(WPART_LOGOUT);
          xhtml = Control.replaceTag(xhtml, TAG_HREF, url.build(getWorkspace().getCharset()));
@@ -93,5 +94,4 @@ public class LoginWidget extends Widget
 
       return xhtml;
    }
-   
 }

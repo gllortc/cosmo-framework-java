@@ -7,6 +7,7 @@ package com.cosmo.ui.templates;
  */
 public class Rule 
 {
+   // Declaración de variables internas
    private RuleType type;
    private String pattern;
    private String templateId;
@@ -19,6 +20,7 @@ public class Rule
       BrowserAgent
    }
 
+   
    //==============================================
    // Contructors
    //==============================================
