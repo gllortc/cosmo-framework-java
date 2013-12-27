@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cosmo.net.HttpRequestUtils;
-import com.cosmo.reports.ReportsEngine;
+import com.cosmo.reports.impl.PdfReprotsEngineImpl;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.PageContext;
 import com.cosmo.ui.PageContext.ContentColumns;
@@ -64,17 +64,18 @@ public class ReportPage extends Page
    @Override
    public PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
+      String rptUrl = "";
       DynamicMessageControl msg = (DynamicMessageControl) pc.getControl("result_msg");
       
       try
       {
-         ReportsEngine re = new ReportsEngine(getWorkspace(), "weather");
-         re.getReport().addStaticValue("title", HttpRequestUtils.getValue(request, "txtTitle"));
-         re.render();
-
+         PdfReprotsEngineImpl report = new PdfReprotsEngineImpl(getWorkspace(), "weather");
+         report.getReport().addStaticValue("title", HttpRequestUtils.getValue(request, "txtTitle"));
+         rptUrl = report.generateReport();
+         
          msg.setVisible(true);
          msg.setType(DynamicMessageControl.MessageTypes.Information);
-         msg.setMessage("<a href=\"" + re.getReport().getUrl() + "\" target=\"_blank\">Descargar archivo</a>");
+         msg.setMessage("<a href=\"" + rptUrl + "\" target=\"_blank\">Descargar archivo</a>");
       }
       catch (Exception ex)
       {
