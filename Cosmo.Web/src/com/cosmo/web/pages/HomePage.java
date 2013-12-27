@@ -6,8 +6,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cosmo.logging.LogManager;
-import com.cosmo.logging.Logger;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.PageContext;
 import com.cosmo.ui.annotations.CacheScope;
@@ -28,18 +26,11 @@ public class HomePage extends Page
    /** Serial Version UID */
    private static final long serialVersionUID = -539209206006431580L;
 
-   // Habilita el sistema de LOG
-   Logger logger; 
-   
    @Override
    public PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
    {
       ArrayList<String> ul;
-      
-      logger = LogManager.getLogger(getWorkspace(), HomePage.class);
-      
-      logger.info("Iniciant pàgina...");
-      
+
       pc.setLayout(PageContext.PageLayout.TwoColumnsLeft);
       pc.setTitle("Cosmo - Inici");
 
