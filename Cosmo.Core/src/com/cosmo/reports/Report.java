@@ -63,6 +63,7 @@ public class Report
    private HashMap<String, String> staticValues;
    private HashMap<String, DataQuery> dataQueries;
    private String url;
+   private String renderedXhtml;
 
    Logger log = LogFactory.getLogger("Reporting Services");
 
@@ -188,6 +189,16 @@ public class Report
    public List<ReportDetailGroup> getDetailGroups()
    {
       return this.groups;
+   }
+
+   public String getRenderedXhtml()
+   {
+      return renderedXhtml;
+   }
+
+   public void setRenderedXhtml(String renderedXhtml)
+   {
+      this.renderedXhtml = renderedXhtml;
    }
 
    public String getUrl()
@@ -342,5 +353,6 @@ public class Report
       this.staticValues = new HashMap<String, String>();
       this.dataQueries = new HashMap<String, DataQuery>();
       this.url = "";
+      this.renderedXhtml = "";
    }
 }

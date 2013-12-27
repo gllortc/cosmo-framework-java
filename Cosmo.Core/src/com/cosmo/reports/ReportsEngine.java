@@ -31,7 +31,7 @@ import com.itextpdf.tool.xml.XMLWorkerHelper;
  * 
  * @author Gerard Llort
  */
-public class ReportsEngine
+public abstract class ReportsEngine
 {
    /**
     * Enumera los tipos de TAG que pueden contener los informes para indicar valores.
@@ -132,6 +132,8 @@ public class ReportsEngine
    // Methods
    //==============================================
 
+   public abstract String generateReport() throws ReportException ;
+
    /**
     * Carga una plantilla de informe.
     * 
@@ -145,7 +147,8 @@ public class ReportsEngine
    }
 
    /**
-    * Renderiza el informe cargado en el motor de informes.
+    * Renderiza el informe cargado en el motor de informes.<br />
+    * Una vez renderizado el informe este se encuentra accesible en la URL asociada al informe. 
     * 
     * @throws DataException 
     * @throws ReportException 
@@ -159,35 +162,39 @@ public class ReportsEngine
       xhtml = new StringBuilder();
       data = new HashMap<String, ResultSet>();
 
-      log.debug("Start rendering report '" + this.report.getId() + "'...");
+      log.debug("Start rendering report '" + getReport().getId() + "'...");
 
       try
       {
          // Ejecuta todas las consultas necesarias para el informe
-         for (DataQuery dq : report.getDataQueries())
+         for (DataQuery dq : getReport().getDataQueries())
          {
-            data.put(dq.getId(), dq.execute(this.workspace));
+            data.put(dq.getId(), dq.execute(getWorkspace()));
          }
 
          // Genera el HEADER
-         xhtml.append(renderSection(this.report.getHeader(), ReportSection.HEADER, null));
+         xhtml.append(renderSection(getReport().getHeader(), ReportSection.HEADER, null));
 
          // Genera los GRUPOS DE DETALLE
-         for (ReportDetailGroup group : this.report.getDetailGroups())
+         for (ReportDetailGroup group : getReport().getDetailGroups())
          {
             xhtml.append(renderDetailGroup(group));
          }
 
          // Genera el FOOTER
-         xhtml.append(renderSection(this.report.getFooter(), ReportSection.FOOTER, null));
+         xhtml.append(renderSection(getReport().getFooter(), ReportSection.FOOTER, null));
 
+         // Almacena el código XHTML resultante
+         getReport().setRenderedXhtml(xhtml.toString());
+
+         /*
          // Genera el nombre del archivo
          String path = "/" + Report.PATH_REPORTS + "/" + "temp" + "/";
          String filename = UUID.randomUUID().toString() + ".pdf";
-         String fileNamePath = this.workspace.getServerContext().getRealPath(path + filename);
+         String fileNamePath = getWorkspace().getServerContext().getRealPath(path + filename);
 
          // Asegura la existencia de la carpeta
-         IOUtils.ensurePathExists(this.workspace.getServerContext().getRealPath(File.separator), path);
+         IOUtils.ensurePathExists(getWorkspace().getServerContext().getRealPath(File.separator), path);
 
          // Convierte el código XHTML a PDF
          Document document = new Document();
@@ -199,44 +206,20 @@ public class ReportsEngine
          document.close();
 
          // Actualiza el informe on la URL del nuevo informe generado
-         URL url = new URL(this.workspace.getUrl());
+         URL url = new URL(getWorkspace().getUrl());
          url.addFolderOrFile("reports");
          url.addFolderOrFile("temp");
          url.addFolderOrFile(filename);
-         this.report.setUrl(url.build());
-
-         log.debug("Report '" + this.report.getId() + "' generated: " + fileNamePath);
+         getReport().setUrl(url.build());
+         */
       }
       catch (Exception ex)
       {
-         log.error("Error rendering report '" + this.report.getId() + "': " + ex.getMessage(), ex);
+         log.error("Error rendering report '" + getReport().getId() + "': " + ex.getMessage(), ex);
          throw new ReportException(ex.getMessage(), ex);
       }
-   }
 
-   /**
-    * Imprime una página generada mediante UI Services.
-    * 
-    * @param page Una instancia de {@link Page} que representa la página actual.
-    * @param pc Una instancia de {@link PageContext} que representa el contexto de la página actual.
-    * 
-    * @throws ReportException
-    */
-   public static void printPage(Page page, PageContext pc) throws ReportException
-   {
-      try
-      {
-         StringBuilder sb = page.render(pc);
-         convertXhtmlToPdf(sb.toString());
-      } 
-      catch (DocumentException ex)
-      {
-         throw new ReportException("[DocumentException] " + ex.getMessage(), ex);
-      } 
-      catch (IOException ex)
-      {
-         throw new ReportException("[IOException] " + ex.getMessage(), ex);
-      }
+      log.debug("Report '" + getReport().getId() + "' renderized");
    }
 
 
@@ -471,27 +454,6 @@ public class ReportsEngine
 
       // Detectado un TAG no cerrado
       throw new ReportException("Malformed report template: unclosed TAG.");
-   }
-
-   /**
-    * Convierte un código XHTML a PDF.
-    * 
-    * @see <a href="http://hmkcode.com/itext-html-to-pdf-using-java/">http://hmkcode.com/itext-html-to-pdf-using-java/</a>
-    * 
-    * @throws DocumentException
-    * @throws IOException
-    */
-   private static void convertXhtmlToPdf(String xhtml) throws DocumentException, IOException
-   {
-       Document document = new Document();
-       InputStream stream = new ByteArrayInputStream(xhtml.getBytes());
-       
-       PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("pdf.pdf"));
-       document.open();
-       XMLWorkerHelper.getInstance().parseXHtml(writer, document, stream);
-       document.close();
-
-       System.out.println( "PDF Created!" );
    }
 
    /**
