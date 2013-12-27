@@ -23,10 +23,11 @@
 					<webXml>Web\WEB-INF\web.xml</webXml>
 					<webResources>
 						<resource>
-							<directory>Web</directory>
+							<directory>Web\WEB-INF</directory>
 							<includes>
 								<include>*.xml</include>
 							</includes>
+                     <targetPath>WEB-INF</targetPath>
 						</resource>
 						<resource>
 							<directory>Web\templates</directory>
