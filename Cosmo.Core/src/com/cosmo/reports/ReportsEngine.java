@@ -1,6 +1,7 @@
 package com.cosmo.reports;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,6 +20,7 @@ import com.cosmo.logging.LogFactory;
 import com.cosmo.net.URL;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.PageContext;
+import com.cosmo.util.IOUtils;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -179,11 +181,15 @@ public class ReportsEngine
          // Genera el FOOTER
          xhtml.append(renderSection(this.report.getFooter(), ReportSection.FOOTER, null));
 
-         // Descarga el documento PDF
+         // Genera el nombre del archivo
          String path = "/" + Report.PATH_REPORTS + "/" + "temp" + "/";
          String filename = UUID.randomUUID().toString() + ".pdf";
          String fileNamePath = this.workspace.getServerContext().getRealPath(path + filename);
 
+         // Asegura la existencia de la carpeta
+         IOUtils.ensurePathExists(this.workspace.getServerContext().getRealPath(File.separator), path);
+
+         // Convierte el código XHTML a PDF
          Document document = new Document();
          InputStream stream = new ByteArrayInputStream(xhtml.toString().getBytes());
 
@@ -203,6 +209,7 @@ public class ReportsEngine
       }
       catch (Exception ex)
       {
+         log.error("Error rendering report '" + this.report.getId() + "': " + ex.getMessage(), ex);
          throw new ReportException(ex.getMessage(), ex);
       }
    }
@@ -237,6 +244,19 @@ public class ReportsEngine
    // Private Members
    //==============================================
 
+   /**
+    * Renderiza una determinada sección del informe cargado actualmente.
+    * 
+    * @param text Texto que corresponde a la sección dentro de la plantilla del informe.
+    * @param section Un valor de {@link ReportSection} que indica que tipo de sección se debe renderizar.
+    * @param rs Una instancia de {@link ResultSet} que contiene los datos del grupo de detalle actual o {@code null}
+    *   si la sección no corresponde a un grupo de detalle.
+    *   
+    * @return Una cadena que contiene el código XHTML correspondiente a la representación gráfica de la sección.
+    * 
+    * @throws ReportException
+    * @throws DataException
+    */
    private String renderSection(String text, ReportSection section, ResultSet rs) throws ReportException, DataException
    {
       int curPos = 0;
@@ -401,7 +421,11 @@ public class ReportsEngine
       {
          return this.workspace.getUrl();
       }
-      
+      else if (tag.getValueName().equals("property"))
+      {
+         return this.workspace.getProperties().getString(tag.getPropertyName());
+      }
+
       return null;
    }
 
@@ -485,7 +509,12 @@ public class ReportsEngine
    //==============================================
 
    /**
-    * Representa un TAG encontrado en un informe.
+    * Representa un TAG encontrado en un informe.<br />
+    * Los TAGs admitidos son los siguientes:
+    * <ul>
+    * <li>{@code ROWVALUE rsColumnName}</li>
+    * <li>{@code WORKSPACE [ name | mail | url | property PropertyName ]}</li>
+    * </ul>
     */
    private class ReportTag
    {
@@ -496,6 +525,7 @@ public class ReportsEngine
 
       private int startPosition;
       private String valueName;
+      private String propertyName;
       private String originalTag;
       private String connectionId;
       private ReporTagType tagType;
@@ -513,6 +543,8 @@ public class ReportsEngine
          setStartPosition(position);
          this.originalTag = tag;
          this.connectionId = "";
+         this.valueName = "";
+         this.propertyName= ""; 
 
          getTagProperties();
       }
@@ -525,6 +557,16 @@ public class ReportsEngine
       public void setValueName(String valueName)
       {
          this.valueName = valueName;
+      }
+
+      public String getPropertyName() 
+      {
+         return propertyName;
+      }
+
+      public void setPropertyName(String propertyName) 
+      {
+         this.propertyName = propertyName;
       }
 
       public String getConnectionId()
@@ -591,6 +633,12 @@ public class ReportsEngine
             this.setTagType(ReporTagType.WORKSPACE);
             this.setConnectionId("");
             this.setValueName(params[1].toLowerCase().trim());
+
+            // Si se trata de una propiedad de configuración, añade el parámetro
+            if (this.getValueName().trim().toLowerCase().endsWith("property"))
+            {
+               this.setPropertyName(params[2].toLowerCase().trim());
+            }
          }
          else
          {

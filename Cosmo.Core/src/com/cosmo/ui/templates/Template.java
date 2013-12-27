@@ -5,6 +5,7 @@ import com.cosmo.ui.templates.TemplateScript.ScriptType;
 import com.cosmo.util.IOUtils;
 import com.cosmo.util.XmlUtils;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -204,6 +205,7 @@ public class Template
     */
    private void loadTemplate(ServletContext context, String templateId) throws TemplateLoadException
    {
+      String fileName;
       String href;
       Node nNode;
       Node nPart;
@@ -216,7 +218,10 @@ public class Template
 
       try
       {
-         is = new FileInputStream(context.getRealPath("/" + Template.PATH_TEMPLATES + "/" + templateId + "/" + Template.FILENAME_TEMPLATE));
+         fileName = File.separator + Template.PATH_TEMPLATES + 
+                    File.separator + templateId + File.separator + 
+                    Template.FILENAME_TEMPLATE;
+         is = new FileInputStream(context.getRealPath(fileName));
 
          DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
          DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -277,7 +282,7 @@ public class Template
                   href = eElement.getAttribute(Template.XML_ATT_SRC).trim().toLowerCase();
                   if (!href.startsWith("http")) 
                   {
-                     href = Template.PATH_TEMPLATES + "/" + templateId + "/" + href;
+                     href = Template.PATH_TEMPLATES + File.separator + templateId + File.separator + href;
                   }
                   this.headScripts.add(new TemplateScript(ScriptType.Referenced, href));
                }

@@ -21,7 +21,8 @@ import com.cosmo.ui.widgets.providers.MenuProviderException;
 import com.cosmo.util.StringUtils;
 
 /**
- * Representa un espacio de trabajo de Cosmo.
+ * Representa un espacio de trabajo de Cosmo.<br /> 
+ * Los espacios de trabajo de Cosmo ponen a disposición de la/s aplicación/es los servicios del framework.
  * 
  * @author Gerard Llort
  */

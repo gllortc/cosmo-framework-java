@@ -10,6 +10,7 @@ import com.cosmo.util.DataTypeException;
 import com.cosmo.util.IOUtils;
 import com.cosmo.util.StringUtils;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -59,6 +60,7 @@ public class CosmoStaticMenuProvider extends MenuProvider
    @Override
    public ArrayList<MenuItem> loadMenu(Workspace workspace, MenuTypes type) throws MenuProviderException
    {
+      String fileName;
       InputStream is = null;
       MenuTypes mtype; 
       Node nNode;
@@ -72,7 +74,8 @@ public class CosmoStaticMenuProvider extends MenuProvider
 
       try
       {
-         is = new FileInputStream(workspace.getServerContext().getRealPath("/" + WorkspaceProperties.PROPERTIES_FILENAME));
+         fileName = File.separator + "WEB-INF" + File.separator + WorkspaceProperties.PROPERTIES_FILENAME;
+         is = new FileInputStream(workspace.getServerContext().getRealPath(fileName));
 
          DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
          DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();

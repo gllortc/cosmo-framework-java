@@ -1,5 +1,6 @@
 package com.cosmo;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -79,7 +80,7 @@ public class WorkspaceProperties
       {
          log.debug("Loading application configuration...");
 
-         iStream = new FileInputStream(context.getRealPath("/" + WorkspaceProperties.PROPERTIES_FILENAME));
+         iStream = new FileInputStream(context.getRealPath(File.separator + "WEB-INF" + File.separator + WorkspaceProperties.PROPERTIES_FILENAME));
          loadConfig(iStream);
          iStream.close();
 
