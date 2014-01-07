@@ -1,14 +1,8 @@
 package com.cosmo.reports;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.UUID;
 
 import org.apache.log4j.Logger;
 
@@ -17,14 +11,6 @@ import com.cosmo.data.DataAgent;
 import com.cosmo.data.DataException;
 import com.cosmo.data.DataQuery;
 import com.cosmo.logging.LogFactory;
-import com.cosmo.net.URL;
-import com.cosmo.ui.Page;
-import com.cosmo.ui.PageContext;
-import com.cosmo.util.IOUtils;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.tool.xml.XMLWorkerHelper;
 
 /**
  * Implementa el generador de informes de Cosmo Framework.
@@ -132,6 +118,13 @@ public abstract class ReportsEngine
    // Methods
    //==============================================
 
+   /**
+    * Genera el informe cargado actualmente y devuelve la URL de acceso.
+    * 
+    * @return Una cadena que contiene la URL de acceso al informe generado y transformado por la implementación.
+    * 
+    * @throws ReportException
+    */
    public abstract String generateReport() throws ReportException ;
 
    /**
@@ -186,32 +179,6 @@ public abstract class ReportsEngine
 
          // Almacena el código XHTML resultante
          getReport().setRenderedXhtml(xhtml.toString());
-
-         /*
-         // Genera el nombre del archivo
-         String path = "/" + Report.PATH_REPORTS + "/" + "temp" + "/";
-         String filename = UUID.randomUUID().toString() + ".pdf";
-         String fileNamePath = getWorkspace().getServerContext().getRealPath(path + filename);
-
-         // Asegura la existencia de la carpeta
-         IOUtils.ensurePathExists(getWorkspace().getServerContext().getRealPath(File.separator), path);
-
-         // Convierte el código XHTML a PDF
-         Document document = new Document();
-         InputStream stream = new ByteArrayInputStream(xhtml.toString().getBytes());
-
-         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileNamePath));
-         document.open();
-         XMLWorkerHelper.getInstance().parseXHtml(writer, document, stream);
-         document.close();
-
-         // Actualiza el informe on la URL del nuevo informe generado
-         URL url = new URL(getWorkspace().getUrl());
-         url.addFolderOrFile("reports");
-         url.addFolderOrFile("temp");
-         url.addFolderOrFile(filename);
-         getReport().setUrl(url.build());
-         */
       }
       catch (Exception ex)
       {
