@@ -4,26 +4,24 @@ import java.sql.ResultSet;
 
 import com.cosmo.data.DataAgent;
 
-public class WeatherManager 
+public class WeatherManager
 {
    private DataAgent conn;
-   
+
    public WeatherManager(DataAgent connection)
    {
       this.conn = connection;
    }
-   
+
    public void add(Weather weather) throws Exception
    {
       try
       {
          conn.connect();
-         
-         String sql = "INSERT INTO weather (city, temp_lo, temp_hi, prcp) " +
-                      "VALUES ('" + DataAgent.sqlFormatTextValue(weather.getCityName()) + "', " +
-                      "         " + weather.getTempMin() + ", " +
-                      "         " + weather.getTempMax() + ", " +
-                      "         " + weather.getPrecipitation() + ")";
+
+         String sql = "INSERT INTO weather (city, temp_lo, temp_hi, prcp) " + "VALUES ('"
+               + DataAgent.sqlFormatTextValue(weather.getCityName()) + "', " + "         " + weather.getTempMin() + ", "
+               + "         " + weather.getTempMax() + ", " + "         " + weather.getPrecipitation() + ")";
          conn.execute(sql);
       }
       catch (Exception ex)
@@ -35,19 +33,15 @@ public class WeatherManager
          conn.disconnect();
       }
    }
-   
+
    public ResultSet getAll() throws Exception
    {
       try
       {
          conn.connect();
-         
-         String sql = "SELECT   city    As Ciutat, " +
-                      "         temp_lo As Temp_Min, " +
-                      "         temp_hi As Temp_Max, " +
-                      "         prcp    As Precipitacio " +
-                      "FROM     weather " +
-                      "ORDER BY city";
+
+         String sql = "SELECT   city    As Ciutat, " + "         temp_lo As Temp_Min, " + "         temp_hi As Temp_Max, "
+               + "         prcp    As Precipitacio " + "FROM     weather " + "ORDER BY city";
          return conn.executeSql(sql);
       }
       catch (Exception ex)
