@@ -25,16 +25,15 @@ import com.cosmo.ui.controls.HeaderControl;
  * 
  * @author Gerard Llort
  */
-@CacheScope( scope = PageCacheScopes.SCOPE_APPLICATION )
-@WebServlet( description = "ReportPage", urlPatterns = { "/ReportPage" } )
-public class ReportPage extends Page 
+@CacheScope(scope = PageCacheScopes.SCOPE_APPLICATION)
+@WebServlet(description = "ReportPage", urlPatterns = { "/ReportPage" })
+public class ReportPage extends Page
 {
    /** Serial Version UID */
    private static final long serialVersionUID = -8593989858399713969L;
 
-
    @Override
-   public PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response)
    {
       pc.setLayout(PageContext.PageLayout.TwoColumnsLeft);
       pc.setTitle("Cosmo - Reporting Service Sample");
@@ -42,7 +41,7 @@ public class ReportPage extends Page
       HeaderControl header = new HeaderControl(getWorkspace());
       header.setTitle("Reporting Service Sample");
       pc.addContent(header, PageContext.ContentColumns.MAIN);
-      
+
       DynamicMessageControl message = new DynamicMessageControl(getWorkspace(), "result_msg");
       pc.addContent(message, ContentColumns.MAIN);
 
@@ -57,23 +56,23 @@ public class ReportPage extends Page
    }
 
    @Override
-   public PageContext loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response)
    {
       return pc;
    }
 
    @Override
-   public PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response)
    {
       String rptUrl = "";
       DynamicMessageControl msg = (DynamicMessageControl) pc.getControl("result_msg");
-      
+
       try
       {
          DocxReprotsEngineImpl report = new DocxReprotsEngineImpl(getWorkspace(), "weather");
          report.getReport().addStaticValue("title", HttpRequestUtils.getValue(request, "txtTitle"));
          rptUrl = report.generateReport();
-         
+
          msg.setVisible(true);
          msg.setType(DynamicMessageControl.MessageTypes.Information);
          msg.setMessage("<a href=\"" + rptUrl + "\" target=\"_blank\">Descargar archivo</a>");
@@ -84,12 +83,12 @@ public class ReportPage extends Page
          msg.setType(DynamicMessageControl.MessageTypes.Error);
          msg.setMessage("ERROR: " + ex.getMessage());
       }
-      
+
       return pc;
    }
 
    @Override
-   public PageContext pageException(PageContext pc, Exception exception) 
+   public PageContext pageException(PageContext pc, Exception exception)
    {
       pc.showException(getWorkspace(), exception);
 

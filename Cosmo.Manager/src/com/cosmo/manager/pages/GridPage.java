@@ -26,17 +26,17 @@ import com.cosmo.web.sample.WeatherManager;
  * 
  * @author Gerard Llort
  */
-@WebServlet( description = "GridPage", urlPatterns = { "/GridPage" } )
-public class GridPage extends Page 
+@WebServlet(description = "GridPage", urlPatterns = { "/GridPage" })
+public class GridPage extends Page
 {
    /** Serial Version UID */
-   private static final long serialVersionUID = -2960537450581221913L;
+   private static final long   serialVersionUID = -2960537450581221913L;
 
-   private static final String ID_GRID = "grid";
-   private static final String ID_MSG = "msg";
+   private static final String ID_GRID          = "grid";
+   private static final String ID_MSG           = "msg";
 
    @Override
-   public PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response)
    {
       pc.setLayout(PageLayout.TwoColumnsLeft);
       pc.setTitle("Cosmo - Grid / Formularis");
@@ -67,12 +67,12 @@ public class GridPage extends Page
    }
 
    @Override
-   public PageContext loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response)
    {
       DataAgent conn;
       WeatherManager wm;
 
-      try 
+      try
       {
          conn = DataFactory.getInstance(getWorkspace());
          wm = new WeatherManager(conn);
@@ -83,8 +83,8 @@ public class GridPage extends Page
          GridControl grid = (GridControl) pc.getControl(ID_GRID);
          // grid.setData(request, gd);
          grid.setData(gd);
-      } 
-      catch (Exception ex) 
+      }
+      catch (Exception ex)
       {
          DynamicMessageControl msg = (DynamicMessageControl) pc.getControl(ID_MSG);
          msg.setVisible(true);
@@ -96,13 +96,13 @@ public class GridPage extends Page
    }
 
    @Override
-   public PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response)
    {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   public PageContext pageException(PageContext pc, Exception exception) 
+   public PageContext pageException(PageContext pc, Exception exception)
    {
       pc.showException(getWorkspace(), exception);
 

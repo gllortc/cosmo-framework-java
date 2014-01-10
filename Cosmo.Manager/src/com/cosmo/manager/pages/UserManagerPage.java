@@ -27,18 +27,18 @@ import com.cosmo.util.GridData;
  * 
  * @author Gerard Llort
  */
-@ActivitiesAllowed( "admin.users.manage" )
-@WebServlet( description = "UserManagerPage", urlPatterns = { "/UserManagerPage" } )
-public class UserManagerPage extends Page 
+@ActivitiesAllowed("admin.users.manage")
+@WebServlet(description = "UserManagerPage", urlPatterns = { "/UserManagerPage" })
+public class UserManagerPage extends Page
 {
    /** Serial Version UID */
-   private static final long serialVersionUID = -2960537450581221913L;
+   private static final long   serialVersionUID = -2960537450581221913L;
 
-   private static final String ID_GRID = "grid";
-   private static final String ID_MSG = "msg";
+   private static final String ID_GRID          = "grid";
+   private static final String ID_MSG           = "msg";
 
    @Override
-   public PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response)
    {
       pc.setLayout(PageLayout.TwoColumnsLeft);
       pc.setTitle("Cosmo - Gestió d'usuaris");
@@ -63,18 +63,20 @@ public class UserManagerPage extends Page
 
       GridControl grid = new GridControl(getWorkspace(), ID_GRID);
       grid.addRowAction(new GridRowAction("", "UserRegisterPage?mode=edit&id=" + GridRowAction.TOKEN_ROW_ID, "icon-pencil"));
-      grid.addRowAction(new GridRowAction("", "UserManagerPage?action=delete&id=" + GridRowAction.TOKEN_ROW_ID, "icon-remove-circle"));
+      grid.addRowAction(new GridRowAction("", "UserManagerPage?action=delete&id=" + GridRowAction.TOKEN_ROW_ID,
+            "icon-remove-circle"));
       pc.addContent(grid, ContentColumns.MAIN);
 
       return pc;
    }
 
    @Override
-   public PageContext loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response)
    {
-      try 
+      try
       {
-         PostgreSqlAuthenticationImpl auth = (PostgreSqlAuthenticationImpl) AuthenticationFactory.getInstance(getWorkspace());
+         PostgreSqlAuthenticationImpl auth = (PostgreSqlAuthenticationImpl) AuthenticationFactory
+               .getInstance(getWorkspace());
 
          GridData gd = new GridData();
          gd.setCells(auth.getUsersList(), true);
@@ -82,8 +84,8 @@ public class UserManagerPage extends Page
          GridControl grid = (GridControl) pc.getControl(ID_GRID);
          grid.setData(gd);
          // grid.setData(request, gd);
-      } 
-      catch (Exception ex) 
+      }
+      catch (Exception ex)
       {
          DynamicMessageControl msg = (DynamicMessageControl) pc.getControl(ID_MSG);
          msg.setVisible(true);
@@ -93,15 +95,15 @@ public class UserManagerPage extends Page
 
       return pc;
    }
-   
+
    @Override
-   public PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response)
    {
       return pc;
    }
 
    @Override
-   public PageContext pageException(PageContext pc, Exception exception) 
+   public PageContext pageException(PageContext pc, Exception exception)
    {
       pc.showException(getWorkspace(), exception);
 

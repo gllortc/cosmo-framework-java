@@ -28,15 +28,15 @@ import com.cosmo.web.sample.WeatherManager;
  * Servlet implementation class FormPage
  */
 @WebServlet(description = "Exemple de formulari Cosmo", urlPatterns = { "/FormPage" })
-public class FormPage extends Page 
+public class FormPage extends Page
 {
    /** Serial Version UID */
-   private static final long serialVersionUID = 8878330001994265668L;
+   private static final long   serialVersionUID = 8878330001994265668L;
 
-   private static final String ID_MSG = "msg";
+   private static final String ID_MSG           = "msg";
 
    @Override
-   public PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext initPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response)
    {
       pc.setLayout(PageLayout.TwoColumnsLeft);
       pc.setTitle("Cosmo - Samples - Form Control");
@@ -69,7 +69,7 @@ public class FormPage extends Page
    }
 
    @Override
-   public PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext formSendedEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response)
    {
       DataAgent conn;
       WeatherManager wm;
@@ -80,15 +80,15 @@ public class FormPage extends Page
       weather.setTempMax(HttpRequestUtils.getInt(request, "txtTMax"));
       weather.setPrecipitation(HttpRequestUtils.getInt(request, "txtPre"));
 
-      try 
+      try
       {
          conn = DataFactory.getInstance(getWorkspace());
          wm = new WeatherManager(conn);
          wm.add(weather);
 
          response.sendRedirect("GridPage");
-      } 
-      catch (Exception ex) 
+      }
+      catch (Exception ex)
       {
          DynamicMessageControl msg = (DynamicMessageControl) pc.getControl(ID_MSG);
          msg.setVisible(true);
@@ -100,13 +100,13 @@ public class FormPage extends Page
    }
 
    @Override
-   public PageContext loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response) 
+   public PageContext loadPageEvent(PageContext pc, HttpServletRequest request, HttpServletResponse response)
    {
       return pc;
    }
 
    @Override
-   public PageContext pageException(PageContext pc, Exception exception) 
+   public PageContext pageException(PageContext pc, Exception exception)
    {
       pc.showException(getWorkspace(), exception);
 
