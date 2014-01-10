@@ -2,12 +2,17 @@ package com.cosmo.reports.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
 
+import javax.xml.bind.JAXBException;
+
 import org.apache.log4j.Logger;
+import org.docx4j.convert.in.xhtml.XHTMLImporterImpl;
+import org.docx4j.openpackaging.exceptions.Docx4JException;
+import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.docx4j.openpackaging.parts.WordprocessingML.NumberingDefinitionsPart;
 
 import com.cosmo.Workspace;
 import com.cosmo.data.DataException;
@@ -19,24 +24,21 @@ import com.cosmo.reports.ReportsEngine;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.PageContext;
 import com.cosmo.util.IOUtils;
-import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.tool.xml.XMLWorkerHelper;
 
 /**
- * Implementa un motor de informes que permite obtener informes en formato MS Word (DOCX).
+ * Implementa un motor de informes que permite obtener informes en formato PDF.
  * 
  * @author Gerard Llort
  */
-public class PdfReprotsEngineImpl extends ReportsEngine
+public class DocxReprotsEngineImpl extends ReportsEngine
 {
-   private static final String FILE_EXTENSION = "pdf";
+   private static final String FILE_EXTENSION = "docx";
 
    // Habilita el LOG
    Logger log = LogFactory.getLogger("Reporting Services");
 
-   public PdfReprotsEngineImpl(Workspace workspace, String reportId) throws ReportException
+   public DocxReprotsEngineImpl(Workspace workspace, String reportId) throws ReportException
    {
       super(workspace, reportId);
    }
@@ -56,7 +58,7 @@ public class PdfReprotsEngineImpl extends ReportsEngine
          this.render();
 
          // Transforma el informe a PDF
-         return convertXhtmlToPdf(getWorkspace(), getReport().getRenderedXhtml());
+         return convertXhtmlToDocx(getWorkspace(), getReport().getRenderedXhtml());
       }
       catch (Exception ex)
       {
@@ -78,20 +80,26 @@ public class PdfReprotsEngineImpl extends ReportsEngine
       try
       {
          StringBuilder sb = page.render(pc);
-         return convertXhtmlToPdf(page.getWorkspace(), sb.toString());
+         return convertXhtmlToDocx(page.getWorkspace(), sb.toString());
       } 
-      catch (DocumentException ex)
+      catch (Docx4JException ex)
       {
-         throw new ReportException("[DocumentException] " + ex.getMessage(), ex);
-      } 
+         throw new ReportException("[Docx4JException] " + ex.getMessage(), ex);
+      }
       catch (IOException ex)
       {
          throw new ReportException("[IOException] " + ex.getMessage(), ex);
       }
+      catch (JAXBException ex)
+      {
+         throw new ReportException("[JAXBException] " + ex.getMessage(), ex);
+      }
    }
 
    /**
-    * Convierte un código XHTML a PDF.
+    * Convierte un código XHTML a DOCX (Microsoft Word).
+    * 
+    * @see <a href="http://www.docx4java.org/trac/docx4j">http://www.docx4java.org/trac/docx4j</a>
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el espacio de trabajo actual.
     * @param xhtml Una cadena XHTML que representa el informe renderizado.
@@ -100,8 +108,10 @@ public class PdfReprotsEngineImpl extends ReportsEngine
     * 
     * @throws DocumentException
     * @throws IOException
+    * @throws JAXBException
+    * @throws Docx4JException
     */
-   private static String convertXhtmlToPdf(Workspace workspace, String xhtml) throws DocumentException, IOException
+   private static String convertXhtmlToDocx(Workspace workspace, String xhtml) throws IOException, JAXBException, Docx4JException
    {
       // Genera el nombre del archivo
       String path = "/" + Report.PATH_REPORTS + "/" + "temp" + "/";
@@ -111,14 +121,20 @@ public class PdfReprotsEngineImpl extends ReportsEngine
       // Asegura la existencia de la carpeta
       IOUtils.ensurePathExists(workspace.getServerContext().getRealPath(File.separator), path);
 
-      // Convierte el código XHTML a PDF
-      Document document = new Document();
-      InputStream stream = new ByteArrayInputStream(xhtml.getBytes());
+      // Convierte el código XHTML a DOCX
+      WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
 
-      PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileNamePath));
-      document.open();
-      XMLWorkerHelper.getInstance().parseXHtml(writer, document, stream);
-      document.close();
+      NumberingDefinitionsPart ndp = new NumberingDefinitionsPart();
+      wordMLPackage.getMainDocumentPart().addTargetPart(ndp);
+      ndp.unmarshalDefaultNumbering(); 
+
+      XHTMLImporterImpl xHTMLImporter = new XHTMLImporterImpl(wordMLPackage);
+      xHTMLImporter.setHyperlinkStyle("Hyperlink");
+
+      InputStream stream = new ByteArrayInputStream(xhtml.getBytes());
+      wordMLPackage.getMainDocumentPart().getContent().addAll(xHTMLImporter.convert(stream, null));
+
+      wordMLPackage.save(new File(fileNamePath));
 
       // Construye la URL de acceso al informe PDF generado
       URL url = new URL(workspace.getUrl());
@@ -128,5 +144,4 @@ public class PdfReprotsEngineImpl extends ReportsEngine
 
       return url.build();
    }
-
 }
