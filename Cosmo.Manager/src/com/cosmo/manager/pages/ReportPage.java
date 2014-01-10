@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cosmo.net.HttpRequestUtils;
+import com.cosmo.reports.impl.DocxReprotsEngineImpl;
 import com.cosmo.reports.impl.PdfReprotsEngineImpl;
 import com.cosmo.ui.Page;
 import com.cosmo.ui.PageContext;
@@ -69,7 +70,7 @@ public class ReportPage extends Page
       
       try
       {
-         PdfReprotsEngineImpl report = new PdfReprotsEngineImpl(getWorkspace(), "weather");
+         DocxReprotsEngineImpl report = new DocxReprotsEngineImpl(getWorkspace(), "weather");
          report.getReport().addStaticValue("title", HttpRequestUtils.getValue(request, "txtTitle"));
          rptUrl = report.generateReport();
          
