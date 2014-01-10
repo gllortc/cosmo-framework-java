@@ -31,6 +31,32 @@ public class XmlUtils
    //==============================================
 
    /**
+    * Elimina todo lo que se encuentre antes del primer carácter {@code <} y el último carácter {@code >}.
+    * 
+    * @param xml Una cadena que contiene el código XML a tratar.
+    * 
+    * @return Una cadena con el código XML saneado.
+    */
+   public static String trimXml(String xml)
+   {
+      int start = 0, end = 0;
+      
+      start = xml.indexOf("<");
+      if (start < 0)
+      {
+         return "";
+      }
+
+      end = xml.lastIndexOf(">");
+      if (end < 0)
+      {
+         return "";
+      }
+
+      return xml.substring(start, ++end);
+   }
+
+   /**
     * Obtiene el valor de un determinado nodo.
     */
    public static String getTextValue(Element doc, String tag) 
