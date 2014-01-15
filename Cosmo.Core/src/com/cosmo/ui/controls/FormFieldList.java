@@ -2,10 +2,14 @@ package com.cosmo.ui.controls;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.cosmo.Workspace;
 import com.cosmo.data.lists.List;
 import com.cosmo.data.lists.ListItem;
 import com.cosmo.data.lists.StaticList;
+import com.cosmo.net.HttpRequestUtils;
+import com.cosmo.util.KeyValue;
 import com.cosmo.util.StringUtils;
 
 /**
@@ -15,6 +19,7 @@ import com.cosmo.util.StringUtils;
  */
 public class FormFieldList extends FormField
 {
+   // Declaración de variables internas
    private String name;
    private String value;
    private String label;
@@ -66,6 +71,24 @@ public class FormFieldList extends FormField
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
+    * @param request Una instancia de {@link HttpServletRequest} que permite establecer el valor del campo en una 
+    *    recarga del formulario.
+    */
+   public FormFieldList(String name, String label, HttpServletRequest request) 
+   {
+      this.name = name;
+      this.label = label;
+      this.description = "";
+      this.value = HttpRequestUtils.getValue(request, name);
+      this.listType = ListType.ComboBox;
+      this.list = new StaticList();
+   }
+
+   /**
+    * Contructor de la clase.
+    * 
+    * @param name Nombre identificativo del elemento dentro de la página.
+    * @param label Etiqueta que se mostrará junto el control.
     * @param list Una instancia de una clase que implemente {@link List} y que contenga los datos de la lista.
     */
    public FormFieldList(String name, String label, List list) 
@@ -78,63 +101,117 @@ public class FormFieldList extends FormField
       this.list = list;
    }
 
+   /**
+    * Contructor de la clase.
+    * 
+    * @param name Nombre identificativo del elemento dentro de la página.
+    * @param label Etiqueta que se mostrará junto el control.
+    * @param list Una instancia de una clase que implemente {@link List} y que contenga los datos de la lista.
+    * @param request Una instancia de {@link HttpServletRequest} que permite establecer el valor del campo en una 
+    *    recarga del formulario.
+    */
+   public FormFieldList(String name, String label, List list, HttpServletRequest request) 
+   {
+      this.name = name;
+      this.label = label;
+      this.description = "";
+      this.value = HttpRequestUtils.getValue(request, name);
+      this.listType = ListType.ComboBox;
+      this.list = list;
+   }
+
 
    //==============================================
    // Properties
    //==============================================
 
+   /**
+    * Devuelve el nombre del control.
+    */
    @Override
    public String getName() 
    {
       return name;
    }
 
+   /**
+    * Establece el nombre del control.
+    */
    public void setName(String name) 
    {
       this.name = name;
    }
 
+   /**
+    * Devuelve el valor del elemento seleccionado.
+    */
    public String getValue() 
    {
       return value;
    }
 
+   /**
+    * Establece el valor del elemento que debe estar seleccionado.
+    */
    @Override
    public void setValue(Object value) 
    {
       this.value = value.toString();
    }
 
+   /**
+    * Devuelve el texto que se mostrará como etiqueta del control.
+    */
    public String getLabel() 
    {
       return label;
    }
 
+   /**
+    * Establece el texto que se mostrará como etiqueta del control.
+    */
    public void setLabel(String label) 
    {
       this.label = label;
    }
 
+   /**
+    * Devuelve la descripción del campo.
+    */
    public String getDescription() 
    {
       return description;
    }
 
+   /**
+    * Establece la descripción del campo.
+    */
    public void setDescription(String description) 
    {
       this.description = description;
    }
 
+   /**
+    * Devuelve el tipo de representación de la lista.
+    */
    public ListType getListType() 
    {
       return listType;
    }
 
+   /**
+    * Establece el tipo de representación de la lista.
+    */
    public void setListType(ListType listType) 
    {
       this.listType = listType;
    }
-   
+
+   /**
+    * Establece la lista de opciones.
+    * 
+    * @param list Una instancia de {@link List} que contiene todos los elementos que se mostrarán en la lista.
+    */
    public void setList(List list) 
    {
       this.list = list;
@@ -144,6 +221,26 @@ public class FormFieldList extends FormField
    //==============================================
    // Methods
    //==============================================
+
+   /**
+    * Agrega un valor a la lista de valores posibles que puede adoptar el campo.
+    * 
+    * @param keyvalue Una instancia de {@link KeyValue} que contiene el par clave/valor a agregar.
+    */
+   public void addListOption(KeyValue keyvalue)
+   {
+      this.list.addListItem(new ListItem(keyvalue.getKey(), 
+                                         keyvalue.getValue().toString(), 
+                                         keyvalue.isDefaultOption()));
+   }
+
+   /**
+    * Elimina todos los elementos de la lista de valores posibles que puede adoptar el campo.
+    */
+   public void clearList()
+   {
+      this.list.clear();
+   }
 
    /**
     * Convierte el campo en un TAG XHTML.
