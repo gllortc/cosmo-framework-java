@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cosmo.net.HttpRequestUtils;
+import com.cosmo.reports.ReportsEngine;
 import com.cosmo.reports.impl.DocxReprotsEngineImpl;
 import com.cosmo.reports.impl.PdfReprotsEngineImpl;
 import com.cosmo.ui.Page;
@@ -16,9 +17,11 @@ import com.cosmo.ui.controls.DynamicMessageControl;
 import com.cosmo.ui.controls.FormButton;
 import com.cosmo.ui.controls.FormButton.ButtonType;
 import com.cosmo.ui.controls.FormControl;
+import com.cosmo.ui.controls.FormFieldList;
 import com.cosmo.ui.controls.FormFieldText;
 import com.cosmo.ui.controls.FormFieldset;
 import com.cosmo.ui.controls.HeaderControl;
+import com.cosmo.util.KeyValue;
 
 /**
  * Home page.
@@ -45,9 +48,14 @@ public class ReportPage extends Page
       DynamicMessageControl message = new DynamicMessageControl(getWorkspace(), "result_msg");
       pc.addContent(message, ContentColumns.MAIN);
 
+      FormFieldList formatList = new FormFieldList("cboFormat", "Format");
+      formatList.addListOption(new KeyValue("pdf", "Adobe Acrobat (PDF)", true));
+      formatList.addListOption(new KeyValue("docx", "Ms Word (DOCX)"));
+
       FormControl form = new FormControl(getWorkspace(), "rptForm");
       FormFieldset ffs = new FormFieldset("Report details");
       ffs.addField(new FormFieldText("txtTitle", "Title", 64));
+      ffs.addField(formatList);
       form.addGroup(ffs);
       form.addButton(new FormButton("cmdReport", "Generate report", ButtonType.Submit));
       pc.addContent(form, ContentColumns.MAIN);
@@ -66,12 +74,20 @@ public class ReportPage extends Page
    {
       String rptUrl = "";
       DynamicMessageControl msg = (DynamicMessageControl) pc.getControl("result_msg");
+      ReportsEngine re;
 
       try
       {
-         DocxReprotsEngineImpl report = new DocxReprotsEngineImpl(getWorkspace(), "weather");
-         report.getReport().addStaticValue("title", HttpRequestUtils.getValue(request, "txtTitle"));
-         rptUrl = report.generateReport();
+         if (HttpRequestUtils.getValue(request, "cboFormat").equals("docx"))
+         {
+            re = new DocxReprotsEngineImpl(getWorkspace(), "weather");
+         }
+         else
+         {
+            re = new PdfReprotsEngineImpl(getWorkspace(), "weather");
+         }
+         re.getReport().addStaticValue("title", HttpRequestUtils.getValue(request, "txtTitle"));
+         rptUrl = re.generateReport();
 
          msg.setVisible(true);
          msg.setType(DynamicMessageControl.MessageTypes.Information);
