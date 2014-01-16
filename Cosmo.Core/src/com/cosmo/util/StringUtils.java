@@ -16,6 +16,8 @@ public class StringUtils
     */
    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
+   /** Declara una cadena vacía. */
+   public static final String EMPTY = "";
 
    //==============================================
    // Static Members

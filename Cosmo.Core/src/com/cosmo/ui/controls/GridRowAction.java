@@ -18,6 +18,7 @@ public class GridRowAction
    private static final String TAG_ICON = "ICON";
    private static final String TAG_TITLE = "FTITLE";
 
+   // Declaración de variables internas
    private String caption;
    private String href;
    private String icon;

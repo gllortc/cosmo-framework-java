@@ -3,6 +3,7 @@ package com.cosmo.ui.controls;
 import java.util.ArrayList;
 
 import com.cosmo.Workspace;
+import com.cosmo.util.StringUtils;
 
 /**
  * Implementa un control que permite incorporar código XHTML directament a una página de Cosmo.
@@ -18,6 +19,7 @@ public class XhtmlControl extends Control
    private final String WIKI_REGEX_STRIKE = "([-]{2})(.*?)([-]{2})";
    private final String WIKI_REGEX_CODE = "([/]{2})(.*?)([/]{2})";
 
+   // Declaración de variables internas
    private StringBuilder xhtml;
 
 
@@ -33,7 +35,7 @@ public class XhtmlControl extends Control
    public XhtmlControl(Workspace workspace)
    {
       super(workspace);
-      initialize("");
+      initialize(StringUtils.EMPTY);
    }
 
    /**
@@ -45,7 +47,7 @@ public class XhtmlControl extends Control
    public XhtmlControl(Workspace workspace, String id)
    {
       super(workspace, id);
-      initialize("");
+      initialize(StringUtils.EMPTY);
    }
 
    /**
@@ -179,7 +181,7 @@ public class XhtmlControl extends Control
     */
    public XhtmlControl appendUnorderedList(ArrayList<?> list, String cssClass)
    {
-      append("<ul" + (cssClass != null && !cssClass.isEmpty() ? " class=\"" + cssClass + "\"" : "") + ">\n");
+      append("<ul" + (cssClass != null && !cssClass.isEmpty() ? " class=\"" + cssClass + "\"" : StringUtils.EMPTY) + ">\n");
       for (Object item : list)
       {
          append("  <li>" + item.toString() + "</li>\n");

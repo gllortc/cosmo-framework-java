@@ -1,6 +1,7 @@
 package com.cosmo.ui.controls;
 
 import com.cosmo.Workspace;
+import com.cosmo.util.StringUtils;
 
 /**
  *
@@ -8,6 +9,7 @@ import com.cosmo.Workspace;
  */
 public class FormFieldHidden extends FormField
 {
+   // Declaración de variables internas
    private String name;
    private String value;
 
@@ -17,18 +19,18 @@ public class FormFieldHidden extends FormField
    //==============================================
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link FormFieldHidden}.
     * 
     * @param name Nombre identificativo del control.
     */
    public FormFieldHidden(String name) 
    {
       this.name = name;
-      this.value = "";
+      this.value = StringUtils.EMPTY;
    }
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link FormFieldHidden}.
     * 
     * @param name Nombre identificativo del control.
     * @param value Valor asociado al campo.

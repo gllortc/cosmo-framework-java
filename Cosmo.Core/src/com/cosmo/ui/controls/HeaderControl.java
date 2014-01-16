@@ -2,6 +2,7 @@ package com.cosmo.ui.controls;
 
 import com.cosmo.Workspace;
 import com.cosmo.ui.templates.TemplateControl;
+import com.cosmo.util.StringUtils;
 
 /**
  * Implementa un control de contenido que representa la cabecera (título) de una página.
@@ -10,8 +11,10 @@ import com.cosmo.ui.templates.TemplateControl;
  */
 public class HeaderControl extends Control
 {
+   /** ID del tipo de control */
    private static final String CONTROL_ID = "CosmoUiCtrlHeader";
 
+   // Declaración de variables internas
    private String title;
    private String description;
    private String author;
@@ -162,10 +165,18 @@ public class HeaderControl extends Control
       return str.toString();
    }
 
+
+   //==============================================
+   // Private Members
+   //==============================================
+
+   /**
+    * Inicializa la instancia.
+    */
    private void initialize()
    {
-      this.title = "";
-      this.description = "";
-      this.author = "";
+      this.title = StringUtils.EMPTY;
+      this.description = StringUtils.EMPTY;
+      this.author = StringUtils.EMPTY;
    }
 }

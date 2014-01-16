@@ -1,6 +1,7 @@
 package com.cosmo.ui.controls;
 
 import com.cosmo.Workspace;
+import com.cosmo.util.StringUtils;
 
 /**
  * Implementa un cuadro de texto representable dentro de un formulario Cosmo.
@@ -9,6 +10,7 @@ import com.cosmo.Workspace;
  */
 public class FormFieldInteger extends FormField
 {
+   // Declaración de variables internas
    private String name;
    private String label;
    private String description;
@@ -23,7 +25,7 @@ public class FormFieldInteger extends FormField
    //==============================================
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldInteger}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -32,7 +34,7 @@ public class FormFieldInteger extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
+      this.description = StringUtils.EMPTY;
       this.value = 0;
       this.min = null;
       this.max = null;
@@ -40,7 +42,7 @@ public class FormFieldInteger extends FormField
    }
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldInteger}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -50,7 +52,7 @@ public class FormFieldInteger extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
+      this.description = StringUtils.EMPTY;
       this.value = 0;
       this.min = null;
       this.max = null;
@@ -151,11 +153,11 @@ public class FormFieldInteger extends FormField
          append("id=\"").append(this.name).append("\" ").
          append("name=\"").append(this.name).append("\" ").
          append("value=\"").append(this.value).append("\" ").
-         append(min != null ? "min=\"" + this.min + "\" " : "").
-         append(max != null ? "max=\"" + this.max + "\" " : "").
+         append(min != null ? "min=\"" + this.min + "\" " : StringUtils.EMPTY).
+         append(max != null ? "max=\"" + this.max + "\" " : StringUtils.EMPTY).
          append("value=\"").append(this.value).append("\" ").
          append("pattern=\"[0-9]\" ").
-         append(required ? "required" : "").
+         append(required ? "required" : StringUtils.EMPTY).
          append("/>");
 
       return sb.toString();

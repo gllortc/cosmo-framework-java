@@ -1,6 +1,7 @@
 package com.cosmo.ui.controls;
 
 import com.cosmo.Workspace;
+import com.cosmo.util.StringUtils;
 
 /**
  * Implementa un cuadro de texto representable dentro de un formulario Cosmo.
@@ -12,6 +13,7 @@ public class FormFieldCaptcha extends FormField
 {
    public static final String CAPTCHA_SERVLET = "CosmoCaptcha";
 
+   // Declaración de variables internas
    private String name;
    private String value;
    private String label;
@@ -24,7 +26,7 @@ public class FormFieldCaptcha extends FormField
    //==============================================
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldCaptcha}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -33,13 +35,13 @@ public class FormFieldCaptcha extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
-      this.value = "";
+      this.description = StringUtils.EMPTY;
+      this.value = StringUtils.EMPTY;
       this.maxLength = -1;
    }
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldCaptcha}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -49,8 +51,8 @@ public class FormFieldCaptcha extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
-      this.value = "";
+      this.description = StringUtils.EMPTY;
+      this.value = StringUtils.EMPTY;
       this.maxLength = maxLength;
    }
 
@@ -123,10 +125,10 @@ public class FormFieldCaptcha extends FormField
    public String render(Workspace workspace)
    {
       StringBuilder sb = new StringBuilder();
-      
+
       sb.append("<img src=\"" + FormFieldCaptcha.CAPTCHA_SERVLET + "\" />&nbsp;");
       sb.append("<input type=\"text\" id=\"").append(this.name).append("\" name=\"").append(this.name).append("\" />");
-      
+
       return sb.toString();
    }
 
@@ -137,10 +139,10 @@ public class FormFieldCaptcha extends FormField
    public String toString()
    {
       StringBuilder sb = new StringBuilder();
-      
+
       sb.append("<img src=\"" + FormFieldCaptcha.CAPTCHA_SERVLET + "\" />&nbsp;");
       sb.append("<input type=\"text\" id=\"").append(this.name).append("\" name=\"").append(this.name).append("\" />");
-      
+
       return sb.toString();
    }
 }

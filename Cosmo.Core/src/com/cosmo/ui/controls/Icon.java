@@ -1,5 +1,7 @@
 package com.cosmo.ui.controls;
 
+import com.cosmo.util.StringUtils;
+
 /**
  * Proporciona herramientas para representar iconos. <br />
  * <br />
@@ -310,9 +312,9 @@ public class Icon
     */
    public static String render(String image, String size, String color)
    {
-      if (image.equals(""))
+      if (StringUtils.isNullOrEmpty(image))
       {
-         return "";
+         return StringUtils.EMPTY;
       }
       else
       {
@@ -332,9 +334,9 @@ public class Icon
     */
    public static String render(String image, String size)
    {
-      if (image.equals(""))
+      if (StringUtils.isNullOrEmpty(image))
       {
-         return "";
+         return StringUtils.EMPTY;
       }
       else
       {
@@ -352,9 +354,9 @@ public class Icon
     */
    public static String render(String image)
    {
-      if (image.equals(""))
+      if (StringUtils.isNullOrEmpty(image))
       {
-         return "";
+         return StringUtils.EMPTY;
       }
       else
       {

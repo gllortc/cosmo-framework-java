@@ -203,7 +203,7 @@ public abstract class Control
 
       if (xhtml == null)
       {
-         return "";
+         return StringUtils.EMPTY;
       }
       if (tag == null)
       {
@@ -211,7 +211,7 @@ public abstract class Control
       }
       if (replaceWith == null)
       {
-         replaceWith = "";
+         replaceWith = StringUtils.EMPTY;
       }
 
       StringBuilder sb = new StringBuilder(xhtml);

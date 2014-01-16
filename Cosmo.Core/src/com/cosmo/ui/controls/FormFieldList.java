@@ -60,8 +60,8 @@ public class FormFieldList extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
-      this.value = "";
+      this.description = StringUtils.EMPTY;
+      this.value = StringUtils.EMPTY;
       this.listType = ListType.ComboBox;
       this.list = new StaticList();
    }
@@ -78,7 +78,7 @@ public class FormFieldList extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
+      this.description = StringUtils.EMPTY;
       this.value = HttpRequestUtils.getValue(request, name);
       this.listType = ListType.ComboBox;
       this.list = new StaticList();
@@ -95,8 +95,8 @@ public class FormFieldList extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
-      this.value = "";
+      this.description = StringUtils.EMPTY;
+      this.value = StringUtils.EMPTY;
       this.listType = ListType.ComboBox;
       this.list = list;
    }
@@ -114,7 +114,7 @@ public class FormFieldList extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
+      this.description = StringUtils.EMPTY;
       this.value = HttpRequestUtils.getValue(request, name);
       this.listType = ListType.ComboBox;
       this.list = list;
@@ -271,7 +271,7 @@ public class FormFieldList extends FormField
                      selected = (item.getValue().equals(this.getValue()));
                   }
 
-                  sb.append("  <option value=\"" + item.getValue() + "\"" + (selected ? " selected=\"selected\"" : "") + ">" + item.getCaption() + "</option>\n");
+                  sb.append("  <option value=\"" + item.getValue() + "\"" + (selected ? " selected=\"selected\"" : StringUtils.EMPTY) + ">" + item.getCaption() + "</option>\n");
                }
                sb.append("</select>\n");
                break;
@@ -299,7 +299,7 @@ public class FormFieldList extends FormField
                      selected = (item.getValue().equals(this.getValue()));
                   }
 
-                  sb.append("   <option value=\"" + item.getValue() + "\"" + (selected ? " selected=\"selected\"" : "") + ">" + item.getCaption() + "</option>\n");
+                  sb.append("   <option value=\"" + item.getValue() + "\"" + (selected ? " selected=\"selected\"" : StringUtils.EMPTY) + ">" + item.getCaption() + "</option>\n");
                }
                sb.append("</select>\n");
                break;

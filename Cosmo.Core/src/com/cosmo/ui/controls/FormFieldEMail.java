@@ -1,6 +1,7 @@
 package com.cosmo.ui.controls;
 
 import com.cosmo.Workspace;
+import com.cosmo.util.StringUtils;
 
 /**
  * Implementa un cuadro de texto representable dentro de un formulario Cosmo.
@@ -9,6 +10,7 @@ import com.cosmo.Workspace;
  */
 public class FormFieldEMail extends FormField
 {
+   // Declaración de variables internas
    private boolean required;
    private String name;
    private String value;
@@ -22,7 +24,7 @@ public class FormFieldEMail extends FormField
    //==============================================
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldEMail}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -32,13 +34,13 @@ public class FormFieldEMail extends FormField
       this.required = false;
       this.name = name;
       this.label = label;
-      this.description = "";
-      this.value = "";
+      this.description = StringUtils.EMPTY;
+      this.value = StringUtils.EMPTY;
       this.maxLength = -1;
    }
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldEMail}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -47,14 +49,14 @@ public class FormFieldEMail extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
-      this.value = "";
+      this.description = StringUtils.EMPTY;
+      this.value = StringUtils.EMPTY;
       this.maxLength = -1;
       this.required = required;
    }
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldEMail}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -64,14 +66,14 @@ public class FormFieldEMail extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
-      this.value = "";
+      this.description = StringUtils.EMPTY;
+      this.value = StringUtils.EMPTY;
       this.maxLength = maxLength;
       this.required = false;
    }
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldEMail}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -82,8 +84,8 @@ public class FormFieldEMail extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
-      this.value = "";
+      this.description = StringUtils.EMPTY;
+      this.value = StringUtils.EMPTY;
       this.maxLength = maxLength;
       this.required = required;
    }
@@ -172,7 +174,7 @@ public class FormFieldEMail extends FormField
          append("id=\"").append(this.name).append("\" ").
          append("name=\"").append(this.name).append("\" ").
          append("value=\"").append(this.value).append("\" ").
-         append(required ? "required" : "").
+         append(required ? "required" : StringUtils.EMPTY).
          append("/>");
 
       return sb.toString();

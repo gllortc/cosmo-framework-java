@@ -1,6 +1,7 @@
 package com.cosmo.ui.controls;
 
 import com.cosmo.Workspace;
+import com.cosmo.util.StringUtils;
 
 /**
  * Implementa un cuadro de texto representable dentro de un formulario Cosmo.
@@ -9,6 +10,7 @@ import com.cosmo.Workspace;
  */
 public class FormFieldBoolean extends FormField
 {
+   // DeclaraciÛn de variables internas
    private String name;
    private boolean value;
    private String label;
@@ -20,16 +22,16 @@ public class FormFieldBoolean extends FormField
    //==============================================
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldBoolean}.
     * 
-    * @param name Nombre identificativo del elemento dentro de la p√°gina.
-    * @param label Etiqueta que se mostrar√° junto el control.
+    * @param name Nombre identificativo del elemento dentro de la p·gina.
+    * @param label Etiqueta que se mostrar· junto el control.
     */
    public FormFieldBoolean(String name, String label) 
    {
       this.name = name;
       this.label = label;
-      this.description = "";
+      this.description = StringUtils.EMPTY;
       this.value = false;
    }
 

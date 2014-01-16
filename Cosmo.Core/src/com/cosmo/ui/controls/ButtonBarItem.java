@@ -1,6 +1,7 @@
 package com.cosmo.ui.controls;
 
 import com.cosmo.ui.templates.TemplateControl;
+import com.cosmo.util.StringUtils;
 
 /**
  * Implementa un botón para las barras de botones {@link ButtonBarControl}.
@@ -25,17 +26,17 @@ public class ButtonBarItem
    //==============================================
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link ButtonBarItem}.
     */
    public ButtonBarItem()
    {
-      this.title = "";
-      this.href = "";
-      this.icon = "";
+      this.title = StringUtils.EMPTY;
+      this.href = StringUtils.EMPTY;
+      this.icon = StringUtils.EMPTY;
    }
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link ButtonBarItem}.
     * 
     * @param title Título del elemento.
     * @param href URL del enlace.
@@ -44,11 +45,11 @@ public class ButtonBarItem
    {
       this.title = title;
       this.href = href;
-      this.icon = "";
+      this.icon = StringUtils.EMPTY;
    }
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link ButtonBarItem}.
     * 
     * @param title Título del elemento.
     * @param href URL del enlace.

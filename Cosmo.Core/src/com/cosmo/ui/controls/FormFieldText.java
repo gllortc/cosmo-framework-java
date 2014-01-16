@@ -1,6 +1,10 @@
 package com.cosmo.ui.controls;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.cosmo.Workspace;
+import com.cosmo.net.HttpRequestUtils;
+import com.cosmo.util.StringUtils;
 
 /**
  * Implementa un cuadro de texto representable dentro de un formulario Cosmo.
@@ -9,6 +13,7 @@ import com.cosmo.Workspace;
  */
 public class FormFieldText extends FormField
 {
+   // Declaración de variables internas
    private String name;
    private String value;
    private String label;
@@ -22,7 +27,7 @@ public class FormFieldText extends FormField
    //==============================================
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldText}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -31,14 +36,32 @@ public class FormFieldText extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
-      this.value = "";
+      this.description = StringUtils.EMPTY;
+      this.value = StringUtils.EMPTY;
       this.maxLength = -1;
       this.password = false;
    }
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldText}.
+    * 
+    * @param name Nombre identificativo del elemento dentro de la página.
+    * @param label Etiqueta que se mostrará junto el control.
+    * @param request Una instancia de {@link HttpServletRequest} que permite establecer el valor del campo en una 
+    *    recarga del formulario.
+    */
+   public FormFieldText(String name, String label, HttpServletRequest request) 
+   {
+      this.name = name;
+      this.label = label;
+      this.description = StringUtils.EMPTY;
+      this.value = HttpRequestUtils.getValue(request, name);
+      this.maxLength = -1;
+      this.password = false;
+   }
+
+   /**
+    * Contructor de la clase {@link FormFieldText}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -47,14 +70,14 @@ public class FormFieldText extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
-      this.value = "";
+      this.description = StringUtils.EMPTY;
+      this.value = StringUtils.EMPTY;
       this.maxLength = -1;
       this.password = isPassword; 
    }
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldText}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -64,14 +87,33 @@ public class FormFieldText extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
-      this.value = "";
+      this.description = StringUtils.EMPTY;
+      this.value = StringUtils.EMPTY;
       this.maxLength = maxLength;
       this.password = false;
    }
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldText}.
+    * 
+    * @param name Nombre identificativo del elemento dentro de la página.
+    * @param label Etiqueta que se mostrará junto el control.
+    * @param maxLength Número máximo de carácteres que admite el control.
+    * @param request Una instancia de {@link HttpServletRequest} que permite establecer el valor del campo en una 
+    *    recarga del formulario.
+    */
+   public FormFieldText(String name, String label, int maxLength, HttpServletRequest request) 
+   {
+      this.name = name;
+      this.label = label;
+      this.description = StringUtils.EMPTY;
+      this.value = HttpRequestUtils.getValue(request, name);
+      this.maxLength = maxLength;
+      this.password = false;
+   }
+
+   /**
+    * Contructor de la clase {@link FormFieldText}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -82,8 +124,8 @@ public class FormFieldText extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
-      this.value = "";
+      this.description = StringUtils.EMPTY;
+      this.value = StringUtils.EMPTY;
       this.maxLength = maxLength;
       this.password = isPassword;
    }

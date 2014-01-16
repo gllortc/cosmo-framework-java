@@ -1,6 +1,7 @@
 package com.cosmo.ui.controls;
 
 import com.cosmo.Workspace;
+import com.cosmo.util.StringUtils;
 
 /**
  * Implementa un botón de formulario.
@@ -11,7 +12,7 @@ public class FormButton  extends FormField
 {
    private String name;
    private String label;
-   private String href = "";
+   private String href = StringUtils.EMPTY;
    private ButtonType type;
 
    /**
@@ -35,7 +36,7 @@ public class FormButton  extends FormField
    //==============================================
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link FormButton}.
     * 
     * @param label Cadena de texto que será visible en el botón.
     * @param type Tipo de botón.
@@ -44,12 +45,12 @@ public class FormButton  extends FormField
    {
       this.name = name;
       this.label = label;
-      this.href = "";
+      this.href = StringUtils.EMPTY;
       this.type = type;
    }
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link FormButton}.
     * 
     * @param name Una cadena que contiene el nombre único del control.
     * @param label Cadena de texto que será visible en el botón.

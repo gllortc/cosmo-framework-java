@@ -1,6 +1,7 @@
 package com.cosmo.ui.controls;
 
 import com.cosmo.Workspace;
+import com.cosmo.util.StringUtils;
 
 /**
  * Implementa un cuadro de texto oculto (p. ej. contraseñas) representable dentro de un formulario Cosmo.
@@ -9,6 +10,7 @@ import com.cosmo.Workspace;
  */
 public class FormFieldPassword extends FormField
 {
+   // Declaraci�n de variables internas
    private String name;
    private String value;
    private String label;
@@ -20,7 +22,7 @@ public class FormFieldPassword extends FormField
    //==============================================
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldPassword}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -29,12 +31,12 @@ public class FormFieldPassword extends FormField
    {
       this.name = name;
       this.label = label;
-      this.value = "";
+      this.value = StringUtils.EMPTY;
       this.maxLength = -1;
    }
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldPassword}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -44,7 +46,7 @@ public class FormFieldPassword extends FormField
    {
       this.name = name;
       this.label = label;
-      this.value = "";
+      this.value = StringUtils.EMPTY;
       this.maxLength = maxLength;
    }
 

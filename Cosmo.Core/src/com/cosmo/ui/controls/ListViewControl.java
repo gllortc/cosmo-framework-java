@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.cosmo.Workspace;
 import com.cosmo.ui.templates.TemplateControl;
+import com.cosmo.util.StringUtils;
 
 /**
  * Implementa una lista de objetos.
@@ -22,6 +23,7 @@ public class ListViewControl extends Control
    private static final String TAG_DESCRIPTION = "DESCRIPTION";
    private static final String TAG_ITEMS = "ITEMS";
 
+   // Declaración de variables internas
    private String caption;
    private String description;
    private ArrayList<ListViewItem> items;
@@ -110,7 +112,7 @@ public class ListViewControl extends Control
       }
 
       xitem = ctrl.getElement(CPART_FOOTER);
-      xitem = Control.replaceTag(xitem, TAG_ITEMS, "" + nitems);
+      xitem = Control.replaceTag(xitem, TAG_ITEMS, StringUtils.EMPTY + nitems);
       sb.append(xitem);
 
       return sb.toString();
@@ -126,8 +128,8 @@ public class ListViewControl extends Control
     */
    private void initialize()
    {
-      this.caption = "";
-      this.description = "";
+      this.caption = StringUtils.EMPTY;
+      this.description = StringUtils.EMPTY;
       this.items = new ArrayList<ListViewItem>();
    }   
 }

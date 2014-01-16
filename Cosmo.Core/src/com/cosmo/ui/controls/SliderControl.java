@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.cosmo.Workspace;
 import com.cosmo.ui.templates.TemplateControl;
+import com.cosmo.util.StringUtils;
 
 /**
  * Implementa un slider (pase de diapositivas) para cualquier contenido XHTML.
@@ -33,7 +34,7 @@ public class SliderControl extends Control
    private static final String TAG_SLIDER_DESCRIPTION = "DESCRIPTION";
    private static final String TAG_SLIDER_FIRST = "FIRST";
 
-   // Variables privadas
+   // Declaración de variables internas
    private int width;
    private int height;
    private ArrayList<SliderItem> items;
@@ -133,7 +134,7 @@ public class SliderControl extends Control
    {
       int count = 0;
       String xitem;
-      String first = "";
+      String first = StringUtils.EMPTY;
       TemplateControl ctrl;
       StringBuilder str = new StringBuilder();
 
@@ -152,8 +153,8 @@ public class SliderControl extends Control
       // Genera la cabecera de la barra de navegación
       xitem = ctrl.getElement(CPART_HEADER);
       xitem = Control.replaceTag(xitem, TAG_SLIDER_ID, this.getId());
-      xitem = Control.replaceTag(xitem, TAG_SLIDER_WIDTH, "" + this.width);
-      xitem = Control.replaceTag(xitem, TAG_SLIDER_HEIGHT, "" + this.height);
+      xitem = Control.replaceTag(xitem, TAG_SLIDER_WIDTH, StringUtils.EMPTY + this.width);
+      xitem = Control.replaceTag(xitem, TAG_SLIDER_HEIGHT, StringUtils.EMPTY + this.height);
       str.append(xitem);
 
       xitem = ctrl.getElement(CPART_ITEM_HEADER);
@@ -167,16 +168,16 @@ public class SliderControl extends Control
          xitem = ctrl.getElement(CPART_ITEM);
          xitem = Control.replaceTag(xitem, TAG_SLIDER_ID, this.getId());
          xitem = Control.replaceTag(xitem, TAG_SLIDER_CONTENTS, item.render());
-         xitem = Control.replaceTag(xitem, TAG_SLIDER_COUNT, "" + count);
+         xitem = Control.replaceTag(xitem, TAG_SLIDER_COUNT, StringUtils.EMPTY + count);
          xitem = Control.replaceTag(xitem, TAG_SLIDER_FIRST, first);
          str.append(xitem);
 
-         first = "";
+         first = StringUtils.EMPTY;
       }
 
       xitem = ctrl.getElement(CPART_ITEM_FOOTER);
       xitem = Control.replaceTag(xitem, TAG_SLIDER_ID, this.getId());
-      xitem = Control.replaceTag(xitem, TAG_SLIDER_COUNT, "" + count);  // Número total de diapositivas
+      xitem = Control.replaceTag(xitem, TAG_SLIDER_COUNT, StringUtils.EMPTY + count);  // Número total de diapositivas
       str.append(xitem);
 
       // Obtiene el indicador de primer elemento (permite diferenciar la clase cuando es el primer elemento)
@@ -193,18 +194,18 @@ public class SliderControl extends Control
          xitem = ctrl.getElement(CPART_CONTENT);
          xitem = Control.replaceTag(xitem, TAG_SLIDER_ID, this.getId());
          xitem = Control.replaceTag(xitem, TAG_SLIDER_CONTENTS, item.render());
-         xitem = Control.replaceTag(xitem, TAG_SLIDER_COUNT, "" + count);
+         xitem = Control.replaceTag(xitem, TAG_SLIDER_COUNT, StringUtils.EMPTY + count);
          xitem = Control.replaceTag(xitem, TAG_SLIDER_TITLE, item.getTitle());
          xitem = Control.replaceTag(xitem, TAG_SLIDER_DESCRIPTION, item.getDescription());
          xitem = Control.replaceTag(xitem, TAG_SLIDER_FIRST, first);
          str.append(xitem);
 
-         first = "";
+         first = StringUtils.EMPTY;
       }
 
       xitem = ctrl.getElement(CPART_CONTENT_FOOTER);
       xitem = Control.replaceTag(xitem, TAG_SLIDER_ID, this.getId());
-      xitem = Control.replaceTag(xitem, TAG_SLIDER_COUNT, "" + count);  // Número total de diapositivas
+      xitem = Control.replaceTag(xitem, TAG_SLIDER_COUNT, StringUtils.EMPTY + count);  // Número total de diapositivas
       str.append(xitem);
 
       // Genera el piÃ© de la barra de navegación

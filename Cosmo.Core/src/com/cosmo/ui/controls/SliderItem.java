@@ -1,5 +1,7 @@
 package com.cosmo.ui.controls;
 
+import com.cosmo.util.StringUtils;
+
 /**
  * Implementa un slide que se puede incorporar a un {@link SliderControl}.
  * 
@@ -7,7 +9,7 @@ package com.cosmo.ui.controls;
  */
 public class SliderItem 
 {
-   // variables privadas
+   // Declaración de variables internas
    private SlideType type;
    private String title;
    private String description;
@@ -36,13 +38,13 @@ public class SliderItem
    public SliderItem()
    {
       this.type = SlideType.Xhtml;
-      this.title = "";
-      this.description = "";
-      this.src = "";
+      this.title = StringUtils.EMPTY;
+      this.description = StringUtils.EMPTY;
+      this.src = StringUtils.EMPTY;
       this.width = 0;
       this.height = 0;
    }
-   
+
    /**
     * Constructor de la clase {@link SliderItem}.
     * 
@@ -52,8 +54,8 @@ public class SliderItem
    public SliderItem(String src, SlideType type)
    {
       this.type = type;
-      this.title = "";
-      this.description = "";
+      this.title = StringUtils.EMPTY;
+      this.description = StringUtils.EMPTY;
       this.src = src;
       this.width = 0;
       this.height = 0;
@@ -70,8 +72,8 @@ public class SliderItem
    public SliderItem(String src, int width, int height, SlideType type)
    {
       this.type = type;
-      this.title = "";
-      this.description = "";
+      this.title = StringUtils.EMPTY;
+      this.description = StringUtils.EMPTY;
       this.src = src;
       this.width = width;
       this.height = height;
@@ -171,7 +173,7 @@ public class SliderItem
     */
    public String render()
    {
-      String xhtml = "";
+      String xhtml = StringUtils.EMPTY;
 
       switch (this.type)
       {

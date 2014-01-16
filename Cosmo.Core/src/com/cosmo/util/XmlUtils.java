@@ -40,7 +40,7 @@ public class XmlUtils
    public static String trimXml(String xml)
    {
       int start = 0, end = 0;
-      
+
       start = xml.indexOf("<");
       if (start < 0)
       {

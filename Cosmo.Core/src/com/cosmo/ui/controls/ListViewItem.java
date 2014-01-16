@@ -1,6 +1,8 @@
 package com.cosmo.ui.controls;
 
 import com.cosmo.ui.templates.TemplateControl;
+import com.cosmo.util.StringUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -22,6 +24,7 @@ public class ListViewItem
    private static final String TAG_WIDTH = "WIDTH";
    private static final String TAG_HEIGHT = "HEIGHT";
 
+   // Declaración de variables internas
    private String caption;
    private String description;
    private String href;
@@ -57,7 +60,7 @@ public class ListViewItem
    public ListViewItem(String caption, String description, String href, String thumbSrc, Integer width, Integer height)
    {
       initialize();
-      
+
       this.caption = caption;
       this.description = description;
       this.href = href;
@@ -81,7 +84,7 @@ public class ListViewItem
    public ListViewItem(String caption, String description, String href, String thumbSrc, Integer width, Integer height, String author, Date date)
    {
       initialize();
-      
+
       this.caption = caption;
       this.description = description;
       this.href = href;
@@ -213,13 +216,13 @@ public class ListViewItem
     */
    private void initialize()
    {
-      this.caption = "";
-      this.description = "";
-      this.href = "";
-      this.thumbSrc = "";
+      this.caption = StringUtils.EMPTY;
+      this.description = StringUtils.EMPTY;
+      this.href = StringUtils.EMPTY;
+      this.thumbSrc = StringUtils.EMPTY;
       this.width = 0;
       this.height = 0;
-      this.author = "";
+      this.author = StringUtils.EMPTY;
       this.date = null;
    }
 }

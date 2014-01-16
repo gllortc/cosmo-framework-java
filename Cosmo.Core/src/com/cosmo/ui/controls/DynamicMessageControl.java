@@ -2,6 +2,7 @@ package com.cosmo.ui.controls;
 
 import com.cosmo.Workspace;
 import com.cosmo.ui.templates.TemplateControl;
+import com.cosmo.util.StringUtils;
 
 /** 
  * Implementa un mensaje que se puede hacer aparecer de forma dinámica (JavaScript, etc).
@@ -38,7 +39,7 @@ public class DynamicMessageControl extends Control
    //==============================================
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link DynamicMessageControl}.
     */
    public DynamicMessageControl(Workspace workspace, String id)
    {
@@ -47,7 +48,7 @@ public class DynamicMessageControl extends Control
    }
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link DynamicMessageControl}.
     * 
     * @param id El identificador único de este elemento.
     * @param message Cadena que contiene el mensaje visible por el usuario.
@@ -63,6 +64,11 @@ public class DynamicMessageControl extends Control
       this.visible = visible;
       this.type = type;
    }
+
+
+   //==============================================
+   // Properties
+   //==============================================
 
    @Override
    public String getControlTypeId() 
@@ -100,6 +106,11 @@ public class DynamicMessageControl extends Control
       this.visible = visible;
    }
 
+
+   //==============================================
+   // Methods
+   //==============================================
+
    /**
     * Renderiza el control y genera el código XHTML de representación.
     *
@@ -108,7 +119,7 @@ public class DynamicMessageControl extends Control
    @Override
    public String render() 
    {
-      String xhtml = "";
+      String xhtml = StringUtils.EMPTY;
       TemplateControl ctrl = getWorkspace().getTemplate().getControl(DynamicMessageControl.CONTROL_ID);
 
       // Si no es visible, no se renderiza
@@ -155,9 +166,17 @@ public class DynamicMessageControl extends Control
       return sb.toString();
    }
 
+
+   //==============================================
+   // Private Members
+   //==============================================
+
+   /**
+    * Inicializa la instancia.
+    */
    private void initialize()
    {
-      this.message = "";
+      this.message = StringUtils.EMPTY;
       this.visible = false;
       this.type = MessageTypes.Information;
    }

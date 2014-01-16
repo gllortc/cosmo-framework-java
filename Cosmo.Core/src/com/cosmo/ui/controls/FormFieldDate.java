@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.cosmo.Workspace;
+import com.cosmo.util.StringUtils;
 
 /**
  * Implementa un cuadro de texto representable dentro de un formulario Cosmo.
@@ -12,6 +13,7 @@ import com.cosmo.Workspace;
  */
 public class FormFieldDate extends FormField
 {
+   // Declaración de variables internas
    private String name;
    private String label;
    private String description;
@@ -26,7 +28,7 @@ public class FormFieldDate extends FormField
    //==============================================
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldDate}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -35,7 +37,7 @@ public class FormFieldDate extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
+      this.description = StringUtils.EMPTY;
       this.value = null;
       this.min = null;
       this.max = null;
@@ -53,7 +55,7 @@ public class FormFieldDate extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
+      this.description = StringUtils.EMPTY;
       this.value = null;
       this.min = null;
       this.max = null;
@@ -106,7 +108,7 @@ public class FormFieldDate extends FormField
    {
       this.description = description;
    }
-   
+
    public Date getMax()
    {
       return max;
@@ -135,7 +137,7 @@ public class FormFieldDate extends FormField
    public void setRequired(boolean required) 
    {
       this.required = required;
-   }   
+   }
 
 
    //==============================================
@@ -154,10 +156,10 @@ public class FormFieldDate extends FormField
       sb.append("<input type=\"date\" ").
          append("id=\"").append(this.name).append("\" ").
          append("name=\"").append(this.name).append("\" ").
-         append(value != null ? "value=\"" + sdf.format(this.value) + "\" " : "").
-         append(min != null ? "min=\"" + sdf.format(this.min) + "\" " : "").
-         append(max != null ? "max=\"" + sdf.format(this.max) + "\" " : "").
-         append(required ? "required " : "").
+         append(value != null ? "value=\"" + sdf.format(this.value) + "\" " : StringUtils.EMPTY).
+         append(min != null ? "min=\"" + sdf.format(this.min) + "\" " : StringUtils.EMPTY).
+         append(max != null ? "max=\"" + sdf.format(this.max) + "\" " : StringUtils.EMPTY).
+         append(required ? "required " : StringUtils.EMPTY).
          append("/>");
 
       return sb.toString();

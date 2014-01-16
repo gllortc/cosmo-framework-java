@@ -17,6 +17,7 @@ import com.cosmo.orm.annotations.CormObjectField;
 import com.cosmo.ui.controls.FormButton.ButtonType;
 import com.cosmo.ui.templates.TemplateControl;
 import com.cosmo.util.FormData;
+import com.cosmo.util.StringUtils;
 
 /**
  * Implementa un formulario representable en una página de Cosmo.
@@ -60,7 +61,7 @@ public class FormControl extends Control
    //==============================================
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormControl}.
     * 
     * @param id Identificador único del formulario en toda la aplicación.
     */
@@ -573,10 +574,10 @@ public class FormControl extends Control
     */
    private void initialize()
    {
-      this.title = "";
-      this.description = "";
-      this.name = "";
-      this.actionUrl = "";
+      this.title = StringUtils.EMPTY;
+      this.description = StringUtils.EMPTY;
+      this.name = StringUtils.EMPTY;
+      this.actionUrl = StringUtils.EMPTY;
       this.hasCaptcha = false;
 
       this.groups = new ArrayList<FormFieldset>();
@@ -592,12 +593,13 @@ public class FormControl extends Control
     */
    private String getButtonsXhtml(HttpSession session)
    {
-      String btns = "";
+      String btns = StringUtils.EMPTY;
 
       for (FormButton button : this.buttons)
       {
          btns += button.render(getWorkspace()) + "&nbsp;&nbsp;"; 
       }
+
       return btns;
    }
 }

@@ -1,6 +1,7 @@
 package com.cosmo.ui.controls;
 
 import com.cosmo.Workspace;
+import com.cosmo.util.StringUtils;
 
 /**
  * Implementa un cuadro de texto que acepta números decimales (Float) representable dentro de un formulario Cosmo.
@@ -9,6 +10,7 @@ import com.cosmo.Workspace;
  */
 public class FormFieldNumber extends FormField
 {
+   // Declaración de variables internas
    private String name;
    private String label;
    private String description;
@@ -23,7 +25,7 @@ public class FormFieldNumber extends FormField
    //==============================================
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldNumber}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -32,7 +34,7 @@ public class FormFieldNumber extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
+      this.description = StringUtils.EMPTY;
       this.value = 0.0f;
       this.min = null;
       this.max = null;
@@ -40,7 +42,7 @@ public class FormFieldNumber extends FormField
    }
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldNumber}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -50,7 +52,7 @@ public class FormFieldNumber extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
+      this.description = StringUtils.EMPTY;
       this.value = 0.0f;
       this.min = null;
       this.max = null;
@@ -151,10 +153,10 @@ public class FormFieldNumber extends FormField
          append("id=\"").append(this.name).append("\" ").
          append("name=\"").append(this.name).append("\" ").
          append("value=\"").append(this.value).append("\" ").
-         append(min != null ? "min=\"" + this.min.toString() + "\" " : "").
-         append(max != null ? "max=\"" + this.max.toString() + "\" " : "").
+         append(min != null ? "min=\"" + this.min.toString() + "\" " : StringUtils.EMPTY).
+         append(max != null ? "max=\"" + this.max.toString() + "\" " : StringUtils.EMPTY).
          append("value=\"").append(this.value).append("\" ").
-         append(required ? "required" : "").
+         append(required ? "required" : StringUtils.EMPTY).
          append("/>");
 
       return sb.toString();

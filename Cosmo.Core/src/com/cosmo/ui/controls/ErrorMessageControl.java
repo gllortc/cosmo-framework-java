@@ -47,7 +47,7 @@ public class ErrorMessageControl extends Control
 
 
    //==============================================
-   // properties
+   // Properties
    //==============================================
 
    @Override

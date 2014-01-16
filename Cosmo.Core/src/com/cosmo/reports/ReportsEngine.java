@@ -11,6 +11,7 @@ import com.cosmo.data.DataAgent;
 import com.cosmo.data.DataException;
 import com.cosmo.data.DataQuery;
 import com.cosmo.logging.LogFactory;
+import com.cosmo.util.XmlUtils;
 
 /**
  * Implementa el generador de informes de Cosmo Framework.
@@ -178,7 +179,7 @@ public abstract class ReportsEngine
          xhtml.append(renderSection(getReport().getFooter(), ReportSection.FOOTER, null));
 
          // Almacena el código XHTML resultante
-         getReport().setRenderedXhtml(xhtml.toString());
+         getReport().setRenderedXhtml(XmlUtils.trimXml(xhtml.toString()));
       }
       catch (Exception ex)
       {

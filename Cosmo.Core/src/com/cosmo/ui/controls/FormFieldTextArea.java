@@ -1,6 +1,7 @@
 package com.cosmo.ui.controls;
 
 import com.cosmo.Workspace;
+import com.cosmo.util.StringUtils;
 
 /**
  * Implementa un cuadro de texto representable dentro de un formulario Cosmo.
@@ -9,6 +10,7 @@ import com.cosmo.Workspace;
  */
 public class FormFieldTextArea extends FormField
 {
+   // Declaración de variables internas
    private String name;
    private String value;
    private String label;
@@ -22,7 +24,7 @@ public class FormFieldTextArea extends FormField
    //==============================================
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldTextArea}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -31,30 +33,31 @@ public class FormFieldTextArea extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
-      this.value = "";
+      this.description = StringUtils.EMPTY;
+      this.value = StringUtils.EMPTY;
       this.maxLength = -1;
       this.password = false;
    }
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldTextArea}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
+    * @param isPassword Indica si el campo debe ocultar los carácteres que contiene.
     */
    public FormFieldTextArea(String name, String label, boolean isPassword) 
    {
       this.name = name;
       this.label = label;
-      this.description = "";
-      this.value = "";
+      this.description = StringUtils.EMPTY;
+      this.value = StringUtils.EMPTY;
       this.maxLength = -1;
       this.password = isPassword; 
    }
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldTextArea}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -64,14 +67,14 @@ public class FormFieldTextArea extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
-      this.value = "";
+      this.description = StringUtils.EMPTY;
+      this.value = StringUtils.EMPTY;
       this.maxLength = maxLength;
       this.password = false;
    }
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldTextArea}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -82,8 +85,8 @@ public class FormFieldTextArea extends FormField
    {
       this.name = name;
       this.label = label;
-      this.description = "";
-      this.value = "";
+      this.description = StringUtils.EMPTY;
+      this.value = StringUtils.EMPTY;
       this.maxLength = maxLength;
       this.password = isPassword;
    }

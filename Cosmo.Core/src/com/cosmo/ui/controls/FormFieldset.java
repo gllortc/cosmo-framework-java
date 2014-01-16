@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.cosmo.Workspace;
+import com.cosmo.util.StringUtils;
 
 /**
  * Implementa un grupo de controles de un formulario web.
  */
 public class FormFieldset extends FormField
 {
+   // Declaración de variables internas
    private String name;
    private String title;
    private String description;
@@ -23,21 +25,21 @@ public class FormFieldset extends FormField
    //==============================================
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link FormFieldset}.
     * 
     * @param title Título visible del grupo de controles.
     */
    public FormFieldset(String title)
    {
       this.title = title;
-      this.description = "";
+      this.description = StringUtils.EMPTY;
       this.fields = new ArrayList<FormField>();
       // this.control = control;
       this.haveCaptcha = false;
    }
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link FormFieldset}.
     * 
     * @param title Título visible del grupo de controles.
     * @param description Descripción del contenido del grupo.

@@ -1,6 +1,7 @@
 package com.cosmo.ui.controls;
 
 import com.cosmo.ui.templates.TemplateControl;
+import com.cosmo.util.StringUtils;
 
 /**
  * Implementa un elemento de la barra de navegación (breadcrumbs).
@@ -29,9 +30,9 @@ public class BreadcrumbsItem
     */
    public BreadcrumbsItem()
    {
-      this.title = "";
-      this.href = "";
-      this.icon = "";
+      this.title = StringUtils.EMPTY;
+      this.href = StringUtils.EMPTY;
+      this.icon = StringUtils.EMPTY;
    }
 
    /**
@@ -42,8 +43,8 @@ public class BreadcrumbsItem
    public BreadcrumbsItem(String title)
    {
       this.title = title;
-      this.href = "";
-      this.icon = "";
+      this.href = StringUtils.EMPTY;
+      this.icon = StringUtils.EMPTY;
    }
 
    /**
@@ -56,7 +57,7 @@ public class BreadcrumbsItem
    {
       this.title = title;
       this.href = href;
-      this.icon = "";
+      this.icon = StringUtils.EMPTY;
    }
 
    /**

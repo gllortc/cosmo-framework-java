@@ -39,6 +39,7 @@ public class GridControl extends Control
    private static final String TAG_CELLS = "CELLS";
    private static final String TAG_VALUE = "VALUE";
 
+   // Declaración de variables internas
    private String title;
    private String description;
    private boolean firstRowTitles;
@@ -53,7 +54,7 @@ public class GridControl extends Control
    //==============================================
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link GridControl}.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
     * @param id Identificador único del control.
@@ -63,8 +64,8 @@ public class GridControl extends Control
       super(workspace, id);
 
       this.firstRowTitles = false;
-      this.title = "";
-      this.description = "";
+      this.title = StringUtils.EMPTY;
+      this.description = StringUtils.EMPTY;
       this.rowActionsCaption = "Acciones";
       this.rowActions = new ArrayList<GridRowAction>();
       this.gridData = new GridData();
@@ -261,7 +262,7 @@ public class GridControl extends Control
       xcell = ctrl.getElement(CPART_ROWTITLE_CELL);
       for (int col = 0; col < this.gridData.getColumnCount(); col++)
       {
-         xrowdata += Control.replaceTag(xcell, TAG_VALUE, this.gridData.getCell(0, col, "").toString());
+         xrowdata += Control.replaceTag(xcell, TAG_VALUE, this.gridData.getCell(0, col, StringUtils.EMPTY).toString());
       }
       if (!this.rowActions.isEmpty())
       {
@@ -278,7 +279,7 @@ public class GridControl extends Control
          xrowdata = "";
          for (int col = 0; col < this.gridData.getColumnCount(); col++)
          {
-            xrowdata += Control.replaceTag(xcell, TAG_VALUE, StringUtils.formatValue(this.gridData.getCell(row, col, "")));
+            xrowdata += Control.replaceTag(xcell, TAG_VALUE, StringUtils.formatValue(this.gridData.getCell(row, col, StringUtils.EMPTY)));
          }
          if (!this.rowActions.isEmpty())
          {
