@@ -100,7 +100,7 @@ public class CosmoPageRenderImpl implements PageRenderer
                {
                   xhtml.append(TAB_SEPARATOR + tlink.render());
                }
-               
+
                for (TemplateScript tscript : tctrl.getScripts())
                {
                   xhtml.append(TAB_SEPARATOR + tscript.render());
@@ -139,7 +139,7 @@ public class CosmoPageRenderImpl implements PageRenderer
 
       return xhtml.toString();
    }
- 
+
    /**
     * Renderiza el contenido proncipal (columna central)
     */

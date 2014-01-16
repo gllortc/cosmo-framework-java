@@ -22,7 +22,7 @@ public interface PageRenderer
    public static final String TAG_WIDGET_BANNERS_CENTER_TOP = "[@BANNERS-CENTER-TOP]";
    public static final String TAG_WIDGET_BANNERS_CENTER_BOTTOM = "[@BANNERS-CENTER-BOTTOM]";
    public static final String TAG_WIDGET_STATS = "[@STATS]";
-   
+
    /**
     * Renderiza la página convirtiendo la lógica de clases en código XHTML.
     * 
