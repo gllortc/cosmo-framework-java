@@ -48,13 +48,13 @@ public class ReportPage extends Page
       DynamicMessageControl message = new DynamicMessageControl(getWorkspace(), "result_msg");
       pc.addContent(message, ContentColumns.MAIN);
 
-      FormFieldList formatList = new FormFieldList("cboFormat", "Format");
+      FormFieldList formatList = new FormFieldList("cboFormat", "Format", request);
       formatList.addListOption(new KeyValue("pdf", "Adobe Acrobat (PDF)", true));
       formatList.addListOption(new KeyValue("docx", "Ms Word (DOCX)"));
 
       FormControl form = new FormControl(getWorkspace(), "rptForm");
       FormFieldset ffs = new FormFieldset("Report details");
-      ffs.addField(new FormFieldText("txtTitle", "Title", 64));
+      ffs.addField(new FormFieldText("txtTitle", "Title", 64, request));
       ffs.addField(formatList);
       form.addGroup(ffs);
       form.addButton(new FormButton("cmdReport", "Generate report", ButtonType.Submit));
