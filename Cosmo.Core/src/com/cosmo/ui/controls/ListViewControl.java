@@ -13,8 +13,8 @@ import com.cosmo.util.StringUtils;
  */
 public class ListViewControl extends Control
 {
-   /** CTUID - Control Type Unique ID */
-   private static final String CONTROL_ID = "CosmoUiCtrlObjectLst";
+   /** Control Type Unique ID */
+   private static final String CTUID = "CosmoUiCtrlObjectLst";
 
    private static final String CPART_TITLE = "object-list-title";
    private static final String CPART_HEADER = "object-list-header";
@@ -37,7 +37,7 @@ public class ListViewControl extends Control
    /**
     * Contructor de la clase {@link ListViewControl}.
     * 
-    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
+    * @param workspace Una instancia de {@link Workspace} que representa el espacio de aplicación actual.
     */
    public ListViewControl(Workspace workspace)
    {
@@ -48,8 +48,8 @@ public class ListViewControl extends Control
    /**
     * Contructor de la clase {@link ListViewControl}.
     * 
-    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
-    * @param id Una cadena que contiene el identificador único del control.
+    * @param workspace Una instancia de {@link Workspace} que representa el espacio de aplicación actual.
+    * @param id Identificador único del control en la página.
     */
    public ListViewControl(Workspace workspace, String id)
    {
@@ -68,7 +68,7 @@ public class ListViewControl extends Control
    @Override
    public String getControlTypeId() 
    {
-      return ListViewControl.CONTROL_ID;
+      return ListViewControl.CTUID;
    }
 
 
@@ -96,7 +96,7 @@ public class ListViewControl extends Control
    {
       int nitems = 0;
       String xitem;
-      TemplateControl ctrl = getWorkspace().getTemplate().getControl(ListViewControl.CONTROL_ID);
+      TemplateControl ctrl = getWorkspace().getTemplate().getControl(ListViewControl.CTUID);
       StringBuilder sb = new StringBuilder();
 
       xitem = ctrl.getElement(CPART_TITLE);

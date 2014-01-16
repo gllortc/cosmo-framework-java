@@ -26,8 +26,8 @@ import com.cosmo.util.StringUtils;
  */
 public class FormControl extends Control 
 {
-   /** CTUID - Control Type Unique ID */
-   private static final String CONTROL_ID = "CosmoUiCtrlForm";
+   /** Control Type Unique ID */
+   private static final String CTUID = "CosmoUiCtrlForm";
 
    private static final String CPART_HEADER = "form-head";
    private static final String CPART_GROUP_HEADER = "form-fieldset-head";
@@ -65,7 +65,8 @@ public class FormControl extends Control
    /**
     * Contructor de la clase {@link FormControl}.
     * 
-    * @param id Identificador único del formulario en toda la aplicación.
+    * @param workspace Una instancia de {@link Workspace} que representa el espacio de aplicación actual.
+    * @param id Identificador único del control en la página.
     */
    public FormControl(Workspace workspace, String id)
    {
@@ -84,7 +85,7 @@ public class FormControl extends Control
    @Override
    public String getControlTypeId() 
    {
-      return FormControl.CONTROL_ID;
+      return FormControl.CTUID;
    }
 
    public String getTitle() 
@@ -427,7 +428,7 @@ public class FormControl extends Control
       }
 
       // Obtiene la plantilla y la parte del control
-      ctrl = getWorkspace().getTemplate().getControl(FormControl.CONTROL_ID);
+      ctrl = getWorkspace().getTemplate().getControl(FormControl.CTUID);
 
       // Genera la cabecera del formulario
       xhtml = "";

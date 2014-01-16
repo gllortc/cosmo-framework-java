@@ -12,8 +12,8 @@ import com.cosmo.util.StringUtils;
  */
 public class XhtmlControl extends Control
 {
-   /** CTUID - Control Type Unique ID */
-   private static final String CONTROL_ID = "CosmoUiCtrlXhtml";
+   /** Control Type Unique ID */
+   private static final String CTUID = "CosmoUiCtrlXhtml";
 
    private final String WIKI_REGEX_BOLD = "([']{3})(.*?)([']{3})";
    private final String WIKI_REGEX_ITALIC = "([']{2})(.*?)([']{2})";
@@ -31,7 +31,7 @@ public class XhtmlControl extends Control
    /**
     * Contructor de la clase {@link XhtmlControl}.
     * 
-    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
+    * @param workspace Una instancia de {@link Workspace} que representa el espacio de aplicación actual.
     */
    public XhtmlControl(Workspace workspace)
    {
@@ -42,8 +42,8 @@ public class XhtmlControl extends Control
    /**
     * Contructor de la clase {@link XhtmlControl}.
     * 
-    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
-    * @param id Una cadena que contiene el identificador único del control.
+    * @param workspace Una instancia de {@link Workspace} que representa el espacio de aplicación actual.
+    * @param id Identificador único del control en la página.
     */
    public XhtmlControl(Workspace workspace, String id)
    {
@@ -54,8 +54,8 @@ public class XhtmlControl extends Control
    /**
     * Contructor de la clase {@link XhtmlControl}.
     * 
-    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
-    * @param id Una cadena que contiene el identificador único del control.
+    * @param workspace Una instancia de {@link Workspace} que representa el espacio de aplicación actual.
+    * @param id Identificador único del control en la página.
     * @param xhtml Código XHTML a mostrar en el control.
     */
    public XhtmlControl(Workspace workspace, String id, String xhtml)
@@ -75,7 +75,7 @@ public class XhtmlControl extends Control
    @Override
    public String getControlTypeId() 
    {
-      return XhtmlControl.CONTROL_ID;
+      return XhtmlControl.CTUID;
    }
 
    /**

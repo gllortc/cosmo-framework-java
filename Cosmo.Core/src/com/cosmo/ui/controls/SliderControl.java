@@ -13,8 +13,8 @@ import com.cosmo.util.StringUtils;
  */
 public class SliderControl extends Control
 {
-   /** CTUID - Control Type Unique ID */
-   private static final String CONTROL_ID = "CosmoUiCtrlSlider";
+   /** Control Type Unique ID */
+   private static final String CTUID = "CosmoUiCtrlSlider";
 
    private static final String CPART_FIRST = "slider-element-first";
    private static final String CPART_HEADER = "slider-header";
@@ -48,7 +48,7 @@ public class SliderControl extends Control
    /**
     * Contructor de la clase {@link SliderControl}.
     * 
-    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
+    * @param workspace Una instancia de {@link Workspace} que representa el espacio de aplicación actual.
     */
    public SliderControl(Workspace workspace)
    {
@@ -59,8 +59,8 @@ public class SliderControl extends Control
    /**
     * Contructor de la clase {@link SliderControl}.
     * 
-    * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
-    * @param id Una cadena que contiene el identificador único del control.
+    * @param workspace Una instancia de {@link Workspace} que representa el espacio de aplicación actual.
+    * @param id Identificador único del control en la página.
     */
    public SliderControl(Workspace workspace, String id)
    {
@@ -99,7 +99,7 @@ public class SliderControl extends Control
    @Override
    public String getControlTypeId() 
    {
-      return SliderControl.CONTROL_ID;
+      return SliderControl.CTUID;
    }
 
 
@@ -146,7 +146,7 @@ public class SliderControl extends Control
       }
 
       // Obtiene la plantilla y la parte del control
-      ctrl = getWorkspace().getTemplate().getControl(SliderControl.CONTROL_ID);
+      ctrl = getWorkspace().getTemplate().getControl(SliderControl.CTUID);
 
       // Obtiene el indicador de primer elemento (permite diferenciar la clase cuando es el primer elemento)
       first = ctrl.getElement(CPART_FIRST);

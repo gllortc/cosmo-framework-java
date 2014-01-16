@@ -45,7 +45,7 @@ public class FormFieldDate extends FormField
    }
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldDate}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.

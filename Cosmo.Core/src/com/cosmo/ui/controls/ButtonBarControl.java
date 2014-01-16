@@ -13,8 +13,8 @@ import com.cosmo.ui.templates.TemplateControl;
  */
 public class ButtonBarControl extends Control
 {
-   /** CTUID - Control Type Unique ID */
-   private static final String CONTROL_ID = "CosmoUiCtrlButtonBar";
+   /** Control Type Unique ID */
+   private static final String CTUID = "CosmoUiCtrlButtonBar";
 
    private static final String CPART_HEADER = "buttonbar-header";
    private static final String CPART_FOOTER = "buttonbar-footer";
@@ -28,7 +28,9 @@ public class ButtonBarControl extends Control
    //==============================================
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link ButtonBarControl}.
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el espacio de aplicación actual.
     */
    public ButtonBarControl(Workspace workspace)
    {
@@ -37,7 +39,10 @@ public class ButtonBarControl extends Control
    }
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link ButtonBarControl}.
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el espacio de aplicación actual.
+    * @param id Identificador único del control en la página.
     */
    public ButtonBarControl(Workspace workspace, String id)
    {
@@ -56,7 +61,7 @@ public class ButtonBarControl extends Control
    @Override
    public String getControlTypeId() 
    {
-      return ButtonBarControl.CONTROL_ID;
+      return ButtonBarControl.CTUID;
    }
 
 
@@ -100,7 +105,7 @@ public class ButtonBarControl extends Control
       }
 
       // Obtiene la plantilla y la parte del control
-      ctrl = getWorkspace().getTemplate().getControl(ButtonBarControl.CONTROL_ID);
+      ctrl = getWorkspace().getTemplate().getControl(ButtonBarControl.CTUID);
 
       // Genera la cabecera de la barra de navegación
       str.append(ctrl.getElement(CPART_HEADER));

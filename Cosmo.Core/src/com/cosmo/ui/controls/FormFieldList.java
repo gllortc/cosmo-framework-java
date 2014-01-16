@@ -51,7 +51,7 @@ public class FormFieldList extends FormField
    //==============================================
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldList}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -67,7 +67,7 @@ public class FormFieldList extends FormField
    }
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldList}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -85,7 +85,7 @@ public class FormFieldList extends FormField
    }
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldList}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.
@@ -102,7 +102,7 @@ public class FormFieldList extends FormField
    }
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link FormFieldList}.
     * 
     * @param name Nombre identificativo del elemento dentro de la página.
     * @param label Etiqueta que se mostrará junto el control.

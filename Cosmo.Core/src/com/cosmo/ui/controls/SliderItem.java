@@ -22,8 +22,11 @@ public class SliderItem
     */
    public enum SlideType
    {
+      /** Slide basado en una imagen */
       Image,
+      /** Slide basado en contenido XHTML */
       Xhtml,
+      /** Slide basado en un video */
       Video
    }
 

@@ -23,8 +23,8 @@ import com.cosmo.util.StringUtils;
  */
 public class GridControl extends Control
 {
-   /** CTUID - Control Type Unique ID */
-   private static final String CONTROL_ID = "CosmoUiCtrlGrid";
+   /** Control Type Unique ID */
+   private static final String CTUID = "CosmoUiCtrlGrid";
 
    private static final String CPART_TITLE = "grid-title";
    private static final String CPART_BODY = "grid-body";
@@ -83,7 +83,7 @@ public class GridControl extends Control
    @Override
    public String getControlTypeId() 
    {
-      return GridControl.CONTROL_ID;
+      return GridControl.CTUID;
    }
 
    /**
@@ -256,7 +256,7 @@ public class GridControl extends Control
       TemplateControl ctrl;
 
       // Obtiene la plantilla y la parte del control
-      ctrl = getWorkspace().getTemplate().getControl(CONTROL_ID);
+      ctrl = getWorkspace().getTemplate().getControl(CTUID);
 
       // Genera la fila de títulos
       xrowdata = "";

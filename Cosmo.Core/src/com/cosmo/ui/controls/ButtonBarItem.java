@@ -16,6 +16,7 @@ public class ButtonBarItem
    private static final String TAG_HREF = "HREF";
    private static final String TAG_ICON = "ICON";
 
+   // Declaración de variables internas
    private String title;
    private String href;
    private String icon;

@@ -12,8 +12,8 @@ import com.cosmo.ui.templates.TemplateControl;
  */
 public class BreadcrumbsControl extends Control
 {
-   /** CTUID - Control Type Unique ID */
-   private static final String CONTROL_ID = "CosmoUiCtrlBreadcrumbs";
+   /** Control Type Unique ID */
+   private static final String CTUID = "CosmoUiCtrlBreadcrumbs";
 
    private static final String CPART_HEADER = "navbar-top-header";
    private static final String CPART_FOOTER = "navbar-top-footer";
@@ -27,7 +27,9 @@ public class BreadcrumbsControl extends Control
    //==============================================
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link BreadcrumbsControl}.
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el espacio de aplicación actual.
     */
    public BreadcrumbsControl(Workspace workspace)
    {
@@ -36,7 +38,10 @@ public class BreadcrumbsControl extends Control
    }
 
    /**
-    * Contructor de la clase.
+    * Contructor de la clase {@link BreadcrumbsControl}.
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el espacio de aplicación actual.
+    * @param id Identificador único del control en la página.
     */
    public BreadcrumbsControl(Workspace workspace, String id)
    {
@@ -55,7 +60,7 @@ public class BreadcrumbsControl extends Control
    @Override
    public String getControlTypeId() 
    {
-      return BreadcrumbsControl.CONTROL_ID;
+      return BreadcrumbsControl.CTUID;
    }
 
 
@@ -99,7 +104,7 @@ public class BreadcrumbsControl extends Control
       }
 
       // Obtiene la plantilla y la parte del control
-      ctrl = getWorkspace().getTemplate().getControl(BreadcrumbsControl.CONTROL_ID);
+      ctrl = getWorkspace().getTemplate().getControl(BreadcrumbsControl.CTUID);
 
       // Genera la cabecera de la barra de navegación
       str.append(ctrl.getElement(CPART_HEADER));

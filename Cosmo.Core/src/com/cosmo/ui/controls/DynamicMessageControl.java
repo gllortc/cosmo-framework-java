@@ -11,8 +11,8 @@ import com.cosmo.util.StringUtils;
  */
 public class DynamicMessageControl extends Control 
 {
-   /** CTUID - Control Type Unique ID */
-   private static final String CONTROL_ID = "CosmoUiCtrlDynamicMsg";
+   /** Control Type Unique ID */
+   private static final String CTUID = "CosmoUiCtrlDynamicMsg";
 
    private static final String CPART_MSG_INFORMATION = "info-box-info";
    private static final String CPART_MSG_WARNING = "info-box-warning";
@@ -30,8 +30,11 @@ public class DynamicMessageControl extends Control
     */
    public enum MessageTypes
    {
+      /** Mensaje informativo */
       Information,
+      /** Mensaje de advertencia */
       Warning,
+      /** Mensaje de error */
       Error
    }
 
@@ -42,6 +45,9 @@ public class DynamicMessageControl extends Control
 
    /**
     * Contructor de la clase {@link DynamicMessageControl}.
+    * 
+    * @param workspace Una instancia de {@link Workspace} que representa el espacio de aplicación actual.
+    * @param id Identificador único del control en la página.
     */
    public DynamicMessageControl(Workspace workspace, String id)
    {
@@ -52,7 +58,8 @@ public class DynamicMessageControl extends Control
    /**
     * Contructor de la clase {@link DynamicMessageControl}.
     * 
-    * @param id El identificador único de este elemento.
+    * @param workspace Una instancia de {@link Workspace} que representa el espacio de aplicación actual.
+    * @param id Identificador único del control en la página.
     * @param message Cadena que contiene el mensaje visible por el usuario.
     * @param type Una opción de {@link MessageTypes} que indica que tipo de mensaje representar.
     * @param visible {@code true} si se debe renderizar la etiqueta o {@code false} si se desea no renderizar el elemento.
@@ -75,7 +82,7 @@ public class DynamicMessageControl extends Control
    @Override
    public String getControlTypeId() 
    {
-      return DynamicMessageControl.CONTROL_ID;
+      return DynamicMessageControl.CTUID;
    }
 
    public String getMessage() 
@@ -122,7 +129,7 @@ public class DynamicMessageControl extends Control
    public String render() 
    {
       String xhtml = StringUtils.EMPTY;
-      TemplateControl ctrl = getWorkspace().getTemplate().getControl(DynamicMessageControl.CONTROL_ID);
+      TemplateControl ctrl = getWorkspace().getTemplate().getControl(DynamicMessageControl.CTUID);
 
       // Si no es visible, no se renderiza
       if (!this.visible)

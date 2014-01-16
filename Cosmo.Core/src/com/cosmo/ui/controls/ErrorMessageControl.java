@@ -16,8 +16,8 @@ import com.cosmo.ui.templates.TemplateControl;
  */
 public class ErrorMessageControl extends Control
 {
-   /** CTUID - Control Type Unique ID */
-   private static final String CONTROL_ID = "CosmoUiCtrlErrMsg";
+   /** Control Type Unique ID */
+   private static final String CTUID = "CosmoUiCtrlErrMsg";
 
    private static final String CPART_BODY = "errmsg-body";
 
@@ -35,7 +35,7 @@ public class ErrorMessageControl extends Control
    //==============================================
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link ErrorMessageControl}.
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el espacio de aplicación actual.
     * @param exception Una instancia de {@link Exception} que contiene los detalles del error.
@@ -43,7 +43,6 @@ public class ErrorMessageControl extends Control
    public ErrorMessageControl(Workspace workspace, Exception exception)
    {
       super(workspace);
-      
       this.exception = exception;
    }
 
@@ -55,7 +54,7 @@ public class ErrorMessageControl extends Control
    @Override
    public String getControlTypeId() 
    {
-      return ErrorMessageControl.CONTROL_ID;
+      return ErrorMessageControl.CTUID;
    }
 
    public Exception getException() 
@@ -109,7 +108,7 @@ public class ErrorMessageControl extends Control
       trace = writer.toString();
 
       // Obtiene la plantilla y la parte del control
-      ctrl = getWorkspace().getTemplate().getControl(ErrorMessageControl.CONTROL_ID);
+      ctrl = getWorkspace().getTemplate().getControl(ErrorMessageControl.CTUID);
 
       // Obtiene el cuerpo del mensaje
       xhtml = ctrl.getElement(CPART_BODY);

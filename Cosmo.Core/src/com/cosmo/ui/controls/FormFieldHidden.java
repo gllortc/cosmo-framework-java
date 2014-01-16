@@ -4,8 +4,9 @@ import com.cosmo.Workspace;
 import com.cosmo.util.StringUtils;
 
 /**
- *
- * @author gllort
+ * Implementa un campo de formulario que está oculto al usuario pero que contiene un valor.
+ * 
+ * @author Gerard Llort
  */
 public class FormFieldHidden extends FormField
 {

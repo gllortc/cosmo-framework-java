@@ -24,7 +24,7 @@ public abstract class Control
    //==============================================
 
    /**
-    * Constructor de la clase.<br />
+    * Constructor de la clase {@link Control}.<br />
     * Usar este constructor si el control es estático y no modifica sus valores nunca.
     */
    public Control(Workspace workspace)
@@ -34,7 +34,7 @@ public abstract class Control
    }
 
    /**
-    * Constructor de la clase.<br />
+    * Constructor de la clase {@link Control}.<br />
     * Usar este constructor si el control es dinámico y puede alterar sus valores (por ejemplo, los valores de un GRID).
     * 
     * @param workspace Una instancia de {@link Workspace} que representa el workspace actual.
@@ -53,7 +53,7 @@ public abstract class Control
    //==============================================
 
    /**
-    * Devuelve un identificador único del tipo de control.
+    * Devuelve un identificador único del tipo de control (CTUID).
     */
    public abstract String getControlTypeId();
 

@@ -27,7 +27,7 @@ public class BreadcrumbsItem
    //==============================================
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link BreadcrumbsItem}.
     */
    public BreadcrumbsItem()
    {
@@ -37,7 +37,7 @@ public class BreadcrumbsItem
    }
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link BreadcrumbsItem}.
     * 
     * @param title Título del elemento.
     */
@@ -49,7 +49,7 @@ public class BreadcrumbsItem
    }
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link BreadcrumbsItem}.
     * 
     * @param title Título del elemento.
     * @param href URL del enlace.
@@ -62,7 +62,7 @@ public class BreadcrumbsItem
    }
 
    /**
-    * Constructor de la clase.
+    * Constructor de la clase {@link BreadcrumbsItem}.
     * 
     * @param title Título del elemento.
     * @param href URL del enlace.
@@ -79,31 +79,49 @@ public class BreadcrumbsItem
    // Properties
    //==============================================
 
+   /**
+    * Devuelve el título visible por el usuario.
+    */
    public String getTitle() 
    {
       return title;
    }
 
+   /**
+    * Establece el título visible por el usuario.
+    */
    public void setTitle(String title) 
    {
       this.title = title;
    }
 
+   /**
+    * Devuelve la dirección URL que contiene el elemento.
+    */
    public String getHref() 
    {
       return href;
    }
 
+   /**
+    * establece la dirección URL que contiene el elemento.
+    */
    public void setHref(String href) 
    {
       this.href = href;
    }
 
+   /**
+    * Devuelve el icono a mostrar junto al enlace.
+    */
    public String getIcon() 
    {
       return icon;
    }
 
+   /**
+    * Establece el icono a mostrar junto al enlace.
+    */
    public void setIcon(String icon) 
    {
       this.icon = icon;
