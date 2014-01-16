@@ -11,6 +11,7 @@ import com.cosmo.util.StringUtils;
  */
 public class DynamicMessageControl extends Control 
 {
+   /** CTUID - Control Type Unique ID */
    private static final String CONTROL_ID = "CosmoUiCtrlDynamicMsg";
 
    private static final String CPART_MSG_INFORMATION = "info-box-info";
@@ -19,6 +20,7 @@ public class DynamicMessageControl extends Control
 
    private static final String TAG_TEXT = "TEXT";
 
+   // Declaración de variables internas
    private String message;
    private MessageTypes type;
    private boolean visible;

@@ -12,6 +12,7 @@ import com.cosmo.util.StringUtils;
  */
 public class XhtmlControl extends Control
 {
+   /** CTUID - Control Type Unique ID */
    private static final String CONTROL_ID = "CosmoUiCtrlXhtml";
 
    private final String WIKI_REGEX_BOLD = "([']{3})(.*?)([']{3})";

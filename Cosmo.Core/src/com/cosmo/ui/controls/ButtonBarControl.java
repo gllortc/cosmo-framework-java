@@ -13,11 +13,13 @@ import com.cosmo.ui.templates.TemplateControl;
  */
 public class ButtonBarControl extends Control
 {
+   /** CTUID - Control Type Unique ID */
    private static final String CONTROL_ID = "CosmoUiCtrlButtonBar";
 
    private static final String CPART_HEADER = "buttonbar-header";
    private static final String CPART_FOOTER = "buttonbar-footer";
 
+   // Declaración de variables internas
    private ArrayList<ButtonBarItem> buttons;
 
 

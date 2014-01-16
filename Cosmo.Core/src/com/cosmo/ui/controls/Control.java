@@ -13,6 +13,7 @@ import com.cosmo.util.StringUtils;
  */
 public abstract class Control
 {
+   // Declaración de variables internas
    private String id;
    private String uuid;
    private Workspace workspace;

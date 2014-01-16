@@ -13,6 +13,7 @@ import com.cosmo.util.StringUtils;
  */
 public class ListViewControl extends Control
 {
+   /** CTUID - Control Type Unique ID */
    private static final String CONTROL_ID = "CosmoUiCtrlObjectLst";
 
    private static final String CPART_TITLE = "object-list-title";

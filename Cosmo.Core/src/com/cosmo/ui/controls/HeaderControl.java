@@ -11,7 +11,7 @@ import com.cosmo.util.StringUtils;
  */
 public class HeaderControl extends Control
 {
-   /** ID del tipo de control */
+   /** CTUID - Control Type Unique ID */
    private static final String CONTROL_ID = "CosmoUiCtrlHeader";
 
    // Declaración de variables internas

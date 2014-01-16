@@ -16,6 +16,7 @@ import com.cosmo.ui.templates.TemplateControl;
  */
 public class ErrorMessageControl extends Control
 {
+   /** CTUID - Control Type Unique ID */
    private static final String CONTROL_ID = "CosmoUiCtrlErrMsg";
 
    private static final String CPART_BODY = "errmsg-body";
@@ -25,6 +26,7 @@ public class ErrorMessageControl extends Control
    private static final String TAG_MESSAGE = "MSG";
    private static final String TAG_TRACE = "TRACE";
 
+   // Declaración de variables internas
    private Exception exception;
 
 

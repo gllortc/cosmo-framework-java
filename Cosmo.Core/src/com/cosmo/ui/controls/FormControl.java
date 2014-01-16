@@ -26,6 +26,7 @@ import com.cosmo.util.StringUtils;
  */
 public class FormControl extends Control 
 {
+   /** CTUID - Control Type Unique ID */
    private static final String CONTROL_ID = "CosmoUiCtrlForm";
 
    private static final String CPART_HEADER = "form-head";
@@ -46,6 +47,7 @@ public class FormControl extends Control
    private static final String TAG_FORM_NAME = "FNAME";
    private static final String TAG_FORM_METHOD = "FMETHOD";
 
+   // Declaración de variables internas
    private String title;
    private String description;
    private String name;

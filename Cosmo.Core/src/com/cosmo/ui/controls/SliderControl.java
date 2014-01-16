@@ -13,6 +13,7 @@ import com.cosmo.util.StringUtils;
  */
 public class SliderControl extends Control
 {
+   /** CTUID - Control Type Unique ID */
    private static final String CONTROL_ID = "CosmoUiCtrlSlider";
 
    private static final String CPART_FIRST = "slider-element-first";

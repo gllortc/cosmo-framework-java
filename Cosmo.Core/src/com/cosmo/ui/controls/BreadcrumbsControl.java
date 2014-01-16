@@ -12,12 +12,13 @@ import com.cosmo.ui.templates.TemplateControl;
  */
 public class BreadcrumbsControl extends Control
 {
+   /** CTUID - Control Type Unique ID */
    private static final String CONTROL_ID = "CosmoUiCtrlBreadcrumbs";
 
    private static final String CPART_HEADER = "navbar-top-header";
    private static final String CPART_FOOTER = "navbar-top-footer";
 
-   // Variables privadas
+   // Declaración de variables internas
    private ArrayList<BreadcrumbsItem> items;
 
 

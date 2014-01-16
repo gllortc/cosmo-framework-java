@@ -10,6 +10,7 @@ import com.cosmo.util.StringUtils;
  */
 public class FormButton  extends FormField
 {
+   // Declaración de variables internas
    private String name;
    private String label;
    private String href = StringUtils.EMPTY;

@@ -10,6 +10,11 @@ public class FieldNotFoundException extends Exception
    /** Serial Version UID */
    private static final long serialVersionUID = 4985425210084943743L;
 
+
+   //==============================================
+   // Constructor
+   //==============================================
+
    /**
     * Constructor de la clase {@link FieldNotFoundException}.
     */

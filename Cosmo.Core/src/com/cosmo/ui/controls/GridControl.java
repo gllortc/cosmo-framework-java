@@ -23,6 +23,7 @@ import com.cosmo.util.StringUtils;
  */
 public class GridControl extends Control
 {
+   /** CTUID - Control Type Unique ID */
    private static final String CONTROL_ID = "CosmoUiCtrlGrid";
 
    private static final String CPART_TITLE = "grid-title";
