@@ -37,7 +37,7 @@ public class DataServiceProperties
    private static final String XML_ATT_TITLE = "title";
    private static final String XML_ATT_VALUE = "value";
 
-   // Declaración de variables locales para UI Services
+   // Declaración de variables internas para UI Services
    private String serverDatasource;
    private HashMap<String, PluginProperties> agents;
    private HashMap<String, List> ormLists;
