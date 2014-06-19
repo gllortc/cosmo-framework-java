@@ -37,6 +37,7 @@ import com.cosmo.util.PluginProperties;
  */
 public class WorkspaceProperties 
 {
+   /** Nombre del archivo de configuración de Cosmo (sin path) */
    public static final String PROPERTIES_FILENAME = "cosmo.config.xml";
 
    private static final String XML_TAG_PARAMETER = "param";
