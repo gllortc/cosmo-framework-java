@@ -106,7 +106,10 @@ public abstract class DataAgent
    }
 
    /**
-    * Abre una conexión con la base de datos usando el mecanismo implementado por el agente de datos.
+    * Abre una conexión con la base de datos usando el mecanismo implementado por el driver específico.
+    * <br /><br />
+    * Este método lo implementa cada <em>driver</em> dado que cada tipo de SGBD puede tener formas de conexión distintas. 
+    * Los datos de la conexión deben estar contenidos en las propiedades específicas del agente.
     * 
     * @throws DataException 
     */
@@ -114,13 +117,16 @@ public abstract class DataAgent
 
    /**
     * Cierra la conexión con la base de datos.
+    * <br /><br />
+    * Este método lo implementa cada <em>driver</em> dado que cada tipo de SGBD puede tener formas de desconexión distintas. 
+    * Los datos de la conexión deben estar contenidos en las propiedades específicas del agente.
     */
    public abstract void disconnect();
 
    /**
     * Indica si la connexión está abierta y disponible.
     * 
-    * @return Retorna {@code true} si la connexió está disponible o {@code false} en qualsevol altre cas.
+    * @return Devuelve {@code true} si la connexión está disponible o {@code false} en cualquier otro caso.
     */
    public boolean isConnected()
    {
