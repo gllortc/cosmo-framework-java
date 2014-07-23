@@ -1,7 +1,7 @@
 package com.cosmo;
 
 /**
- * Implementa un interface que contiene los descriptores del producto.
+ * Implementa un interface que contiene los descriptores del producto. 
  */
 public interface Cosmo 
 {
