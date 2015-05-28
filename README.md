@@ -1,4 +1,5 @@
-# cosmo-framework-java
-The project **Cosmo Framework for Java** is currently in *stand by* until .NET version is not finalized.
+# Cosmo Framework for Java
+Welcome to Cosmo Framework for Java site!
 
-Use it as a *tech preview* version.
+### Important notice
+The project **Cosmo Framework for Java** is currently in *stand by* until .NET version is not finalized. Use it as a *tech preview* version.
